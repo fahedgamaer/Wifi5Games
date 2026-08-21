@@ -1,9 +1,4 @@
-<a
-    href="https://www.fortnite.com/download"
-    target="_blank"
-    class="btn btn-primary">
-    🎮 تحميل Fortnite
-</a><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -12,10 +7,9 @@
 <title>Wifi5Games | متجر الألعاب</title>
 
 <meta name="description"
-content="Wifi5Games - متجر ألعاب إلكتروني عصري لعشاق الألعاب.">
+content="Wifi5Games - متجر ألعاب إلكتروني لعشاق الألعاب.">
 
 <style>
-
 *{
     margin:0;
     padding:0;
@@ -95,7 +89,12 @@ body{
 .progress-bar{
     width:0;
     height:100%;
-    background:linear-gradient(90deg,#1688c9,#35b8ff,#8edcff);
+    background:linear-gradient(
+        90deg,
+        #1688c9,
+        #35b8ff,
+        #8edcff
+    );
     box-shadow:0 0 20px #35b8ff;
 }
 
@@ -125,10 +124,8 @@ header{
     position:sticky;
     top:0;
     z-index:5000;
-
     background:rgba(8,11,18,.94);
     backdrop-filter:blur(15px);
-
     border-bottom:1px solid rgba(255,255,255,.08);
 }
 
@@ -170,33 +167,6 @@ header{
 
 .nav-links a:hover{
     color:#35b8ff;
-}
-
-.cart-btn{
-    border:1px solid #273445;
-    background:#111823;
-    color:white;
-    padding:11px 17px;
-    border-radius:9px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.cart-btn:hover{
-    background:#172536;
-}
-
-#cartCount{
-    display:inline-flex;
-    width:23px;
-    height:23px;
-    align-items:center;
-    justify-content:center;
-    background:#35b8ff;
-    color:#06101a;
-    border-radius:50%;
-    margin-right:5px;
-    font-size:12px;
 }
 
 /* =========================
@@ -254,30 +224,30 @@ header{
     margin-bottom:30px;
 }
 
-.hero-buttons{
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-}
-
 .btn{
-    padding:14px 24px;
+    padding:13px 20px;
     border-radius:9px;
     border:0;
     cursor:pointer;
     text-decoration:none;
     font-weight:bold;
     transition:.3s;
+    display:inline-block;
 }
 
 .btn-primary{
-    background:linear-gradient(135deg,#1688c9,#35b8ff);
+    background:linear-gradient(
+        135deg,
+        #1688c9,
+        #35b8ff
+    );
     color:#04111a;
 }
 
 .btn-primary:hover{
     transform:translateY(-3px);
-    box-shadow:0 10px 30px rgba(53,184,255,.25);
+    box-shadow:
+        0 10px 30px rgba(53,184,255,.25);
 }
 
 .btn-secondary{
@@ -301,10 +271,6 @@ header{
 }
 
 .section-head{
-    display:flex;
-    align-items:end;
-    justify-content:space-between;
-    gap:20px;
     margin-bottom:30px;
 }
 
@@ -321,15 +287,10 @@ header{
    البحث
 ========================= */
 
-.search-area{
-    display:flex;
-    gap:12px;
-    margin-bottom:25px;
-}
-
 .search{
-    flex:1;
+    width:100%;
     padding:16px 18px;
+    margin-bottom:30px;
 
     background:#101721;
     border:1px solid #263344;
@@ -341,32 +302,6 @@ header{
 }
 
 .search:focus{
-    border-color:#35b8ff;
-}
-
-.categories{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-bottom:30px;
-}
-
-.category{
-    padding:9px 16px;
-    border-radius:25px;
-
-    background:#111923;
-    color:#a8b3c2;
-
-    border:1px solid #263344;
-
-    cursor:pointer;
-}
-
-.category.active,
-.category:hover{
-    background:#14344a;
-    color:#55c5ff;
     border-color:#35b8ff;
 }
 
@@ -396,29 +331,39 @@ header{
 
 .cover{
     height:220px;
-    position:relative;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
-    overflow:hidden;
+    position:relative;
 }
 
 .cover.gta{
     background:
-        radial-gradient(circle at 30% 30%,#7b3c1e,#16100e 60%),
-        #111;
+        radial-gradient(
+            circle at 30% 30%,
+            #7b3c1e,
+            #16100e 60%
+        );
 }
 
 .cover.fortnite{
     background:
-        radial-gradient(circle at 70% 30%,#6e39bd,#17102b 60%);
+        radial-gradient(
+            circle at 70% 30%,
+            #6e39bd,
+            #17102b 60%
+        );
 }
 
 .cover.cs{
     background:
-        radial-gradient(circle at 50% 30%,#c76e23,#17120d 60%);
+        radial-gradient(
+            circle at 50% 30%,
+            #c76e23,
+            #17120d 60%
+        );
 }
 
 .cover-title{
@@ -459,21 +404,22 @@ header{
     color:#ffd15c;
 }
 
-.card-bottom{
+.card-buttons{
     display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
+    gap:8px;
+    flex-wrap:wrap;
 }
 
-.price{
-    color:#71d0ff;
-    font-size:20px;
-    font-weight:bold;
-}
-
-.price.free{
+.free{
     color:#72e59a;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.paid{
+    color:#ffbd69;
+    font-weight:bold;
+    margin-bottom:12px;
 }
 
 /* =========================
@@ -509,151 +455,6 @@ header{
 }
 
 /* =========================
-   نافذة التفاصيل
-========================= */
-
-.modal{
-    position:fixed;
-    inset:0;
-    z-index:9000;
-
-    background:rgba(0,0,0,.75);
-
-    display:none;
-    align-items:center;
-    justify-content:center;
-
-    padding:20px;
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    width:100%;
-    max-width:650px;
-
-    background:#101721;
-    border:1px solid #2c3c4e;
-    border-radius:15px;
-
-    padding:30px;
-
-    position:relative;
-    max-height:90vh;
-    overflow:auto;
-}
-
-.close{
-    position:absolute;
-    top:15px;
-    left:15px;
-
-    width:35px;
-    height:35px;
-
-    border-radius:50%;
-    border:1px solid #354454;
-
-    background:#151f2b;
-    color:white;
-
-    cursor:pointer;
-    font-size:20px;
-}
-
-.modal-cover{
-    height:230px;
-    border-radius:10px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:55px;
-    font-weight:900;
-
-    margin-bottom:22px;
-}
-
-.modal-box h2{
-    font-size:34px;
-    margin-bottom:12px;
-}
-
-.modal-box p{
-    color:#8d99a8;
-    line-height:1.8;
-}
-
-.modal-actions{
-    display:flex;
-    gap:10px;
-    margin-top:25px;
-}
-
-/* =========================
-   السلة
-========================= */
-
-.cart-panel{
-    position:fixed;
-    top:0;
-    left:-420px;
-
-    width:390px;
-    max-width:90%;
-
-    height:100vh;
-
-    z-index:10000;
-
-    background:#0d141d;
-
-    border-right:1px solid #273647;
-
-    transition:.4s;
-
-    padding:25px;
-
-    overflow:auto;
-}
-
-.cart-panel.open{
-    left:0;
-}
-
-.cart-panel h2{
-    margin-bottom:25px;
-}
-
-.cart-item{
-    padding:15px 0;
-    border-bottom:1px solid #202c38;
-}
-
-.cart-item h3{
-    margin-bottom:5px;
-}
-
-.cart-item p{
-    color:#6f7d8e;
-}
-
-.cart-total{
-    margin-top:25px;
-    font-size:22px;
-    font-weight:bold;
-}
-
-.empty-cart{
-    color:#738092;
-    text-align:center;
-    padding:40px 0;
-}
-
-/* =========================
    الفوتر
 ========================= */
 
@@ -685,7 +486,6 @@ footer strong{
     .features{
         grid-template-columns:1fr;
     }
-
 }
 
 @media(max-width:600px){
@@ -702,18 +502,13 @@ footer strong{
         font-size:45px;
     }
 
-    .search-area{
+    .card-buttons{
         flex-direction:column;
     }
 
-    .section-head{
-        display:block;
+    .card-buttons .btn{
+        text-align:center;
     }
-
-    .cart-panel{
-        width:340px;
-    }
-
 }
 
 </style>
@@ -721,9 +516,8 @@ footer strong{
 
 <body>
 
-
 <!-- =========================
-     LOADER
+     شاشة التحميل
 ========================= -->
 
 <div id="loader">
@@ -761,11 +555,10 @@ footer strong{
 
 
 <!-- =========================
-     SITE
+     الموقع
 ========================= -->
 
 <div id="site">
-
 
 <header>
 
@@ -778,30 +571,24 @@ footer strong{
         <ul class="nav-links">
 
             <li>
-                <a href="#home">الرئيسية</a>
+                <a href="#home">
+                    الرئيسية
+                </a>
             </li>
 
             <li>
-                <a href="#store">المتجر</a>
+                <a href="#store">
+                    الألعاب
+                </a>
             </li>
 
             <li>
-                <a href="#features">المميزات</a>
+                <a href="#features">
+                    المميزات
+                </a>
             </li>
 
         </ul>
-
-        <button
-            class="cart-btn"
-            onclick="toggleCart()">
-
-            🛒 السلة
-
-            <span id="cartCount">
-                0
-            </span>
-
-        </button>
 
     </div>
 
@@ -809,7 +596,7 @@ footer strong{
 
 
 <!-- =========================
-     HERO
+     الرئيسية
 ========================= -->
 
 <section
@@ -823,42 +610,25 @@ footer strong{
         </div>
 
         <h1>
-
             عالم الألعاب
             <span>
                 بين يديك
             </span>
-
         </h1>
 
         <p>
-
             اكتشف أشهر الألعاب،
-            تصفح الألعاب حسب النوع،
-            وأضف ألعابك المفضلة إلى سلتك
-            داخل متجر Wifi5Games.
-
+            واختر لعبتك المفضلة
+            وانتقل إلى مصدر التحميل الرسمي.
         </p>
 
-        <div class="hero-buttons">
+        <a
+            href="#store"
+            class="btn btn-primary">
 
-            <a
-                href="#store"
-                class="btn btn-primary">
+            🎮 تصفح الألعاب
 
-                🎮 تصفح الألعاب
-
-            </a>
-
-            <button
-                class="btn btn-secondary"
-                onclick="showAbout()">
-
-                ℹ️ عن المتجر
-
-            </button>
-
-        </div>
+        </a>
 
     </div>
 
@@ -866,7 +636,7 @@ footer strong{
 
 
 <!-- =========================
-     STORE
+     الألعاب
 ========================= -->
 
 <section
@@ -875,87 +645,37 @@ footer strong{
 
     <div class="section-head">
 
-        <div>
+        <h2>
+            🎮 الألعاب
+        </h2>
 
-            <h2>
-                🎮 متجر الألعاب
-            </h2>
-
-            <p>
-                اختر اللعبة التي تريدها
-            </p>
-
-        </div>
+        <p>
+            اختر اللعبة واضغط تحميل
+        </p>
 
     </div>
 
 
-    <!-- البحث -->
+    <input
+        class="search"
+        id="search"
+        type="text"
+        placeholder="🔎 ابحث عن لعبة..."
+        oninput="filterGames()">
 
-    <div class="search-area">
-
-        <input
-            class="search"
-            id="search"
-            type="text"
-            placeholder="🔎 ابحث عن GTA V أو Fortnite أو CS2..."
-            oninput="filterGames()">
-
-    </div>
-
-
-    <!-- التصنيفات -->
-
-    <div class="categories">
-
-        <button
-            class="category active"
-            onclick="setCategory('all',this)">
-
-            الكل
-
-        </button>
-
-        <button
-            class="category"
-            onclick="setCategory('open',this)">
-
-            🌍 عالم مفتوح
-
-        </button>
-
-        <button
-            class="category"
-            onclick="setCategory('battle',this)">
-
-            🔥 Battle Royale
-
-        </button>
-
-        <button
-            class="category"
-            onclick="setCategory('fps',this)">
-
-            🎯 FPS
-
-        </button>
-
-    </div>
-
-
-    <!-- الألعاب -->
 
     <div
         class="games"
         id="games">
 
 
-        <!-- GTA -->
+        <!-- =====================
+             GTA V
+        ====================== -->
 
         <article
             class="card"
-            data-name="gta v gta 5 جراند ثفت أوتو"
-            data-category="open">
+            data-name="gta v gta 5 جراند ثفت اوتو">
 
             <div class="cover gta">
 
@@ -976,10 +696,8 @@ footer strong{
                 </h3>
 
                 <p class="description">
-
                     لعبة عالم مفتوح ضخمة
                     مليئة بالمغامرات والمهام.
-
                 </p>
 
                 <div class="rating">
@@ -989,19 +707,21 @@ footer strong{
                     </span>
                 </div>
 
-                <div class="card-bottom">
+                <div class="paid">
+                    💰 ليست مجانية
+                </div>
 
-                    <div class="price">
-                        تجريبية
-                    </div>
+                <div class="card-buttons">
 
-                    <button
-                        class="btn btn-primary"
-                        onclick="openGame('gta')">
+                    <a
+                        href="https://www.rockstargames.com/gta-v"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary">
 
-                        التفاصيل
+                        📥 تحميل GTA V
 
-                    </button>
+                    </a>
 
                 </div>
 
@@ -1010,12 +730,13 @@ footer strong{
         </article>
 
 
-        <!-- Fortnite -->
+        <!-- =====================
+             Fortnite
+        ====================== -->
 
         <article
             class="card"
-            data-name="fortnite فورتنايت"
-            data-category="battle">
+            data-name="fortnite فورتنايت">
 
             <div class="cover fortnite">
 
@@ -1032,10 +753,8 @@ footer strong{
                 </h3>
 
                 <p class="description">
-
-                    Battle Royale مليئة
-                    بالمنافسة والحماس.
-
+                    لعبة Battle Royale
+                    مليئة بالمنافسة والحماس.
                 </p>
 
                 <div class="rating">
@@ -1045,19 +764,21 @@ footer strong{
                     </span>
                 </div>
 
-                <div class="card-bottom">
+                <div class="free">
+                    🟢 مجانية
+                </div>
 
-                    <div class="price free">
-                        مجانية
-                    </div>
+                <div class="card-buttons">
 
-                    <button
-                        class="btn btn-primary"
-                        onclick="openGame('fortnite')">
+                    <a
+                        href="https://www.fortnite.com/download"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary">
 
-                        التفاصيل
+                        📥 تحميل Fortnite
 
-                    </button>
+                    </a>
 
                 </div>
 
@@ -1066,12 +787,13 @@ footer strong{
         </article>
 
 
-        <!-- CS2 -->
+        <!-- =====================
+             Counter-Strike 2
+        ====================== -->
 
         <article
             class="card"
-            data-name="counter strike cs2 كاونتر سترايك"
-            data-category="fps">
+            data-name="counter strike 2 cs2 كاونتر سترايك">
 
             <div class="cover cs">
 
@@ -1088,10 +810,8 @@ footer strong{
                 </h3>
 
                 <p class="description">
-
-                    لعبة تصويب تنافسية تعتمد
-                    على المهارة والتكتيك.
-
+                    لعبة تصويب تنافسية
+                    تعتمد على المهارة والتكتيك.
                 </p>
 
                 <div class="rating">
@@ -1101,19 +821,21 @@ footer strong{
                     </span>
                 </div>
 
-                <div class="card-bottom">
+                <div class="free">
+                    🟢 مجانية
+                </div>
 
-                    <div class="price free">
-                        مجانية
-                    </div>
+                <div class="card-buttons">
 
-                    <button
-                        class="btn btn-primary"
-                        onclick="openGame('cs')">
+                    <a
+                        href="https://store.steampowered.com/app/730/CounterStrike_2/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary">
 
-                        التفاصيل
+                        📥 تحميل Counter-Strike 2
 
-                    </button>
+                    </a>
 
                 </div>
 
@@ -1121,14 +843,13 @@ footer strong{
 
         </article>
 
-
     </div>
 
 </section>
 
 
 <!-- =========================
-     FEATURES
+     المميزات
 ========================= -->
 
 <section
@@ -1137,20 +858,15 @@ footer strong{
 
     <div class="section-head">
 
-        <div>
+        <h2>
+            ⚡ مميزات Wifi5Games
+        </h2>
 
-            <h2>
-                ⚡ مميزات Wifi5Games
-            </h2>
-
-            <p>
-                متجر مصمم لعشاق الألعاب
-            </p>
-
-        </div>
+        <p>
+            متجر بسيط وسريع لعشاق الألعاب
+        </p>
 
     </div>
-
 
     <div class="features">
 
@@ -1161,11 +877,11 @@ footer strong{
             </div>
 
             <h3>
-                ألعاب متنوعة
+                ألعاب مشهورة
             </h3>
 
             <p>
-                تصفح الألعاب بطريقة سهلة وسريعة.
+                GTA V وFortnite وCounter-Strike 2.
             </p>
 
         </div>
@@ -1174,15 +890,15 @@ footer strong{
         <div class="feature">
 
             <div class="feature-icon">
-                🔎
+                ⚡
             </div>
 
             <h3>
-                بحث سريع
+                سريع
             </h3>
 
             <p>
-                ابحث عن لعبتك خلال ثوانٍ.
+                تصميم خفيف يعمل على الكمبيوتر والجوال.
             </p>
 
         </div>
@@ -1191,15 +907,15 @@ footer strong{
         <div class="feature">
 
             <div class="feature-icon">
-                🛒
+                🔗
             </div>
 
             <h3>
-                سلة الألعاب
+                مصادر رسمية
             </h3>
 
             <p>
-                أضف ألعابك المفضلة إلى السلة.
+                التحميل يتم من المواقع الرسمية للألعاب.
             </p>
 
         </div>
@@ -1209,22 +925,14 @@ footer strong{
 </section>
 
 
-<!-- =========================
-     FOOTER
-========================= -->
-
 <footer>
 
     <p>
-
         © 2026
-
         <strong>
             Wifi5Games
         </strong>
-
         — متجر الألعاب
-
     </p>
 
     <p style="margin-top:10px">
@@ -1233,111 +941,14 @@ footer strong{
 
 </footer>
 
-
-</div>
-
-
-<!-- =========================
-     GAME MODAL
-========================= -->
-
-<div
-    class="modal"
-    id="gameModal">
-
-    <div class="modal-box">
-
-        <button
-            class="close"
-            onclick="closeModal()">
-
-            ×
-
-        </button>
-
-        <div
-            class="modal-cover"
-            id="modalCover">
-
-        </div>
-
-        <h2 id="modalTitle">
-            اللعبة
-        </h2>
-
-        <p id="modalDescription">
-            معلومات اللعبة
-        </p>
-
-        <div class="modal-actions">
-
-            <button
-                class="btn btn-primary"
-                id="modalCartButton"
-                onclick="addCurrentGame()">
-
-                🛒 أضف إلى السلة
-
-            </button>
-
-            <button
-                class="btn btn-secondary"
-                onclick="closeModal()">
-
-                إغلاق
-
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- =========================
-     CART
-========================= -->
-
-<div
-    class="cart-panel"
-    id="cartPanel">
-
-    <button
-        class="close"
-        onclick="toggleCart()">
-
-        ×
-
-    </button>
-
-    <h2>
-        🛒 سلة الألعاب
-    </h2>
-
-    <div id="cartItems">
-
-        <div class="empty-cart">
-            السلة فارغة حالياً
-        </div>
-
-    </div>
-
-    <div
-        class="cart-total"
-        id="cartTotal">
-
-        المجموع: 0
-
-    </div>
-
 </div>
 
 
 <script>
 
 /* =========================
-   Loader
+   شاشة التحميل
+   حوالي 3 ثواني
 ========================= */
 
 let progress = 0;
@@ -1356,7 +967,7 @@ const site =
 
 
 const loaderInterval =
-    setInterval(() => {
+    setInterval(function(){
 
         progress++;
 
@@ -1366,13 +977,15 @@ const loaderInterval =
         percent.textContent =
             progress + "%";
 
+
         if(progress >= 100){
 
             clearInterval(loaderInterval);
 
-            setTimeout(() => {
+            setTimeout(function(){
 
                 loader.classList.add("hide");
+
                 site.classList.add("show");
 
             },300);
@@ -1383,241 +996,8 @@ const loaderInterval =
 
 
 /* =========================
-   بيانات الألعاب
+   البحث
 ========================= */
-
-const gamesData = {
-
-    gta:{
-        title:"Grand Theft Auto V",
-        type:"gta",
-        description:
-        "عالم مفتوح ضخم في مدينة Los Santos، مع قصة ومهام وشخصيات وتجربة لعب متنوعة."
-    },
-
-    fortnite:{
-        title:"Fortnite",
-        type:"fortnite",
-        description:
-        "لعبة Battle Royale تنافسية تجمع اللاعبين في معارك سريعة ومليئة بالحماس."
-    },
-
-    cs:{
-        title:"Counter-Strike 2",
-        type:"cs",
-        description:
-        "لعبة تصويب تنافسية تعتمد على الدقة والتكتيك والعمل الجماعي."
-    }
-
-};
-
-
-/* =========================
-   فتح تفاصيل اللعبة
-========================= */
-
-let currentGame = null;
-
-function openGame(id){
-
-    currentGame = id;
-
-    const game =
-        gamesData[id];
-
-    const modal =
-        document.getElementById("gameModal");
-
-    const cover =
-        document.getElementById("modalCover");
-
-    document.getElementById("modalTitle")
-        .textContent =
-        game.title;
-
-    document.getElementById("modalDescription")
-        .textContent =
-        game.description;
-
-    cover.className =
-        "modal-cover " + game.type;
-
-    cover.textContent =
-        id === "gta"
-        ? "GTA V"
-        : id === "fortnite"
-        ? "FORTNITE"
-        : "CS2";
-
-    modal.classList.add("show");
-
-}
-
-
-/* =========================
-   إغلاق التفاصيل
-========================= */
-
-function closeModal(){
-
-    document
-    .getElementById("gameModal")
-    .classList
-    .remove("show");
-
-}
-
-
-/* =========================
-   السلة
-========================= */
-
-let cart = [];
-
-
-function addCurrentGame(){
-
-    if(!currentGame){
-        return;
-    }
-
-    const game =
-        gamesData[currentGame];
-
-    if(cart.some(item => item.id === currentGame)){
-
-        alert("اللعبة موجودة بالفعل في السلة.");
-
-        return;
-    }
-
-    cart.push({
-        id:currentGame,
-        title:game.title
-    });
-
-    updateCart();
-
-    alert(
-        "✅ تمت إضافة " +
-        game.title +
-        " إلى السلة"
-    );
-
-}
-
-
-/* =========================
-   تحديث السلة
-========================= */
-
-function updateCart(){
-
-    const cartCount =
-        document.getElementById("cartCount");
-
-    const cartItems =
-        document.getElementById("cartItems");
-
-    const cartTotal =
-        document.getElementById("cartTotal");
-
-
-    cartCount.textContent =
-        cart.length;
-
-
-    if(cart.length === 0){
-
-        cartItems.innerHTML =
-        `
-        <div class="empty-cart">
-            السلة فارغة حالياً
-        </div>
-        `;
-
-        cartTotal.textContent =
-            "المجموع: 0";
-
-        return;
-    }
-
-
-    cartItems.innerHTML = "";
-
-
-    cart.forEach((item,index) => {
-
-        const div =
-            document.createElement("div");
-
-        div.className =
-            "cart-item";
-
-        div.innerHTML =
-        `
-        <h3>
-            ${item.title}
-        </h3>
-
-        <p>
-            لعبة رقم ${index + 1}
-        </p>
-
-        <button
-            class="btn btn-secondary"
-            style="margin-top:10px"
-            onclick="removeFromCart(${index})">
-
-            إزالة
-
-        </button>
-        `;
-
-        cartItems.appendChild(div);
-
-    });
-
-
-    cartTotal.textContent =
-        "المجموع: " + cart.length + " ألعاب";
-
-}
-
-
-/* =========================
-   حذف من السلة
-========================= */
-
-function removeFromCart(index){
-
-    cart.splice(index,1);
-
-    updateCart();
-
-}
-
-
-/* =========================
-   فتح وإغلاق السلة
-========================= */
-
-function toggleCart(){
-
-    document
-    .getElementById("cartPanel")
-    .classList
-    .toggle("open");
-
-}
-
-
-/* =========================
-   البحث والتصنيف
-========================= */
-
-let selectedCategory = "all";
-
 
 function filterGames(){
 
@@ -1633,96 +1013,29 @@ function filterGames(){
         document.querySelectorAll(".card");
 
 
-    cards.forEach(card => {
+    cards.forEach(function(card){
 
         const name =
             card
             .getAttribute("data-name")
             .toLowerCase();
 
-        const category =
-            card
-            .getAttribute("data-category");
 
+        if(name.includes(search)){
 
-        const matchesSearch =
-            name.includes(search);
-
-        const matchesCategory =
-            selectedCategory === "all"
-            ||
-            category === selectedCategory;
-
-
-        if(matchesSearch && matchesCategory){
-
-            card.style.display = "block";
+            card.style.display =
+                "block";
 
         }else{
 
-            card.style.display = "none";
+            card.style.display =
+                "none";
 
         }
 
     });
 
 }
-
-
-function setCategory(category,button){
-
-    selectedCategory =
-        category;
-
-
-    document
-    .querySelectorAll(".category")
-    .forEach(btn => {
-
-        btn.classList.remove("active");
-
-    });
-
-
-    button.classList.add("active");
-
-    filterGames();
-
-}
-
-
-/* =========================
-   عن المتجر
-========================= */
-
-function showAbout(){
-
-    alert(
-        "🎮 Wifi5Games\n\n" +
-        "متجر ألعاب تجريبي من تصميمك.\n" +
-        "يمكن تطويره لاحقاً بإضافة حسابات، " +
-        "صفحات ألعاب، صور، روابط رسمية، " +
-        "وقاعدة بيانات حقيقية."
-    );
-
-}
-
-
-/* =========================
-   إغلاق النافذة عند الضغط خارجها
-========================= */
-
-document
-.getElementById("gameModal")
-.addEventListener("click",function(e){
-
-    if(e.target === this){
-
-        closeModal();
-
-    }
-
-});
 
 </script>
 
