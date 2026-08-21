@@ -36,11 +36,18 @@ body{
     position:fixed;
     inset:0;
     z-index:99999;
+
     background:
-        radial-gradient(circle at center,#162b45,#080b12 65%);
+        radial-gradient(
+            circle at center,
+            #162b45,
+            #080b12 65%
+        );
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     transition:.7s;
 }
 
@@ -58,7 +65,9 @@ body{
 .loader-logo{
     font-size:clamp(45px,8vw,80px);
     font-weight:900;
+
     color:#35b8ff;
+
     text-shadow:
         0 0 15px #35b8ff,
         0 0 40px #1688c9;
@@ -90,12 +99,15 @@ body{
 .progress-bar{
     width:0;
     height:100%;
-    background:linear-gradient(
-        90deg,
-        #1688c9,
-        #35b8ff,
-        #8edcff
-    );
+
+    background:
+        linear-gradient(
+            90deg,
+            #1688c9,
+            #35b8ff,
+            #8edcff
+        );
+
     box-shadow:0 0 20px #35b8ff;
 }
 
@@ -125,14 +137,19 @@ header{
     position:sticky;
     top:0;
     z-index:5000;
+
     background:rgba(8,11,18,.94);
+
     backdrop-filter:blur(15px);
-    border-bottom:1px solid rgba(255,255,255,.08);
+
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
 }
 
 .nav{
     max-width:1300px;
     height:72px;
+
     margin:auto;
     padding:0 20px;
 
@@ -144,6 +161,7 @@ header{
 .logo{
     font-size:25px;
     font-weight:900;
+
     color:#35b8ff;
     white-space:nowrap;
 }
@@ -177,6 +195,7 @@ header{
 .hero{
     min-height:500px;
     max-width:1300px;
+
     margin:auto;
     padding:80px 20px;
 
@@ -197,64 +216,93 @@ header{
 
 .badge{
     display:inline-block;
+
     padding:8px 15px;
+
     border-radius:30px;
 
-    background:rgba(53,184,255,.1);
-    border:1px solid rgba(53,184,255,.4);
+    background:
+        rgba(53,184,255,.1);
+
+    border:
+        1px solid rgba(53,184,255,.4);
 
     color:#6dccff;
+
     margin-bottom:20px;
 }
 
 .hero h1{
-    font-size:clamp(42px,7vw,78px);
+    font-size:
+        clamp(42px,7vw,78px);
+
     line-height:1.05;
+
     margin-bottom:22px;
 }
 
 .hero h1 span{
     color:#35b8ff;
-    text-shadow:0 0 25px rgba(53,184,255,.5);
+
+    text-shadow:
+        0 0 25px
+        rgba(53,184,255,.5);
 }
 
 .hero p{
     color:#9da8b7;
+
     font-size:19px;
+
     line-height:1.9;
+
     margin-bottom:30px;
 }
 
 .btn{
     padding:13px 20px;
+
     border-radius:9px;
+
     border:0;
+
     cursor:pointer;
+
     text-decoration:none;
+
     font-weight:bold;
+
     transition:.3s;
+
     display:inline-block;
 }
 
 .btn-primary{
-    background:linear-gradient(
-        135deg,
-        #1688c9,
-        #35b8ff
-    );
+    background:
+        linear-gradient(
+            135deg,
+            #1688c9,
+            #35b8ff
+        );
+
     color:#04111a;
 }
 
 .btn-primary:hover{
     transform:translateY(-3px);
+
     box-shadow:
-        0 10px 30px rgba(53,184,255,.25);
+        0 10px 30px
+        rgba(53,184,255,.25);
 }
 
 .btn-secondary{
     color:white;
+
     background:#131b26;
-    border:1px solid #293747;
+
+    border:
+        1px solid #293747;
 }
 
 .btn-secondary:hover{
@@ -267,7 +315,9 @@ header{
 
 .container{
     max-width:1300px;
+
     margin:auto;
+
     padding:70px 20px;
 }
 
@@ -281,55 +331,36 @@ header{
 
 .section-head p{
     color:#758092;
+
     margin-top:8px;
 }
 
 /* =========================
-   البحث والفلاتر
+   البحث
 ========================= */
 
 .search{
     width:100%;
+
     padding:16px 18px;
-    margin-bottom:20px;
+
+    margin-bottom:30px;
 
     background:#101721;
-    border:1px solid #263344;
+
+    border:
+        1px solid #263344;
+
     border-radius:10px;
 
     color:white;
+
     outline:none;
+
     font-size:16px;
 }
 
 .search:focus{
-    border-color:#35b8ff;
-}
-
-.filters{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-bottom:30px;
-}
-
-.filter{
-    padding:10px 18px;
-    border-radius:25px;
-
-    background:#111923;
-    color:#a8b3c2;
-
-    border:1px solid #263344;
-
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.filter:hover,
-.filter.active{
-    background:#14344a;
-    color:#55c5ff;
     border-color:#35b8ff;
 }
 
@@ -339,153 +370,142 @@ header{
 
 .games{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+
+    grid-template-columns:
+        repeat(3,1fr);
+
     gap:22px;
 }
 
 .card{
     background:#101721;
-    border:1px solid #202c3a;
+
+    border:
+        1px solid #202c3a;
+
     border-radius:13px;
+
     overflow:hidden;
+
     transition:.3s;
 }
 
 .card:hover{
     transform:translateY(-7px);
+
     border-color:#35b8ff;
-    box-shadow:0 15px 40px rgba(0,0,0,.35);
+
+    box-shadow:
+        0 15px 40px
+        rgba(0,0,0,.35);
 }
 
 .cover{
     height:220px;
 
     display:flex;
+
     align-items:center;
+
     justify-content:center;
 
     position:relative;
+
     overflow:hidden;
-}
-
-.cover-title{
-    font-size:40px;
-    font-weight:900;
-    text-shadow:0 4px 20px #000;
-    text-align:center;
-    padding:15px;
-}
-
-.cover-badge{
-    position:absolute;
-    top:13px;
-    right:13px;
-
-    background:rgba(0,0,0,.7);
-    padding:6px 10px;
-    border-radius:6px;
-
-    font-size:12px;
 }
 
 .cover.gta{
     background:
-        radial-gradient(circle at 30% 30%,#7b3c1e,#16100e 60%);
+        radial-gradient(
+            circle at 30% 30%,
+            #7b3c1e,
+            #16100e 60%
+        );
 }
 
 .cover.fortnite{
     background:
-        radial-gradient(circle at 70% 30%,#6e39bd,#17102b 60%);
+        radial-gradient(
+            circle at 70% 30%,
+            #6e39bd,
+            #17102b 60%
+        );
 }
 
 .cover.cs{
     background:
-        radial-gradient(circle at 50% 30%,#c76e23,#17120d 60%);
+        radial-gradient(
+            circle at 50% 30%,
+            #c76e23,
+            #17120d 60%
+        );
 }
 
-.cover.pubg{
+/* GTA VI */
+
+.cover.gta6{
     background:
-        radial-gradient(circle at 50% 30%,#8b6628,#15110a 60%);
+        radial-gradient(
+            circle at 30% 25%,
+            #ff8c42,
+            #b63d70 35%,
+            #221326 75%
+        );
 }
 
-.cover.dota{
+.cover.gta6::after{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
     background:
-        radial-gradient(circle at 50% 40%,#7d1c1c,#120707 60%);
+        linear-gradient(
+            135deg,
+            transparent 40%,
+            rgba(255,214,120,.15)
+        );
 }
 
-.cover.apex{
-    background:
-        radial-gradient(circle at 60% 30%,#a63d26,#170b0a 60%);
+.cover-title{
+    font-size:44px;
+
+    font-weight:900;
+
+    text-shadow:
+        0 4px 20px #000;
+
+    position:relative;
+
+    z-index:2;
 }
 
-.cover.warframe{
-    background:
-        radial-gradient(circle at 50% 30%,#315b7d,#080e15 60%);
+.cover.gta6 .cover-title{
+    font-size:48px;
+
+    color:#fff;
+
+    text-shadow:
+        0 0 10px #ff9a4d,
+        0 4px 20px #000;
 }
 
-.cover.tf2{
-    background:
-        radial-gradient(circle at 50% 30%,#a64d20,#160c07 60%);
-}
+.cover-badge{
+    position:absolute;
 
-.cover.warthunder{
-    background:
-        radial-gradient(circle at 50% 30%,#647040,#10150c 60%);
-}
+    top:13px;
+    right:13px;
 
-.cover.unturned{
     background:
-        radial-gradient(circle at 50% 30%,#4c7e40,#0b1309 60%);
-}
+        rgba(0,0,0,.7);
 
-.cover.rocket{
-    background:
-        radial-gradient(circle at 50% 30%,#2873a5,#07101a 60%);
-}
+    padding:6px 10px;
 
-.cover.destiny{
-    background:
-        radial-gradient(circle at 50% 30%,#425b80,#080d15 60%);
-}
+    border-radius:6px;
 
-.cover.finals{
-    background:
-        radial-gradient(circle at 50% 30%,#a3374c,#18080d 60%);
-}
+    font-size:12px;
 
-.cover.dbd{
-    background:
-        radial-gradient(circle at 50% 30%,#71312d,#100707 60%);
-}
-
-.cover.ets2{
-    background:
-        radial-gradient(circle at 50% 30%,#4f6876,#0a0f13 60%);
-}
-
-.cover.terraria{
-    background:
-        radial-gradient(circle at 50% 30%,#4c9c42,#071407 60%);
-}
-
-.cover.rust{
-    background:
-        radial-gradient(circle at 50% 30%,#a05a25,#160b06 60%);
-}
-
-.cover.ark{
-    background:
-        radial-gradient(circle at 50% 30%,#3e7761,#07120e 60%);
-}
-
-.cover.l4d2{
-    background:
-        radial-gradient(circle at 50% 30%,#8a3025,#160706 60%);
-}
-
-.cover.among{
-    background:
-        radial-gradient(circle at 50% 30%,#4c75a6,#080e17 60%);
+    z-index:3;
 }
 
 .card-body{
@@ -494,45 +514,54 @@ header{
 
 .card-body h3{
     font-size:22px;
+
     margin-bottom:9px;
 }
 
 .description{
     color:#8490a0;
+
     line-height:1.7;
+
     min-height:55px;
 }
 
 .rating{
     margin:15px 0;
+
     color:#ffd15c;
+}
+
+.card-buttons{
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
 }
 
 .free{
     color:#72e59a;
+
     font-weight:bold;
+
     margin-bottom:12px;
 }
 
 .paid{
     color:#ffbd69;
+
     font-weight:bold;
+
     margin-bottom:12px;
 }
 
-.card-buttons{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-}
+.preorder{
+    color:#ff9c6b;
 
-.no-results{
-    display:none;
-    text-align:center;
-    color:#758092;
-    padding:50px;
-    background:#101721;
-    border-radius:13px;
+    font-weight:bold;
+
+    margin-bottom:12px;
 }
 
 /* =========================
@@ -541,20 +570,29 @@ header{
 
 .features{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+
+    grid-template-columns:
+        repeat(3,1fr);
+
     gap:20px;
 }
 
 .feature{
     padding:28px;
+
     background:#0f151e;
-    border:1px solid #202c3a;
+
+    border:
+        1px solid #202c3a;
+
     border-radius:13px;
+
     text-align:center;
 }
 
 .feature-icon{
     font-size:40px;
+
     margin-bottom:15px;
 }
 
@@ -564,7 +602,32 @@ header{
 
 .feature p{
     color:#7f8b9b;
+
     line-height:1.7;
+}
+
+/* =========================
+   GTA VI SPECIAL
+========================= */
+
+.gta6-info{
+    margin-top:12px;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    background:
+        rgba(255,137,76,.08);
+
+    border:
+        1px solid rgba(255,137,76,.2);
+
+    color:#c8a08d;
+
+    font-size:13px;
+
+    line-height:1.6;
 }
 
 /* =========================
@@ -572,9 +635,13 @@ header{
 ========================= */
 
 footer{
-    border-top:1px solid #1c2733;
+    border-top:
+        1px solid #1c2733;
+
     padding:35px 20px;
+
     text-align:center;
+
     color:#657182;
 }
 
@@ -593,7 +660,8 @@ footer strong{
     }
 
     .games{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:
+            repeat(2,1fr);
     }
 
     .features{
@@ -653,16 +721,20 @@ footer strong{
         </div>
 
         <div class="progress">
+
             <div
                 class="progress-bar"
                 id="progressBar">
             </div>
+
         </div>
 
         <div
             class="percent"
             id="percent">
+
             0%
+
         </div>
 
     </div>
@@ -687,15 +759,21 @@ footer strong{
         <ul class="nav-links">
 
             <li>
-                <a href="#home">الرئيسية</a>
+                <a href="#home">
+                    الرئيسية
+                </a>
             </li>
 
             <li>
-                <a href="#store">الألعاب</a>
+                <a href="#store">
+                    الألعاب
+                </a>
             </li>
 
             <li>
-                <a href="#features">المميزات</a>
+                <a href="#features">
+                    المميزات
+                </a>
             </li>
 
         </ul>
@@ -706,10 +784,12 @@ footer strong{
 
 
 <!-- =========================
-     Hero
+     الرئيسية
 ========================= -->
 
-<section class="hero" id="home">
+<section
+    class="hero"
+    id="home">
 
     <div class="hero-content">
 
@@ -718,14 +798,22 @@ footer strong{
         </div>
 
         <h1>
+
             عالم الألعاب
-            <span>بين يديك</span>
+
+            <span>
+                بين يديك
+            </span>
+
         </h1>
 
         <p>
-            اكتشف أشهر ألعاب الكمبيوتر،
-            وابحث عن لعبتك المفضلة،
-            ثم انتقل مباشرة إلى مصدرها الرسمي.
+
+            اكتشف أشهر الألعاب،
+            واختر لعبتك المفضلة
+            وانتقل إلى مصدر التحميل
+            أو الشراء الرسمي.
+
         </p>
 
         <a
@@ -742,10 +830,12 @@ footer strong{
 
 
 <!-- =========================
-     متجر الألعاب
+     الألعاب
 ========================= -->
 
-<section class="container" id="store">
+<section
+    class="container"
+    id="store">
 
     <div class="section-head">
 
@@ -755,6 +845,7 @@ footer strong{
 
         <p>
             أكثر من 20 لعبة مشهورة
+            مع روابط رسمية
         </p>
 
     </div>
@@ -764,98 +855,113 @@ footer strong{
         class="search"
         id="search"
         type="text"
-        placeholder="🔎 ابحث عن لعبة..."
+        placeholder="🔎 ابحث عن لعبة... مثال: GTA VI"
         oninput="filterGames()">
 
 
-    <div class="filters">
-
-        <button
-            class="filter active"
-            onclick="setFilter('all',this)">
-            🎮 الكل
-        </button>
-
-        <button
-            class="filter"
-            onclick="setFilter('free',this)">
-            🟢 مجانية
-        </button>
-
-        <button
-            class="filter"
-            onclick="setFilter('paid',this)">
-            💰 مدفوعة
-        </button>
-
-    </div>
+    <div
+        class="games"
+        id="games">
 
 
-    <div class="games" id="games">
-
-
-        <!-- 1 GTA V -->
+        <!-- =====================
+             1 GTA V
+        ====================== -->
 
         <article
             class="card"
-            data-name="gta v gta 5 grand theft auto"
-            data-type="paid">
+            data-name="gta v gta 5 grand theft auto جراند ثفت اوتو">
 
             <div class="cover gta">
-                <div class="cover-title">GTA V</div>
-                <div class="cover-badge">⭐ مشهورة</div>
+
+                <div class="cover-title">
+                    GTA V
+                </div>
+
+                <div class="cover-badge">
+                    ⭐ مميزة
+                </div>
+
             </div>
 
             <div class="card-body">
 
-                <h3>Grand Theft Auto V</h3>
+                <h3>
+                    Grand Theft Auto V
+                </h3>
 
                 <p class="description">
-                    لعبة عالم مفتوح ضخمة مليئة بالمغامرات والمهام.
+                    لعبة عالم مفتوح ضخمة
+                    مليئة بالمغامرات والمهام.
                 </p>
 
-                <div class="rating">★★★★★ 4.9</div>
+                <div class="rating">
+                    ★★★★★
+                    <span style="color:#788596">
+                        4.9
+                    </span>
+                </div>
 
-                <div class="paid">💰 مدفوعة</div>
+                <div class="paid">
+                    💰 مدفوعة
+                </div>
 
                 <div class="card-buttons">
 
                     <a
-                        href="https://store.steampowered.com/app/3240220/Grand_Theft_Auto_V_Enhanced/"
+                        href="https://www.rockstargames.com/gta-v"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="btn btn-primary">
-                        📥 صفحة Steam
+
+                        📥 المصدر الرسمي
+
                     </a>
 
                 </div>
 
             </div>
+
         </article>
 
 
-        <!-- 2 Fortnite -->
+        <!-- =====================
+             2 Fortnite
+        ====================== -->
 
         <article
             class="card"
-            data-name="fortnite فورتنايت"
-            data-type="free">
+            data-name="fortnite فورتنايت">
 
             <div class="cover fortnite">
-                <div class="cover-title">FORTNITE</div>
+
+                <div class="cover-title">
+                    FORTNITE
+                </div>
+
             </div>
 
             <div class="card-body">
 
-                <h3>Fortnite</h3>
+                <h3>
+                    Fortnite
+                </h3>
 
                 <p class="description">
-                    Battle Royale مليئة بالمنافسة والحماس.
+                    لعبة Battle Royale
+                    مليئة بالمنافسة والحماس.
                 </p>
 
-                <div class="rating">★★★★☆ 4.6</div>
+                <div class="rating">
+                    ★★★★☆
+                    <span style="color:#788596">
+                        4.6
+                    </span>
+                </div>
 
-                <div class="free">🟢 مجانية</div>
+                <div class="free">
+                    🟢 مجانية
+                </div>
 
                 <div class="card-buttons">
 
@@ -864,37 +970,55 @@ footer strong{
                         target="_blank"
                         rel="noopener noreferrer"
                         class="btn btn-primary">
-                        📥 تحميل رسمي
+
+                        📥 تحميل Fortnite
+
                     </a>
 
                 </div>
 
             </div>
+
         </article>
 
 
-        <!-- 3 CS2 -->
+        <!-- =====================
+             3 Counter Strike 2
+        ====================== -->
 
         <article
             class="card"
-            data-name="counter strike 2 cs2 كاونتر سترايك"
-            data-type="free">
+            data-name="counter strike 2 cs2 كاونتر سترايك">
 
             <div class="cover cs">
-                <div class="cover-title">CS2</div>
+
+                <div class="cover-title">
+                    CS2
+                </div>
+
             </div>
 
             <div class="card-body">
 
-                <h3>Counter-Strike 2</h3>
+                <h3>
+                    Counter-Strike 2
+                </h3>
 
                 <p class="description">
-                    لعبة تصويب تنافسية تعتمد على المهارة والتكتيك.
+                    لعبة تصويب تنافسية
+                    تعتمد على المهارة والتكتيك.
                 </p>
 
-                <div class="rating">★★★★★ 4.8</div>
+                <div class="rating">
+                    ★★★★★
+                    <span style="color:#788596">
+                        4.8
+                    </span>
+                </div>
 
-                <div class="free">🟢 مجانية</div>
+                <div class="free">
+                    🟢 مجانية
+                </div>
 
                 <div class="card-buttons">
 
@@ -903,37 +1027,166 @@ footer strong{
                         target="_blank"
                         rel="noopener noreferrer"
                         class="btn btn-primary">
-                        📥 Steam
+
+                        📥 تحميل CS2
+
                     </a>
 
                 </div>
 
             </div>
+
         </article>
 
 
-        <!-- 4 PUBG -->
+        <!-- =====================
+             4 Minecraft
+        ====================== -->
 
         <article
             class="card"
-            data-name="pubg battlegrounds ببجي"
-            data-type="free">
+            data-name="minecraft ماينكرافت">
 
-            <div class="cover pubg">
-                <div class="cover-title">PUBG</div>
+            <div class="cover gta">
+
+                <div class="cover-title">
+                    MINECRAFT
+                </div>
+
             </div>
 
             <div class="card-body">
 
-                <h3>PUBG: BATTLEGROUNDS</h3>
+                <h3>
+                    Minecraft
+                </h3>
 
                 <p class="description">
-                    معارك Battle Royale تنافسية حتى آخر لاعب.
+                    ابنِ واستكشف عوالم لا نهائية
+                    مليئة بالمغامرات.
                 </p>
 
-                <div class="rating">★★★★☆ 4.5</div>
+                <div class="rating">
+                    ★★★★★
+                    <span style="color:#788596">
+                        4.8
+                    </span>
+                </div>
 
-                <div class="free">🟢 مجانية</div>
+                <div class="paid">
+                    💰 مدفوعة
+                </div>
+
+                <div class="card-buttons">
+
+                    <a
+                        href="https://www.minecraft.net/store/minecraft-java-bedrock-edition-pc"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary">
+
+                        📥 المصدر الرسمي
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- =====================
+             5 Roblox
+        ====================== -->
+
+        <article
+            class="card"
+            data-name="roblox روبلوكس">
+
+            <div class="cover fortnite">
+
+                <div class="cover-title">
+                    ROBLOX
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <h3>
+                    Roblox
+                </h3>
+
+                <p class="description">
+                    منصة ضخمة تضم ملايين
+                    التجارب والألعاب.
+                </p>
+
+                <div class="rating">
+                    ★★★★☆
+                    <span style="color:#788596">
+                        4.5
+                    </span>
+                </div>
+
+                <div class="free">
+                    🟢 مجانية
+                </div>
+
+                <div class="card-buttons">
+
+                    <a
+                        href="https://www.roblox.com/download"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary">
+
+                        📥 تحميل Roblox
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- =====================
+             6 PUBG
+        ====================== -->
+
+        <article
+            class="card"
+            data-name="pubg ببجي pubg battlegrounds">
+
+            <div class="cover cs">
+
+                <div class="cover-title">
+                    PUBG
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <h3>
+                    PUBG: BATTLEGROUNDS
+                </h3>
+
+                <p class="description">
+                    معارك Battle Royale
+                    تنافسية ومليئة بالحماس.
+                </p>
+
+                <div class="rating">
+                    ★★★★☆
+                </div>
+
+                <div class="free">
+                    🟢 مجانية
+                </div>
 
                 <div class="card-buttons">
 
@@ -942,76 +1195,48 @@ footer strong{
                         target="_blank"
                         rel="noopener noreferrer"
                         class="btn btn-primary">
-                        📥 Steam
+
+                        📥 تحميل PUBG
+
                     </a>
 
                 </div>
 
             </div>
+
         </article>
 
 
-        <!-- 5 Dota 2 -->
+        <!-- =====================
+             7 Apex Legends
+        ====================== -->
 
         <article
             class="card"
-            data-name="dota 2 دوتا"
-            data-type="free">
+            data-name="apex legends ايبكس ليجندز">
 
-            <div class="cover dota">
-                <div class="cover-title">DOTA 2</div>
-            </div>
+            <div class="cover fortnite">
 
-            <div class="card-body">
-
-                <h3>Dota 2</h3>
-
-                <p class="description">
-                    لعبة MOBA تنافسية تعتمد على الاستراتيجية والعمل الجماعي.
-                </p>
-
-                <div class="rating">★★★★★ 4.7</div>
-
-                <div class="free">🟢 مجانية</div>
-
-                <div class="card-buttons">
-
-                    <a
-                        href="https://store.steampowered.com/app/570/Dota_2/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn btn-primary">
-                        📥 Steam
-                    </a>
-
+                <div class="cover-title">
+                    APEX
                 </div>
 
             </div>
-        </article>
-
-
-        <!-- 6 Apex -->
-
-        <article
-            class="card"
-            data-name="apex legends ايبكس ليجندز"
-            data-type="free">
-
-            <div class="cover apex">
-                <div class="cover-title">APEX</div>
-            </div>
 
             <div class="card-body">
 
-                <h3>Apex Legends</h3>
+                <h3>
+                    Apex Legends
+                </h3>
 
                 <p class="description">
-                    Battle Royale سريعة بشخصيات وقدرات مختلفة.
+                    لعبة Hero Shooter
+                    وBattle Royale سريعة.
                 </p>
 
-                <div class="rating">★★★★☆ 4.6</div>
-
-                <div class="free">🟢 مجانية</div>
+                <div class="free">
+                    🟢 مجانية
+                </div>
 
                 <div class="card-buttons">
 
@@ -1020,37 +1245,48 @@ footer strong{
                         target="_blank"
                         rel="noopener noreferrer"
                         class="btn btn-primary">
-                        📥 Steam
+
+                        📥 تحميل Apex
+
                     </a>
 
                 </div>
 
             </div>
+
         </article>
 
 
-        <!-- 7 Warframe -->
+        <!-- =====================
+             8 Warframe
+        ====================== -->
 
         <article
             class="card"
-            data-name="warframe"
-            data-type="free">
+            data-name="warframe وارفريم">
 
-            <div class="cover warframe">
-                <div class="cover-title">WARFRAME</div>
+            <div class="cover cs">
+
+                <div class="cover-title">
+                    WARFRAME
+                </div>
+
             </div>
 
             <div class="card-body">
 
-                <h3>Warframe</h3>
+                <h3>
+                    Warframe
+                </h3>
 
                 <p class="description">
-                    أكشن وخيال علمي وتعاون مع لاعبين آخرين.
+                    أكشن وخيال علمي
+                    مع قتال سريع.
                 </p>
 
-                <div class="rating">★★★★★ 4.7</div>
-
-                <div class="free">🟢 مجانية</div>
+                <div class="free">
+                    🟢 مجانية
+                </div>
 
                 <div class="card-buttons">
 
@@ -1059,37 +1295,98 @@ footer strong{
                         target="_blank"
                         rel="noopener noreferrer"
                         class="btn btn-primary">
-                        📥 Steam
+
+                        📥 تحميل Warframe
+
                     </a>
 
                 </div>
 
             </div>
+
         </article>
 
 
-        <!-- 8 Team Fortress 2 -->
+        <!-- =====================
+             9 Dota 2
+        ====================== -->
 
         <article
             class="card"
-            data-name="team fortress 2 tf2"
-            data-type="free">
+            data-name="dota 2 دوتا">
 
-            <div class="cover tf2">
-                <div class="cover-title">TF2</div>
+            <div class="cover cs">
+
+                <div class="cover-title">
+                    DOTA 2
+                </div>
+
             </div>
 
             <div class="card-body">
 
-                <h3>Team Fortress 2</h3>
+                <h3>
+                    Dota 2
+                </h3>
 
                 <p class="description">
-                    لعبة تصويب جماعية كلاسيكية وممتعة.
+                    لعبة MOBA تنافسية
+                    من أشهر ألعاب Steam.
                 </p>
 
-                <div class="rating">★★★★★ 4.7</div>
+                <div class="free">
+                    🟢 مجانية
+                </div>
 
-                <div class="free">🟢 مجانية</div>
+                <div class="card-buttons">
+
+                    <a
+                        href="https://store.steampowered.com/app/570/Dota_2/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary">
+
+                        📥 تحميل Dota 2
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- =====================
+             10 Team Fortress 2
+        ====================== -->
+
+        <article
+            class="card"
+            data-name="team fortress 2 tf2">
+
+            <div class="cover fortnite">
+
+                <div class="cover-title">
+                    TF2
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <h3>
+                    Team Fortress 2
+                </h3>
+
+                <p class="description">
+                    لعبة تصويب جماعية
+                    مليئة بالشخصيات المختلفة.
+                </p>
+
+                <div class="free">
+                    🟢 مجانية
+                </div>
 
                 <div class="card-buttons">
 
@@ -1098,427 +1395,48 @@ footer strong{
                         target="_blank"
                         rel="noopener noreferrer"
                         class="btn btn-primary">
-                        📥 Steam
+
+                        📥 تحميل TF2
+
                     </a>
 
                 </div>
 
             </div>
+
         </article>
 
 
-        <!-- 9 War Thunder -->
+        <!-- =====================
+             11 Left 4 Dead 2
+        ====================== -->
 
         <article
             class="card"
-            data-name="war thunder"
-            data-type="free">
+            data-name="left 4 dead 2">
 
-            <div class="cover warthunder">
-                <div class="cover-title">WAR THUNDER</div>
-            </div>
+            <div class="cover gta">
 
-            <div class="card-body">
-
-                <h3>War Thunder</h3>
-
-                <p class="description">
-                    معارك عسكرية بالمركبات والطائرات والسفن.
-                </p>
-
-                <div class="rating">★★★★☆ 4.5</div>
-
-                <div class="free">🟢 مجانية</div>
-
-                <div class="card-buttons">
-
-                    <a
-                        href="https://store.steampowered.com/app/236390/War_Thunder/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn btn-primary">
-                        📥 Steam
-                    </a>
-
+                <div class="cover-title">
+                    L4D2
                 </div>
 
             </div>
-        </article>
-
-
-        <!-- 10 Unturned -->
-
-        <article
-            class="card"
-            data-name="unturned"
-            data-type="free">
-
-            <div class="cover unturned">
-                <div class="cover-title">UNTURNED</div>
-            </div>
 
             <div class="card-body">
 
-                <h3>Unturned</h3>
+                <h3>
+                    Left 4 Dead 2
+                </h3>
 
                 <p class="description">
-                    بقاء وعالم مفتوح مع الزومبي واللاعبين.
+                    تعاون وقتال ضد جحافل
+                    الزومبي.
                 </p>
 
-                <div class="rating">★★★★☆ 4.4</div>
-
-                <div class="free">🟢 مجانية</div>
-
-                <div class="card-buttons">
-
-                    <a
-                        href="https://store.steampowered.com/app/304930/Unturned/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn btn-primary">
-                        📥 Steam
-                    </a>
-
+                <div class="paid">
+                    💰 مدفوعة
                 </div>
-
-            </div>
-        </article>
-
-
-        <!-- 11 Rocket League -->
-
-        <article
-            class="card"
-            data-name="rocket league روكيت ليج"
-            data-type="free">
-
-            <div class="cover rocket">
-                <div class="cover-title">ROCKET<br>LEAGUE</div>
-            </div>
-
-            <div class="card-body">
-
-                <h3>Rocket League</h3>
-
-                <p class="description">
-                    كرة قدم سريعة باستخدام السيارات.
-                </p>
-
-                <div class="rating">★★★★☆ 4.6</div>
-
-                <div class="free">🟢 مجانية</div>
-
-                <div class="card-buttons">
-
-                    <a
-                        href="https://store.epicgames.com/en-US/p/rocket-league"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn btn-primary">
-                        📥 الموقع الرسمي
-                    </a>
-
-                </div>
-
-            </div>
-        </article>
-
-
-        <!-- 12 Destiny 2 -->
-
-        <article
-            class="card"
-            data-name="destiny 2 ديستني"
-            data-type="free">
-
-            <div class="cover destiny">
-                <div class="cover-title">DESTINY 2</div>
-            </div>
-
-            <div class="card-body">
-
-                <h3>Destiny 2</h3>
-
-                <p class="description">
-                    تصويب وخيال علمي مع طور جماعي ضخم.
-                </p>
-
-                <div class="rating">★★★★☆ 4.5</div>
-
-                <div class="free">🟢 مجانية</div>
-
-                <div class="card-buttons">
-
-                    <a
-                        href="https://store.steampowered.com/app/1085660/Destiny_2/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn btn-primary">
-                        📥 Steam
-                    </a>
-
-                </div>
-
-            </div>
-        </article>
-
-
-        <!-- 13 THE FINALS -->
-
-        <article
-            class="card"
-            data-name="the finals"
-            data-type="free">
-
-            <div class="cover finals">
-                <div class="cover-title">THE FINALS</div>
-            </div>
-
-            <div class="card-body">
-
-                <h3>THE FINALS</h3>
-
-                <p class="description">
-                    تصويب جماعي سريع مع بيئات قابلة للتدمير.
-                </p>
-
-                <div class="rating">★★★★☆ 4.4</div>
-
-                <div class="free">🟢 مجانية</div>
-
-                <div class="card-buttons">
-
-                    <a
-                        href="https://store.steampowered.com/app/2073850/THE_FINALS/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn btn-primary">
-                        📥 Steam
-                    </a>
-
-                </div>
-
-            </div>
-        </article>
-
-
-        <!-- 14 Dead by Daylight -->
-
-        <article
-            class="card"
-            data-name="dead by daylight dbd"
-            data-type="paid">
-
-            <div class="cover dbd">
-                <div class="cover-title">DEAD BY<br>DAYLIGHT</div>
-            </div>
-
-            <div class="card-body">
-
-                <h3>Dead by Daylight</h3>
-
-                <p class="description">
-                    رعب وبقاء في مواجهة قاتل ومجموعة ناجين.
-                </p>
-
-                <div class="rating">★★★★☆ 4.5</div>
-
-                <div class="paid">💰 مدفوعة</div>
-
-                <div class="card-buttons">
-
-                    <a
-                        href="https://store.steampowered.com/app/381210/Dead_by_Daylight/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn btn-primary">
-                        📥 Steam
-                    </a>
-
-                </div>
-
-            </div>
-        </article>
-
-
-        <!-- 15 Euro Truck Simulator 2 -->
-
-        <article
-            class="card"
-            data-name="euro truck simulator 2 ets2"
-            data-type="paid">
-
-            <div class="cover ets2">
-                <div class="cover-title">ETS2</div>
-            </div>
-
-            <div class="card-body">
-
-                <h3>Euro Truck Simulator 2</h3>
-
-                <p class="description">
-                    محاكاة قيادة الشاحنات والسفر عبر أوروبا.
-                </p>
-
-                <div class="rating">★★★★★ 4.8</div>
-
-                <div class="paid">💰 مدفوعة</div>
-
-                <div class="card-buttons">
-
-                    <a
-                        href="https://store.steampowered.com/app/227300/Euro_Truck_Simulator_2/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn btn-primary">
-                        📥 Steam
-                    </a>
-
-                </div>
-
-            </div>
-        </article>
-
-
-        <!-- 16 Terraria -->
-
-        <article
-            class="card"
-            data-name="terraria تيراريا"
-            data-type="paid">
-
-            <div class="cover terraria">
-                <div class="cover-title">TERRARIA</div>
-            </div>
-
-            <div class="card-body">
-
-                <h3>Terraria</h3>
-
-                <p class="description">
-                    استكشاف وصناعة وبناء ومغامرات في عالم ثنائي الأبعاد.
-                </p>
-
-                <div class="rating">★★★★★ 4.9</div>
-
-                <div class="paid">💰 مدفوعة</div>
-
-                <div class="card-buttons">
-
-                    <a
-                        href="https://store.steampowered.com/app/105600/Terraria/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn btn-primary">
-                        📥 Steam
-                    </a>
-
-                </div>
-
-            </div>
-        </article>
-
-
-        <!-- 17 Rust -->
-
-        <article
-            class="card"
-            data-name="rust رست"
-            data-type="paid">
-
-            <div class="cover rust">
-                <div class="cover-title">RUST</div>
-            </div>
-
-            <div class="card-body">
-
-                <h3>Rust</h3>
-
-                <p class="description">
-                    لعبة بقاء أونلاين تعتمد على جمع الموارد وبناء القواعد.
-                </p>
-
-                <div class="rating">★★★★☆ 4.4</div>
-
-                <div class="paid">💰 مدفوعة</div>
-
-                <div class="card-buttons">
-
-                    <a
-                        href="https://store.steampowered.com/app/252490/Rust/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn btn-primary">
-                        📥 Steam
-                    </a>
-
-                </div>
-
-            </div>
-        </article>
-
-
-        <!-- 18 ARK -->
-
-        <article
-            class="card"
-            data-name="ark survival evolved ارك"
-            data-type="paid">
-
-            <div class="cover ark">
-                <div class="cover-title">ARK</div>
-            </div>
-
-            <div class="card-body">
-
-                <h3>ARK: Survival Evolved</h3>
-
-                <p class="description">
-                    بقاء واستكشاف عالم مليء بالديناصورات.
-                </p>
-
-                <div class="rating">★★★★☆ 4.4</div>
-
-                <div class="paid">💰 مدفوعة</div>
-
-                <div class="card-buttons">
-
-                    <a
-                        href="https://store.steampowered.com/app/346110/ARK_Survival_Evolved/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn btn-primary">
-                        📥 Steam
-                    </a>
-
-                </div>
-
-            </div>
-        </article>
-
-
-        <!-- 19 Left 4 Dead 2 -->
-
-        <article
-            class="card"
-            data-name="left 4 dead 2 l4d2"
-            data-type="paid">
-
-            <div class="cover l4d2">
-                <div class="cover-title">LEFT 4<br>DEAD 2</div>
-            </div>
-
-            <div class="card-body">
-
-                <h3>Left 4 Dead 2</h3>
-
-                <p class="description">
-                    تصويب تعاوني ضد جحافل الزومبي.
-                </p>
-
-                <div class="rating">★★★★★ 4.8</div>
-
-                <div class="paid">💰 مدفوعة</div>
 
                 <div class="card-buttons">
 
@@ -1527,62 +1445,556 @@ footer strong{
                         target="_blank"
                         rel="noopener noreferrer"
                         class="btn btn-primary">
+
                         📥 Steam
+
                     </a>
 
                 </div>
 
             </div>
+
         </article>
 
 
-        <!-- 20 Among Us -->
+        <!-- =====================
+             12 Terraria
+        ====================== -->
 
         <article
             class="card"
-            data-name="among us امونج اس"
-            data-type="paid">
+            data-name="terraria تيراريا">
 
-            <div class="cover among">
-                <div class="cover-title">AMONG US</div>
+            <div class="cover fortnite">
+
+                <div class="cover-title">
+                    TERRARIA
+                </div>
+
             </div>
 
             <div class="card-body">
 
-                <h3>Among Us</h3>
+                <h3>
+                    Terraria
+                </h3>
 
                 <p class="description">
-                    لعبة اجتماعية تعتمد على التعاون والخداع بين اللاعبين.
+                    استكشاف وبناء وقتال
+                    في عالم مليء بالمغامرات.
                 </p>
 
-                <div class="rating">★★★★☆ 4.5</div>
-
-                <div class="paid">💰 مدفوعة</div>
+                <div class="paid">
+                    💰 مدفوعة
+                </div>
 
                 <div class="card-buttons">
 
                     <a
-                        href="https://store.steampowered.com/app/945360/Among_Us/"
+                        href="https://store.steampowered.com/app/105600/Terraria/"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="btn btn-primary">
+
                         📥 Steam
+
                     </a>
 
                 </div>
 
             </div>
+
         </article>
 
 
-    </div>
+        <!-- =====================
+             13 Euro Truck Simulator 2
+        ====================== -->
+
+        <article
+            class="card"
+            data-name="euro truck simulator 2 ets2">
+
+            <div class="cover gta">
+
+                <div class="cover-title">
+                    ETS2
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <h3>
+                    Euro Truck Simulator 2
+                </h3>
+
+                <p class="description">
+                    محاكاة قيادة الشاحنات
+                    والسفر عبر أوروبا.
+                </p>
+
+                <div class="paid">
+                    💰 مدفوعة
+                </div>
+
+                <div class="card-buttons">
+
+                    <a
+                        href="https://store.steampowered.com/app/227300/Euro_Truck_Simulator_2/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary">
+
+                        📥 Steam
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
 
 
-    <div
-        class="no-results"
-        id="noResults">
+        <!-- =====================
+             14 The Long Dark
+        ====================== -->
 
-        😕 ما لقينا لعبة بهذا الاسم
+        <article
+            class="card"
+            data-name="the long dark">
+
+            <div class="cover cs">
+
+                <div class="cover-title">
+                    TLD
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <h3>
+                    The Long Dark
+                </h3>
+
+                <p class="description">
+                    تجربة بقاء واستكشاف
+                    في بيئة قاسية.
+                </p>
+
+                <div class="paid">
+                    💰 مدفوعة
+                </div>
+
+                <div class="card-buttons">
+
+                    <a
+                        href="https://store.steampowered.com/app/305620/The_Long_Dark/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary">
+
+                        📥 Steam
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- =====================
+             15 Unturned
+        ====================== -->
+
+        <article
+            class="card"
+            data-name="unturned انترند">
+
+            <div class="cover fortnite">
+
+                <div class="cover-title">
+                    UNTURNED
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <h3>
+                    Unturned
+                </h3>
+
+                <p class="description">
+                    لعبة بقاء مجانية
+                    بعالم مفتوح.
+                </p>
+
+                <div class="free">
+                    🟢 مجانية
+                </div>
+
+                <div class="card-buttons">
+
+                    <a
+                        href="https://store.steampowered.com/app/304930/Unturned/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary">
+
+                        📥 تحميل Unturned
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- =====================
+             16 Paladins
+        ====================== -->
+
+        <article
+            class="card"
+            data-name="paladins بالادينز">
+
+            <div class="cover cs">
+
+                <div class="cover-title">
+                    PALADINS
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <h3>
+                    Paladins
+                </h3>
+
+                <p class="description">
+                    Hero Shooter
+                    مجانية وتنافسية.
+                </p>
+
+                <div class="free">
+                    🟢 مجانية
+                </div>
+
+                <div class="card-buttons">
+
+                    <a
+                        href="https://store.steampowered.com/app/444090/Paladins/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary">
+
+                        📥 تحميل Paladins
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- =====================
+             17 Brawlhalla
+        ====================== -->
+
+        <article
+            class="card"
+            data-name="brawlhalla براولهالا">
+
+            <div class="cover fortnite">
+
+                <div class="cover-title">
+                    BRAWLHALLA
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <h3>
+                    Brawlhalla
+                </h3>
+
+                <p class="description">
+                    قتال جماعي سريع
+                    ومجاني.
+                </p>
+
+                <div class="free">
+                    🟢 مجانية
+                </div>
+
+                <div class="card-buttons">
+
+                    <a
+                        href="https://store.steampowered.com/app/291550/Brawlhalla/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary">
+
+                        📥 تحميل Brawlhalla
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- =====================
+             18 Rocket League
+        ====================== -->
+
+        <article
+            class="card"
+            data-name="rocket league روكيت ليغ">
+
+            <div class="cover gta">
+
+                <div class="cover-title">
+                    ROCKET
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <h3>
+                    Rocket League
+                </h3>
+
+                <p class="description">
+                    كرة قدم بالسيارات
+                    ومنافسات سريعة.
+                </p>
+
+                <div class="free">
+                    🟢 مجانية
+                </div>
+
+                <div class="card-buttons">
+
+                    <a
+                        href="https://www.rocketleague.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary">
+
+                        📥 الموقع الرسمي
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- =====================
+             19 The Sims 4
+        ====================== -->
+
+        <article
+            class="card"
+            data-name="the sims 4 سيمز">
+
+            <div class="cover fortnite">
+
+                <div class="cover-title">
+                    SIMS 4
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <h3>
+                    The Sims 4
+                </h3>
+
+                <p class="description">
+                    محاكاة حياة وبناء
+                    شخصيات ومنازل.
+                </p>
+
+                <div class="free">
+                    🟢 مجانية
+                </div>
+
+                <div class="card-buttons">
+
+                    <a
+                        href="https://www.ea.com/games/the-sims/the-sims-4"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary">
+
+                        📥 الموقع الرسمي
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- =====================
+             20 Fall Guys
+        ====================== -->
+
+        <article
+            class="card"
+            data-name="fall guys فول قايز">
+
+            <div class="cover cs">
+
+                <div class="cover-title">
+                    FALL GUYS
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <h3>
+                    Fall Guys
+                </h3>
+
+                <p class="description">
+                    تحديات جماعية ممتعة
+                    ومنافسات مليئة بالفوضى.
+                </p>
+
+                <div class="free">
+                    🟢 مجانية
+                </div>
+
+                <div class="card-buttons">
+
+                    <a
+                        href="https://store.epicgames.com/en-US/p/fall-guys"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary">
+
+                        📥 تحميل Fall Guys
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- =====================
+             21 GTA VI
+        ====================== -->
+
+        <article
+            class="card"
+            data-name="gta vi gta 6 gta 6 جراند ثفت اوتو 6 جراند 6">
+
+            <div class="cover gta6">
+
+                <div class="cover-title">
+                    GTA VI
+                </div>
+
+                <div class="cover-badge">
+                    🔥 طلب مسبق
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <h3>
+                    Grand Theft Auto VI
+                </h3>
+
+                <p class="description">
+
+                    أحدث إصدار من سلسلة GTA،
+                    تدور أحداثه في Vice City
+                    مع Jason وLucia.
+
+                </p>
+
+                <div class="rating">
+
+                    ★★★★★
+
+                    <span style="color:#788596">
+                        جديد
+                    </span>
+
+                </div>
+
+                <div class="preorder">
+                    🟠 طلب مسبق
+                </div>
+
+                <div class="gta6-info">
+
+                    📅 الإصدار:
+                    19 نوفمبر 2026
+
+                    <br>
+
+                    🎮 PS5 وXbox Series X|S
+
+                </div>
+
+                <div class="card-buttons"
+                     style="margin-top:14px;">
+
+                    <a
+                        href="https://www.rockstargames.com/VI"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary">
+
+                        🛒 الطلب المسبق
+
+                    </a>
+
+                    <a
+                        href="https://store.rockstargames.com/game/buy-gta-vi"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-secondary">
+
+                        🏪 Rockstar Store
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
 
     </div>
 
@@ -1593,7 +2005,9 @@ footer strong{
      المميزات
 ========================= -->
 
-<section class="container" id="features">
+<section
+    class="container"
+    id="features">
 
     <div class="section-head">
 
@@ -1607,7 +2021,6 @@ footer strong{
 
     </div>
 
-
     <div class="features">
 
         <div class="feature">
@@ -1617,11 +2030,12 @@ footer strong{
             </div>
 
             <h3>
-                20 لعبة
+                ألعاب مشهورة
             </h3>
 
             <p>
-                مجموعة من أشهر ألعاب الكمبيوتر.
+                مجموعة من أشهر ألعاب
+                الكمبيوتر والمنصات.
             </p>
 
         </div>
@@ -1630,15 +2044,16 @@ footer strong{
         <div class="feature">
 
             <div class="feature-icon">
-                🔎
+                ⚡
             </div>
 
             <h3>
-                بحث سريع
+                سريع
             </h3>
 
             <p>
-                اكتب اسم اللعبة وستظهر لك مباشرة.
+                تصميم خفيف يعمل
+                على الكمبيوتر والجوال.
             </p>
 
         </div>
@@ -1655,7 +2070,8 @@ footer strong{
             </h3>
 
             <p>
-                الأزرار تنقلك إلى صفحات التحميل الرسمية.
+                أزرار الألعاب توجهك
+                إلى مواقعها الرسمية.
             </p>
 
         </div>
@@ -1668,15 +2084,21 @@ footer strong{
 <footer>
 
     <p>
+
         © 2026
+
         <strong>
             Wifi5Games
         </strong>
+
         — متجر الألعاب
+
     </p>
 
     <p style="margin-top:10px">
+
         🎮 Gaming • Fun • Community
+
     </p>
 
 </footer>
@@ -1687,22 +2109,31 @@ footer strong{
 <script>
 
 /* =========================
-   شاشة التحميل - 3 ثواني
+   شاشة التحميل
+   حوالي 3 ثواني
 ========================= */
 
 let progress = 0;
 
 const progressBar =
-    document.getElementById("progressBar");
+    document.getElementById(
+        "progressBar"
+    );
 
 const percent =
-    document.getElementById("percent");
+    document.getElementById(
+        "percent"
+    );
 
 const loader =
-    document.getElementById("loader");
+    document.getElementById(
+        "loader"
+    );
 
 const site =
-    document.getElementById("site");
+    document.getElementById(
+        "site"
+    );
 
 
 const loaderInterval =
@@ -1719,26 +2150,25 @@ const loaderInterval =
 
         if(progress >= 100){
 
-            clearInterval(loaderInterval);
+            clearInterval(
+                loaderInterval
+            );
 
             setTimeout(function(){
 
-                loader.classList.add("hide");
+                loader.classList.add(
+                    "hide"
+                );
 
-                site.classList.add("show");
+                site.classList.add(
+                    "show"
+                );
 
             },300);
 
         }
 
     },30);
-
-
-/* =========================
-   الفلتر الحالي
-========================= */
-
-let currentFilter = "all";
 
 
 /* =========================
@@ -1756,88 +2186,34 @@ function filterGames(){
 
 
     const cards =
-        document.querySelectorAll(".card");
-
-    let visible = 0;
+        document.querySelectorAll(
+            ".card"
+        );
 
 
     cards.forEach(function(card){
 
         const name =
             card
-            .getAttribute("data-name")
+            .getAttribute(
+                "data-name"
+            )
             .toLowerCase();
 
 
-        const type =
-            card
-            .getAttribute("data-type");
+        if(name.includes(search)){
 
-
-        const searchMatch =
-            name.includes(search);
-
-
-        const filterMatch =
-            currentFilter === "all"
-            ||
-            type === currentFilter;
-
-
-        if(searchMatch && filterMatch){
-
-            card.style.display = "block";
-
-            visible++;
+            card.style.display =
+                "block";
 
         }else{
 
-            card.style.display = "none";
+            card.style.display =
+                "none";
 
         }
 
     });
-
-
-    const noResults =
-        document.getElementById("noResults");
-
-
-    if(visible === 0){
-
-        noResults.style.display = "block";
-
-    }else{
-
-        noResults.style.display = "none";
-
-    }
-
-}
-
-
-/* =========================
-   تغيير الفلتر
-========================= */
-
-function setFilter(filter,button){
-
-    currentFilter = filter;
-
-
-    document
-    .querySelectorAll(".filter")
-    .forEach(function(btn){
-
-        btn.classList.remove("active");
-
-    });
-
-
-    button.classList.add("active");
-
-
-    filterGames();
 
 }
 
