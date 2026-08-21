@@ -1,1167 +1,352 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Wifi5Games | عالم الألعاب</title>
 
     <style>
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: Arial, Tahoma, sans-serif;
-            background: #050507;
+            background: #050509;
             color: white;
-            overflow-x: hidden;
         }
-
-
-        /* =================================
-           شاشة البداية
-        ================================= */
-
-        #loading-screen {
-
-            position: fixed;
-
-            inset: 0;
-
-            z-index: 99999;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            background:
-                radial-gradient(
-                    circle at center,
-                    #3b0966 0%,
-                    #12001e 45%,
-                    #030305 100%
-                );
-
-            transition:
-                opacity 1s ease,
-                visibility 1s ease;
-        }
-
-
-        #loading-screen.hide {
-
-            opacity: 0;
-
-            visibility: hidden;
-        }
-
-
-        .loading-content {
-
-            width: 90%;
-
-            max-width: 750px;
-
-            text-align: center;
-        }
-
-
-        /* اسم الموقع */
-
-        .loading-logo {
-
-            font-size:
-                clamp(45px, 8vw, 90px);
-
-            font-weight: 900;
-
-            color: white;
-
-            text-shadow:
-
-                0 0 10px #9d4edd,
-
-                0 0 25px #9d4edd,
-
-                0 0 50px #7b2cbf,
-
-                0 0 90px #7b2cbf;
-
-            animation:
-                pulse 1.5s infinite alternate;
-        }
-
-
-        @keyframes pulse {
-
-            from {
-                transform: scale(1);
-            }
-
-            to {
-                transform: scale(1.04);
-            }
-
-        }
-
-
-        /* مرحبا بكم */
-
-        .loading-welcome {
-
-            margin-top: 20px;
-
-            font-size: 25px;
-
-            color: #d8a8ff;
-
-            font-weight: bold;
-
-            text-shadow:
-                0 0 15px #9d4edd;
-        }
-
-
-        /* نص التحميل */
-
-        .loading-text {
-
-            margin-top: 12px;
-
-            color: #999;
-
-            font-size: 16px;
-        }
-
-
-        /* شريط التحميل */
-
-        .progress-container {
-
-            width: 100%;
-
-            height: 12px;
-
-            margin-top: 28px;
-
-            background:
-                rgba(255,255,255,0.08);
-
-            border-radius: 50px;
-
-            overflow: hidden;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.15);
-        }
-
-
-        .progress-bar {
-
-            width: 0%;
-
-            height: 100%;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #5a189a,
-                    #9d4edd,
-                    #e0aaff
-                );
-
-            box-shadow:
-                0 0 20px #9d4edd;
-
-            transition:
-                width 0.05s linear;
-        }
-
-
-        .percentage {
-
-            margin-top: 12px;
-
-            color: #c77dff;
-
-            font-weight: bold;
-        }
-
-
-        /* =================================
-           الموقع الرئيسي
-        ================================= */
-
-        #main-site {
-
-            display: none;
-        }
-
-
-        #main-site.show {
-
-            display: block;
-        }
-
-
-        /* =================================
-           الهيدر
-        ================================= */
 
         header {
-
             height: 75px;
-
-            position: sticky;
-
-            top: 0;
-
-            z-index: 1000;
-
+            background: #0b0b12;
+            border-bottom: 1px solid #222;
             display: flex;
-
             align-items: center;
-
-            justify-content:
-                space-between;
-
             padding: 0 7%;
-
-            background:
-                rgba(5,5,7,0.93);
-
-            backdrop-filter:
-                blur(15px);
-
-            border-bottom:
-                1px solid
-                rgba(255,255,255,0.08);
+            justify-content: space-between;
         }
-
 
         .logo {
-
             font-size: 26px;
-
-            font-weight: 900;
-
-            color: #b967ff;
-
-            text-shadow:
-                0 0 15px #7b2cbf;
+            font-weight: bold;
+            color: #9d4edd;
         }
 
-
         .logo span {
-
             color: white;
         }
 
-
-        nav {
-
-            display: flex;
-
-            gap: 25px;
-        }
-
-
         nav a {
-
-            color: #ddd;
-
+            color: white;
             text-decoration: none;
-
-            font-weight: bold;
-
-            transition: 0.3s;
+            margin-right: 25px;
         }
-
 
         nav a:hover {
-
             color: #c77dff;
         }
 
-
-        /* =================================
-           الرئيسية
-        ================================= */
-
         .hero {
-
-            min-height: 550px;
-
+            min-height: 600px;
+            padding: 100px 7%;
             display: flex;
-
-            justify-content: center;
-
             align-items: center;
-
-            text-align: center;
-
-            padding: 80px 20px;
-
             background:
-                radial-gradient(
-                    circle at center,
-                    rgba(123,44,191,0.22),
-                    transparent 45%
-                );
+                radial-gradient(circle at 80% 40%, #35105c, transparent 35%),
+                #050509;
         }
-
 
         .hero-content {
-
-            max-width: 850px;
+            max-width: 700px;
         }
 
-
         .hero h1 {
-
-            font-size:
-                clamp(45px, 8vw, 80px);
-
+            font-size: 65px;
             margin-bottom: 20px;
         }
 
-
         .hero h1 span {
-
             color: #b967ff;
-
-            text-shadow:
-                0 0 25px #9d4edd;
         }
 
-
         .hero p {
-
             color: #aaa;
-
-            font-size: 19px;
-
-            line-height: 1.9;
-
+            font-size: 20px;
+            line-height: 1.8;
             margin-bottom: 30px;
         }
 
-
-        .button {
-
+        .btn {
             display: inline-block;
-
             padding: 15px 30px;
-
             border-radius: 10px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #7b2cbf,
-                    #c77dff
-                );
-
-            color: white;
-
             text-decoration: none;
-
             font-weight: bold;
-
-            transition: 0.3s;
+            margin-left: 10px;
         }
 
-
-        .button:hover {
-
-            transform:
-                translateY(-5px);
-
-            box-shadow:
-                0 0 30px #7b2cbf;
+        .btn-primary {
+            background: #8e2de2;
+            color: white;
         }
 
+        .btn-primary:hover {
+            background: #a855f7;
+        }
 
-        /* =================================
-           الأقسام
-        ================================= */
+        .btn-secondary {
+            border: 1px solid #444;
+            color: white;
+        }
 
         section {
-
             padding: 80px 7%;
         }
 
-
-        .section-title {
-
+        .title {
             text-align: center;
-
             margin-bottom: 45px;
         }
 
-
-        .section-title h2 {
-
+        .title h2 {
             font-size: 40px;
-
             margin-bottom: 10px;
         }
 
-
-        .section-title p {
-
+        .title p {
             color: #888;
         }
 
-
-        /* =================================
-           الألعاب
-        ================================= */
-
-        .games-grid {
-
-            max-width: 1200px;
-
-            margin: auto;
-
+        .games {
             display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
+            grid-template-columns: repeat(3, 1fr);
             gap: 25px;
         }
 
-
-        .game-card {
-
-            min-height: 250px;
-
-            padding: 25px;
-
+        .game {
+            background: #101017;
+            border: 1px solid #24242d;
             border-radius: 18px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #14141c,
-                    #09090e
-                );
-
-            border:
-                1px solid #292934;
-
-            display: flex;
-
-            flex-direction: column;
-
-            justify-content:
-                space-between;
-
-            transition: 0.35s;
-
-            position: relative;
-
             overflow: hidden;
+            transition: 0.3s;
         }
 
-
-        .game-card:hover {
-
-            transform:
-                translateY(-8px);
-
-            border-color:
-                #9d4edd;
-
-            box-shadow:
-                0 15px 40px
-                rgba(0,0,0,0.5);
+        .game:hover {
+            transform: translateY(-8px);
+            border-color: #9d4edd;
         }
 
-
-        .game-number {
-
-            color: #9d4edd;
-
-            font-size: 13px;
-
+        .game-image {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
             font-weight: bold;
+            background: linear-gradient(135deg, #21102f, #111);
         }
 
-
-        .game-card h3 {
-
-            font-size: 25px;
-
-            margin:
-                15px 0 10px;
+        .game-info {
+            padding: 22px;
         }
 
+        .game-info h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
 
-        .game-card p {
-
+        .game-info p {
             color: #999;
-
             line-height: 1.7;
+            margin-bottom: 20px;
         }
-
-
-        .tag {
-
-            display: inline-block;
-
-            width: fit-content;
-
-            margin-top: 20px;
-
-            padding: 7px 13px;
-
-            border-radius: 20px;
-
-            background:
-                rgba(157,78,221,0.15);
-
-            color: #d8a8ff;
-
-            font-size: 13px;
-        }
-
-
-        /* =================================
-           عن الموقع
-        ================================= */
-
-        .about-box {
-
-            max-width: 900px;
-
-            margin: auto;
-
-            padding: 45px;
-
-            text-align: center;
-
-            background:
-                rgba(255,255,255,0.03);
-
-            border:
-                1px solid
-                rgba(255,255,255,0.08);
-
-            border-radius: 20px;
-        }
-
-
-        .about-box p {
-
-            color: #aaa;
-
-            line-height: 2;
-
-            font-size: 17px;
-        }
-
-
-        /* =================================
-           الفوتر
-        ================================= */
 
         footer {
-
-            padding: 35px 20px;
-
             text-align: center;
-
+            padding: 35px;
+            border-top: 1px solid #222;
             color: #777;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,0.08);
         }
 
-
-        footer strong {
-
-            color: #b967ff;
-        }
-
-
-        /* =================================
-           الجوال
-        ================================= */
-
-        @media (max-width: 850px) {
+        @media (max-width: 800px) {
 
             nav {
-
                 display: none;
             }
 
-
-            .games-grid {
-
-                grid-template-columns:
-                    1fr;
+            .hero {
+                text-align: center;
             }
 
-
-            .loading-logo {
-
-                font-size: 48px;
+            .hero h1 {
+                font-size: 42px;
             }
 
-
-            .loading-welcome {
-
-                font-size: 21px;
+            .games {
+                grid-template-columns: 1fr;
             }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
-<!-- =================================
-     شاشة البداية
-================================= -->
-
-<div id="loading-screen">
-
-    <div class="loading-content">
-
-
-        <div class="loading-logo">
-
-            Wifi5Games
-
-        </div>
-
-
-        <div class="loading-welcome">
-
-            مرحباً بكم في
-
-        </div>
-
-
-        <div class="loading-text">
-
-            جاري تجهيز عالم الألعاب...
-
-        </div>
-
-
-        <div class="progress-container">
-
-            <div
-                class="progress-bar"
-                id="progressBar">
-            </div>
-
-        </div>
-
-
-        <div
-            class="percentage"
-            id="percentage">
-
-            0%
-
-        </div>
-
-
-    </div>
-
-</div>
-
-
-
-<!-- =================================
-     الموقع الرئيسي
-================================= -->
-
-<div id="main-site">
-
-
 <header>
 
-
     <div class="logo">
-
         🎮 Wifi5<span>Games</span>
-
     </div>
 
-
     <nav>
-
-        <a href="#home">
-            الرئيسية
-        </a>
-
-        <a href="#games">
-            الألعاب
-        </a>
-
-        <a href="#about">
-            عن الموقع
-        </a>
-
+        <a href="#home">الرئيسية</a>
+        <a href="#games">الألعاب</a>
+        <a href="#about">عن الموقع</a>
     </nav>
-
 
 </header>
 
 
-
-<!-- الرئيسية -->
-
-<section
-    class="hero"
-    id="home">
-
+<section class="hero" id="home">
 
     <div class="hero-content">
 
-
         <h1>
-
-            مرحباً بك في
-
-            <span>
-                Wifi5Games
-            </span>
-
+            عالمك في
+            <span>Wifi5Games</span>
         </h1>
 
-
         <p>
-
-            عالم الألعاب والجيمنج بين يديك.
-            اكتشف ألعاب الأكشن والعالم المفتوح
-            والمغامرات وأشهر ألعاب الكمبيوتر.
-
+            اكتشف عالم الألعاب، الألعاب المفتوحة،
+            ألعاب الأكشن والمغامرات والمزيد.
         </p>
 
-
-        <a
-            href="#games"
-            class="button">
-
+        <a href="#games" class="btn btn-primary">
             🎮 استكشف الألعاب
-
         </a>
 
+        <a href="#about" class="btn btn-secondary">
+            عن الموقع
+        </a>
 
     </div>
 
-
 </section>
 
-
-
-<!-- الألعاب -->
 
 <section id="games">
 
+    <div class="title">
 
-    <div class="section-title">
-
-
-        <h2>
-            🎮 الألعاب
-        </h2>
-
+        <h2>🎮 الألعاب</h2>
 
         <p>
-            أشهر الألعاب الموجودة في Wifi5Games
+            اختر لعبتك المفضلة
         </p>
 
-
     </div>
 
 
+    <div class="games">
 
-    <div class="games-grid">
+        <div class="game">
 
-
-        <!-- GTA V -->
-
-        <div class="game-card">
-
-
-            <div>
-
-                <div class="game-number">
-                    GAME 01
-                </div>
-
-
-                <h3>
-                    Grand Theft Auto V
-                </h3>
-
-
-                <p>
-
-                    لعبة عالم مفتوح ضخمة
-                    مليئة بالمغامرات والمهام
-                    والاستكشاف.
-
-                </p>
-
+            <div class="game-image">
+                GTA V
             </div>
 
+            <div class="game-info">
 
-            <span class="tag">
-                Open World
-            </span>
+                <h3>Grand Theft Auto V</h3>
 
+                <p>
+                    عالم مفتوح ضخم مليء بالمغامرات
+                    والمهام والاستكشاف.
+                </p>
+
+                <a href="#" class="btn btn-primary">
+                    عرض اللعبة
+                </a>
+
+            </div>
 
         </div>
 
 
+        <div class="game">
 
-        <!-- Fortnite -->
-
-        <div class="game-card">
-
-
-            <div>
-
-                <div class="game-number">
-                    GAME 02
-                </div>
-
-
-                <h3>
-                    Fortnite
-                </h3>
-
-
-                <p>
-
-                    لعبة Battle Royale
-                    مليئة بالحماس والمنافسة.
-
-                </p>
-
+            <div class="game-image">
+                FORTNITE
             </div>
 
+            <div class="game-info">
 
-            <span class="tag">
-                Battle Royale
-            </span>
+                <h3>Fortnite</h3>
 
+                <p>
+                    لعبة Battle Royale تنافسية
+                    ومليئة بالحماس.
+                </p>
+
+                <a href="#" class="btn btn-primary">
+                    عرض اللعبة
+                </a>
+
+            </div>
 
         </div>
 
 
+        <div class="game">
 
-        <!-- CS2 -->
+            <div class="game-image">
+                CS2
+            </div>
 
-        <div class="game-card">
+            <div class="game-info">
 
-
-            <div>
-
-                <div class="game-number">
-                    GAME 03
-                </div>
-
-
-                <h3>
-                    Counter-Strike 2
-                </h3>
-
+                <h3>Counter-Strike 2</h3>
 
                 <p>
-
-                    لعبة تصويب تنافسية
-                    تعتمد على المهارة
-                    والتكتيك.
-
+                    لعبة تصويب تنافسية تعتمد على
+                    المهارة والتكتيك.
                 </p>
+
+                <a href="#" class="btn btn-primary">
+                    عرض اللعبة
+                </a>
 
             </div>
 
-
-            <span class="tag">
-                FPS
-            </span>
-
-
         </div>
-
-
-
-        <!-- PUBG -->
-
-        <div class="game-card">
-
-
-            <div>
-
-                <div class="game-number">
-                    GAME 04
-                </div>
-
-
-                <h3>
-                    PUBG
-                </h3>
-
-
-                <p>
-
-                    قاتل للبقاء حتى النهاية
-                    وكن آخر لاعب أو فريق.
-
-                </p>
-
-            </div>
-
-
-            <span class="tag">
-                Battle Royale
-            </span>
-
-
-        </div>
-
-
-
-        <!-- GTA IV -->
-
-        <div class="game-card">
-
-
-            <div>
-
-                <div class="game-number">
-                    GAME 05
-                </div>
-
-
-                <h3>
-                    Grand Theft Auto IV
-                </h3>
-
-
-                <p>
-
-                    مغامرة داخل Liberty City
-                    مع قصة وشخصيات مميزة.
-
-                </p>
-
-            </div>
-
-
-            <span class="tag">
-                Action
-            </span>
-
-
-        </div>
-
-
-
-        <!-- The Long Drive -->
-
-        <div class="game-card">
-
-
-            <div>
-
-                <div class="game-number">
-                    GAME 06
-                </div>
-
-
-                <h3>
-                    The Long Drive
-                </h3>
-
-
-                <p>
-
-                    رحلة قيادة واستكشاف
-                    في عالم مفتوح وغريب.
-
-                </p>
-
-            </div>
-
-
-            <span class="tag">
-                Driving
-            </span>
-
-
-        </div>
-
 
     </div>
-
 
 </section>
 
-
-
-<!-- عن الموقع -->
 
 <section id="about">
 
+    <div class="title">
 
-    <div class="section-title">
-
-        <h2>
-            🔥 عن Wifi5Games
-        </h2>
-
-    </div>
-
-
-    <div class="about-box">
+        <h2>🔥 Wifi5Games</h2>
 
         <p>
-
-            Wifi5Games هو موقع Gaming عربي
-            لعشاق الألعاب.
-            هدفنا تقديم تجربة جميلة وسريعة
-            تجمع الألعاب ومحتوى الجيمنج
-            في مكان واحد.
-
+            موقع Gaming عربي لعشاق الألعاب.
         </p>
 
     </div>
 
-
 </section>
 
 
-
-<!-- الفوتر -->
-
 <footer>
 
-    © 2026
-
-    <strong>
-        Wifi5Games
-    </strong>
-
-    — جميع الحقوق محفوظة 🎮
+    © 2026 Wifi5Games 🎮
 
 </footer>
 
-
-</div>
-
-
-
-<!-- =================================
-     JavaScript
-================================= -->
-
-<script>
-
-
-    let progress = 0;
-
-
-    const progressBar =
-        document.getElementById(
-            "progressBar"
-        );
-
-
-    const percentage =
-        document.getElementById(
-            "percentage"
-        );
-
-
-    const loadingScreen =
-        document.getElementById(
-            "loading-screen"
-        );
-
-
-    const mainSite =
-        document.getElementById(
-            "main-site"
-        );
-
-
-    const loading =
-        setInterval(function () {
-
-
-            progress++;
-
-
-            progressBar.style.width =
-                progress + "%";
-
-
-            percentage.textContent =
-                progress + "%";
-
-
-            if (progress >= 100) {
-
-
-                clearInterval(loading);
-
-
-                setTimeout(function () {
-
-
-                    loadingScreen.classList.add(
-                        "hide"
-                    );
-
-
-                    mainSite.classList.add(
-                        "show"
-                    );
-
-
-                }, 500);
-
-
-            }
-
-
-        }, 25);
-
-
-</script>
-
-
 </body>
-
 </html>
