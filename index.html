@@ -1,6 +1,666 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wifi5 Fight Arena</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #050509;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    margin: 20px 0 10px;
+    color: #c77dff;
+    text-shadow: 0 0 20px #9d4edd;
+}
+
+.info {
+    color: #aaa;
+    margin-bottom: 15px;
+}
+
+.game-box {
+    width: 95%;
+    max-width: 1000px;
+    margin: auto;
+    border: 2px solid #7b2cbf;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 35px rgba(123,44,191,.4);
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    background: #08000f;
+}
+
+.controls {
+    padding: 18px;
+    background: #101018;
+    color: #aaa;
+    line-height: 2;
+}
+
+button {
+    margin-top: 12px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    background: #7b2cbf;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #9d4edd;
+}
+</style>
+</head>
+
+<body>
+
+<h1>⚔️ Wifi5 Fight Arena</h1>
+
+<div class="info">
+    قاتل العدو وحاول هزيمته!
+</div>
+
+<div class="game-box">
+
+<canvas id="game" width="1000" height="550"></canvas>
+
+<div class="controls">
+    🎮 <b>W A S D</b> للحركة
+    <br>
+    👊 <b>SPACE</b> للهجوم
+    <br>
+    ❤️ اهزم العدو قبل أن يهزمك
+
+    <br>
+
+    <button onclick="restartGame()">
+        🔄 إعادة اللعبة
+    </button>
+</div>
+
+</div>
+
+<script>
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let keys = {};
+let gameOver = false;
+let score = 0;
+
+let player;
+let enemy;
+
+
+/* =========================
+   التحكم
+========================= */
+
+window.addEventListener("keydown", e => {
+
+    keys[e.key.toLowerCase()] = true;
+
+    if (e.code === "Space") {
+        keys.space = true;
+        e.preventDefault();
+    }
+
+});
+
+window.addEventListener("keyup", e => {
+
+    keys[e.key.toLowerCase()] = false;
+
+    if (e.code === "Space") {
+        keys.space = false;
+    }
+
+});
+
+
+/* =========================
+   بدء اللعبة
+========================= */
+
+function restartGame() {
+
+    player = {
+        x: 150,
+        y: 340,
+        width: 55,
+        height: 90,
+        speed: 5,
+        health: 100,
+        cooldown: 0
+    };
+
+    enemy = {
+        x: 780,
+        y: 340,
+        width: 55,
+        height: 90,
+        speed: 2,
+        health: 100,
+        cooldown: 0
+    };
+
+    score = 0;
+    gameOver = false;
+}
+
+restartGame();
+
+
+/* =========================
+   الخلفية
+========================= */
+
+function drawArena() {
+
+    let gradient =
+        ctx.createLinearGradient(
+            0, 0,
+            0, canvas.height
+        );
+
+    gradient.addColorStop(0, "#12001f");
+    gradient.addColorStop(1, "#020204");
+
+    ctx.fillStyle = gradient;
+
+    ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    /* ضوء الخلفية */
+
+    ctx.fillStyle =
+        "rgba(157,78,221,.12)";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        500,
+        180,
+        190,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+
+    /* الأرض */
+
+    ctx.fillStyle = "#15151c";
+
+    ctx.fillRect(
+        0,
+        430,
+        canvas.width,
+        120
+    );
+
+
+    /* خطوط الأرض */
+
+    ctx.strokeStyle =
+        "rgba(157,78,221,.18)";
+
+    for (
+        let x = 0;
+        x < canvas.width;
+        x += 50
+    ) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(x, 430);
+
+        ctx.lineTo(
+            500 + (x - 500) * 1.5,
+            550
+        );
+
+        ctx.stroke();
+    }
+}
+
+
+/* =========================
+   رسم اللاعب والعدو
+========================= */
+
+function drawFighter(f, color, facingRight) {
+
+    /* الظل */
+
+    ctx.fillStyle =
+        "rgba(0,0,0,.5)";
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        f.x + 28,
+        438,
+        45,
+        12,
+        0,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+
+    /* الجسم */
+
+    ctx.fillStyle = color;
+
+    ctx.fillRect(
+        f.x,
+        f.y,
+        f.width,
+        f.height
+    );
+
+
+    /* الرأس */
+
+    ctx.beginPath();
+
+    ctx.arc(
+        f.x + 28,
+        f.y - 20,
+        25,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+
+    /* العين */
+
+    ctx.fillStyle = "white";
+
+    let eyeX =
+        facingRight
+        ? f.x + 38
+        : f.x + 10;
+
+    ctx.fillRect(
+        eyeX,
+        f.y - 26,
+        7,
+        7
+    );
+
+
+    /* الذراع */
+
+    ctx.fillStyle = color;
+
+    if (facingRight) {
+
+        ctx.fillRect(
+            f.x + 50,
+            f.y + 25,
+            35,
+            18
+        );
+
+    } else {
+
+        ctx.fillRect(
+            f.x - 30,
+            f.y + 25,
+            35,
+            18
+        );
+    }
+
+
+    /* الأرجل */
+
+    ctx.fillRect(
+        f.x + 5,
+        f.y + 90,
+        15,
+        35
+    );
+
+    ctx.fillRect(
+        f.x + 35,
+        f.y + 90,
+        15,
+        35
+    );
+}
+
+
+/* =========================
+   الصحة
+========================= */
+
+function drawHealth() {
+
+    /* اللاعب */
+
+    ctx.fillStyle = "#222";
+
+    ctx.fillRect(
+        40,
+        30,
+        350,
+        25
+    );
+
+    ctx.fillStyle = "#9d4edd";
+
+    ctx.fillRect(
+        40,
+        30,
+        350 * player.health / 100,
+        25
+    );
+
+
+    /* العدو */
+
+    ctx.fillStyle = "#222";
+
+    ctx.fillRect(
+        610,
+        30,
+        350,
+        25
+    );
+
+    ctx.fillStyle = "#e63946";
+
+    ctx.fillRect(
+        610,
+        30,
+        350 * enemy.health / 100,
+        25
+    );
+
+
+    ctx.fillStyle = "white";
+
+    ctx.font = "bold 16px Arial";
+
+    ctx.textAlign = "left";
+
+    ctx.fillText(
+        "PLAYER",
+        40,
+        22
+    );
+
+    ctx.textAlign = "right";
+
+    ctx.fillText(
+        "ENEMY",
+        960,
+        22
+    );
+
+
+    ctx.textAlign = "center";
+
+    ctx.fillText(
+        "النقاط: " + score,
+        500,
+        85
+    );
+}
+
+
+/* =========================
+   تحديث اللعبة
+========================= */
+
+function update() {
+
+    if (gameOver)
+        return;
+
+
+    /* حركة اللاعب */
+
+    if (keys.a)
+        player.x -= player.speed;
+
+    if (keys.d)
+        player.x += player.speed;
+
+    if (keys.w)
+        player.y -= player.speed;
+
+    if (keys.s)
+        player.y += player.speed;
+
+
+    /* حدود اللاعب */
+
+    player.x = Math.max(
+        20,
+        Math.min(
+            canvas.width - 80,
+            player.x
+        )
+    );
+
+    player.y = Math.max(
+        270,
+        Math.min(
+            340,
+            player.y
+        )
+    );
+
+
+    /* هجوم اللاعب */
+
+    if (
+        keys.space &&
+        player.cooldown <= 0
+    ) {
+
+        let distance =
+            Math.abs(
+                player.x - enemy.x
+            );
+
+        if (distance < 130) {
+
+            enemy.health -= 12;
+
+            score += 10;
+
+            player.cooldown = 30;
+        }
+    }
+
+
+    if (player.cooldown > 0)
+        player.cooldown--;
+
+
+    /* حركة العدو */
+
+    if (enemy.x > player.x + 70) {
+
+        enemy.x -= enemy.speed;
+
+    } else if (enemy.x < player.x - 70) {
+
+        enemy.x += enemy.speed;
+    }
+
+
+    /* هجوم العدو */
+
+    let distance =
+        Math.abs(
+            enemy.x - player.x
+        );
+
+    if (
+        distance < 110 &&
+        enemy.cooldown <= 0
+    ) {
+
+        player.health -= 7;
+
+        enemy.cooldown = 55;
+    }
+
+
+    if (enemy.cooldown > 0)
+        enemy.cooldown--;
+
+
+    /* الفوز */
+
+    if (enemy.health <= 0) {
+
+        enemy.health = 0;
+
+        gameOver = true;
+
+        score += 100;
+    }
+
+
+    /* الخسارة */
+
+    if (player.health <= 0) {
+
+        player.health = 0;
+
+        gameOver = true;
+    }
+}
+
+
+/* =========================
+   الرسم
+========================= */
+
+function draw() {
+
+    drawArena();
+
+    drawHealth();
+
+    drawFighter(
+        player,
+        "#9d4edd",
+        true
+    );
+
+    drawFighter(
+        enemy,
+        "#e63946",
+        false
+    );
+
+
+    if (gameOver) {
+
+        ctx.fillStyle =
+            "rgba(0,0,0,.7)";
+
+        ctx.fillRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        ctx.fillStyle = "white";
+
+        ctx.font =
+            "bold 55px Arial";
+
+        ctx.textAlign = "center";
+
+        if (player.health > 0) {
+
+            ctx.fillText(
+                "🏆 فزت!",
+                500,
+                250
+            );
+
+        } else {
+
+            ctx.fillText(
+                "💀 خسرت!",
+                500,
+                250
+            );
+        }
+
+        ctx.font =
+            "bold 24px Arial";
+
+        ctx.fillText(
+            "اضغط إعادة اللعبة",
+            500,
+            300
+        );
+    }
+}
+
+
+/* =========================
+   تشغيل اللعبة
+========================= */
+
+function gameLoop() {
+
+    update();
+
+    draw();
+
+    requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
