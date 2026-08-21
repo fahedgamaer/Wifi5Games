@@ -5,9 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Wifi5Games | عالم الألعاب والجيمنج</title>
-    <meta name="description" content="Wifi5Games - عالم الألعاب والجيمنج">
+
+    <meta name="description"
+          content="Wifi5Games - عالم الألعاب والجيمنج">
 
     <style>
+
+        /* =========================
+           الإعدادات الأساسية
+        ========================= */
+
         * {
             margin: 0;
             padding: 0;
@@ -20,146 +27,247 @@
 
         body {
             font-family: Arial, Tahoma, sans-serif;
-            background:
-                radial-gradient(circle at top right, #26004d, transparent 35%),
-                radial-gradient(circle at bottom left, #002c4d, transparent 35%),
-                #050509;
+            background: #050509;
             color: white;
-            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* شاشة البداية */
-        #loading-screen {
+
+        /* =========================
+           شاشة البداية
+        ========================= */
+
+        #loadingScreen {
             position: fixed;
             inset: 0;
             z-index: 99999;
+
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+
             background:
-                radial-gradient(circle, #35005c, #08000f 65%, #020203);
-            transition: opacity 1s ease, visibility 1s ease;
+                radial-gradient(
+                    circle at center,
+                    #3b0966 0%,
+                    #12001f 45%,
+                    #030305 100%
+                );
+
+            transition:
+                opacity 0.8s ease,
+                visibility 0.8s ease;
         }
 
-        #loading-screen.hide {
+        #loadingScreen.hide {
             opacity: 0;
             visibility: hidden;
         }
 
-        .loading-content {
+        .loading-box {
             width: 90%;
             max-width: 700px;
             text-align: center;
         }
 
+
+        /* اسم الموقع */
+
         .loading-logo {
-            font-size: clamp(45px, 8vw, 85px);
+            font-size: clamp(45px, 9vw, 85px);
             font-weight: 900;
+
             color: white;
+
             text-shadow:
                 0 0 10px #9d4edd,
-                0 0 30px #9d4edd,
-                0 0 60px #7b2cbf;
-            animation: pulse 1.5s infinite alternate;
+                0 0 25px #9d4edd,
+                0 0 50px #7b2cbf,
+                0 0 90px #7b2cbf;
+
+            animation: logoPulse 1.5s infinite alternate;
         }
 
         .loading-logo span {
             color: #c77dff;
         }
 
-        @keyframes pulse {
+        @keyframes logoPulse {
+
             from {
                 transform: scale(1);
             }
+
             to {
-                transform: scale(1.05);
+                transform: scale(1.04);
             }
+
         }
 
-        .loading-text {
+
+        /* مرحباً بكم */
+
+        .welcome {
             margin-top: 20px;
-            color: #bbb;
-            font-size: 18px;
+
+            font-size: clamp(22px, 4vw, 32px);
+
+            font-weight: bold;
+
+            color: #d8a8ff;
+
+            text-shadow:
+                0 0 15px #9d4edd;
         }
+
+
+        /* نص التحميل */
+
+        .loading-text {
+            margin-top: 12px;
+
+            color: #999;
+
+            font-size: 16px;
+        }
+
+
+        /* حاوية الشريط */
 
         .progress-container {
             width: 100%;
-            height: 12px;
+            height: 14px;
+
             margin-top: 30px;
-            background: rgba(255,255,255,0.08);
+
+            background:
+                rgba(255,255,255,0.08);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.12);
+
             border-radius: 50px;
+
             overflow: hidden;
+
+            box-shadow:
+                inset 0 0 10px
+                rgba(0,0,0,0.5);
         }
+
+
+        /* الشريط نفسه */
 
         .progress-bar {
             width: 0%;
             height: 100%;
-            background: linear-gradient(
-                90deg,
-                #5a189a,
-                #9d4edd,
-                #e0aaff
-            );
-            box-shadow: 0 0 20px #9d4edd;
-            transition: width 0.05s linear;
+
+            border-radius: 50px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #5a189a,
+                    #9d4edd,
+                    #e0aaff
+                );
+
+            box-shadow:
+                0 0 20px #9d4edd,
+                0 0 40px #7b2cbf;
+
+            transition:
+                width 0.05s linear;
         }
+
+
+        /* النسبة */
 
         .percentage {
             margin-top: 12px;
+
             color: #c77dff;
+
+            font-size: 17px;
+
             font-weight: bold;
         }
 
-        /* الموقع */
-        #main-site {
+
+        /* =========================
+           الموقع الرئيسي
+        ========================= */
+
+        #mainSite {
             display: none;
         }
 
-        #main-site.show {
+        #mainSite.show {
             display: block;
         }
 
-        /* الهيدر */
+
+        /* =========================
+           الهيدر
+        ========================= */
+
         header {
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: rgba(5,5,9,0.92);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+
+            background:
+                rgba(5,5,9,0.92);
+
+            backdrop-filter:
+                blur(15px);
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.08);
         }
 
         nav {
             max-width: 1200px;
             height: 75px;
+
             margin: auto;
             padding: 0 20px;
+
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .logo {
+        .site-logo {
             font-size: 26px;
             font-weight: 900;
+
             color: #9d4edd;
-            text-shadow: 0 0 15px #7b2cbf;
+
+            text-shadow:
+                0 0 15px #7b2cbf;
         }
 
-        .logo span {
+        .site-logo span {
             color: white;
         }
 
         .nav-links {
             display: flex;
             gap: 25px;
+
             list-style: none;
         }
 
         .nav-links a {
             color: #ddd;
+
             text-decoration: none;
+
             font-weight: bold;
+
             transition: 0.3s;
         }
 
@@ -167,16 +275,34 @@
             color: #c77dff;
         }
 
-        /* الرئيسية */
+
+        /* =========================
+           الصفحة الرئيسية
+        ========================= */
+
         .hero {
-            max-width: 1200px;
             min-height: 600px;
+
+            max-width: 1200px;
+
             margin: auto;
+
             padding: 80px 20px;
+
             display: flex;
-            justify-content: center;
+
             align-items: center;
+
+            justify-content: center;
+
             text-align: center;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(123,44,191,0.20),
+                    transparent 50%
+                );
         }
 
         .hero-content {
@@ -185,62 +311,103 @@
 
         .hero-badge {
             display: inline-block;
+
             padding: 8px 18px;
+
             margin-bottom: 20px;
-            border: 1px solid #9d4edd;
+
+            border:
+                1px solid #9d4edd;
+
             border-radius: 30px;
+
             color: #d8a8ff;
-            background: rgba(157,78,221,0.1);
+
+            background:
+                rgba(157,78,221,0.10);
         }
 
         .hero h1 {
-            font-size: clamp(45px, 8vw, 80px);
+            font-size:
+                clamp(45px, 8vw, 80px);
+
             margin-bottom: 25px;
         }
 
         .hero h1 span {
             color: #b967ff;
-            text-shadow: 0 0 25px #9d4edd;
+
+            text-shadow:
+                0 0 25px #9d4edd;
         }
 
         .hero p {
             color: #aaa;
+
             font-size: 19px;
+
             line-height: 1.9;
+
             margin-bottom: 30px;
         }
 
-        .btn {
+        .main-button {
             display: inline-block;
-            padding: 14px 28px;
+
+            padding: 15px 30px;
+
             border-radius: 10px;
-            text-decoration: none;
-            font-weight: bold;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7b2cbf,
+                    #c77dff
+                );
+
             color: white;
-            background: linear-gradient(135deg, #7b2cbf, #c77dff);
-            box-shadow: 0 0 25px rgba(123,44,191,0.3);
+
+            text-decoration: none;
+
+            font-weight: bold;
+
             transition: 0.3s;
+
+            box-shadow:
+                0 0 25px
+                rgba(123,44,191,0.3);
         }
 
-        .btn:hover {
+        .main-button:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0 35px rgba(199,125,255,0.5);
+
+            box-shadow:
+                0 0 35px
+                rgba(199,125,255,0.5);
         }
 
-        /* الأقسام */
+
+        /* =========================
+           الأقسام
+        ========================= */
+
         section {
             max-width: 1200px;
+
             margin: auto;
+
             padding: 80px 20px;
         }
 
         .section-title {
             text-align: center;
+
             margin-bottom: 45px;
         }
 
         .section-title h2 {
             font-size: 38px;
+
             margin-bottom: 10px;
         }
 
@@ -248,91 +415,162 @@
             color: #888;
         }
 
-        /* الألعاب */
+
+        /* =========================
+           الألعاب
+        ========================= */
+
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
             gap: 25px;
         }
 
         .game-card {
             min-height: 260px;
+
             padding: 25px;
+
             border-radius: 18px;
+
             background:
-                linear-gradient(145deg, #17171f, #09090e);
-            border: 1px solid rgba(255,255,255,0.08);
+                linear-gradient(
+                    145deg,
+                    #17171f,
+                    #09090e
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
+
             display: flex;
+
             flex-direction: column;
-            justify-content: space-between;
+
+            justify-content:
+                space-between;
+
             transition: 0.3s;
         }
 
         .game-card:hover {
-            transform: translateY(-8px);
-            border-color: #9d4edd;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            transform:
+                translateY(-8px);
+
+            border-color:
+                #9d4edd;
+
+            box-shadow:
+                0 15px 35px
+                rgba(0,0,0,0.5);
         }
 
         .game-number {
             color: #9d4edd;
+
             font-size: 13px;
+
             font-weight: bold;
         }
 
         .game-card h3 {
             font-size: 24px;
-            margin: 15px 0 10px;
+
+            margin:
+                15px 0 10px;
         }
 
         .game-card p {
             color: #999;
+
             line-height: 1.7;
         }
 
         .tag {
             display: inline-block;
+
             width: fit-content;
+
             margin-top: 20px;
+
             padding: 7px 13px;
+
             border-radius: 20px;
+
             color: #d8a8ff;
-            background: rgba(157,78,221,0.15);
+
+            background:
+                rgba(157,78,221,0.15);
+
             font-size: 13px;
         }
 
-        /* عن الموقع */
+
+        /* =========================
+           عن الموقع
+        ========================= */
+
         .about-box {
             max-width: 900px;
+
             margin: auto;
+
             padding: 40px;
+
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.08);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
+
             border-radius: 20px;
-            background: rgba(255,255,255,0.03);
+
+            background:
+                rgba(255,255,255,0.03);
         }
 
         .about-box p {
             color: #aaa;
+
             line-height: 2;
+
             font-size: 17px;
         }
 
-        /* الفوتر */
+
+        /* =========================
+           الفوتر
+        ========================= */
+
         footer {
             margin-top: 40px;
+
             padding: 35px 20px;
+
             text-align: center;
+
             color: #777;
-            border-top: 1px solid rgba(255,255,255,0.08);
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.08);
         }
 
         footer strong {
             color: #b967ff;
         }
 
-        /* الجوال */
+
+        /* =========================
+           الجوال
+        ========================= */
+
         @media (max-width: 850px) {
+
             .nav-links {
                 display: none;
             }
@@ -344,19 +582,30 @@
             .hero {
                 min-height: 500px;
             }
+
         }
+
     </style>
 </head>
 
+
 <body>
 
-    <!-- شاشة البداية -->
-    <div id="loading-screen">
 
-        <div class="loading-content">
+    <!-- =========================
+         شاشة البداية
+    ========================== -->
+
+    <div id="loadingScreen">
+
+        <div class="loading-box">
 
             <div class="loading-logo">
                 Wifi5<span>Games</span>
+            </div>
+
+            <div class="welcome">
+                مرحباً بكم في
             </div>
 
             <div class="loading-text">
@@ -364,10 +613,12 @@
             </div>
 
             <div class="progress-container">
+
                 <div
                     class="progress-bar"
                     id="progressBar">
                 </div>
+
             </div>
 
             <div
@@ -381,14 +632,20 @@
     </div>
 
 
-    <!-- الموقع الرئيسي -->
-    <div id="main-site">
+    <!-- =========================
+         الموقع الرئيسي
+    ========================== -->
+
+    <div id="mainSite">
+
+
+        <!-- الهيدر -->
 
         <header>
 
             <nav>
 
-                <div class="logo">
+                <div class="site-logo">
                     🎮 Wifi5<span>Games</span>
                 </div>
 
@@ -419,7 +676,10 @@
         </header>
 
 
-        <!-- الرئيسية -->
+        <!-- =========================
+             الرئيسية
+        ========================== -->
+
         <section
             class="hero"
             id="home">
@@ -437,14 +697,17 @@
 
                 <p>
                     موقعك الجديد لعالم الألعاب.
-                    اكتشف الألعاب المشهورة
+                    اكتشف الألعاب المشهورة،
+                    تعرف على الألعاب الجديدة
                     واستمتع بتجربة Gaming مختلفة.
                 </p>
 
                 <a
                     href="#games"
-                    class="btn">
+                    class="main-button">
+
                     🎮 استكشف الألعاب
+
                 </a>
 
             </div>
@@ -452,7 +715,10 @@
         </section>
 
 
-        <!-- الألعاب -->
+        <!-- =========================
+             الألعاب
+        ========================== -->
+
         <section id="games">
 
             <div class="section-title">
@@ -470,6 +736,8 @@
 
             <div class="games-grid">
 
+
+                <!-- GTA V -->
 
                 <div class="game-card">
 
@@ -498,6 +766,8 @@
                 </div>
 
 
+                <!-- Fortnite -->
+
                 <div class="game-card">
 
                     <div>
@@ -523,6 +793,8 @@
 
                 </div>
 
+
+                <!-- CS2 -->
 
                 <div class="game-card">
 
@@ -550,6 +822,8 @@
                 </div>
 
 
+                <!-- PUBG -->
+
                 <div class="game-card">
 
                     <div>
@@ -576,6 +850,8 @@
                 </div>
 
 
+                <!-- GTA IV -->
+
                 <div class="game-card">
 
                     <div>
@@ -601,6 +877,8 @@
 
                 </div>
 
+
+                <!-- The Long Drive -->
 
                 <div class="game-card">
 
@@ -633,7 +911,10 @@
         </section>
 
 
-        <!-- عن الموقع -->
+        <!-- =========================
+             عن الموقع
+        ========================== -->
+
         <section id="about">
 
             <div class="section-title">
@@ -647,6 +928,7 @@
                 </p>
 
             </div>
+
 
             <div class="about-box">
 
@@ -662,6 +944,7 @@
 
 
         <!-- الفوتر -->
+
         <footer>
 
             © 2026
@@ -674,10 +957,14 @@
 
         </footer>
 
+
     </div>
 
 
-    <!-- JavaScript -->
+    <!-- =========================
+         JavaScript
+    ========================== -->
+
     <script>
 
         let progress = 0;
@@ -689,11 +976,16 @@
             document.getElementById("percentage");
 
         const loadingScreen =
-            document.getElementById("loading-screen");
+            document.getElementById("loadingScreen");
 
         const mainSite =
-            document.getElementById("main-site");
+            document.getElementById("mainSite");
 
+
+        /*
+            مدة التحميل = 3 ثواني
+            3000ms ÷ 100 = 30ms
+        */
 
         const loading =
             setInterval(function () {
@@ -717,11 +1009,11 @@
 
                         mainSite.classList.add("show");
 
-                    }, 500);
+                    }, 400);
 
                 }
 
-            }, 25);
+            }, 30);
 
     </script>
 
