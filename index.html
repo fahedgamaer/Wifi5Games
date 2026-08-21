@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Wifi5Games | عالم الألعاب</title>
+    <title>Wifi5Games</title>
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: Arial, Tahoma, sans-serif;
             background: #050507;
-            color: #fff;
+            color: white;
             overflow-x: hidden;
         }
 
@@ -28,151 +26,137 @@
            شاشة البداية
         ========================= */
 
-        #loading-screen {
+        #intro {
             position: fixed;
             inset: 0;
-            z-index: 9999;
+            z-index: 99999;
 
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
 
             background:
-                radial-gradient(circle at center, #260047 0%, #09000f 45%, #020203 100%);
+                radial-gradient(
+                    circle at center,
+                    #3b0966 0%,
+                    #10001d 45%,
+                    #030305 100%
+                );
 
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+            transition: opacity 1s ease,
+                        visibility 1s ease;
         }
 
-        #loading-screen.hide {
+        #intro.hide {
             opacity: 0;
             visibility: hidden;
         }
 
-        .loading-content {
-            width: min(90%, 700px);
+        .intro-content {
+            width: 90%;
+            max-width: 800px;
             text-align: center;
         }
 
-        /* الاسم في المنتصف */
+        /* الاسم */
 
-        .loading-logo {
-            font-size: clamp(32px, 6vw, 70px);
+        .intro-name {
+            font-size: clamp(35px, 7vw, 75px);
             font-weight: 900;
-            letter-spacing: 1px;
 
-            color: #ffffff;
+            color: white;
 
             text-shadow:
                 0 0 10px #9d4edd,
                 0 0 25px #9d4edd,
-                0 0 50px #7b2cbf;
+                0 0 50px #7b2cbf,
+                0 0 90px #7b2cbf;
 
-            animation: logoPulse 1.8s infinite alternate;
+            animation: glow 1.5s infinite alternate;
         }
 
-        @keyframes logoPulse {
+        @keyframes glow {
 
             from {
                 transform: scale(1);
-
-                text-shadow:
-                    0 0 10px #9d4edd,
-                    0 0 25px #9d4edd;
             }
 
             to {
                 transform: scale(1.04);
-
-                text-shadow:
-                    0 0 15px #c77dff,
-                    0 0 35px #9d4edd,
-                    0 0 70px #7b2cbf;
             }
+
         }
 
-        .loading-text {
-            margin-top: 25px;
-            color: #aaa;
-            font-size: 16px;
+        .intro-subtitle {
+            margin-top: 20px;
+
+            color: #bdbdbd;
+
+            font-size: 18px;
         }
 
         /* شريط التحميل */
 
-        .progress-container {
+        .loader {
             width: 100%;
-            height: 10px;
+            height: 12px;
 
-            margin-top: 25px;
+            margin-top: 30px;
 
             background: rgba(255,255,255,0.08);
-
-            border: 1px solid rgba(255,255,255,0.15);
 
             border-radius: 50px;
 
             overflow: hidden;
 
-            box-shadow:
-                0 0 20px rgba(157,78,221,0.15);
+            border: 1px solid rgba(255,255,255,0.15);
         }
 
-        .progress-bar {
+        .loader-bar {
             width: 0%;
             height: 100%;
 
-            border-radius: 50px;
-
-            background: linear-gradient(
-                90deg,
-                #5a189a,
-                #9d4edd,
-                #e0aaff
-            );
+            background:
+                linear-gradient(
+                    90deg,
+                    #5a189a,
+                    #9d4edd,
+                    #e0aaff
+                );
 
             box-shadow:
-                0 0 15px #9d4edd,
-                0 0 30px rgba(157,78,221,0.7);
+                0 0 20px #9d4edd;
 
-            transition: width 0.08s linear;
+            transition: width 0.05s linear;
         }
 
-        .percentage {
+        .percent {
             margin-top: 12px;
+
             color: #c77dff;
+
             font-weight: bold;
-            font-size: 14px;
         }
 
 
         /* =========================
-           الموقع الرئيسي
+           الموقع
         ========================= */
 
-        #main-site {
-            opacity: 0;
-            transform: translateY(15px);
-
-            transition:
-                opacity 0.8s ease,
-                transform 0.8s ease;
+        #website {
+            display: none;
         }
 
-        #main-site.show {
-            opacity: 1;
-            transform: translateY(0);
+        #website.show {
+            display: block;
         }
 
 
         /* =========================
-           الشريط العلوي
+           الهيدر
         ========================= */
 
         header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-
             height: 75px;
 
             display: flex;
@@ -181,24 +165,28 @@
 
             padding: 0 7%;
 
-            background: rgba(5,5,7,0.92);
+            background: #09090e;
 
-            backdrop-filter: blur(15px);
+            border-bottom:
+                1px solid #252530;
 
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            position: sticky;
+            top: 0;
+
+            z-index: 1000;
         }
 
-        .logo {
+        .site-logo {
             font-size: 25px;
             font-weight: 900;
 
             color: #b967ff;
 
             text-shadow:
-                0 0 15px rgba(157,78,221,0.7);
+                0 0 15px #7b2cbf;
         }
 
-        .logo span {
+        .site-logo span {
             color: white;
         }
 
@@ -210,6 +198,7 @@
         nav a {
             color: #ddd;
             text-decoration: none;
+
             font-weight: bold;
 
             transition: 0.3s;
@@ -225,7 +214,7 @@
         ========================= */
 
         .hero {
-            min-height: 520px;
+            min-height: 550px;
 
             display: flex;
             align-items: center;
@@ -238,17 +227,14 @@
             background:
                 radial-gradient(
                     circle at center,
-                    rgba(123,44,191,0.18),
+                    rgba(123,44,191,0.22),
                     transparent 45%
                 );
         }
 
-        .hero-content {
-            max-width: 800px;
-        }
-
         .hero h1 {
-            font-size: clamp(42px, 7vw, 75px);
+            font-size: clamp(45px, 8vw, 80px);
+
             margin-bottom: 20px;
         }
 
@@ -256,51 +242,51 @@
             color: #b967ff;
 
             text-shadow:
-                0 0 20px rgba(185,103,255,0.7);
+                0 0 25px #9d4edd;
         }
 
         .hero p {
+            max-width: 700px;
+
             color: #aaa;
 
             font-size: 19px;
 
             line-height: 1.9;
 
-            margin-bottom: 30px;
+            margin: auto;
         }
 
-        .btn {
+        .hero-button {
             display: inline-block;
 
-            padding: 14px 28px;
+            margin-top: 30px;
 
-            border-radius: 10px;
+            padding: 15px 30px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7b2cbf,
+                    #c77dff
+                );
+
+            color: white;
 
             text-decoration: none;
+
+            border-radius: 10px;
 
             font-weight: bold;
 
             transition: 0.3s;
         }
 
-        .btn-primary {
-            background: linear-gradient(
-                135deg,
-                #7b2cbf,
-                #c77dff
-            );
-
-            color: white;
+        .hero-button:hover {
+            transform: translateY(-5px);
 
             box-shadow:
-                0 0 20px rgba(123,44,191,0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-4px);
-
-            box-shadow:
-                0 0 35px rgba(199,125,255,0.5);
+                0 0 30px #7b2cbf;
         }
 
 
@@ -312,19 +298,19 @@
             padding: 80px 7%;
         }
 
-        .section-title {
+        .title {
             text-align: center;
 
             margin-bottom: 45px;
         }
 
-        .section-title h2 {
+        .title h2 {
             font-size: 40px;
 
             margin-bottom: 10px;
         }
 
-        .section-title p {
+        .title p {
             color: #888;
         }
 
@@ -333,69 +319,46 @@
            الألعاب
         ========================= */
 
-        .games-grid {
+        .games {
+            max-width: 1200px;
+
+            margin: auto;
+
             display: grid;
 
             grid-template-columns:
                 repeat(3, 1fr);
 
             gap: 25px;
-
-            max-width: 1200px;
-
-            margin: auto;
         }
 
-        .game-card {
-            background:
-                linear-gradient(
-                    145deg,
-                    #111118,
-                    #09090e
-                );
-
-            border: 1px solid #292934;
-
-            border-radius: 18px;
+        .game {
+            min-height: 250px;
 
             padding: 25px;
 
-            min-height: 230px;
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #13131b,
+                    #09090d
+                );
+
+            border:
+                1px solid #292934;
+
+            transition: 0.3s;
 
             display: flex;
 
             flex-direction: column;
 
             justify-content: space-between;
-
-            transition: 0.35s;
-
-            position: relative;
-
-            overflow: hidden;
         }
 
-        .game-card::before {
-            content: "";
-
-            position: absolute;
-
-            width: 120px;
-            height: 120px;
-
-            background: #7b2cbf;
-
-            filter: blur(80px);
-
-            opacity: 0;
-
-            top: -30px;
-            right: -30px;
-
-            transition: 0.35s;
-        }
-
-        .game-card:hover {
+        .game:hover {
             transform: translateY(-8px);
 
             border-color: #9d4edd;
@@ -404,59 +367,44 @@
                 0 15px 40px rgba(0,0,0,0.5);
         }
 
-        .game-card:hover::before {
-            opacity: 0.5;
-        }
-
         .game-number {
             color: #9d4edd;
 
-            font-size: 14px;
+            font-size: 13px;
 
             font-weight: bold;
-
-            position: relative;
-            z-index: 2;
         }
 
-        .game-card h3 {
+        .game h3 {
             font-size: 25px;
 
-            margin: 15px 0 10px;
-
-            position: relative;
-            z-index: 2;
+            margin:
+                15px 0 10px;
         }
 
-        .game-card p {
+        .game p {
             color: #999;
 
             line-height: 1.7;
-
-            position: relative;
-            z-index: 2;
         }
 
-        .game-tag {
+        .tag {
             display: inline-block;
 
             width: fit-content;
 
             margin-top: 20px;
 
-            padding: 6px 12px;
+            padding: 7px 13px;
 
             border-radius: 20px;
 
             background:
-                rgba(157,78,221,0.12);
+                rgba(157,78,221,0.15);
 
             color: #d8a8ff;
 
             font-size: 13px;
-
-            position: relative;
-            z-index: 2;
         }
 
 
@@ -464,25 +412,25 @@
            عن الموقع
         ========================= */
 
-        .about-box {
+        .about {
             max-width: 900px;
 
             margin: auto;
 
+            padding: 40px;
+
             text-align: center;
-
-            padding: 45px;
-
-            border-radius: 20px;
 
             background:
                 rgba(255,255,255,0.03);
 
             border:
-                1px solid rgba(255,255,255,0.08);
+                1px solid #252530;
+
+            border-radius: 20px;
         }
 
-        .about-box p {
+        .about p {
             color: #aaa;
 
             line-height: 2;
@@ -498,12 +446,12 @@
         footer {
             text-align: center;
 
-            padding: 35px 20px;
+            padding: 35px;
 
             color: #777;
 
             border-top:
-                1px solid rgba(255,255,255,0.08);
+                1px solid #222;
         }
 
         footer strong {
@@ -517,20 +465,16 @@
 
         @media (max-width: 850px) {
 
-            header {
-                padding: 0 20px;
-            }
-
             nav {
                 display: none;
             }
 
-            .games-grid {
+            .games {
                 grid-template-columns: 1fr;
             }
 
-            .hero {
-                min-height: 500px;
+            .intro-name {
+                font-size: 38px;
             }
 
         }
@@ -538,41 +482,38 @@
     </style>
 </head>
 
+
 <body>
 
 
-<!-- =====================================
+<!-- =================================
      شاشة البداية
-===================================== -->
+================================= -->
 
-<div id="loading-screen">
+<div id="intro">
 
-    <div class="loading-content">
+    <div class="intro-content">
 
-        <!-- الاسم الجديد -->
-
-        <div class="loading-logo">
+        <div class="intro-name">
             خليل علي خليل الهرش
         </div>
 
-        <div class="loading-text">
-            جاري تجهيز الموقع...
+        <div class="intro-subtitle">
+            مرحباً بكم
         </div>
 
-        <!-- شريط التحميل -->
-
-        <div class="progress-container">
+        <div class="loader">
 
             <div
-                class="progress-bar"
-                id="progressBar">
+                class="loader-bar"
+                id="loaderBar">
             </div>
 
         </div>
 
         <div
-            class="percentage"
-            id="percentage">
+            class="percent"
+            id="percent">
             0%
         </div>
 
@@ -581,16 +522,17 @@
 </div>
 
 
-<!-- =====================================
-     الموقع الرئيسي
-===================================== -->
 
-<div id="main-site">
+<!-- =================================
+     الموقع
+================================= -->
+
+<div id="website">
 
 
 <header>
 
-    <div class="logo">
+    <div class="site-logo">
         🎮 Wifi5<span>Games</span>
     </div>
 
@@ -613,11 +555,14 @@
 </header>
 
 
+
 <!-- الرئيسية -->
 
-<section class="hero" id="home">
+<section
+    class="hero"
+    id="home">
 
-    <div class="hero-content">
+    <div>
 
         <h1>
             مرحباً بك في
@@ -627,12 +572,12 @@
         <p>
             عالم الألعاب والجيمنج بين يديك.
             اكتشف ألعاب الأكشن والعالم المفتوح
-            والمغامرات والمزيد.
+            والمغامرات وأشهر ألعاب الكمبيوتر.
         </p>
 
         <a
             href="#games"
-            class="btn btn-primary">
+            class="hero-button">
 
             🎮 استكشف الألعاب
 
@@ -643,29 +588,28 @@
 </section>
 
 
+
 <!-- الألعاب -->
 
 <section id="games">
 
-    <div class="section-title">
+    <div class="title">
 
         <h2>
             🎮 الألعاب
         </h2>
 
         <p>
-            مجموعة من الألعاب المميزة
+            أشهر الألعاب الموجودة في Wifi5Games
         </p>
 
     </div>
 
 
-    <div class="games-grid">
+    <div class="games">
 
 
-        <!-- GTA V -->
-
-        <div class="game-card">
+        <div class="game">
 
             <div>
 
@@ -685,16 +629,15 @@
 
             </div>
 
-            <span class="game-tag">
+            <span class="tag">
                 Open World
             </span>
 
         </div>
 
 
-        <!-- Fortnite -->
 
-        <div class="game-card">
+        <div class="game">
 
             <div>
 
@@ -713,16 +656,15 @@
 
             </div>
 
-            <span class="game-tag">
+            <span class="tag">
                 Battle Royale
             </span>
 
         </div>
 
 
-        <!-- Counter Strike -->
 
-        <div class="game-card">
+        <div class="game">
 
             <div>
 
@@ -735,22 +677,22 @@
                 </h3>
 
                 <p>
-                    لعبة تصويب تنافسية تعتمد
-                    على المهارة والتكتيك.
+                    لعبة تصويب تنافسية
+                    تعتمد على المهارة
+                    والتكتيك.
                 </p>
 
             </div>
 
-            <span class="game-tag">
+            <span class="tag">
                 FPS
             </span>
 
         </div>
 
 
-        <!-- PUBG -->
 
-        <div class="game-card">
+        <div class="game">
 
             <div>
 
@@ -769,16 +711,15 @@
 
             </div>
 
-            <span class="game-tag">
+            <span class="tag">
                 Battle Royale
             </span>
 
         </div>
 
 
-        <!-- GTA IV -->
 
-        <div class="game-card">
+        <div class="game">
 
             <div>
 
@@ -797,16 +738,15 @@
 
             </div>
 
-            <span class="game-tag">
+            <span class="tag">
                 Action
             </span>
 
         </div>
 
 
-        <!-- The Long Drive -->
 
-        <div class="game-card">
+        <div class="game">
 
             <div>
 
@@ -825,7 +765,7 @@
 
             </div>
 
-            <span class="game-tag">
+            <span class="tag">
                 Driving
             </span>
 
@@ -837,11 +777,12 @@
 </section>
 
 
+
 <!-- عن الموقع -->
 
 <section id="about">
 
-    <div class="section-title">
+    <div class="title">
 
         <h2>
             🔥 عن Wifi5Games
@@ -849,13 +790,13 @@
 
     </div>
 
-    <div class="about-box">
+    <div class="about">
 
         <p>
             Wifi5Games هو موقع Gaming عربي
             لعشاق الألعاب.
             هدفنا تقديم تجربة جميلة وسريعة
-            تجمع الألعاب والمحتوى الخاص بالجيمنج
+            تجمع الألعاب ومحتوى الجيمنج
             في مكان واحد.
         </p>
 
@@ -864,10 +805,15 @@
 </section>
 
 
+
 <footer>
 
     © 2026
-    <strong>Wifi5Games</strong>
+
+    <strong>
+        Wifi5Games
+    </strong>
+
     — جميع الحقوق محفوظة 🎮
 
 </footer>
@@ -876,23 +822,26 @@
 </div>
 
 
-<script>
 
-    /* شاشة التحميل */
+<!-- =================================
+     JavaScript
+================================= -->
+
+<script>
 
     let progress = 0;
 
-    const progressBar =
-        document.getElementById("progressBar");
+    const loaderBar =
+        document.getElementById("loaderBar");
 
-    const percentage =
-        document.getElementById("percentage");
+    const percent =
+        document.getElementById("percent");
 
-    const loadingScreen =
-        document.getElementById("loading-screen");
+    const intro =
+        document.getElementById("intro");
 
-    const mainSite =
-        document.getElementById("main-site");
+    const website =
+        document.getElementById("website");
 
 
     const loading =
@@ -900,10 +849,10 @@
 
             progress++;
 
-            progressBar.style.width =
+            loaderBar.style.width =
                 progress + "%";
 
-            percentage.textContent =
+            percent.textContent =
                 progress + "%";
 
 
@@ -911,16 +860,14 @@
 
                 clearInterval(loading);
 
+
                 setTimeout(function () {
 
-                    loadingScreen.classList.add("hide");
+                    intro.classList.add("hide");
 
-                    mainSite.classList.add("show");
+                    website.classList.add("show");
 
-                    document.body.style.overflow =
-                        "auto";
-
-                }, 400);
+                }, 500);
 
             }
 
