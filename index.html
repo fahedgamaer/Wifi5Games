@@ -50,14 +50,16 @@
         }
 
         .loading-content {
-            width: min(90%, 600px);
+            width: min(90%, 700px);
             text-align: center;
         }
 
+        /* الاسم في المنتصف */
+
         .loading-logo {
-            font-size: clamp(48px, 8vw, 90px);
+            font-size: clamp(32px, 6vw, 70px);
             font-weight: 900;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
 
             color: #ffffff;
 
@@ -69,13 +71,11 @@
             animation: logoPulse 1.8s infinite alternate;
         }
 
-        .loading-logo span {
-            color: #b967ff;
-        }
-
         @keyframes logoPulse {
+
             from {
                 transform: scale(1);
+
                 text-shadow:
                     0 0 10px #9d4edd,
                     0 0 25px #9d4edd;
@@ -83,6 +83,7 @@
 
             to {
                 transform: scale(1.04);
+
                 text-shadow:
                     0 0 15px #c77dff,
                     0 0 35px #9d4edd,
@@ -95,6 +96,8 @@
             color: #aaa;
             font-size: 16px;
         }
+
+        /* شريط التحميل */
 
         .progress-container {
             width: 100%;
@@ -529,6 +532,7 @@
             .hero {
                 min-height: 500px;
             }
+
         }
 
     </style>
@@ -538,20 +542,24 @@
 
 
 <!-- =====================================
-     شاشة التحميل
+     شاشة البداية
 ===================================== -->
 
 <div id="loading-screen">
 
     <div class="loading-content">
 
+        <!-- الاسم الجديد -->
+
         <div class="loading-logo">
-            Wifi5<span>Games</span>
+            خليل علي خليل الهرش
         </div>
 
         <div class="loading-text">
-            جاري تجهيز عالم الألعاب...
+            جاري تجهيز الموقع...
         </div>
+
+        <!-- شريط التحميل -->
 
         <div class="progress-container">
 
@@ -574,7 +582,7 @@
 
 
 <!-- =====================================
-     الموقع
+     الموقع الرئيسي
 ===================================== -->
 
 <div id="main-site">
@@ -870,9 +878,7 @@
 
 <script>
 
-    /*
-       شاشة التحميل
-    */
+    /* شاشة التحميل */
 
     let progress = 0;
 
@@ -904,7 +910,6 @@
             if (progress >= 100) {
 
                 clearInterval(loading);
-
 
                 setTimeout(function () {
 
