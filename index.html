@@ -1,3417 +1,963 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Wifi5Games | عالم الألعاب والجيمنج</title>
-<meta name="description" content="Wifi5Games هو موقع جيمنج يعرض ألعاب الكمبيوتر الشهيرة مثل GTA V وFortnite وCounter-Strike.">
-<meta name="robots" content="index, follow">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WIFI5GAMES — Ultimate Gaming</title>
-
-<style>
-
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    font-family:Cairo,sans-serif;
-    background:#030408;
-    color:white;
-    overflow-x:hidden;
-}
-
-/* ================= BACKGROUND ================= */
-
-body:before{
-    content:"";
-    position:fixed;
-    inset:0;
-    z-index:-10;
-    background:
-        radial-gradient(circle at 20% 20%,rgba(0,255,255,.13),transparent 25%),
-        radial-gradient(circle at 80% 30%,rgba(125,0,255,.13),transparent 30%),
-        radial-gradient(circle at 50% 100%,rgba(255,0,100,.08),transparent 30%),
-        #030408;
-}
-
-.grid{
-    position:fixed;
-    inset:0;
-    z-index:-8;
-    opacity:.16;
-    background-image:
-        linear-gradient(rgba(0,255,255,.12) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,255,255,.12) 1px,transparent 1px);
-    background-size:50px 50px;
-    transform:perspective(500px) rotateX(55deg) scale(2);
-    transform-origin:center bottom;
-    animation:gridMove 8s linear infinite;
-}
-
-@keyframes gridMove{
-    to{
-        background-position:0 50px;
-    }
-}
-
-.noise{
-    position:fixed;
-    inset:0;
-    z-index:999;
-    pointer-events:none;
-    opacity:.035;
-    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* ================= LOADER ================= */
-
-#loader{
-    position:fixed;
-    inset:0;
-    background:#020307;
-    z-index:10000;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    transition:1s;
-}
-
-#loader.hide{
-    opacity:0;
-    pointer-events:none;
-}
-
-.loader-logo{
-    font-size:55px;
-    font-weight:900;
-    letter-spacing:5px;
-}
-
-.loader-logo span{
-    color:#00f6ff;
-    text-shadow:0 0 25px #00f6ff;
-}
-
-.loader-bar{
-    width:300px;
-    height:3px;
-    background:#151923;
-    margin-top:30px;
-    overflow:hidden;
-}
-
-.loader-bar div{
-    width:0;
-    height:100%;
-    background:#00f6ff;
-    box-shadow:0 0 20px #00f6ff;
-    animation:load 1.5s forwards;
-}
-
-.loader-text{
-    margin-top:15px;
-    color:#555;
-    font-size:10px;
-    letter-spacing:4px;
-}
-
-@keyframes load{
-    to{width:100%}
-}
-
-/* ================= NAV ================= */
-
-nav{
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    height:85px;
-    z-index:1000;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 6%;
-
-    background:rgba(3,4,8,.68);
-    backdrop-filter:blur(20px);
-
-    border-bottom:1px solid rgba(255,255,255,.06);
-}
-
-.logo{
-    text-decoration:none;
-    color:white;
-}
-
-.logo-main{
-    font-size:25px;
-    font-weight:900;
-    letter-spacing:3px;
-}
-
-.logo-main span{
-    color:#00f6ff;
-    text-shadow:0 0 15px #00f6ff;
-}
-
-.logo-sub{
-    font-size:7px;
-    color:#555;
-    letter-spacing:5px;
-}
-
-.nav-links{
-    display:flex;
-    gap:35px;
-}
-
-.nav-links a{
-    color:#777;
-    text-decoration:none;
-    font-size:13px;
-    font-weight:700;
-    transition:.3s;
-}
-
-.nav-links a:hover{
-    color:#00f6ff;
-    text-shadow:0 0 15px #00f6ff;
-}
-
-.nav-btn{
-    border:1px solid #00f6ff;
-    color:#00f6ff;
-    background:rgba(0,246,255,.05);
-    padding:10px 20px;
-    cursor:pointer;
-    font-family:inherit;
-    font-weight:800;
-}
-
-/* ================= HERO ================= */
-
-.hero{
-    min-height:100vh;
-    padding:130px 6% 70px;
-
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    align-items:center;
-    gap:50px;
-
-    position:relative;
-}
-
-.hero-left{
-    position:relative;
-    z-index:5;
-}
-
-.live{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-
-    padding:8px 15px;
-
-    border:1px solid rgba(0,246,255,.3);
-    background:rgba(0,246,255,.04);
-
-    color:#00f6ff;
-    font-size:10px;
-    letter-spacing:3px;
-}
-
-.live i{
-    width:7px;
-    height:7px;
-    background:#00ff73;
-    border-radius:50%;
-    box-shadow:0 0 15px #00ff73;
-}
-
-.hero h1{
-    font-size:clamp(55px,8vw,115px);
-    line-height:.82;
-    margin-top:30px;
-    font-weight:900;
-    letter-spacing:-5px;
-}
-
-.hero h1 small{
-    display:block;
-    color:#555;
-    font-size:14px;
-    letter-spacing:6px;
-    margin-bottom:20px;
-}
-
-.hero h1 span{
-    color:#00f6ff;
-    text-shadow:
-        0 0 10px #00f6ff,
-        0 0 40px rgba(0,246,255,.5),
-        0 0 80px rgba(0,246,255,.2);
-}
-
-.hero-title{
-    margin-top:30px;
-    font-size:25px;
-    color:#ddd;
-}
-
-.hero-description{
-    max-width:650px;
-    margin:18px 0 30px;
-    color:#777;
-    line-height:2;
-}
-
-.buttons{
-    display:flex;
-    gap:15px;
-    flex-wrap:wrap;
-}
-
-.btn{
-    padding:15px 27px;
-    border:0;
-    font-family:inherit;
-    font-weight:900;
-    cursor:pointer;
-    text-decoration:none;
-    display:inline-block;
-    transition:.3s;
-}
-
-.btn-main{
-    color:#001012;
-    background:#00f6ff;
-    box-shadow:0 0 30px rgba(0,246,255,.3);
-}
-
-.btn-main:hover{
-    transform:translateY(-5px);
-    box-shadow:0 0 50px rgba(0,246,255,.65);
-}
-
-.btn-dark{
-    color:white;
-    background:rgba(255,255,255,.04);
-    border:1px solid #252936;
-}
-
-.btn-dark:hover{
-    border-color:#00f6ff;
-    color:#00f6ff;
-}
-
-/* ================= HERO ART ================= */
-
-.hero-art{
-    height:620px;
-    position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.ring{
-    position:absolute;
-    border-radius:50%;
-    border:1px solid rgba(0,246,255,.18);
-}
-
-.ring1{
-    width:580px;
-    height:580px;
-    animation:spin 18s linear infinite;
-}
-
-.ring2{
-    width:450px;
-    height:450px;
-    border-color:rgba(150,0,255,.25);
-    animation:spin 12s linear infinite reverse;
-}
-
-.ring3{
-    width:320px;
-    height:320px;
-    border-color:rgba(255,0,150,.2);
-    animation:spin 8s linear infinite;
-}
-
-@keyframes spin{
-    to{transform:rotate(360deg)}
-}
-
-.gta-panel{
-    width:350px;
-    height:470px;
-
-    position:relative;
-    z-index:4;
-
-    overflow:hidden;
-
-    border:1px solid rgba(0,246,255,.4);
-
-    background:
-        linear-gradient(
-            to top,
-            #030408 5%,
-            transparent 70%
-        ),
-        radial-gradient(circle at 50% 30%,#65442d,transparent 30%),
-        linear-gradient(145deg,#15262b,#180d12);
-
-    box-shadow:
-        0 0 80px rgba(0,246,255,.1),
-        inset 0 0 80px rgba(0,246,255,.04);
-
-    transform:rotate(-3deg);
-
-    transition:.5s;
-}
-
-.gta-panel:hover{
-    transform:rotate(0) scale(1.04);
-    box-shadow:
-        0 0 100px rgba(0,246,255,.25);
-}
-
-.panel-lines{
-    position:absolute;
-    inset:0;
-
-    background:
-        repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 4px,
-            rgba(255,255,255,.025) 5px
-        );
-}
-
-.panel-logo{
-    position:absolute;
-    top:40px;
-    left:35px;
-
-    font-size:75px;
-    font-weight:900;
-    line-height:.8;
-
-    color:white;
-
-    text-shadow:4px 4px 0 #111;
-}
-
-.panel-logo span{
-    display:block;
-    color:#00f6ff;
-}
-
-.panel-bottom{
-    position:absolute;
-    bottom:35px;
-    left:30px;
-    right:30px;
-}
-
-.panel-tag{
-    color:#00f6ff;
-    font-size:10px;
-    letter-spacing:3px;
-}
-
-.panel-bottom h2{
-    font-size:35px;
-    margin:8px 0;
-}
-
-.panel-bottom p{
-    color:#777;
-    font-size:12px;
-}
-
-.panel-button{
-    margin-top:20px;
-    background:#00f6ff;
-    border:0;
-    padding:10px 20px;
-    font-family:inherit;
-    font-weight:900;
-    cursor:pointer;
-}
-
-/* ================= FLOATING DATA ================= */
-
-.data-card{
-    position:absolute;
-    z-index:7;
-
-    padding:12px 18px;
-
-    background:rgba(7,9,15,.85);
-    border:1px solid rgba(255,255,255,.1);
-
-    backdrop-filter:blur(15px);
-
-    box-shadow:0 15px 50px #000;
-
-    display:flex;
-    gap:12px;
-    align-items:center;
-
-    animation:float 4s ease-in-out infinite;
-}
-
-.data-card b{
-    font-size:20px;
-}
-
-.data-card span{
-    color:#666;
-    font-size:9px;
-}
-
-.data1{
-    top:18%;
-    right:0;
-}
-
-.data2{
-    bottom:18%;
-    left:0;
-    animation-delay:1s;
-}
-
-.data3{
-    bottom:5%;
-    right:8%;
-    animation-delay:2s;
-}
-
-@keyframes float{
-    50%{transform:translateY(-15px)}
-}
-
-/* ================= TICKER ================= */
-
-.ticker{
-    overflow:hidden;
-    border-top:1px solid #151821;
-    border-bottom:1px solid #151821;
-    background:#070910;
-    padding:15px 0;
-    white-space:nowrap;
-}
-
-.ticker-track{
-    display:inline-block;
-    animation:ticker 20s linear infinite;
-}
-
-.ticker span{
-    margin:0 40px;
-    color:#555;
-    font-size:12px;
-    font-weight:900;
-    letter-spacing:3px;
-}
-
-.ticker .active{
-    color:#00f6ff;
-}
-
-@keyframes ticker{
-    to{transform:translateX(50%)}
-}
-
-/* ================= SECTION ================= */
-
-.section{
-    padding:130px 6%;
-}
-
-.section-head{
-    display:flex;
-    align-items:end;
-    justify-content:space-between;
-    margin-bottom:50px;
-}
-
-.tag{
-    color:#00f6ff;
-    font-size:10px;
-    letter-spacing:4px;
-}
-
-.section h2{
-    font-size:52px;
-    line-height:1;
-    margin-top:12px;
-}
-
-.section h2 span{
-    color:#00f6ff;
-}
-
-/* ================= GAMES ================= */
-
-.games{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-}
-
-.game{
-    height:480px;
-    position:relative;
-    overflow:hidden;
-    border:1px solid #181b24;
-    transition:.5s;
-}
-
-.game:hover{
-    transform:translateY(-12px);
-    border-color:#00f6ff;
-    box-shadow:0 25px 70px rgba(0,246,255,.12);
-}
-
-.game:before{
-    content:"";
-    position:absolute;
-    inset:-20px;
-    transition:.6s;
-}
-
-.game:hover:before{
-    transform:scale(1.08);
-}
-
-.game1:before{
-    background:
-        radial-gradient(circle at 50% 30%,#a65b36,transparent 25%),
-        linear-gradient(145deg,#263d40,#130b0c);
-}
-
-.game2:before{
-    background:
-        radial-gradient(circle at 50% 30%,#63634e,transparent 25%),
-        linear-gradient(145deg,#38372c,#080909);
-}
-
-.game3:before{
-    background:
-        radial-gradient(circle at 50% 30%,#5d3cb1,transparent 25%),
-        linear-gradient(145deg,#261449,#08091a);
-}
-
-.game4:before{
-    background:
-        radial-gradient(circle at 50% 30%,#e21bba,transparent 25%),
-        linear-gradient(145deg,#471338,#07111a);
-}
-
-.game:after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(to top,#030408 4%,transparent 65%);
-}
-
-.game-number{
-    position:absolute;
-    top:20px;
-    left:20px;
-    z-index:3;
-    color:#555;
-}
-
-.game-content{
-    position:absolute;
-    z-index:5;
-    bottom:25px;
-    right:25px;
-    left:25px;
-}
-
-.game-content small{
-    color:#00f6ff;
-    letter-spacing:3px;
-}
-
-.game-content h3{
-    font-size:30px;
-    margin:7px 0;
-}
-
-.game-content p{
-    color:#777;
-    font-size:12px;
-}
-
-.game-content button{
-    margin-top:20px;
-    padding:9px 18px;
-    background:rgba(255,255,255,.04);
-    color:white;
-    border:1px solid #30333d;
-    font-family:inherit;
-    cursor:pointer;
-}
-
-.game-content button:hover{
-    border-color:#00f6ff;
-    color:#00f6ff;
-}
-
-/* ================= BIG FEATURE ================= */
-
-.big-feature{
-    margin:20px 6%;
-    min-height:560px;
-
-    position:relative;
-    overflow:hidden;
-
-    display:flex;
-    align-items:center;
-
-    padding:70px;
-
-    background:
-        radial-gradient(circle at 80% 50%,rgba(0,246,255,.15),transparent 30%),
-        radial-gradient(circle at 90% 20%,rgba(150,0,255,.13),transparent 25%),
-        #080a10;
-
-    border:1px solid rgba(0,246,255,.15);
-}
-
-.big-feature:after{
-    content:"GTA V";
-    position:absolute;
-    left:30%;
-    top:50%;
-    transform:translateY(-50%);
-
-    font-size:220px;
-    font-weight:900;
-
-    color:rgba(255,255,255,.025);
-
-    pointer-events:none;
-}
-
-.feature-content{
-    position:relative;
-    z-index:4;
-    max-width:650px;
-}
-
-.feature-content small{
-    color:#00f6ff;
-    letter-spacing:5px;
-}
-
-.feature-content h2{
-    font-size:90px;
-    line-height:.8;
-    margin:20px 0;
-}
-
-.feature-content h2 span{
-    color:#00f6ff;
-}
-
-.feature-content p{
-    color:#777;
-    line-height:2;
-    max-width:600px;
-    margin-bottom:30px;
-}
-
-/* ================= SPECS ================= */
-
-.specs{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-    margin-top:50px;
-}
-
-.spec{
-    padding:25px;
-    background:#080a10;
-    border:1px solid #151923;
-}
-
-.spec b{
-    display:block;
-    color:#00f6ff;
-    font-size:25px;
-}
-
-.spec span{
-    color:#555;
-    font-size:10px;
-}
-
-/* ================= WHY ================= */
-
-.why{
-    padding:130px 6%;
-    background:rgba(255,255,255,.015);
-}
-
-.why-title{
-    text-align:center;
-    margin-bottom:60px;
-}
-
-.why-title small{
-    color:#00f6ff;
-    letter-spacing:4px;
-}
-
-.why-title h2{
-    font-size:55px;
-    margin-top:10px;
-}
-
-.why-title h2 span{
-    color:#00f6ff;
-}
-
-.features{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-}
-
-.feature{
-    padding:40px 30px;
-    background:#080a10;
-    border:1px solid #171a22;
-    transition:.4s;
-}
-
-.feature:hover{
-    transform:translateY(-8px);
-    border-color:#00f6ff;
-}
-
-.icon{
-    font-size:40px;
-    margin-bottom:20px;
-}
-
-.feature h3{
-    margin-bottom:10px;
-}
-
-.feature p{
-    color:#666;
-    line-height:2;
-    font-size:13px;
-}
-
-/* ================= COMMUNITY ================= */
-
-.community{
-    padding:130px 6%;
-    text-align:center;
-}
-
-.community-box{
-    padding:90px 30px;
-    max-width:1000px;
-    margin:auto;
-
-    border:1px solid rgba(0,246,255,.18);
-
-    background:
-        radial-gradient(circle,rgba(0,246,255,.08),transparent 60%);
-}
-
-.community-box small{
-    color:#00f6ff;
-    letter-spacing:5px;
-}
-
-.community-box h2{
-    font-size:70px;
-    line-height:.9;
-    margin:20px 0;
-}
-
-.community-box h2 span{
-    color:#00f6ff;
-}
-
-.community-box p{
-    color:#666;
-    margin-bottom:30px;
-}
-
-/* ================= FOOTER ================= */
-
-footer{
-    padding:60px 6% 30px;
-    border-top:1px solid #151821;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    gap:30px;
-}
-
-.footer-logo{
-    font-size:25px;
-    font-weight:900;
-}
-
-.footer-logo span{
-    color:#00f6ff;
-}
-
-.footer-logo small{
-    display:block;
-    color:#444;
-    font-size:7px;
-    letter-spacing:5px;
-}
-
-.footer-links{
-    display:flex;
-    gap:20px;
-}
-
-.footer-links a{
-    color:#555;
-    text-decoration:none;
-    font-size:11px;
-}
-
-.footer-links a:hover{
-    color:#00f6ff;
-}
-
-footer p{
-    color:#333;
-    font-size:9px;
-}
-
-/* ================= POPUP ================= */
-
-.popup{
-    position:fixed;
-    inset:0;
-    z-index:9999;
-
-    display:none;
-    place-items:center;
-
-    background:rgba(0,0,0,.82);
-    backdrop-filter:blur(15px);
-}
-
-.popup.show{
-    display:grid;
-}
-
-.popup-box{
-    width:min(500px,90%);
-    padding:50px;
-
-    text-align:center;
-
-    background:#080a10;
-    border:1px solid #00f6ff;
-
-    box-shadow:0 0 100px rgba(0,246,255,.2);
-
-    animation:popup .3s;
-}
-
-@keyframes popup{
-    from{
-        transform:scale(.8);
-        opacity:0;
-    }
-    to{
-        transform:scale(1);
-        opacity:1;
-    }
-}
-
-.close{
-    position:absolute;
-    margin-top:-40px;
-    margin-right:-35px;
-
-    background:none;
-    border:0;
-    color:#555;
-
-    font-size:30px;
-    cursor:pointer;
-}
-
-.popup-icon{
-    font-size:60px;
-}
-
-.popup-box h2{
-    margin:15px 0;
-}
-
-.popup-box p{
-    color:#666;
-    line-height:2;
-    margin-bottom:25px;
-}
-
-/* ================= MOBILE ================= */
-
-@media(max-width:1000px){
-
-    .hero{
-        grid-template-columns:1fr;
-    }
-
-    .games,
-    .features{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .hero-art{
-        min-height:550px;
-    }
-
-    .big-feature:after{
-        font-size:130px;
-    }
-
-    .specs{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-}
-
-@media(max-width:700px){
-
-    nav{
-        padding:0 5%;
-    }
-
-    .nav-links{
-        display:none;
-    }
-
-    .nav-btn{
-        display:none;
-    }
-
-    .hero{
-        padding:120px 5% 60px;
-    }
-
-    .hero h1{
-        font-size:60px;
-    }
-
-    .hero-art{
-        transform:scale(.75);
-        margin:-60px 0;
-    }
-
-    .games,
-    .features{
-        grid-template-columns:1fr;
-    }
-
-    .section{
-        padding:90px 5%;
-    }
-
-    .section h2{
-        font-size:40px;
-    }
-
-    .big-feature{
-        margin:20px 5%;
-        padding:50px 30px;
-    }
-
-    .feature-content h2{
-        font-size:60px;
-    }
-
-    .big-feature:after{
-        display:none;
-    }
-
-    .specs{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .community-box h2{
-        font-size:50px;
-    }
-
-    footer{
-        flex-direction:column;
-        text-align:center;
-    }
-
-}
-
-</style>
+
+    <meta name="description" content="Wifi5Games - عالم الألعاب والجيمنج. اكتشف أشهر ألعاب الكمبيوتر مثل GTA V وFortnite وCounter-Strike.">
+    <meta name="keywords" content="Wifi5Games, ألعاب, جيمنج, GTA V, Fortnite, Counter Strike, ألعاب PC">
+    <meta name="author" content="Wifi5Games">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Tahoma, sans-serif;
+            background:
+                radial-gradient(circle at top right, #1b0038 0%, transparent 35%),
+                radial-gradient(circle at bottom left, #001d38 0%, transparent 35%),
+                #050509;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* شريط التنقل */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(5, 5, 9, 0.88);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: auto;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 900;
+            color: #9d4edd;
+            text-shadow: 0 0 15px rgba(157,78,221,0.8);
+        }
+
+        .logo span {
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ddd;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #c77dff;
+        }
+
+        /* الرئيسية */
+
+        .hero {
+            min-height: 650px;
+            max-width: 1200px;
+            margin: auto;
+            padding: 100px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border: 1px solid #9d4edd;
+            border-radius: 30px;
+            color: #d8a8ff;
+            background: rgba(157,78,221,0.1);
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 7vw, 75px);
+            line-height: 1.05;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            color: #b967ff;
+            text-shadow: 0 0 25px rgba(185,103,255,0.7);
+        }
+
+        .hero p {
+            color: #bdbdbd;
+            font-size: 19px;
+            line-height: 1.9;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            color: white;
+            background: linear-gradient(135deg, #7b2cbf, #c77dff);
+            box-shadow: 0 0 25px rgba(123,44,191,0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 35px rgba(199,125,255,0.5);
+        }
+
+        .btn-secondary {
+            color: white;
+            border: 1px solid #444;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-4px);
+        }
+
+        /* شكل الجهاز */
+
+        .hero-visual {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glow {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: #7b2cbf;
+            filter: blur(90px);
+            opacity: 0.5;
+            position: absolute;
+        }
+
+        .controller {
+            width: 280px;
+            height: 160px;
+            background: linear-gradient(145deg, #222, #080808);
+            border: 2px solid #9d4edd;
+            border-radius: 80px;
+            position: relative;
+            box-shadow:
+                0 0 30px rgba(157,78,221,0.5),
+                inset 0 0 30px rgba(255,255,255,0.03);
+            transform: rotate(-8deg);
+        }
+
+        .controller::before,
+        .controller::after {
+            content: "";
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 8px solid #333;
+            top: 42px;
+        }
+
+        .controller::before {
+            right: 40px;
+        }
+
+        .controller::after {
+            left: 40px;
+        }
+
+        .controller-center {
+            position: absolute;
+            width: 65px;
+            height: 25px;
+            background: #111;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 20px;
+        }
+
+        /* الأقسام */
+
+        section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-title h2 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #888;
+        }
+
+        /* GTA */
+
+        .featured {
+            border: 1px solid rgba(157,78,221,0.3);
+            border-radius: 25px;
+            overflow: hidden;
+            background: linear-gradient(
+                135deg,
+                rgba(123,44,191,0.12),
+                rgba(255,255,255,0.02)
+            );
+            padding: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 35px;
+        }
+
+        .featured-content {
+            flex: 1;
+        }
+
+        .featured-label {
+            color: #c77dff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .featured h3 {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .featured p {
+            color: #aaa;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .gta-card {
+            width: 400px;
+            height: 240px;
+            border-radius: 18px;
+            background:
+                linear-gradient(
+                    rgba(0,0,0,0.2),
+                    rgba(0,0,0,0.75)
+                ),
+                linear-gradient(135deg, #5b2c83, #121212);
+            display: flex;
+            align-items: flex-end;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gta-card::before {
+            content: "GTA V";
+            position: absolute;
+            font-size: 75px;
+            font-weight: 900;
+            color: rgba(255,255,255,0.08);
+            transform: rotate(-10deg);
+            top: 40px;
+            left: 30px;
+        }
+
+        .gta-card-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .gta-card-text h4 {
+            font-size: 28px;
+        }
+
+        /* البحث */
+
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            outline: none;
+            background: #101015;
+            color: white;
+            font-size: 16px;
+        }
+
+        .search-box input:focus {
+            border-color: #9d4edd;
+            box-shadow: 0 0 15px rgba(157,78,221,0.2);
+        }
+
+        /* الألعاب */
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .game-card {
+            background: rgba(255,255,255,0.035);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(157,78,221,0.6);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .game-image {
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #171717, #34204b);
+        }
+
+        .game-info {
+            padding: 22px;
+        }
+
+        .game-info h3 {
+            font-size: 23px;
+            margin-bottom: 10px;
+        }
+
+        .game-info p {
+            color: #999;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 13px;
+            color: #d9b3ff;
+            background: rgba(157,78,221,0.15);
+            padding: 6px 10px;
+            border-radius: 20px;
+        }
+
+        /* المميزات */
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 18px;
+        }
+
+        .feature-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .feature h3 {
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            color: #999;
+            line-height: 1.7;
+        }
+
+        /* الفوتر */
+
+        footer {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            margin-top: 50px;
+            padding: 35px 20px;
+            text-align: center;
+            color: #777;
+        }
+
+        footer strong {
+            color: #b967ff;
+        }
+
+        /* الجوال */
+
+        @media (max-width: 850px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 70px;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                width: 100%;
+                height: 300px;
+            }
+
+            .featured {
+                flex-direction: column;
+            }
+
+            .gta-card {
+                width: 100%;
+            }
+
+            .games-grid,
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .featured h3 {
+                font-size: 30px;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .gta-card {
+                height: 200px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<div id="loader">
-    <div class="loader-logo">
-        WIFI<span>5</span>GAMES
-    </div>
+    <!-- شريط الموقع -->
 
-    <div class="loader-bar">
-        <div></div>
-    </div>
+    <header>
+        <nav>
 
-    <div class="loader-text">
-        INITIALIZING GAMING SYSTEM
-    </div>
-</div>
-
-<div class="grid"></div>
-<div class="noise"></div>
-
-
-<!-- NAV -->
-
-<nav>
-
-    <a class="logo" href="#home">
-
-        <div class="logo-main">
-            WIFI<span>5</span>GAMES
-        </div>
-
-        <div class="logo-sub">
-            ULTIMATE GAMING UNIVERSE
-        </div>
-
-    </a>
-
-    <div class="nav-links">
-
-        <a href="#home">الرئيسية</a>
-        <a href="#games">الألعاب</a>
-        <a href="#gta">GTA V</a>
-        <a href="#features">المميزات</a>
-        <a href="#community">المجتمع</a>
-
-    </div>
-
-    <button class="nav-btn" onclick="openPopup('login')">
-        PLAYER LOGIN
-    </button>
-
-</nav>
-
-
-<!-- HERO -->
-
-<section class="hero" id="home">
-
-    <div class="hero-left">
-
-        <div class="live">
-            <i></i>
-            WIFI5 SYSTEM ONLINE
-        </div>
-
-        <h1>
-
-            <small>WELCOME TO THE NEXT LEVEL</small>
-
-            WIFI<span>5</span><br>
-            GAMES
-
-        </h1>
-
-        <div class="hero-title">
-            عالم الألعاب يبدأ هنا 🎮
-        </div>
-
-        <p class="hero-description">
-            ادخل إلى عالم Wifi5Games — منصة Gaming مصممة
-            لعشاق الألعاب، تجمع الحماس والتقنية والألعاب
-            في تجربة واحدة مختلفة تمامًا.
-        </p>
-
-        <div class="buttons">
-
-            <a href="#games" class="btn btn-main">
-                🎮 استكشف الألعاب
-            </a>
-
-            <button class="btn btn-dark" onclick="openPopup('soon')">
-                ⚡ ادخل العالم
-            </button>
-
-        </div>
-
-        <div class="specs">
-
-            <div class="spec">
-                <b>50+</b>
-                <span>GAMES</span>
+            <div class="logo">
+                🎮 Wifi5<span>Games</span>
             </div>
 
-            <div class="spec">
-                <b>4K</b>
-                <span>QUALITY</span>
-            </div>
+            <ul class="nav-links">
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#games">الألعاب</a></li>
+                <li><a href="#featured">المميزة</a></li>
+                <li><a href="#about">عن الموقع</a></li>
+            </ul>
 
-            <div class="spec">
-                <b>24/7</b>
-                <span>ONLINE</span>
-            </div>
-
-            <div class="spec">
-                <b>∞</b>
-                <span>FUN</span>
-            </div>
-
-        </div>
-
-    </div>
+        </nav>
+    </header>
 
 
-    <div class="hero-art">
+    <!-- الصفحة الرئيسية -->
 
-        <div class="ring ring1"></div>
-        <div class="ring ring2"></div>
-        <div class="ring ring3"></div>
+    <main>
 
-        <div class="data-card data1">
-            <b>🎮</b>
-            <span>GAMING<br>ONLINE</span>
-        </div>
+        <section class="hero" id="home">
 
-        <div class="data-card data2">
-            <b>⚡</b>
-            <span>ULTRA<br>MODE</span>
-        </div>
+            <div class="hero-content">
 
-        <div class="data-card data3">
-            <b>🔥</b>
-            <span>EPIC<br>LEVEL</span>
-        </div>
-
-        <div class="gta-panel">
-
-            <div class="panel-lines"></div>
-
-            <div class="panel-logo">
-                WIFI
-                <span>5</span>
-            </div>
-
-            <div class="panel-bottom">
-
-                <div class="panel-tag">
-                    FEATURED GAMING
+                <div class="hero-badge">
+                    🔥 عالم الجيمنج بين يديك
                 </div>
 
-                <h2>
-                    GRAND<br>THEFT AUTO V
-                </h2>
+                <h1>
+                    مرحباً بك في
+                    <span>Wifi5Games</span>
+                </h1>
 
                 <p>
-                    LOS SANTOS — OPEN WORLD
+                    موقعك الجديد لعالم الألعاب.
+                    اكتشف الألعاب المشهورة، تعرف على الألعاب الجديدة
+                    واستمتع بتجربة Gaming مختلفة.
                 </p>
 
-                <button class="panel-button"
-                        onclick="openPopup('gta')">
-                    ▶ VIEW GAME
-                </button>
+                <div class="hero-buttons">
+
+                    <a href="#games" class="btn btn-primary">
+                        🎮 استكشف الألعاب
+                    </a>
+
+                    <a href="#featured" class="btn btn-secondary">
+                        ⭐ اللعبة المميزة
+                    </a>
+
+                </div>
 
             </div>
 
-        </div>
 
-    </div>
+            <div class="hero-visual">
 
-</section>
+                <div class="glow"></div>
 
-
-<!-- TICKER -->
-
-<div class="ticker">
-
-    <div class="ticker-track">
-
-        <span class="active">WIFI5GAMES</span>
-        <span>GAMING</span>
-        <span>GTA V</span>
-        <span>FORTNITE</span>
-        <span>CALL OF DUTY</span>
-        <span>CYBERPUNK</span>
-        <span>ONLINE</span>
-        <span class="active">WIFI5GAMES</span>
-        <span>GAMING</span>
-
-    </div>
-
-</div>
-
-
-<!-- GAMES -->
-
-<section class="section" id="games">
-
-    <div class="section-head">
-
-        <div>
-
-            <div class="tag">
-                GAME LIBRARY / 01
-            </div>
-
-            <h2>
-                اختر لعبتك<br>
-                <span>وادخل المعركة</span>
-            </h2>
-
-        </div>
-
-        <button class="btn btn-dark"
-                onclick="openPopup('library')">
-            VIEW ALL →
-        </button>
-
-    </div>
-
-
-    <div class="games">
-
-        <div class="game game1">
-
-            <div class="game-number">01</div>
-
-            <div class="game-content">
-
-                <small>OPEN WORLD</small>
-
-                <h3>GTA V</h3>
-
-                <p>Los Santos awaits.</p>
-
-                <button onclick="openPopup('gta')">
-                    التفاصيل →
-                </button>
+                <div class="controller">
+                    <div class="controller-center"></div>
+                </div>
 
             </div>
 
-        </div>
+        </section>
 
 
-        <div class="game game2">
+        <!-- اللعبة المميزة -->
 
-            <div class="game-number">02</div>
+        <section id="featured">
 
-            <div class="game-content">
+            <div class="section-title">
+                <h2>🔥 اللعبة المميزة</h2>
+                <p>واحدة من أشهر ألعاب العالم المفتوح</p>
+            </div>
 
-                <small>ACTION</small>
+            <div class="featured">
 
-                <h3>CALL OF DUTY</h3>
+                <div class="featured-content">
 
-                <p>Enter the battlefield.</p>
+                    <div class="featured-label">
+                        ⭐ Featured Game
+                    </div>
 
-                <button onclick="openPopup('cod')">
-                    التفاصيل →
-                </button>
+                    <h3>Grand Theft Auto V</h3>
+
+                    <p>
+                        عِش مغامرة ضخمة في مدينة Los Santos،
+                        واستكشف العالم المفتوح والمهام والشخصيات
+                        والمحتوى المتنوع الذي تقدمه GTA V.
+                    </p>
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="showMessage()">
+                        🎮 عرض التفاصيل
+                    </button>
+
+                </div>
+
+                <div class="gta-card">
+
+                    <div class="gta-card-text">
+                        <h4>GTA V</h4>
+                        <p>Open World • Action • Adventure</p>
+                    </div>
+
+                </div>
 
             </div>
 
-        </div>
+        </section>
 
 
-        <div class="game game3">
+        <!-- الألعاب -->
 
-            <div class="game-number">03</div>
+        <section id="games">
 
-            <div class="game-content">
+            <div class="section-title">
 
-                <small>BATTLE ROYALE</small>
+                <h2>🎮 الألعاب</h2>
 
-                <h3>FORTNITE</h3>
-
-                <p>Be the last one standing.</p>
-
-                <button onclick="openPopup('fortnite')">
-                    التفاصيل →
-                </button>
+                <p>
+                    ابحث عن لعبتك المفضلة
+                </p>
 
             </div>
 
-        </div>
 
+            <div class="search-box">
 
-        <div class="game game4">
-
-            <div class="game-number">04</div>
-
-            <div class="game-content">
-
-                <small>FUTURE RPG</small>
-
-                <h3>CYBERPUNK</h3>
-
-                <p>Enter Night City.</p>
-
-                <button onclick="openPopup('cyber')">
-                    التفاصيل →
-                </button>
+                <input
+                    type="text"
+                    id="gameSearch"
+                    placeholder="🔎 ابحث عن لعبة..."
+                    onkeyup="searchGames()">
 
             </div>
 
-        </div>
 
-    </div>
+            <div class="games-grid" id="gamesGrid">
 
-</section>
+                <!-- GTA -->
+
+                <div class="game-card" data-name="gta v gta 5 جراند ثفت أوتو">
+
+                    <div class="game-image">
+                        GTA V
+                    </div>
+
+                    <div class="game-info">
+
+                        <h3>Grand Theft Auto V</h3>
+
+                        <p>
+                            لعبة عالم مفتوح مليئة بالمغامرات
+                            والمهام والاستكشاف.
+                        </p>
+
+                        <span class="tag">
+                            Open World
+                        </span>
+
+                    </div>
+
+                </div>
 
 
-<!-- GTA FEATURE -->
+                <!-- Fortnite -->
 
-<section class="big-feature" id="gta">
+                <div class="game-card" data-name="fortnite فورتنايت">
 
-    <div class="feature-content">
+                    <div class="game-image">
+                        FORTNITE
+                    </div>
 
-        <small>WIFI5 FEATURED / GRAND THEFT AUTO V</small>
+                    <div class="game-info">
 
-        <h2>
-            GRAND<br>
-            <span>THEFT AUTO V</span>
-        </h2>
+                        <h3>Fortnite</h3>
+
+                        <p>
+                            لعبة Battle Royale سريعة وممتعة
+                            مع لاعبين من جميع أنحاء العالم.
+                        </p>
+
+                        <span class="tag">
+                            Battle Royale
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Counter Strike -->
+
+                <div class="game-card" data-name="counter strike cs2 كاونتر">
+
+                    <div class="game-image">
+                        CS2
+                    </div>
+
+                    <div class="game-info">
+
+                        <h3>Counter-Strike 2</h3>
+
+                        <p>
+                            تجربة تصويب تنافسية تعتمد على
+                            المهارة والتكتيك والعمل الجماعي.
+                        </p>
+
+                        <span class="tag">
+                            FPS
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PUBG -->
+
+                <div class="game-card" data-name="pubg ببجي">
+
+                    <div class="game-image">
+                        PUBG
+                    </div>
+
+                    <div class="game-info">
+
+                        <h3>PUBG</h3>
+
+                        <p>
+                            قاتل للبقاء حتى النهاية
+                            وحاول أن تكون آخر لاعب أو فريق.
+                        </p>
+
+                        <span class="tag">
+                            Battle Royale
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- GTA IV -->
+
+                <div class="game-card" data-name="gta iv gta 4 جراند 4">
+
+                    <div class="game-image">
+                        GTA IV
+                    </div>
+
+                    <div class="game-info">
+
+                        <h3>Grand Theft Auto IV</h3>
+
+                        <p>
+                            رحلة في Liberty City مع قصة
+                            وشخصيات ومغامرات مميزة.
+                        </p>
+
+                        <span class="tag">
+                            Action
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- The Long Drive -->
+
+                <div class="game-card" data-name="the long drive">
+
+                    <div class="game-image">
+                        🚗
+                    </div>
+
+                    <div class="game-info">
+
+                        <h3>The Long Drive</h3>
+
+                        <p>
+                            رحلة قيادة واستكشاف طويلة
+                            في عالم مفتوح وغريب.
+                        </p>
+
+                        <span class="tag">
+                            Driving
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- المميزات -->
+
+        <section id="about">
+
+            <div class="section-title">
+
+                <h2>⚡ لماذا Wifi5Games؟</h2>
+
+                <p>
+                    كل ما يحتاجه اللاعب في مكان واحد
+                </p>
+
+            </div>
+
+
+            <div class="features">
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        🎮
+                    </div>
+
+                    <h3>
+                        ألعاب متنوعة
+                    </h3>
+
+                    <p>
+                        مجموعة من الألعاب المشهورة
+                        والممتعة لمحبي الجيمنج.
+                    </p>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        ⚡
+                    </div>
+
+                    <h3>
+                        تجربة سريعة
+                    </h3>
+
+                    <p>
+                        تصميم خفيف وسريع يعمل على
+                        الكمبيوتر والجوال.
+                    </p>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        🔥
+                    </div>
+
+                    <h3>
+                        Gaming بشكل مختلف
+                    </h3>
+
+                    <p>
+                        تصميم عصري بطابع Gaming
+                        ونظام بحث بسيط وسهل.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- أسفل الموقع -->
+
+    <footer>
 
         <p>
-            استكشف مدينة Los Santos، قُد السيارات،
-            نفّذ المهمات وعش تجربة العالم المفتوح.
-            هذه الصفحة مخصصة لعرض اللعبة داخل Wifi5Games.
+            © 2026
+            <strong>Wifi5Games</strong>
+            — جميع الحقوق محفوظة
         </p>
 
-        <button class="btn btn-main"
-                onclick="openPopup('gta')">
-            🎮 معلومات اللعبة
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- WHY -->
-
-<section class="why" id="features">
-
-    <div class="why-title">
-
-        <small>WHY WIFI5GAMES?</small>
-
-        <h2>
-            مصمم <span>للاعبين</span>
-        </h2>
-
-    </div>
-
-
-    <div class="features">
-
-        <div class="feature">
-
-            <div class="icon">🎮</div>
-
-            <h3>GAMING FIRST</h3>
-
-            <p>
-                كل جزء من الواجهة مصمم ليعطيك إحساس Gaming حقيقي.
-            </p>
-
-        </div>
-
-
-        <div class="feature">
-
-            <div class="icon">⚡</div>
-
-            <h3>ULTRA FAST</h3>
-
-            <p>
-                واجهة خفيفة وسريعة بدون تعقيد.
-            </p>
-
-        </div>
-
-
-        <div class="feature">
-
-            <div class="icon">🔥</div>
-
-            <h3>EPIC DESIGN</h3>
-
-            <p>
-                تأثيرات Neon وحركات تعطي الموقع هوية مختلفة.
-            </p>
-
-        </div>
-
-
-        <div class="feature">
-
-            <div class="icon">🌐</div>
-
-            <h3>GAMING COMMUNITY</h3>
-
-            <p>
-                مساحة مستقبلية تجمع اللاعبين وعشاق الألعاب.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- COMMUNITY -->
-
-<section class="community" id="community">
-
-    <div class="community-box">
-
-        <small>JOIN WIFI5GAMES</small>
-
-        <h2>
-            READY TO<br>
-            <span>LEVEL UP?</span>
-        </h2>
-
-        <p>
-            العالم مفتوح. اللعبة بدأت. أنت اللاعب.
+        <p style="margin-top:10px;">
+            🎮 عالم الألعاب والجيمنج
         </p>
 
-        <button class="btn btn-main"
-                onclick="openPopup('community')">
-            🚀 JOIN THE COMMUNITY
-        </button>
+    </footer>
 
-    </div>
 
-</section>
+    <!-- JavaScript -->
 
+    <script>
 
-<!-- FOOTER -->
+        function searchGames() {
 
-<footer>
+            const input =
+                document.getElementById("gameSearch")
+                .value
+                .toLowerCase()
+                .trim();
 
-    <div class="footer-logo">
+            const games =
+                document.querySelectorAll(".game-card");
 
-        WIFI<span>5</span>GAMES
+            games.forEach(function(game) {
 
-        <small>
-            ULTIMATE GAMING UNIVERSE
-        </small>
+                const name =
+                    game.getAttribute("data-name")
+                    .toLowerCase();
 
-    </div>
+                if (name.includes(input)) {
 
-    <div class="footer-links">
+                    game.style.display = "block";
 
-        <a href="#home">الرئيسية</a>
-        <a href="#games">الألعاب</a>
-        <a href="#gta">GTA V</a>
-        <a href="#features">المميزات</a>
+                } else {
 
-    </div>
+                    game.style.display = "none";
 
-    <p>
-        © 2026 WIFI5GAMES
-    </p>
+                }
 
-</footer>
-
-
-<!-- POPUP -->
-
-<div class="popup" id="popup">
-
-    <div class="popup-box">
-
-        <button class="close" onclick="closePopup()">×</button>
-
-        <div class="popup-icon">🎮</div>
-
-        <h2 id="popupTitle">
-            WIFI5GAMES
-        </h2>
-
-        <p id="popupText">
-            مرحبًا بك في Wifi5Games.
-        </p>
-
-        <button class="btn btn-main"
-                onclick="closePopup()">
-            OK — LET'S GO
-        </button>
-
-    </div>
-
-</div>
-
-
-<script>
-
-/* LOADER */
-
-window.addEventListener("load",function(){
-
-    setTimeout(function(){
-
-        document
-        .getElementById("loader")
-        .classList.add("hide");
-
-    },1700);
-
-});
-
-
-/* POPUP */
-
-function openPopup(type){
-
-    let title=document.getElementById("popupTitle");
-    let text=document.getElementById("popupText");
-
-    if(type==="gta"){
-
-        title.innerHTML="GRAND THEFT AUTO V";
-
-        text.innerHTML=
-        "قسم GTA V جاهز داخل Wifi5Games. هنا يمكن إضافة الصور، معلومات اللعبة، المتطلبات، الأخبار والمزيد.";
-
-    }
-
-    else if(type==="cod"){
-
-        title.innerHTML="CALL OF DUTY";
-
-        text.innerHTML=
-        "قسم Call of Duty قادم إلى مكتبة Wifi5Games.";
-
-    }
-
-    else if(type==="fortnite"){
-
-        title.innerHTML="FORTNITE";
-
-        text.innerHTML=
-        "استعد لقسم Fortnite داخل Wifi5Games.";
-
-    }
-
-    else if(type==="cyber"){
-
-        title.innerHTML="CYBERPUNK 2077";
-
-        text.innerHTML=
-        "Night City بانتظارك. سيتم إضافة تفاصيل اللعبة لاحقًا.";
-
-    }
-
-    else if(type==="library"){
-
-        title.innerHTML="GAME LIBRARY";
-
-        text.innerHTML=
-        "مكتبة الألعاب الكاملة سيتم إضافتها هنا.";
-
-    }
-
-    else if(type==="community"){
-
-        title.innerHTML="WIFI5 COMMUNITY";
-
-        text.innerHTML=
-        "قسم المجتمع قادم. قريبًا يمكن إضافة تسجيل دخول وحسابات للاعبين.";
-
-    }
-
-    else if(type==="login"){
-
-        title.innerHTML="PLAYER LOGIN";
-
-        text.innerHTML=
-        "نظام الحسابات سيتم ربطه لاحقًا بقاعدة بيانات حقيقية.";
-
-    }
-
-    else{
-
-        title.innerHTML="WIFI5GAMES";
-
-        text.innerHTML=
-        "أهلًا بك في عالم Wifi5Games. المزيد من المميزات قادمة.";
-
-    }
-
-    document
-    .getElementById("popup")
-    .classList.add("show");
-
-}
-
-
-function closePopup(){
-
-    document
-    .getElementById("popup")
-    .classList.remove("show");
-
-}
-
-
-document
-.getElementById("popup")
-.addEventListener("click",function(e){
-
-    if(e.target===this){
-
-        closePopup();
-
-    }
-
-});
-
-
-/* MOUSE EFFECT */
-
-document.addEventListener("mousemove",function(e){
-
-    let x=(e.clientX/window.innerWidth-.5)*15;
-    let y=(e.clientY/window.innerHeight-.5)*15;
-
-    let panel=document.querySelector(".gta-panel");
-
-    if(panel){
-
-        panel.style.transform=
-        `rotateY(${x/8}deg) rotateX(${-y/8}deg)`;
-
-    }
-
-});
-
-
-/* KEYBOARD EFFECT */
-
-document.addEventListener("keydown",function(e){
-
-    if(e.key==="Escape"){
-
-        closePopup();
-
-    }
-
-});
-
-</script>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Wifi5Games | Gaming Store</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    font-family:Cairo,sans-serif;
-    background:#05060a;
-    color:white;
-    overflow-x:hidden;
-}
-
-/* ================= BACKGROUND ================= */
-
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    z-index:-5;
-
-    background:
-    radial-gradient(circle at 10% 20%,rgba(0,255,255,.12),transparent 25%),
-    radial-gradient(circle at 90% 40%,rgba(120,0,255,.12),transparent 30%),
-    radial-gradient(circle at 50% 100%,rgba(255,0,100,.07),transparent 30%),
-    #05060a;
-}
-
-.grid{
-    position:fixed;
-    inset:0;
-    z-index:-4;
-    opacity:.13;
-
-    background-image:
-    linear-gradient(rgba(0,255,255,.12) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,255,255,.12) 1px,transparent 1px);
-
-    background-size:50px 50px;
-}
-
-/* ================= NAVBAR ================= */
-
-.navbar{
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-
-    height:82px;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 6%;
-
-    z-index:1000;
-
-    background:rgba(5,6,10,.75);
-    backdrop-filter:blur(18px);
-
-    border-bottom:1px solid rgba(255,255,255,.07);
-}
-
-.logo{
-    text-decoration:none;
-    color:white;
-}
-
-.logo h1{
-    font-size:25px;
-    font-weight:900;
-    letter-spacing:3px;
-}
-
-.logo h1 span{
-    color:#00f7ff;
-    text-shadow:0 0 20px #00f7ff;
-}
-
-.logo small{
-    color:#555;
-    font-size:7px;
-    letter-spacing:5px;
-}
-
-.nav-links{
-    display:flex;
-    gap:30px;
-}
-
-.nav-links a{
-    color:#777;
-    text-decoration:none;
-    font-size:13px;
-    font-weight:700;
-    transition:.3s;
-}
-
-.nav-links a:hover{
-    color:#00f7ff;
-    text-shadow:0 0 15px #00f7ff;
-}
-
-.login{
-    padding:10px 18px;
-
-    color:#00f7ff;
-    background:rgba(0,247,255,.05);
-
-    border:1px solid #00f7ff;
-
-    cursor:pointer;
-    font-family:inherit;
-    font-weight:800;
-}
-
-/* ================= HERO ================= */
-
-.hero{
-    min-height:90vh;
-
-    padding:150px 6% 80px;
-
-    display:grid;
-    grid-template-columns:1fr 1fr;
-
-    align-items:center;
-
-    gap:50px;
-}
-
-.hero-tag{
-    display:inline-block;
-
-    padding:7px 14px;
-
-    color:#00f7ff;
-
-    background:rgba(0,247,255,.05);
-
-    border:1px solid rgba(0,247,255,.3);
-
-    font-size:10px;
-    letter-spacing:3px;
-}
-
-.hero h2{
-    font-size:clamp(55px,8vw,100px);
-
-    line-height:.85;
-
-    margin:25px 0;
-
-    font-weight:900;
-
-    letter-spacing:-4px;
-}
-
-.hero h2 span{
-    color:#00f7ff;
-
-    text-shadow:
-    0 0 15px #00f7ff,
-    0 0 40px rgba(0,247,255,.4);
-}
-
-.hero p{
-    max-width:600px;
-
-    color:#777;
-
-    line-height:2;
-
-    margin-bottom:30px;
-}
-
-.hero-buttons{
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-}
-
-.btn{
-    padding:14px 25px;
-
-    font-family:inherit;
-    font-weight:900;
-
-    cursor:pointer;
-
-    border:0;
-
-    text-decoration:none;
-
-    display:inline-block;
-
-    transition:.3s;
-}
-
-.primary{
-    background:#00f7ff;
-    color:#001010;
-
-    box-shadow:0 0 30px rgba(0,247,255,.3);
-}
-
-.primary:hover{
-    transform:translateY(-5px);
-
-    box-shadow:0 0 50px rgba(0,247,255,.6);
-}
-
-.secondary{
-    background:#0c0e14;
-    color:white;
-
-    border:1px solid #292d38;
-}
-
-.secondary:hover{
-    color:#00f7ff;
-    border-color:#00f7ff;
-}
-
-/* ================= HERO VISUAL ================= */
-
-.hero-visual{
-    height:500px;
-
-    position:relative;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.circle{
-    position:absolute;
-
-    border-radius:50%;
-
-    border:1px solid rgba(0,247,255,.2);
-
-    animation:spin 15s linear infinite;
-}
-
-.circle.one{
-    width:430px;
-    height:430px;
-}
-
-.circle.two{
-    width:330px;
-    height:330px;
-
-    border-color:rgba(140,0,255,.25);
-
-    animation-direction:reverse;
-    animation-duration:9s;
-}
-
-@keyframes spin{
-    to{
-        transform:rotate(360deg);
-    }
-}
-
-.hero-card{
-    position:relative;
-    z-index:5;
-
-    width:320px;
-    height:420px;
-
-    border:1px solid rgba(0,247,255,.4);
-
-    background:
-    linear-gradient(to top,#05060a 5%,transparent 65%),
-    radial-gradient(circle at 50% 30%,#7a4c30,transparent 30%),
-    linear-gradient(145deg,#1b3035,#170c12);
-
-    box-shadow:
-    0 0 80px rgba(0,247,255,.13);
-
-    transform:rotate(-4deg);
-
-    transition:.5s;
-}
-
-.hero-card:hover{
-    transform:rotate(0) scale(1.04);
-}
-
-.hero-card-content{
-    position:absolute;
-
-    bottom:25px;
-    right:25px;
-    left:25px;
-}
-
-.hero-card-content small{
-    color:#00f7ff;
-    letter-spacing:3px;
-}
-
-.hero-card-content h3{
-    font-size:34px;
-    line-height:1;
-    margin:10px 0;
-}
-
-.hero-card-content p{
-    color:#777;
-    font-size:12px;
-}
-
-/* ================= STORE ================= */
-
-.store{
-    padding:100px 6%;
-}
-
-.store-header{
-    display:flex;
-    align-items:end;
-    justify-content:space-between;
-
-    margin-bottom:35px;
-}
-
-.store-header h2{
-    font-size:50px;
-    line-height:1;
-}
-
-.store-header h2 span{
-    color:#00f7ff;
-}
-
-.store-header small{
-    color:#00f7ff;
-    letter-spacing:4px;
-}
-
-/* SEARCH */
-
-.search-box{
-    display:flex;
-
-    width:350px;
-
-    border:1px solid #222733;
-
-    background:#080a10;
-}
-
-.search-box input{
-    width:100%;
-
-    padding:13px;
-
-    color:white;
-
-    background:transparent;
-
-    border:0;
-
-    outline:none;
-
-    font-family:inherit;
-}
-
-.search-box button{
-    width:50px;
-
-    color:#00f7ff;
-
-    background:transparent;
-
-    border:0;
-}
-
-/* FILTERS */
-
-.filters{
-    display:flex;
-
-    gap:10px;
-
-    margin-bottom:35px;
-
-    flex-wrap:wrap;
-}
-
-.filter{
-    padding:9px 18px;
-
-    background:#090b11;
-
-    color:#777;
-
-    border:1px solid #20242e;
-
-    cursor:pointer;
-
-    font-family:inherit;
-
-    transition:.3s;
-}
-
-.filter:hover,
-.filter.active{
-    color:#001010;
-
-    background:#00f7ff;
-
-    border-color:#00f7ff;
-}
-
-/* ================= GAME STORE ================= */
-
-.games{
-    display:grid;
-
-    grid-template-columns:
-    repeat(4,1fr);
-
-    gap:18px;
-}
-
-.game{
-    min-height:420px;
-
-    position:relative;
-
-    overflow:hidden;
-
-    background:#090b11;
-
-    border:1px solid #181c25;
-
-    transition:.4s;
-}
-
-.game:hover{
-    transform:translateY(-10px);
-
-    border-color:#00f7ff;
-
-    box-shadow:
-    0 20px 60px rgba(0,247,255,.1);
-}
-
-.game-image{
-    height:230px;
-
-    position:relative;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    overflow:hidden;
-}
-
-.game-image::after{
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    background:
-    linear-gradient(
-        to top,
-        #090b11,
-        transparent
-    );
-}
-
-.game-title-art{
-    font-size:45px;
-
-    font-weight:900;
-
-    transform:rotate(-8deg);
-
-    opacity:.9;
-}
-
-.gta{
-    background:
-    radial-gradient(circle,#6e412c,transparent 35%),
-    linear-gradient(145deg,#273c3e,#120a0c);
-}
-
-.fortnite{
-    background:
-    radial-gradient(circle,#6041bb,transparent 35%),
-    linear-gradient(145deg,#25134b,#09091a);
-}
-
-.cs{
-    background:
-    radial-gradient(circle,#c58a38,transparent 35%),
-    linear-gradient(145deg,#39342b,#090909);
-}
-
-.cod{
-    background:
-    radial-gradient(circle,#666550,transparent 35%),
-    linear-gradient(145deg,#34342d,#090909);
-}
-
-.minecraft{
-    background:
-    radial-gradient(circle,#49a34d,transparent 35%),
-    linear-gradient(145deg,#173c22,#08110b);
-}
-
-.valorant{
-    background:
-    radial-gradient(circle,#e73654,transparent 35%),
-    linear-gradient(145deg,#441521,#0b0a10);
-}
-
-.rocket{
-    background:
-    radial-gradient(circle,#2482d2,transparent 35%),
-    linear-gradient(145deg,#132e4d,#070b12);
-}
-
-.apex{
-    background:
-    radial-gradient(circle,#d13e28,transparent 35%),
-    linear-gradient(145deg,#3d1711,#0b0909);
-}
-
-.game-info{
-    padding:20px;
-}
-
-.game-info small{
-    color:#00f7ff;
-
-    font-size:9px;
-
-    letter-spacing:3px;
-}
-
-.game-info h3{
-    font-size:23px;
-
-    margin:5px 0;
-}
-
-.game-info p{
-    color:#666;
-
-    font-size:11px;
-
-    min-height:45px;
-}
-
-.game-bottom{
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    margin-top:15px;
-}
-
-.free{
-    color:#00ff8a;
-
-    font-size:11px;
-
-    font-weight:900;
-}
-
-.download{
-    padding:8px 14px;
-
-    color:#00f7ff;
-
-    background:rgba(0,247,255,.04);
-
-    border:1px solid rgba(0,247,255,.3);
-
-    cursor:pointer;
-
-    font-family:inherit;
-
-    font-weight:800;
-
-    transition:.3s;
-}
-
-.download:hover{
-    color:#001010;
-
-    background:#00f7ff;
-}
-
-/* ================= FEATURE ================= */
-
-.feature{
-    margin:30px 6%;
-
-    padding:70px;
-
-    min-height:430px;
-
-    position:relative;
-
-    overflow:hidden;
-
-    background:
-    radial-gradient(circle at 80% 50%,rgba(0,247,255,.12),transparent 30%),
-    #090b11;
-
-    border:1px solid rgba(0,247,255,.15);
-}
-
-.feature small{
-    color:#00f7ff;
-
-    letter-spacing:4px;
-}
-
-.feature h2{
-    font-size:75px;
-
-    line-height:.9;
-
-    margin:20px 0;
-}
-
-.feature h2 span{
-    color:#00f7ff;
-}
-
-.feature p{
-    color:#777;
-
-    line-height:2;
-
-    max-width:600px;
-
-    margin-bottom:25px;
-}
-
-/* ================= FOOTER ================= */
-
-footer{
-    padding:50px 6% 30px;
-
-    border-top:1px solid #171a22;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    gap:20px;
-}
-
-.footer-logo{
-    font-size:22px;
-
-    font-weight:900;
-}
-
-.footer-logo span{
-    color:#00f7ff;
-}
-
-footer p{
-    color:#444;
-
-    font-size:10px;
-}
-
-/* ================= POPUP ================= */
-
-.popup{
-    position:fixed;
-
-    inset:0;
-
-    z-index:9999;
-
-    display:none;
-
-    place-items:center;
-
-    background:rgba(0,0,0,.85);
-
-    backdrop-filter:blur(15px);
-}
-
-.popup.show{
-    display:grid;
-}
-
-.popup-box{
-    width:min(500px,90%);
-
-    padding:45px;
-
-    text-align:center;
-
-    background:#080a10;
-
-    border:1px solid #00f7ff;
-
-    box-shadow:0 0 80px rgba(0,247,255,.2);
-}
-
-.popup-icon{
-    font-size:55px;
-}
-
-.popup-box h2{
-    margin:15px 0;
-}
-
-.popup-box p{
-    color:#777;
-
-    line-height:2;
-
-    margin-bottom:25px;
-}
-
-.close{
-    float:left;
-
-    color:#666;
-
-    background:none;
-
-    border:0;
-
-    font-size:30px;
-
-    cursor:pointer;
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:1000px){
-
-    .hero{
-        grid-template-columns:1fr;
-    }
-
-    .games{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-}
-
-@media(max-width:700px){
-
-    .nav-links{
-        display:none;
-    }
-
-    .login{
-        display:none;
-    }
-
-    .hero{
-        padding:130px 5% 70px;
-    }
-
-    .hero h2{
-        font-size:55px;
-    }
-
-    .hero-visual{
-        transform:scale(.8);
-        margin:-50px 0;
-    }
-
-    .store{
-        padding:80px 5%;
-    }
-
-    .store-header{
-        flex-direction:column;
-
-        align-items:stretch;
-
-        gap:25px;
-    }
-
-    .search-box{
-        width:100%;
-    }
-
-    .games{
-        grid-template-columns:1fr;
-    }
-
-    .feature{
-        margin:20px 5%;
-
-        padding:45px 30px;
-    }
-
-    .feature h2{
-        font-size:55px;
-    }
-
-    footer{
-        flex-direction:column;
-        text-align:center;
-    }
-
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="grid"></div>
-
-
-<!-- ================= NAV ================= -->
-
-<header class="navbar">
-
-<a class="logo" href="#home">
-
-<h1>WIFI<span>5</span>GAMES</h1>
-
-<small>ULTIMATE GAMING STORE</small>
-
-</a>
-
-
-<nav class="nav-links">
-
-<a href="#home">الرئيسية</a>
-
-<a href="#games">الألعاب</a>
-
-<a href="#featured">المميزة</a>
-
-<a href="#about">حول</a>
-
-</nav>
-
-
-<button class="login" onclick="showPopup('login')">
-PLAYER LOGIN
-</button>
-
-</header>
-
-
-<!-- ================= HERO ================= -->
-
-<section class="hero" id="home">
-
-<div>
-
-<div class="hero-tag">
-🔥 THE GAMING STORE
-</div>
-
-
-<h2>
-
-YOUR<br>
-
-<span>GAME</span><br>
-
-ZONE
-
-</h2>
-
-
-<p>
-
-أهلاً بك في Wifi5Games — المكان الذي يجمع
-أشهر الألعاب في واجهة Gaming واحدة.
-ابحث عن لعبتك، شاهد معلوماتها وانتقل
-إلى صفحة التحميل الرسمية.
-
-</p>
-
-
-<div class="hero-buttons">
-
-<a href="#games" class="btn primary">
-🎮 تصفح الألعاب
-</a>
-
-<a href="#featured" class="btn secondary">
-🔥 الألعاب المميزة
-</a>
-
-</div>
-
-</div>
-
-
-<div class="hero-visual">
-
-<div class="circle one"></div>
-<div class="circle two"></div>
-
-
-<div class="hero-card">
-
-<div class="hero-card-content">
-
-<small>FEATURED GAME</small>
-
-<h3>
-GRAND<br>
-THEFT AUTO V
-</h3>
-
-<p>
-OPEN WORLD • ACTION
-</p>
-
-<button
-class="btn primary"
-onclick="showPopup('GTA V')"
-style="margin-top:18px">
-عرض اللعبة
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- ================= STORE ================= -->
-
-<section class="store" id="games">
-
-<div class="store-header">
-
-<div>
-
-<small>
-GAME LIBRARY
-</small>
-
-<h2>
-مكتبة <span>الألعاب</span>
-</h2>
-
-</div>
-
-
-<div class="search-box">
-
-<input
-id="search"
-placeholder="ابحث عن لعبة..."
-onkeyup="searchGames()">
-
-<button>
-🔍
-</button>
-
-</div>
-
-</div>
-
-
-<!-- FILTERS -->
-
-<div class="filters">
-
-<button
-class="filter active"
-onclick="filterGames('all',this)">
-الكل
-</button>
-
-<button
-class="filter"
-onclick="filterGames('free',this)">
-مجانية
-</button>
-
-<button
-class="filter"
-onclick="filterGames('action',this)">
-أكشن
-</button>
-
-<button
-class="filter"
-onclick="filterGames('online',this)">
-أونلاين
-</button>
-
-</div>
-
-
-<!-- GAMES -->
-
-<div class="games" id="gamesGrid">
-
-
-<!-- GTA -->
-
-<article class="game" data-category="action online">
-
-<div class="game-image gta">
-
-<div class="game-title-art">
-GTA V
-</div>
-
-</div>
-
-<div class="game-info">
-
-<small>OPEN WORLD</small>
-
-<h3>Grand Theft Auto V</h3>
-
-<p>
-عالم مفتوح، سيارات، مهمات ومغامرات.
-</p>
-
-<div class="game-bottom">
-
-<span class="free">
-PAID
-</span>
-
-<button
-class="download"
-onclick="showPopup('GTA V')">
-تحميل
-</button>
-
-</div>
-
-</div>
-
-</article>
-
-
-<!-- FORTNITE -->
-
-<article class="game" data-category="free online">
-
-<div class="game-image fortnite">
-
-<div class="game-title-art">
-FORTNITE
-</div>
-
-</div>
-
-<div class="game-info">
-
-<small>BATTLE ROYALE</small>
-
-<h3>Fortnite</h3>
-
-<p>
-قاتل حتى تكون آخر لاعب.
-</p>
-
-<div class="game-bottom">
-
-<span class="free">
-FREE
-</span>
-
-<button
-class="download"
-onclick="showPopup('Fortnite')">
-تحميل
-</button>
-
-</div>
-
-</div>
-
-</article>
-
-
-<!-- CS -->
-
-<article class="game" data-category="free online action">
-
-<div class="game-image cs">
-
-<div class="game-title-art">
-CS2
-</div>
-
-</div>
-
-<div class="game-info">
-
-<small>TACTICAL FPS</small>
-
-<h3>Counter-Strike 2</h3>
-
-<p>
-مواجهات تنافسية وتكتيكية.
-</p>
-
-<div class="game-bottom">
-
-<span class="free">
-FREE
-</span>
-
-<button
-class="download"
-onclick="showPopup('Counter-Strike 2')">
-تحميل
-</button>
-
-</div>
-
-</div>
-
-</article>
-
-
-<!-- COD -->
-
-<article class="game" data-category="action online">
-
-<div class="game-image cod">
-
-<div class="game-title-art">
-COD
-</div>
-
-</div>
-
-<div class="game-info">
-
-<small>FPS</small>
-
-<h3>Call of Duty</h3>
-
-<p>
-معارك سريعة ومليئة بالإثارة.
-</p>
-
-<div class="game-bottom">
-
-<span class="free">
-FREE*
-</span>
-
-<button
-class="download"
-onclick="showPopup('Call of Duty')">
-تحميل
-</button>
-
-</div>
-
-</div>
-
-</article>
-
-
-<!-- MINECRAFT -->
-
-<article class="game" data-category="online">
-
-<div class="game-image minecraft">
-
-<div class="game-title-art">
-MINECRAFT
-</div>
-
-</div>
-
-<div class="game-info">
-
-<small>SURVIVAL</small>
-
-<h3>Minecraft</h3>
-
-<p>
-ابنِ عالمك واستكشفه.
-</p>
-
-<div class="game-bottom">
-
-<span class="free">
-PAID
-</span>
-
-<button
-class="download"
-onclick="showPopup('Minecraft')">
-تحميل
-</button>
-
-</div>
-
-</div>
-
-</article>
-
-
-<!-- VALORANT -->
-
-<article class="game" data-category="free online action">
-
-<div class="game-image valorant">
-
-<div class="game-title-art">
-VALORANT
-</div>
-
-</div>
-
-<div class="game-info">
-
-<small>TACTICAL FPS</small>
-
-<h3>VALORANT</h3>
-
-<p>
-شخصيات وقدرات ومواجهات تنافسية.
-</p>
-
-<div class="game-bottom">
-
-<span class="free">
-FREE
-</span>
-
-<button
-class="download"
-onclick="showPopup('Valorant')">
-تحميل
-</button>
-
-</div>
-
-</div>
-
-</article>
-
-
-<!-- ROCKET -->
-
-<article class="game" data-category="free online">
-
-<div class="game-image rocket">
-
-<div class="game-title-art">
-ROCKET
-</div>
-
-</div>
-
-<div class="game-info">
-
-<small>SPORTS</small>
-
-<h3>Rocket League</h3>
-
-<p>
-كرة قدم ولكن بالسيارات.
-</p>
-
-<div class="game-bottom">
-
-<span class="free">
-FREE
-</span>
-
-<button
-class="download"
-onclick="showPopup('Rocket League')">
-تحميل
-</button>
-
-</div>
-
-</div>
-
-</article>
-
-
-<!-- APEX -->
-
-<article class="game" data-category="free online action">
-
-<div class="game-image apex">
-
-<div class="game-title-art">
-APEX
-</div>
-
-</div>
-
-<div class="game-info">
-
-<small>BATTLE ROYALE</small>
-
-<h3>Apex Legends</h3>
-
-<p>
-معارك سريعة وقدرات مختلفة.
-</p>
-
-<div class="game-bottom">
-
-<span class="free">
-FREE
-</span>
-
-<button
-class="download"
-onclick="showPopup('Apex Legends')">
-تحميل
-</button>
-
-</div>
-
-</div>
-
-</article>
-
-
-</div>
-
-</section>
-
-
-<!-- ================= FEATURED ================= -->
-
-<section class="feature" id="featured">
-
-<small>
-WIFI5 FEATURED
-</small>
-
-<h2>
-
-GRAND<br>
-
-<span>THEFT AUTO V</span>
-
-</h2>
-
-<p>
-
-قسم خاص بألعاب العالم المفتوح.
-يمكنك لاحقًا إضافة صور اللعبة،
-متطلبات التشغيل، الأخبار، الفيديوهات
-وزر التحميل الرسمي.
-
-</p>
-
-<button
-class="btn primary"
-onclick="showPopup('GTA V')">
-🎮 صفحة اللعبة
-</button>
-
-</section>
-
-
-<!-- ================= FOOTER ================= -->
-
-<footer id="about">
-
-<div class="footer-logo">
-
-WIFI<span>5</span>GAMES
-
-</div>
-
-<p>
-Gaming Store • 2026
-</p>
-
-</footer>
-
-
-<!-- ================= POPUP ================= -->
-
-<div class="popup" id="popup">
-
-<div class="popup-box">
-
-<button
-class="close"
-onclick="closePopup()">
-×
-</button>
-
-<div class="popup-icon">
-🎮
-</div>
-
-<h2 id="popupTitle">
-Wifi5Games
-</h2>
-
-<p id="popupText">
-اختر لعبة للمتابعة.
-</p>
-
-<a
-id="officialLink"
-class="btn primary"
-href="#"
-target="_blank"
-style="display:none">
-🌐 فتح الموقع الرسمي
-</a>
-
-<br><br>
-
-<button
-class="btn secondary"
-onclick="closePopup()">
-إغلاق
-</button>
-
-</div>
-
-</div>
-
-
-<script>
-
-/* ================= OFFICIAL LINKS ================= */
-
-const games = {
-
-"Fortnite":
-"https://www.fortnite.com/download",
-
-"Counter-Strike 2":
-"https://store.steampowered.com/app/730/CounterStrike_2/",
-
-"Grand Theft Auto V":
-"https://store.rockstargames.com/game/buy-gta-v",
-
-"GTA V":
-"https://store.rockstargames.com/game/buy-gta-v",
-
-"Call of Duty":
-"https://www.callofduty.com/",
-
-"Minecraft":
-"https://www.minecraft.net/download",
-
-"Valorant":
-"https://playvalorant.com/",
-
-"Rocket League":
-"https://www.rocketleague.com/",
-
-"Apex Legends":
-"https://www.ea.com/games/apex-legends"
-
-};
-
-
-/* ================= POPUP ================= */
-
-function showPopup(game){
-
-    const popup =
-    document.getElementById("popup");
-
-    const title =
-    document.getElementById("popupTitle");
-
-    const text =
-    document.getElementById("popupText");
-
-    const link =
-    document.getElementById("officialLink");
-
-
-    if(game==="login"){
-
-        title.innerText="PLAYER LOGIN";
-
-        text.innerText=
-        "نظام الحسابات سيتم إضافته لاحقًا.";
-
-        link.style.display="none";
-
-    }
-
-    else{
-
-        title.innerText=game;
-
-        text.innerText=
-        "اضغط على الزر للانتقال إلى الصفحة الرسمية للعبة.";
-
-        link.href=games[game];
-
-        link.style.display="inline-block";
-
-    }
-
-
-    popup.classList.add("show");
-
-}
-
-
-function closePopup(){
-
-    document
-    .getElementById("popup")
-    .classList.remove("show");
-
-}
-
-
-/* ================= SEARCH ================= */
-
-function searchGames(){
-
-    const value =
-    document
-    .getElementById("search")
-    .value
-    .toLowerCase();
-
-    document
-    .querySelectorAll(".game")
-    .forEach(game=>{
-
-        const name =
-        game
-        .querySelector("h3")
-        .innerText
-        .toLowerCase();
-
-        game.style.display =
-        name.includes(value)
-        ? ""
-        : "none";
-
-    });
-
-}
-
-
-/* ================= FILTER ================= */
-
-function filterGames(category,button){
-
-    document
-    .querySelectorAll(".filter")
-    .forEach(btn=>{
-        btn.classList.remove("active");
-    });
-
-    button.classList.add("active");
-
-
-    document
-    .querySelectorAll(".game")
-    .forEach(game=>{
-
-        if(category==="all"){
-
-            game.style.display="";
-
-            return;
+            });
 
         }
 
-        const categories =
-        game.dataset.category;
 
-        game.style.display =
-        categories.includes(category)
-        ? ""
-        : "none";
+        function showMessage() {
 
-    });
+            alert(
+                "🔥 GTA V\n\n" +
+                "صفحة اللعبة ستكون جاهزة قريباً داخل Wifi5Games!"
+            );
 
-}
+        }
 
-
-/* ================= CLOSE OUTSIDE ================= */
-
-document
-.getElementById("popup")
-.addEventListener("click",function(e){
-
-    if(e.target===this){
-
-        closePopup();
-
-    }
-
-});
-
-
-/* ================= ESC ================= */
-
-document.addEventListener("keydown",function(e){
-
-    if(e.key==="Escape"){
-
-        closePopup();
-
-    }
-
-});
-
-</script>
+    </script>
 
 </body>
-c:\Users\fahad\Desktop\GTA V.png<head>
-
-<meta name="google-site-verification" content="index.html"
+</html>
