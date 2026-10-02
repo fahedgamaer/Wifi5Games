@@ -1,6 +1,227 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WIFI5GAMES - تسجيل الدخول والتحقق</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: #05060a;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      padding: 35px;
+      background: #080a10;
+      border: 1px solid #00f7ff33;
+      box-shadow: 0 0 30px rgba(0, 247, 255, 0.15);
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .title span {
+      color: #00f7ff;
+      text-shadow: 0 0 10px #00f7ff;
+    }
+
+    .subtitle {
+      color: #888;
+      font-size: 13px;
+      margin-bottom: 25px;
+    }
+
+    .input-group {
+      margin-bottom: 18px;
+      text-align: right;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      color: #aaa;
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      background: #0d1017;
+      border: 1px solid #202636;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #00f7ff;
+      box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+    }
+
+    .otp-inputs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      direction: ltr;
+      margin-bottom: 20px;
+    }
+
+    .otp-inputs input {
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: #00f7ff;
+      color: #001012;
+      border: none;
+      font-weight: bold;
+      font-size: 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0, 247, 255, 0.3);
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      box-shadow: 0 0 25px rgba(0, 247, 255, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .msg {
+      margin-top: 15px;
+      font-size: 13px;
+    }
+
+    .error { color: #ff4d4d; }
+    .success { color: #00ff8a; }
+  </style>
+</head>
+<body>
+
+  <!-- المرحلة الأولى: تسجيل الدخول -->
+  <div class="card" id="loginStep">
+    <div class="title">WIFI<span>5</span>GAMES</div>
+    <div class="subtitle">سجل دخولك للانتقال للخطوة التالية</div>
+
+    <div class="input-group">
+      <label>البريد الإلكتروني أو اسم المستخدم</label>
+      <input type="text" id="username" placeholder="ادخل حسابك...">
+    </div>
+
+    <div class="input-group">
+      <label>كلمة المرور</label>
+      <input type="password" id="password" placeholder="••••••••">
+    </div>
+
+    <button class="btn" onclick="submitLogin()">إرسال رمز التحقق ⚡</button>
+    <div class="msg error" id="loginError"></div>
+  </div>
+
+  <!-- المرحلة الثانية: رمز التحقق -->
+  <div class="card hidden" id="otpStep">
+    <div class="title">رمز <span>التحقق</span></div>
+    <div class="subtitle" id="otpText">أدخل الرمز المكون من 4 أرقام المكون للتأكيد</div>
+
+    <div class="otp-inputs">
+      <input type="text" maxlength="1" class="otp-box" oninput="moveNext(this, 1)">
+      <input type="text" maxlength="1" class="otp-box" oninput="moveNext(this, 2)">
+      <input type="text" maxlength="1" class="otp-box" oninput="moveNext(this, 3)">
+      <input type="text" maxlength="1" class="otp-box" oninput="moveNext(this, 4)">
+    </div>
+
+    <button class="btn" onclick="verifyOTP()">تأكيد وتأكيد الدخول 🚀</button>
+    <div class="msg" id="otpMsg"></div>
+  </div>
+
+  <script>
+    let generatedOTP = "";
+
+    // 1. معالجة تسجيل الدخول وتوليد رمز التحقق
+    function submitLogin() {
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+      const errorDiv = document.getElementById("loginError");
+
+      if (!user || !pass) {
+        errorDiv.innerText = "يرجى ملء جميع الحقول أولاً!";
+        return;
+      }
+
+      // توليد رمز عشوائي مكون من 4 أرقام
+      generatedOTP = Math.floor(1000 + Math.random() * 9000).toString();
+
+      // تجربة تجريبية: إظهار الرمز للتجربة (في الواقع يتم إرساله للبريد/الهاتف)
+      alert(`رمز التحقق التجريبي الخاص بك هو: ${generatedOTP}`);
+
+      // التنقل لواجهة الرمز
+      document.getElementById("loginStep").classList.add("hidden");
+      document.getElementById("otpStep").classList.remove("hidden");
+    }
+
+    // 2. التنقل التلقائي بين خانات رمز التحقق
+    function moveNext(elem, index) {
+      if (elem.value.length === 1 && index < 4) {
+        document.querySelectorAll(".otp-box")[index].focus();
+      }
+    }
+
+    // 3. التحقق من صحة الكود المدخل
+    function verifyOTP() {
+      const boxes = document.querySelectorAll(".otp-box");
+      let enteredOTP = "";
+      boxes.forEach(box => enteredOTP += box.value);
+
+      const msgDiv = document.getElementById("otpMsg");
+
+      if (enteredOTP === generatedOTP) {
+        msgDiv.className = "msg success";
+        msgDiv.innerText = "تم التحقق بنجاح! جاري تحويلك للمتجر...";
+        setTimeout(() => {
+          alert("أهلاً بك في WIFI5GAMES!");
+        }, 1000);
+      } else {
+        msgDiv.className = "msg error";
+        msgDiv.innerText = "رمز التحقق غير صحيح، حاول مرة أخرى!";
+      }
+    }
+  </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
