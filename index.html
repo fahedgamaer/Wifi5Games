@@ -81,12 +81,19 @@ body::after{
     text-align:center;
 }
 
+.loader-img{
+    width: 150px;
+    height: auto;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 15px rgba(255,0,140,0.5));
+}
+
 .loader-logo{
     font-size:42px;
     font-weight:900;
     letter-spacing:3px;
     text-shadow:0 0 20px #00ffff;
-    margin-bottom:25px;
+    margin-bottom:15px;
 }
 
 .loader-logo span{
@@ -657,119 +664,6 @@ section{
     font-size:11px;
 }
 
-/* FEATURE */
-.big-feature{
-    min-height:500px;
-    border-radius:30px;
-    overflow:hidden;
-    position:relative;
-    display:flex;
-    align-items:center;
-    padding:60px;
-    background:
-        linear-gradient(90deg,rgba(4,7,13,.98) 10%,rgba(4,7,13,.75) 55%,rgba(4,7,13,.25)),
-        linear-gradient(135deg,#0c2230,#43172f);
-    border:1px solid #1c2b3a;
-}
-
-.big-feature::after{
-    content:"GTA V";
-    position:absolute;
-    right:-20px;
-    bottom:-90px;
-    font-size:260px;
-    font-weight:900;
-    color:rgba(255,255,255,.025);
-    pointer-events:none;
-}
-
-.feature-content{
-    max-width:550px;
-    position:relative;
-    z-index:2;
-}
-
-.feature-content small{
-    color:#00ffff;
-    font-weight:900;
-}
-
-.feature-content h2{
-    font-size:60px;
-    line-height:1;
-    margin:15px 0;
-}
-
-.feature-content p{
-    color:#9aa5b3;
-    line-height:2;
-}
-
-.specs{
-    display:flex;
-    gap:10px;
-    margin:25px 0;
-    flex-wrap:wrap;
-}
-
-.spec{
-    background:rgba(255,255,255,.04);
-    border:1px solid #273241;
-    border-radius:10px;
-    padding:10px 15px;
-}
-
-.spec strong{
-    display:block;
-    color:#00ffff;
-}
-
-/* FEATURES */
-.features{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-}
-
-.feature-box{
-    background:#090d14;
-    border:1px solid #1b2633;
-    padding:28px;
-    border-radius:18px;
-}
-
-.feature-icon{
-    font-size:30px;
-    margin-bottom:15px;
-}
-
-.feature-box h3{
-    font-size:17px;
-}
-
-.feature-box p{
-    color:#707c8b;
-    font-size:12px;
-    line-height:1.8;
-    margin-top:8px;
-}
-
-/* COMMUNITY */
-.community{
-    text-align:center;
-    border-top:1px solid #111b27;
-}
-
-.community h2{
-    font-size:45px;
-}
-
-.community p{
-    color:#7c8796;
-    margin:12px auto 25px;
-    max-width:600px;
-}
-
 /* FOOTER */
 footer{
     border-top:1px solid #16202c;
@@ -785,7 +679,7 @@ footer strong{
     color:#00ffff;
 }
 
-/* LOGIN */
+/* LOGIN MODAL */
 .modal{
     position:fixed;
     inset:0;
@@ -810,160 +704,6 @@ footer strong{
     padding:30px;
     box-shadow:0 30px 80px #000;
 }
-
-.login-box h2{
-    font-size:28px;
-}
-
-.login-box p{
-    color:#7d8897;
-    font-size:12px;
-    margin:8px 0 25px;
-}
-
-.input{
-    width:100%;
-    background:#05080e;
-    border:1px solid #25313e;
-    color:white;
-    padding:14px;
-    border-radius:10px;
-    outline:none;
-    font-family:inherit;
-    margin-bottom:12px;
-}
-
-.input:focus{
-    border-color:#00ffff;
-}
-
-.login-submit{
-    width:100%;
-    border:0;
-    background:#00ffff;
-    color:#001014;
-    padding:14px;
-    border-radius:10px;
-    font-family:inherit;
-    font-weight:900;
-    cursor:pointer;
-}
-
-.close{
-    float:left;
-    background:none;
-    border:0;
-    color:#8a96a5;
-    font-size:22px;
-    cursor:pointer;
-}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-
-    .nav-links{
-        display:none;
-    }
-
-    .hero{
-        grid-template-columns:1fr;
-        text-align:center;
-        padding-top:130px;
-    }
-
-    .hero p{
-        margin-left:auto;
-        margin-right:auto;
-    }
-
-    .hero-buttons{
-        justify-content:center;
-    }
-
-    .gta-art{
-        min-height:470px;
-    }
-
-    .games{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .features{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .big-feature{
-        padding:35px;
-    }
-}
-
-@media(max-width:600px){
-
-    nav{
-        padding:0 20px;
-    }
-
-    .logo{
-        font-size:19px;
-    }
-
-    .hero{
-        padding-left:20px;
-        padding-right:20px;
-    }
-
-    .hero h1{
-        font-size:55px;
-    }
-
-    section{
-        padding:70px 20px;
-    }
-
-    .section-head h2{
-        font-size:32px;
-    }
-
-    .games{
-        grid-template-columns:1fr;
-    }
-
-    .features{
-        grid-template-columns:1fr;
-    }
-
-    .gta-ring{
-        width:300px;
-        height:300px;
-    }
-
-    .gta-card{
-        min-height:430px;
-    }
-
-    .gta-sky{
-        height:250px;
-    }
-
-    .float-card{
-        display:none;
-    }
-
-    .big-feature{
-        padding:30px 20px;
-        min-height:430px;
-    }
-
-    .feature-content h2{
-        font-size:43px;
-    }
-
-    footer{
-        flex-direction:column;
-        gap:10px;
-        text-align:center;
-    }
-}
 </style>
 </head>
 
@@ -972,6 +712,9 @@ footer strong{
 <!-- LOADER -->
 <div id="loader">
     <div class="loader-box">
+        <!-- تم إضافة الصورة هنا -->
+        <img src="1000050177.jpg" alt="GTA VI Logo" class="loader-img">
+        
         <div class="loader-logo">
             WIFI5<span>GAMES</span>
         </div>
@@ -998,8 +741,6 @@ footer strong{
     <ul class="nav-links">
         <li><a href="#home">الرئيسية</a></li>
         <li><a href="#games">الألعاب</a></li>
-        <li><a href="#featured">المميزة</a></li>
-        <li><a href="#community">المجتمع</a></li>
     </ul>
 
     <button class="login-btn" onclick="openLogin()">
@@ -1009,9 +750,7 @@ footer strong{
 
 <!-- HERO -->
 <header class="hero" id="home">
-
     <div class="hero-content">
-
         <div class="hero-tag">
             <span class="live-dot"></span>
             LIVE GAMING PLATFORM
@@ -1032,96 +771,12 @@ footer strong{
             <a href="#games" class="btn btn-main">
                 🎮 استكشف الألعاب
             </a>
-
-            <a href="#featured" class="btn btn-dark">
-                🚀 اللعبة المميزة
-            </a>
         </div>
-
     </div>
-
-    <!-- GTA ART -->
-    <div class="gta-art">
-
-        <div class="gta-glow"></div>
-        <div class="gta-ring"></div>
-
-        <div class="float-card fc1">
-            <strong>GTA VI</strong>
-            COMING SOON
-        </div>
-
-        <div class="float-card fc2">
-            <strong>WIFI5</strong>
-            GAMING HUB
-        </div>
-
-        <div class="gta-card">
-
-            <div class="gta-sky">
-
-                <div class="gta-sun"></div>
-
-                <div class="palm one"></div>
-                <div class="palm two"></div>
-
-                <div class="city"></div>
-
-                <div class="gta-text">
-                    GTA VI
-                </div>
-
-            </div>
-
-            <div class="gta-info">
-                <h2>
-                    GRAND THEFT <span>AUTO VI</span>
-                </h2>
-
-                <p>
-                    تجربة الجيل الجديد من عالم GTA.
-                </p>
-
-                <a
-                    class="gta-btn"
-                    href="#featured"
-                >
-                    مشاهدة التفاصيل
-                </a>
-            </div>
-
-        </div>
-
-    </div>
-
 </header>
-
-<!-- TICKER -->
-<div class="ticker">
-    <div class="ticker-track">
-        WIFI5GAMES
-        <span>◆</span>
-        GTA V
-        <span>◆</span>
-        GTA VI
-        <span>◆</span>
-        FORTNITE
-        <span>◆</span>
-        COUNTER-STRIKE
-        <span>◆</span>
-        GAMING
-        <span>◆</span>
-        WIFI5GAMES
-        <span>◆</span>
-        GTA V
-        <span>◆</span>
-        FORTNITE
-    </div>
-</div>
 
 <!-- GAMES -->
 <section id="games">
-
     <div class="section-head">
         <small>GAME LIBRARY</small>
         <h2>الألعاب</h2>
@@ -1129,378 +784,47 @@ footer strong{
     </div>
 
     <div class="games">
-
-        <!-- GTA V -->
         <article class="game">
-
             <div class="game-cover cover-gta">
-                <div class="cover-title">
-                    GTA V
-                </div>
+                <div class="cover-title">GTA V</div>
             </div>
-
             <div class="game-body">
-
                 <h3>Grand Theft Auto V</h3>
-
-                <p>
-                    عالم مفتوح، سيارات، مهام ومغامرات لا تنتهي.
-                </p>
-
+                <p>عالم مفتوح، سيارات، مهام ومغامرات لا تنتهي.</p>
                 <div class="game-bottom">
                     <span class="game-tag">OPEN WORLD</span>
-
-                    <a
-                        class="play"
-                        href="https://store.rockstargames.com/game/buy-gta-v"
-                        target="_blank"
-                        rel="noopener"
-                    >
-                        الموقع الرسمي
-                    </a>
+                    <a class="play" href="#home">العب الآن</a>
                 </div>
-
             </div>
-
         </article>
-
-        <!-- FORTNITE -->
-        <article class="game">
-
-            <div class="game-cover cover-fortnite">
-                <div class="cover-title">
-                    FORTNITE
-                </div>
-            </div>
-
-            <div class="game-body">
-
-                <h3>Fortnite</h3>
-
-                <p>
-                    Battle Royale وأطوار لعب متنوعة مع أصدقائك.
-                </p>
-
-                <div class="game-bottom">
-                    <span class="game-tag">BATTLE ROYALE</span>
-
-                    <a
-                        class="play"
-                        href="https://www.fortnite.com/download"
-                        target="_blank"
-                        rel="noopener"
-                    >
-                        تحميل رسمي
-                    </a>
-                </div>
-
-            </div>
-
-        </article>
-
-        <!-- CS2 -->
-        <article class="game">
-
-            <div class="game-cover cover-cs">
-                <div class="cover-title">
-                    CS2
-                </div>
-            </div>
-
-            <div class="game-body">
-
-                <h3>Counter-Strike 2</h3>
-
-                <p>
-                    لعبة تصويب تنافسية من Valve.
-                </p>
-
-                <div class="game-bottom">
-                    <span class="game-tag">FPS</span>
-
-                    <a
-                        class="play"
-                        href="https://store.steampowered.com/app/730/CounterStrike_2/"
-                        target="_blank"
-                        rel="noopener"
-                    >
-                        Steam
-                    </a>
-                </div>
-
-            </div>
-
-        </article>
-
     </div>
 </section>
 
-<!-- FEATURED GTA -->
-<section id="featured">
-
-    <div class="big-feature">
-
-        <div class="feature-content">
-
-            <small>FEATURED GAME</small>
-
-            <h2>
-                GRAND<br>
-                THEFT AUTO
-            </h2>
-
-            <p>
-                استكشف عالم GTA V وابقَ على اطلاع
-                بآخر أخبار GTA VI من خلال WIFI5GAMES.
-            </p>
-
-            <div class="specs">
-
-                <div class="spec">
-                    <strong>OPEN</strong>
-                    WORLD
-                </div>
-
-                <div class="spec">
-                    <strong>GTA</strong>
-                    SERIES
-                </div>
-
-                <div class="spec">
-                    <strong>HD</strong>
-                    GAMING
-                </div>
-
-            </div>
-
-            <a
-                class="btn btn-main"
-                href="https://store.rockstargames.com/game/buy-gta-v"
-                target="_blank"
-                rel="noopener"
-            >
-                🎮 الموقع الرسمي لـ GTA V
-            </a>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- FEATURES -->
-<section>
-
-    <div class="section-head">
-        <small>WHY WIFI5GAMES</small>
-        <h2>ليش WIFI5GAMES؟</h2>
-    </div>
-
-    <div class="features">
-
-        <div class="feature-box">
-            <div class="feature-icon">🎮</div>
-            <h3>ألعاب مشهورة</h3>
-            <p>
-                مكان واحد لمتابعة ألعابك المفضلة.
-            </p>
-        </div>
-
-        <div class="feature-box">
-            <div class="feature-icon">⚡</div>
-            <h3>سرعة</h3>
-            <p>
-                تصميم سريع وخفيف ومتجاوب.
-            </p>
-        </div>
-
-        <div class="feature-box">
-            <div class="feature-icon">🌐</div>
-            <h3>متعدد الأجهزة</h3>
-            <p>
-                يعمل على الكمبيوتر والموبايل.
-            </p>
-        </div>
-
-        <div class="feature-box">
-            <div class="feature-icon">🚀</div>
-            <h3>Gaming Future</h3>
-            <p>
-                تصميم مستقبلي لعالم الألعاب.
-            </p>
-        </div>
-
-    </div>
-
-</section>
-
-<!-- COMMUNITY -->
-<section class="community" id="community">
-
-    <h2>
-        عالم الألعاب بين إيديك 🎮
-    </h2>
-
-    <p>
-        تابع WIFI5GAMES واكتشف الألعاب والمحتوى الجديد.
-    </p>
-
-    <button
-        class="btn btn-main"
-        onclick="openLogin()"
-    >
-        🔐 تسجيل الدخول
-    </button>
-
-</section>
-
-<!-- FOOTER -->
 <footer>
-
-    <div>
-        © 2026 <strong>WIFI5GAMES</strong>
-    </div>
-
-    <div>
-        ULTIMATE GAMING
-    </div>
-
+    <p>جميع الحقوق محفوظة &copy; 2026 <strong>WIFI5GAMES</strong></p>
 </footer>
 
-<!-- LOGIN MODAL -->
-<div class="modal" id="loginModal">
-
-    <div class="login-box">
-
-        <button class="close" onclick="closeLogin()">
-            ×
-        </button>
-
-        <h2>
-            تسجيل الدخول
-        </h2>
-
-        <p>
-            اكتب إيميلك للدخول إلى WIFI5GAMES.
-        </p>
-
-        <input
-            class="input"
-            type="email"
-            id="email"
-            placeholder="example@gmail.com"
-            autocomplete="email"
-        >
-
-        <button
-            class="login-submit"
-            onclick="login()"
-        >
-            دخول
-        </button>
-
-    </div>
-
-</div>
-
 <script>
+    // محاكاة شاشة التحميل
+    let progress = 0;
+    const progressElem = document.getElementById('loaderProgress');
+    const percentElem = document.getElementById('loaderPercent');
+    const loader = document.getElementById('loader');
 
-/* LOADER - 3 SECONDS */
-let progress = 0;
+    const interval = setInterval(() => {
+        progress += 2;
+        progressElem.style.width = progress + '%';
+        percentElem.innerText = progress + '%';
 
-const loaderProgress =
-    document.getElementById("loaderProgress");
+        if(progress >= 100){
+            clearInterval(interval);
+            loader.classList.add('hide');
+        }
+    }, 30);
 
-const loaderPercent =
-    document.getElementById("loaderPercent");
-
-const loader =
-    document.getElementById("loader");
-
-const loadingTimer = setInterval(() => {
-
-    progress++;
-
-    loaderProgress.style.width = progress + "%";
-    loaderPercent.textContent = progress + "%";
-
-    if(progress >= 100){
-
-        clearInterval(loadingTimer);
-
-        setTimeout(() => {
-            loader.classList.add("hide");
-        }, 100);
-
+    function openLogin() {
+        alert('زر تسجيل الدخول');
     }
-
-}, 30);
-
-
-/* LOGIN */
-const modal =
-    document.getElementById("loginModal");
-
-function openLogin(){
-    modal.classList.add("active");
-
-    setTimeout(() => {
-        document.getElementById("email").focus();
-    },100);
-}
-
-function closeLogin(){
-    modal.classList.remove("active");
-}
-
-function login(){
-
-    const email =
-        document.getElementById("email").value.trim();
-
-    if(!email){
-
-        alert("اكتب الإيميل أولاً.");
-
-        return;
-    }
-
-    if(!email.includes("@")){
-
-        alert("تأكد من كتابة إيميل صحيح.");
-
-        return;
-    }
-
-    localStorage.setItem("wifi5games_email",email);
-
-    alert(
-        "تم تسجيل الدخول بنجاح ✅\n\nمرحباً بك في WIFI5GAMES!"
-    );
-
-    closeLogin();
-}
-
-
-/* ESC CLOSE */
-document.addEventListener("keydown",(e)=>{
-
-    if(e.key === "Escape"){
-        closeLogin();
-    }
-
-});
-
-
-/* CLICK OUTSIDE */
-modal.addEventListener("click",(e)=>{
-
-    if(e.target === modal){
-        closeLogin();
-    }
-
-});
-
 </script>
 
 </body>
