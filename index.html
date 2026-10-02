@@ -1,4 +1,878 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>WIFI5GAMES — Ultimate Gaming</title>
+<meta name="description" content="WIFI5GAMES — عالم الألعاب بين إيديك">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Cairo",sans-serif;
+    background:#05070b;
+    color:#fff;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    background:
+        linear-gradient(rgba(0,220,255,.04) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,220,255,.04) 1px,transparent 1px);
+    background-size:50px 50px;
+}
+
+body:after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    background:
+        radial-gradient(circle at 20% 20%,rgba(0,220,255,.12),transparent 30%),
+        radial-gradient(circle at 80% 70%,rgba(100,0,255,.12),transparent 30%);
+    pointer-events:none;
+}
+
+/* NAV */
+nav{
+    height:80px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 6%;
+    background:rgba(5,7,11,.85);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid rgba(0,220,255,.15);
+    position:sticky;
+    top:0;
+    z-index:50;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:2px;
+    color:#00eaff;
+    text-shadow:0 0 20px rgba(0,234,255,.5);
+}
+
+.logo span{
+    display:block;
+    font-size:10px;
+    color:#777;
+    letter-spacing:4px;
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.user-email{
+    display:none;
+    color:#aaa;
+    font-size:12px;
+}
+
+.login-btn,
+.logout-btn{
+    border:1px solid #00eaff;
+    background:rgba(0,234,255,.08);
+    color:#00eaff;
+    padding:10px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-family:inherit;
+    font-weight:700;
+}
+
+/* HERO */
+.hero{
+    min-height:600px;
+    padding:80px 7%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:40px;
+}
+
+.hero-content{
+    max-width:650px;
+}
+
+.badge{
+    display:inline-block;
+    border:1px solid #00eaff;
+    color:#00eaff;
+    padding:7px 15px;
+    border-radius:30px;
+    font-size:12px;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-size:clamp(45px,8vw,100px);
+    line-height:.95;
+    font-weight:900;
+    margin-bottom:25px;
+}
+
+.hero h1 span{
+    color:#00eaff;
+    text-shadow:0 0 30px rgba(0,234,255,.5);
+}
+
+.hero p{
+    color:#aaa;
+    font-size:18px;
+    line-height:2;
+}
+
+.hero-art{
+    width:380px;
+    height:380px;
+    border:1px solid rgba(0,234,255,.25);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    box-shadow:0 0 80px rgba(0,234,255,.1);
+}
+
+.hero-art:before{
+    content:"";
+    position:absolute;
+    width:270px;
+    height:270px;
+    border:2px dashed #00eaff;
+    border-radius:50%;
+    animation:spin 15s linear infinite;
+}
+
+.hero-logo{
+    font-size:45px;
+    font-weight:900;
+    color:#fff;
+    text-shadow:0 0 30px #00eaff;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg);}
+}
+
+/* GAMES */
+.games{
+    padding:60px 7%;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.section-title h2{
+    font-size:38px;
+}
+
+.section-title span{
+    color:#00eaff;
+}
+
+.games-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+}
+
+.game-card{
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.game-card:hover{
+    transform:translateY(-8px);
+    border-color:#00eaff;
+    box-shadow:0 15px 50px rgba(0,234,255,.12);
+}
+
+.game-image{
+    height:220px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:35px;
+    font-weight:900;
+}
+
+.gta{
+    background:linear-gradient(135deg,#151515,#272727);
+}
+
+.fortnite{
+    background:linear-gradient(135deg,#17102c,#38226c);
+}
+
+.cs{
+    background:linear-gradient(135deg,#25170b,#52300e);
+}
+
+.game-info{
+    padding:20px;
+}
+
+.game-info h3{
+    font-size:22px;
+    margin-bottom:8px;
+}
+
+.game-info p{
+    color:#888;
+    font-size:13px;
+    margin-bottom:18px;
+}
+
+.download{
+    display:block;
+    text-align:center;
+    text-decoration:none;
+    color:#001014;
+    background:#00eaff;
+    padding:12px;
+    border-radius:10px;
+    font-weight:900;
+}
+
+/* LOGIN OVERLAY */
+.login-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.82);
+    backdrop-filter:blur(12px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:20px;
+}
+
+.login-box{
+    width:100%;
+    max-width:430px;
+    background:#090d14;
+    border:1px solid rgba(0,234,255,.35);
+    border-radius:22px;
+    padding:35px;
+    box-shadow:0 0 80px rgba(0,234,255,.15);
+}
+
+.login-box h2{
+    text-align:center;
+    font-size:30px;
+    margin-bottom:8px;
+}
+
+.login-box h2 span{
+    color:#00eaff;
+}
+
+.login-box .subtitle{
+    text-align:center;
+    color:#777;
+    font-size:13px;
+    margin-bottom:25px;
+}
+
+.input{
+    width:100%;
+    padding:15px;
+    border-radius:10px;
+    border:1px solid #222b35;
+    background:#05070b;
+    color:#fff;
+    font-family:inherit;
+    outline:none;
+    margin-bottom:12px;
+}
+
+.input:focus{
+    border-color:#00eaff;
+}
+
+.action{
+    width:100%;
+    border:0;
+    padding:14px;
+    border-radius:10px;
+    background:#00eaff;
+    color:#001014;
+    font-family:inherit;
+    font-weight:900;
+    cursor:pointer;
+    margin-top:5px;
+}
+
+.close{
+    display:block;
+    text-align:center;
+    margin-top:15px;
+    color:#777;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.message{
+    text-align:center;
+    margin-top:15px;
+    font-size:13px;
+    min-height:20px;
+}
+
+.success{
+    color:#00eaff;
+}
+
+.error{
+    color:#ff5c5c;
+}
+
+#otpSection{
+    display:none;
+}
+
+/* FOOTER */
+footer{
+    margin-top:80px;
+    padding:35px;
+    text-align:center;
+    border-top:1px solid rgba(255,255,255,.08);
+    color:#666;
+}
+
+footer strong{
+    color:#00eaff;
+}
+
+/* MOBILE */
+@media(max-width:800px){
+
+    nav{
+        padding:0 20px;
+    }
+
+    .user-email{
+        display:none !important;
+    }
+
+    .hero{
+        padding:60px 25px;
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .hero-art{
+        width:280px;
+        height:280px;
+    }
+
+    .games{
+        padding:50px 20px;
+    }
+
+    .games-grid{
+        grid-template-columns:1fr;
+    }
+
+    .login-box{
+        padding:25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="logo">
+        WIFI5GAMES
+        <span>ULTIMATE GAMING</span>
+    </div>
+
+    <div class="nav-right">
+        <span class="user-email" id="userEmail"></span>
+
+        <button class="login-btn" id="loginBtn" onclick="openLogin()">
+            🔐 تسجيل الدخول
+        </button>
+
+        <button class="logout-btn" id="logoutBtn" onclick="logout()" style="display:none;">
+            🚪 خروج
+        </button>
+    </div>
+</nav>
+
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="badge">● ONLINE GAMING STORE</div>
+
+        <h1>
+            WIFI5<br>
+            <span>GAMES</span>
+        </h1>
+
+        <p>
+            مرحباً بكم في Wifi5Games 🎮<br>
+            عالم الألعاب بين إيديك.
+        </p>
+
+    </div>
+
+    <div class="hero-art">
+        <div class="hero-logo">W5G</div>
+    </div>
+
+</section>
+
+
+<!-- GAMES -->
+<section class="games">
+
+    <div class="section-title">
+        <h2>ألعاب <span>مميزة</span></h2>
+        <p>اختار لعبتك وابدأ المغامرة</p>
+    </div>
+
+    <div class="games-grid">
+
+        <div class="game-card">
+
+            <div class="game-image gta">
+                GTA V
+            </div>
+
+            <div class="game-info">
+                <h3>Grand Theft Auto V</h3>
+                <p>عالم مفتوح ومغامرات لا تنتهي.</p>
+
+                <a class="download"
+                   href="https://store.rockstargames.com/game/buy-gta-v"
+                   target="_blank">
+                    🎮 الموقع الرسمي
+                </a>
+            </div>
+
+        </div>
+
+
+        <div class="game-card">
+
+            <div class="game-image fortnite">
+                FORTNITE
+            </div>
+
+            <div class="game-info">
+                <h3>Fortnite</h3>
+                <p>Battle Royale وحماس مع الأصدقاء.</p>
+
+                <a class="download"
+                   href="https://www.fortnite.com/download"
+                   target="_blank">
+                    🎮 تحميل Fortnite
+                </a>
+            </div>
+
+        </div>
+
+
+        <div class="game-card">
+
+            <div class="game-image cs">
+                CS2
+            </div>
+
+            <div class="game-info">
+                <h3>Counter-Strike 2</h3>
+                <p>لعبة تصويب تنافسية شهيرة.</p>
+
+                <a class="download"
+                   href="https://store.steampowered.com/app/730/CounterStrike_2/"
+                   target="_blank">
+                    🎮 Steam
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- LOGIN -->
+<div class="login-overlay" id="loginOverlay">
+
+    <div class="login-box">
+
+        <!-- EMAIL -->
+        <div id="emailSection">
+
+            <h2>تسجيل <span>الدخول</span></h2>
+
+            <div class="subtitle">
+                أدخل إيميلك وسنرسل لك كود تحقق
+            </div>
+
+            <input
+                id="email"
+                class="input"
+                type="email"
+                placeholder="example@gmail.com"
+                autocomplete="email"
+            >
+
+            <button class="action" onclick="sendCode()">
+                📩 إرسال كود التحقق
+            </button>
+
+        </div>
+
+
+        <!-- OTP -->
+        <div id="otpSection">
+
+            <h2>تأكيد <span>الإيميل</span></h2>
+
+            <div class="subtitle">
+                أدخل كود التحقق الذي وصلك على الإيميل
+            </div>
+
+            <input
+                id="otp"
+                class="input"
+                type="text"
+                inputmode="numeric"
+                maxlength="6"
+                placeholder="123456"
+            >
+
+            <button class="action" onclick="verifyCode()">
+                ✅ تأكيد الدخول
+            </button>
+
+            <span class="close" onclick="backToEmail()">
+                ← تغيير الإيميل
+            </span>
+
+        </div>
+
+
+        <div id="message" class="message"></div>
+
+        <span class="close" onclick="closeLogin()">
+            إغلاق
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+    © 2026 <strong>WIFI5GAMES</strong> — جميع الحقوق محفوظة
+</footer>
+
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+/*
+====================================================
+   ضع بيانات Supabase هنا
+====================================================
+
+1. افتح مشروعك في Supabase
+2. Settings
+3. API
+4. انسخ:
+   Project URL
+   anon public key
+
+ثم ضعهم هنا.
+
+مثال:
+
+const SUPABASE_URL = "https://xxxxx.supabase.co";
+const SUPABASE_ANON_KEY = "eyJ...";
+
+====================================================
+*/
+
+const SUPABASE_URL = "ضع_رابط_مشروع_Supabase_هنا";
+const SUPABASE_ANON_KEY = "ضع_مفتاح_anon_هنا";
+
+
+let supabaseClient = null;
+
+if(
+    SUPABASE_URL.startsWith("https://") &&
+    SUPABASE_ANON_KEY.length > 20
+){
+    supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY
+        );
+}
+
+
+/* فتح نافذة الدخول */
+
+function openLogin(){
+
+    document.getElementById("loginOverlay").style.display = "flex";
+
+    document.getElementById("emailSection").style.display = "block";
+    document.getElementById("otpSection").style.display = "none";
+
+    document.getElementById("message").textContent = "";
+}
+
+
+/* إغلاق */
+
+function closeLogin(){
+    document.getElementById("loginOverlay").style.display = "none";
+}
+
+
+/* إرسال الكود */
+
+async function sendCode(){
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const message =
+        document.getElementById("message");
+
+    if(!email){
+
+        message.className = "message error";
+        message.textContent = "❌ اكتب الإيميل أولاً.";
+        return;
+    }
+
+    if(!supabaseClient){
+
+        message.className = "message error";
+
+        message.textContent =
+            "⚠️ لازم تضع بيانات Supabase داخل الكود أولاً.";
+
+        return;
+    }
+
+    message.className = "message";
+    message.textContent = "⏳ جاري إرسال الكود...";
+
+
+    const { error } =
+        await supabaseClient.auth.signInWithOtp({
+            email: email,
+            options:{
+                shouldCreateUser:true
+            }
+        });
+
+
+    if(error){
+
+        message.className = "message error";
+
+        message.textContent =
+            "❌ حدث خطأ: " + error.message;
+
+        return;
+    }
+
+
+    document.getElementById("emailSection").style.display = "none";
+
+    document.getElementById("otpSection").style.display = "block";
+
+    message.className = "message success";
+
+    message.textContent =
+        "✅ تم إرسال كود التحقق إلى إيميلك.";
+}
+
+
+/* التحقق من الكود */
+
+async function verifyCode(){
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const otp =
+        document.getElementById("otp").value.trim();
+
+    const message =
+        document.getElementById("message");
+
+
+    if(!otp){
+
+        message.className = "message error";
+
+        message.textContent =
+            "❌ أدخل كود التحقق.";
+
+        return;
+    }
+
+
+    message.className = "message";
+
+    message.textContent =
+        "⏳ جاري التحقق...";
+
+
+    const { data, error } =
+        await supabaseClient.auth.verifyOtp({
+
+            email:email,
+
+            token:otp,
+
+            type:"email"
+        });
+
+
+    if(error){
+
+        message.className = "message error";
+
+        message.textContent =
+            "❌ الكود غير صحيح أو منتهي.";
+
+        return;
+    }
+
+
+    message.className = "message success";
+
+    message.textContent =
+        "✅ تم تسجيل الدخول بنجاح!";
+
+
+    setTimeout(() => {
+
+        closeLogin();
+
+        updateUserUI(data.user);
+
+    },1000);
+}
+
+
+/* المستخدم */
+
+function updateUserUI(user){
+
+    if(!user) return;
+
+    document.getElementById("loginBtn").style.display = "none";
+
+    document.getElementById("logoutBtn").style.display = "block";
+
+    document.getElementById("userEmail").style.display = "inline";
+
+    document.getElementById("userEmail").textContent =
+        user.email;
+}
+
+
+/* تسجيل الخروج */
+
+async function logout(){
+
+    if(supabaseClient){
+
+        await supabaseClient.auth.signOut();
+    }
+
+    document.getElementById("loginBtn").style.display = "block";
+
+    document.getElementById("logoutBtn").style.display = "none";
+
+    document.getElementById("userEmail").style.display = "none";
+}
+
+
+/* الرجوع للإيميل */
+
+function backToEmail(){
+
+    document.getElementById("emailSection").style.display = "block";
+
+    document.getElementById("otpSection").style.display = "none";
+
+    document.getElementById("message").textContent = "";
+}
+
+
+/* فحص المستخدم عند فتح الموقع */
+
+async function checkUser(){
+
+    if(!supabaseClient) return;
+
+    const {
+        data
+    } = await supabaseClient.auth.getSession();
+
+    if(data.session){
+
+        updateUserUI(data.session.user);
+
+    }
+}
+
+
+checkUser();
+
+</script>
+
+</body>
+</html>
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
