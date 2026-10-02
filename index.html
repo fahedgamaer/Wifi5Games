@@ -669,3 +669,929 @@ footer strong{
 }
 
 .otp-box.show{
+    display:block;
+}
+
+.otp-input{
+    letter-spacing:8px;
+    font-size:22px;
+    text-align:center;
+}
+
+.user-area{
+    display:none;
+    align-items:center;
+    gap:8px;
+}
+
+.user-email{
+    max-width:120px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color:#00eaff;
+    font-size:11px;
+}
+
+.logout{
+    border:1px solid #3b2020;
+    background:#180b0b;
+    color:#ff7777;
+    padding:8px 10px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:11px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+    .games-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .hero-art{
+        width:350px;
+        height:350px;
+    }
+
+    .r1{
+        width:320px;
+        height:320px;
+    }
+}
+
+@media(max-width:760px){
+    header{
+        height:70px;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero{
+        min-height:auto;
+        padding-top:120px;
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .hero p{
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .hero-buttons{
+        justify-content:center;
+    }
+
+    .hero-art{
+        width:300px;
+        height:300px;
+    }
+
+    .r1{
+        width:280px;
+        height:280px;
+    }
+
+    .r2{
+        width:215px;
+        height:215px;
+    }
+
+    .r3{
+        width:150px;
+        height:150px;
+    }
+
+    .hero-logo{
+        font-size:38px;
+    }
+
+    .games-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:500px){
+    .logo{
+        font-size:19px;
+    }
+
+    .login-btn{
+        padding:8px 12px;
+        font-size:11px;
+    }
+
+    .games-grid{
+        grid-template-columns:1fr;
+    }
+
+    .game-cover{
+        height:190px;
+    }
+
+    .hero h1{
+        font-size:48px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+    <div class="loader-logo">WIFI5<span>GAMES</span></div>
+    <div class="loader-bar">
+        <div class="loader-progress" id="loaderProgress"></div>
+    </div>
+    <div class="loader-text" id="loaderText">جارٍ تشغيل الموقع... 0%</div>
+</div>
+
+<!-- HEADER -->
+<header>
+    <div class="nav">
+
+        <a href="#" class="logo">
+            WIFI5<span>GAMES</span>
+            <small>ULTIMATE GAMING</small>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="#home">الرئيسية</a></li>
+            <li><a href="#games">الألعاب</a></li>
+            <li><a href="#features">المميزات</a></li>
+        </ul>
+
+        <div id="loginArea">
+
+            <button class="login-btn" id="loginButton" onclick="openLogin()">
+                🔐 تسجيل الدخول
+            </button>
+
+            <div class="user-area" id="userArea">
+                <span class="user-email" id="userEmail"></span>
+                <button class="logout" onclick="logoutUser()">خروج</button>
+            </div>
+
+        </div>
+
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+
+    <div class="hero-text">
+
+        <div class="live">
+            <i></i>
+            WIFI5GAMES ONLINE
+        </div>
+
+        <h1>
+            عالم الألعاب<br>
+            <span>بين إيديك</span>
+        </h1>
+
+        <p>
+            مرحباً بك في WIFI5GAMES 🎮
+            اكتشف أشهر ألعاب الكمبيوتر، ابحث عن لعبتك المفضلة
+            وانتقل إلى مصدرها الرسمي بسهولة.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#games" class="primary">🎮 استكشف الألعاب</a>
+            <button class="secondary" onclick="openLogin()">🔐 تسجيل الدخول</button>
+        </div>
+
+    </div>
+
+    <div class="hero-art">
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+
+        <div class="hero-logo">
+            WIFI5<br><span>GAMES</span>
+        </div>
+    </div>
+
+</section>
+
+<!-- GAMES -->
+<section class="section" id="games">
+
+    <div class="section-title">
+        <h2>🎮 مكتبة <span>الألعاب</span></h2>
+        <p>ابحث عن لعبتك المفضلة</p>
+    </div>
+
+    <div class="search-box">
+        <input
+            type="text"
+            id="gameSearch"
+            placeholder="🔎 ابحث عن لعبة..."
+            oninput="searchGames()"
+        >
+    </div>
+
+    <div class="games-grid" id="gamesGrid">
+
+        <div class="game-card">
+            <div class="game-cover gta">GTA V</div>
+            <div class="game-info">
+                <h3>Grand Theft Auto V</h3>
+                <p>عالم مفتوح ومغامرات وأكشن.</p>
+                <a class="game-btn" target="_blank" href="https://www.rockstargames.com/gta-v">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover fortnite">FORTNITE</div>
+            <div class="game-info">
+                <h3>Fortnite</h3>
+                <p>باتل رويال ومنافسات أونلاين.</p>
+                <a class="game-btn" target="_blank" href="https://www.fortnite.com/download">تحميل Fortnite 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover cs">COUNTER-STRIKE 2</div>
+            <div class="game-info">
+                <h3>Counter-Strike 2</h3>
+                <p>تصويب تنافسي أونلاين.</p>
+                <a class="game-btn" target="_blank" href="https://store.steampowered.com/app/730/CounterStrike_2/">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover minecraft">MINECRAFT</div>
+            <div class="game-info">
+                <h3>Minecraft</h3>
+                <p>بناء واستكشاف وعالم مفتوح.</p>
+                <a class="game-btn" target="_blank" href="https://www.minecraft.net/store/minecraft-java-bedrock-edition-pc">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover roblox">ROBLOX</div>
+            <div class="game-info">
+                <h3>Roblox</h3>
+                <p>منصة ضخمة للألعاب والتجارب.</p>
+                <a class="game-btn" target="_blank" href="https://www.roblox.com/download">تحميل Roblox 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover pubg">PUBG</div>
+            <div class="game-info">
+                <h3>PUBG: BATTLEGROUNDS</h3>
+                <p>باتل رويال وتنافس أونلاين.</p>
+                <a class="game-btn" target="_blank" href="https://store.steampowered.com/app/578080/PUBG_BATTLEGROUNDS/">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover apex">APEX LEGENDS</div>
+            <div class="game-info">
+                <h3>Apex Legends</h3>
+                <p>باتل رويال سريع ومليء بالحركة.</p>
+                <a class="game-btn" target="_blank" href="https://store.steampowered.com/app/1172470/Apex_Legends/">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover warframe">WARFRAME</div>
+            <div class="game-info">
+                <h3>Warframe</h3>
+                <p>أكشن وخيال علمي وتعاون أونلاين.</p>
+                <a class="game-btn" target="_blank" href="https://store.steampowered.com/app/230410/Warframe/">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover dota">DOTA 2</div>
+            <div class="game-info">
+                <h3>Dota 2</h3>
+                <p>استراتيجية وتنافس جماعي.</p>
+                <a class="game-btn" target="_blank" href="https://store.steampowered.com/app/570/Dota_2/">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover tf">TEAM FORTRESS 2</div>
+            <div class="game-info">
+                <h3>Team Fortress 2</h3>
+                <p>تصويب جماعي وشخصيات متنوعة.</p>
+                <a class="game-btn" target="_blank" href="https://store.steampowered.com/app/440/Team_Fortress_2/">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover terraria">TERRARIA</div>
+            <div class="game-info">
+                <h3>Terraria</h3>
+                <p>استكشاف وبناء ومغامرات.</p>
+                <a class="game-btn" target="_blank" href="https://store.steampowered.com/app/105600/Terraria/">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover truck">EURO TRUCK SIMULATOR 2</div>
+            <div class="game-info">
+                <h3>Euro Truck Simulator 2</h3>
+                <p>قيادة شاحنات ومحاكاة واقعية.</p>
+                <a class="game-btn" target="_blank" href="https://store.steampowered.com/app/227300/Euro_Truck_Simulator_2/">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover dark">THE LONG DARK</div>
+            <div class="game-info">
+                <h3>The Long Dark</h3>
+                <p>بقاء واستكشاف في عالم بارد.</p>
+                <a class="game-btn" target="_blank" href="https://store.steampowered.com/app/305620/The_Long_Dark/">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover unturned">UNTURNED</div>
+            <div class="game-info">
+                <h3>Unturned</h3>
+                <p>بقاء وزومبي وعالم مفتوح.</p>
+                <a class="game-btn" target="_blank" href="https://store.steampowered.com/app/304930/Unturned/">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover paladins">PALADINS</div>
+            <div class="game-info">
+                <h3>Paladins</h3>
+                <p>تصويب جماعي وشخصيات متعددة.</p>
+                <a class="game-btn" target="_blank" href="https://store.steampowered.com/app/444090/Paladins/">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover brawlhalla">BRAWLHALLA</div>
+            <div class="game-info">
+                <h3>Brawlhalla</h3>
+                <p>قتال ومنافسات أونلاين.</p>
+                <a class="game-btn" target="_blank" href="https://store.steampowered.com/app/291550/Brawlhalla/">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover rocket">ROCKET LEAGUE</div>
+            <div class="game-info">
+                <h3>Rocket League</h3>
+                <p>كرة قدم بالسيارات.</p>
+                <a class="game-btn" target="_blank" href="https://www.rocketleague.com/">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover sims">THE SIMS 4</div>
+            <div class="game-info">
+                <h3>The Sims 4</h3>
+                <p>محاكاة الحياة وبناء الشخصيات.</p>
+                <a class="game-btn" target="_blank" href="https://www.ea.com/games/the-sims/the-sims-4">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover fall">FALL GUYS</div>
+            <div class="game-info">
+                <h3>Fall Guys</h3>
+                <p>منافسات ممتعة ومراحل جماعية.</p>
+                <a class="game-btn" target="_blank" href="https://store.epicgames.com/en-US/p/fall-guys">المصدر الرسمي 🎮</a>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-cover gta6">GTA VI</div>
+            <div class="game-info">
+                <h3>Grand Theft Auto VI</h3>
+                <p>معلومات اللعبة من Rockstar Games.</p>
+                <a class="game-btn" target="_blank" href="https://www.rockstargames.com/VI">Rockstar Games 🎮</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+
+    <div class="section-title">
+        <h2>⚡ مميزات <span>WIFI5GAMES</span></h2>
+        <p>مصمم لعشاق الألعاب</p>
+    </div>
+
+    <div class="features">
+
+        <div class="feature">
+            <div class="feature-icon">🎮</div>
+            <h3>مكتبة ألعاب</h3>
+            <p>مجموعة من أشهر ألعاب الكمبيوتر في مكان واحد.</p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">🔎</div>
+            <h3>بحث سريع</h3>
+            <p>ابحث عن اللعبة التي تريدها خلال ثوانٍ.</p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">🔐</div>
+            <h3>تسجيل Gmail</h3>
+            <p>تسجيل دخول باستخدام رمز تحقق يتم إرساله إلى البريد.</p>
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    <div>
+        © 2026 <strong>WIFI5GAMES</strong>
+    </div>
+    <div style="margin-top:8px">
+        عالم الألعاب بين إيديك 🎮
+    </div>
+</footer>
+
+<!-- LOGIN MODAL -->
+<div class="modal" id="loginModal">
+
+    <div class="modal-box">
+
+        <button class="close" onclick="closeLogin()">×</button>
+
+        <h2>WIFI5<span>GAMES</span></h2>
+
+        <div class="modal-sub">
+            تسجيل الدخول باستخدام Gmail
+        </div>
+
+        <input
+            class="input"
+            id="loginEmail"
+            type="email"
+            placeholder="example@gmail.com"
+            autocomplete="email"
+        >
+
+        <button class="action" id="sendCodeButton" onclick="sendCode()">
+            📧 إرسال رمز التحقق
+        </button>
+
+        <div class="otp-box" id="otpBox">
+
+            <input
+                class="input otp-input"
+                id="otpCode"
+                type="text"
+                inputmode="numeric"
+                maxlength="6"
+                placeholder="••••••"
+            >
+
+            <button class="action" id="verifyButton" onclick="verifyCode()">
+                🔓 تأكيد الرمز
+            </button>
+
+        </div>
+
+        <div class="message" id="loginMessage"></div>
+
+    </div>
+</div>
+
+<script>
+/* =========================================================
+   SUPABASE
+   ضع بيانات مشروعك هنا
+   ========================================================= */
+
+const SUPABASE_URL = "ضع_رابط_مشروع_Supabase_هنا";
+const SUPABASE_ANON_KEY = "ضع_مفتاح_Publishable_او_Anon_هنا";
+
+let supabaseClient = null;
+
+if(
+    SUPABASE_URL.startsWith("http") &&
+    !SUPABASE_URL.includes("ضع_") &&
+    SUPABASE_ANON_KEY &&
+    !SUPABASE_ANON_KEY.includes("ضع_")
+){
+    supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+}
+
+/* LOADER */
+
+let progress = 0;
+
+const loaderProgress = document.getElementById("loaderProgress");
+const loaderText = document.getElementById("loaderText");
+
+const loaderInterval = setInterval(() => {
+
+    progress++;
+
+    loaderProgress.style.width = progress + "%";
+    loaderText.textContent =
+        "جارٍ تشغيل الموقع... " + progress + "%";
+
+    if(progress >= 100){
+
+        clearInterval(loaderInterval);
+
+        setTimeout(() => {
+            document.getElementById("loader").style.opacity = "0";
+
+            setTimeout(() => {
+                document.getElementById("loader").style.display = "none";
+            },600);
+
+        },200);
+
+    }
+
+},30);
+
+
+/* SEARCH */
+
+function searchGames(){
+
+    const value =
+        document.getElementById("gameSearch")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const cards =
+        document.querySelectorAll(".game-card");
+
+    cards.forEach(card => {
+
+        const text =
+            card.innerText.toLowerCase();
+
+        card.style.display =
+            text.includes(value) ? "" : "none";
+
+    });
+}
+
+
+/* LOGIN */
+
+function openLogin(){
+
+    document
+        .getElementById("loginModal")
+        .classList.add("active");
+
+    document
+        .getElementById("loginEmail")
+        .focus();
+}
+
+function closeLogin(){
+
+    document
+        .getElementById("loginModal")
+        .classList.remove("active");
+
+    document.getElementById("loginMessage").textContent = "";
+
+}
+
+
+/* EMAIL VALIDATION */
+
+function validGmail(email){
+
+    email = email.trim().toLowerCase();
+
+    if(!email.endsWith("@gmail.com")){
+        return false;
+    }
+
+    const name =
+        email.substring(
+            0,
+            email.length - "@gmail.com".length
+        );
+
+    if(name.length < 3){
+        return false;
+    }
+
+    return true;
+}
+
+
+/* SEND OTP */
+
+async function sendCode(){
+
+    const email =
+        document.getElementById("loginEmail")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const message =
+        document.getElementById("loginMessage");
+
+    const button =
+        document.getElementById("sendCodeButton");
+
+    if(!supabaseClient){
+
+        message.style.color = "#ff7777";
+
+        message.textContent =
+            "⚠️ ضع بيانات Supabase داخل الكود أولاً.";
+
+        return;
+    }
+
+    if(!validGmail(email)){
+
+        message.style.color = "#ff7777";
+
+        message.textContent =
+            "❌ اكتب Gmail صحيحاً مثل example@gmail.com";
+
+        return;
+    }
+
+    button.disabled = true;
+
+    message.style.color = "#00eaff";
+
+    message.textContent =
+        "📧 جارٍ إرسال رمز التحقق...";
+
+    try{
+
+        const { error } =
+            await supabaseClient.auth.signInWithOtp({
+
+                email:email,
+
+                options:{
+                    shouldCreateUser:true
+                }
+
+            });
+
+        if(error){
+
+            throw error;
+        }
+
+        document
+            .getElementById("otpBox")
+            .classList.add("show");
+
+        message.style.color = "#5dff9b";
+
+        message.textContent =
+            "✅ تم إرسال الرمز إلى Gmail الخاص بك.";
+
+    }catch(error){
+
+        message.style.color = "#ff7777";
+
+        message.textContent =
+            "❌ " + (error.message || "حدث خطأ أثناء إرسال الرمز.");
+
+    }finally{
+
+        button.disabled = false;
+
+    }
+}
+
+
+/* VERIFY OTP */
+
+async function verifyCode(){
+
+    const email =
+        document.getElementById("loginEmail")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const code =
+        document.getElementById("otpCode")
+        .value
+        .trim();
+
+    const message =
+        document.getElementById("loginMessage");
+
+    const button =
+        document.getElementById("verifyButton");
+
+    if(!/^\d{6}$/.test(code)){
+
+        message.style.color = "#ff7777";
+
+        message.textContent =
+            "❌ رمز التحقق يجب أن يكون 6 أرقام.";
+
+        return;
+    }
+
+    button.disabled = true;
+
+    message.style.color = "#00eaff";
+
+    message.textContent =
+        "🔐 جارٍ التحقق...";
+
+    try{
+
+        const { data,error } =
+            await supabaseClient.auth.verifyOtp({
+
+                email:email,
+
+                token:code,
+
+                type:"email"
+
+            });
+
+        if(error){
+
+            throw error;
+        }
+
+        message.style.color = "#5dff9b";
+
+        message.textContent =
+            "✅ تم تسجيل الدخول بنجاح!";
+
+        setTimeout(() => {
+
+            closeLogin();
+
+            updateUserUI(data.session);
+
+        },1000);
+
+    }catch(error){
+
+        message.style.color = "#ff7777";
+
+        message.textContent =
+            "❌ الرمز غير صحيح أو انتهت صلاحيته.";
+
+    }finally{
+
+        button.disabled = false;
+
+    }
+}
+
+
+/* USER UI */
+
+function updateUserUI(session){
+
+    const loginButton =
+        document.getElementById("loginButton");
+
+    const userArea =
+        document.getElementById("userArea");
+
+    const userEmail =
+        document.getElementById("userEmail");
+
+    if(session && session.user){
+
+        loginButton.style.display = "none";
+
+        userArea.style.display = "flex";
+
+        userEmail.textContent =
+            session.user.email;
+
+    }else{
+
+        loginButton.style.display = "block";
+
+        userArea.style.display = "none";
+
+        userEmail.textContent = "";
+
+    }
+}
+
+
+/* LOGOUT */
+
+async function logoutUser(){
+
+    if(!supabaseClient) return;
+
+    await supabaseClient.auth.signOut();
+
+    updateUserUI(null);
+}
+
+
+/* CHECK SESSION */
+
+async function checkSession(){
+
+    if(!supabaseClient){
+
+        return;
+    }
+
+    const { data } =
+        await supabaseClient.auth.getSession();
+
+    updateUserUI(data.session);
+
+    supabaseClient.auth.onAuthStateChange(
+        (event,session) => {
+
+            updateUserUI(session);
+
+        }
+    );
+}
+
+checkSession();
+
+
+/* CLOSE MODAL WHEN CLICK OUTSIDE */
+
+document
+    .getElementById("loginModal")
+    .addEventListener("click",function(e){
+
+        if(e.target === this){
+            closeLogin();
+        }
+
+    });
+
+
+/* ONLY NUMBERS IN OTP */
+
+document
+    .getElementById("otpCode")
+    .addEventListener("input",function(){
+
+        this.value =
+            this.value.replace(/\D/g,"");
+
+    });
+
+
+/* ENTER KEY */
+
+document
+    .getElementById("loginEmail")
+    .addEventListener("keydown",function(e){
+
+        if(e.key === "Enter"){
+            sendCode();
+        }
+
+    });
+
+document
+    .getElementById("otpCode")
+    .addEventListener("keydown",function(e){
+
+        if(e.key === "Enter"){
+            verifyCode();
+        }
+
+    });
+</script>
+
+</body>
+</html>
