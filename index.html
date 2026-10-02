@@ -4,45 +4,292 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>تسجيل الدخول</title>
+<title>Wifi5Games | عالم الألعاب</title>
 
 <style>
-body{
+*{
+    box-sizing:border-box;
     margin:0;
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Tahoma,sans-serif;
     background:#050914;
-    font-family:Arial,sans-serif;
     color:white;
 }
 
-.login-box{
-    width:90%;
-    max-width:400px;
-    background:#0b1724;
-    padding:30px;
-    border-radius:20px;
-    border:1px solid #159bd3;
-    box-shadow:0 0 35px rgba(0,180,255,.2);
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(5,9,20,.95);
+    border-bottom:1px solid #18384b;
+    padding:18px 6%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
 }
 
-h2{
-    text-align:center;
+.logo{
+    font-size:25px;
+    font-weight:900;
+    color:white;
+}
+
+.logo span{
     color:#35c8ff;
 }
 
-p{
-    text-align:center;
-    color:#91a7b8;
+nav{
+    display:flex;
+    gap:20px;
 }
 
-input{
+nav a{
+    color:#c7d8e3;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+nav a:hover{
+    color:#35c8ff;
+}
+
+.login-button{
+    border:0;
+    padding:11px 18px;
+    border-radius:10px;
+    background:#35c8ff;
+    color:#00121c;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.hero{
+    min-height:470px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:60px 20px;
+    background:
+    radial-gradient(circle at center,rgba(0,180,255,.18),transparent 45%);
+}
+
+.hero h1{
+    font-size:clamp(45px,8vw,85px);
+    font-weight:900;
+}
+
+.hero h1 span{
+    color:#35c8ff;
+    text-shadow:0 0 30px rgba(53,200,255,.5);
+}
+
+.hero p{
+    max-width:650px;
+    margin:20px auto;
+    color:#91a7b8;
+    line-height:1.9;
+}
+
+.hero-btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:14px 25px;
+    border-radius:10px;
+    background:#35c8ff;
+    color:#00121c;
+    text-decoration:none;
+    font-weight:900;
+}
+
+section{
+    padding:70px 6%;
+}
+
+.title{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.title h2{
+    font-size:35px;
+}
+
+.title span{
+    color:#35c8ff;
+}
+
+.search{
+    max-width:650px;
+    margin:0 auto 35px;
+}
+
+.search input{
     width:100%;
-    padding:14px;
+    padding:16px;
+    border-radius:12px;
+    border:1px solid #244557;
+    background:#08131e;
+    color:white;
+    font-size:16px;
+    outline:none;
+}
+
+.games{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.card{
+    background:linear-gradient(145deg,#0c1925,#071019);
+    border:1px solid #173547;
+    border-radius:16px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-7px);
+    border-color:#35c8ff;
+    box-shadow:0 15px 35px rgba(0,180,255,.12);
+}
+
+.cover{
+    height:150px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    font-weight:900;
+    color:#35c8ff;
+    background:
+    radial-gradient(circle,rgba(53,200,255,.15),transparent 60%),
+    #07111b;
+    border-bottom:1px solid #173547;
+}
+
+.info{
+    padding:18px;
+}
+
+.info h3{
+    margin-bottom:8px;
+}
+
+.info p{
+    color:#778d9d;
+    font-size:14px;
+    line-height:1.7;
+    min-height:48px;
+}
+
+.game-btn{
+    display:block;
+    text-align:center;
     margin-top:15px;
-    box-sizing:border-box;
+    padding:11px;
+    background:#35c8ff;
+    color:#00121c;
+    border-radius:9px;
+    text-decoration:none;
+    font-weight:900;
+}
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.feature{
+    text-align:center;
+    background:#08131e;
+    border:1px solid #173547;
+    border-radius:16px;
+    padding:30px 20px;
+}
+
+.feature div{
+    font-size:40px;
+    margin-bottom:15px;
+}
+
+.feature p{
+    color:#788f9f;
+    line-height:1.8;
+    margin-top:10px;
+}
+
+footer{
+    padding:35px;
+    text-align:center;
+    color:#728795;
+    border-top:1px solid #173547;
+}
+
+footer span{
+    color:#35c8ff;
+}
+
+/* LOGIN */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:5000;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.login-box{
+    width:100%;
+    max-width:420px;
+    background:#0b1724;
+    padding:30px;
+    border-radius:20px;
+    border:1px solid #35c8ff;
+    box-shadow:0 0 50px rgba(0,180,255,.2);
+    position:relative;
+}
+
+.close{
+    position:absolute;
+    top:10px;
+    left:15px;
+    background:none;
+    border:0;
+    color:#aaa;
+    font-size:30px;
+    cursor:pointer;
+}
+
+.login-box h2{
+    text-align:center;
+    color:#35c8ff;
+    margin-bottom:10px;
+}
+
+.login-box p{
+    text-align:center;
+    color:#8298a8;
+    margin-bottom:20px;
+}
+
+.email-input{
+    width:100%;
+    padding:15px;
     border-radius:10px;
     border:1px solid #29485b;
     background:#07111a;
@@ -52,92 +299,694 @@ input{
     direction:ltr;
 }
 
-input:focus{
+.email-input:focus{
     border-color:#35c8ff;
 }
 
-button{
+.login-submit{
     width:100%;
-    margin-top:15px;
     padding:14px;
+    margin-top:15px;
     border:0;
     border-radius:10px;
     background:#35c8ff;
     color:#00121c;
-    font-weight:bold;
+    font-weight:900;
     font-size:16px;
     cursor:pointer;
 }
 
-#message{
+.message{
     text-align:center;
     margin-top:15px;
-    font-weight:bold;
+    line-height:1.7;
+}
+
+.user{
+    display:none;
+    align-items:center;
+    gap:8px;
+}
+
+.user-email{
+    color:#35c8ff;
+    font-size:13px;
+    max-width:150px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    direction:ltr;
+}
+
+.logout{
+    border:1px solid #29485b;
+    background:#101d29;
+    color:white;
+    padding:9px 12px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+@media(max-width:1000px){
+    .games{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
+@media(max-width:750px){
+    header{
+        padding:15px 4%;
+    }
+
+    nav{
+        display:none;
+    }
+
+    .games{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:520px){
+    .games{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:48px;
+    }
+
+    .user-email{
+        display:none;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="login-box">
+<header>
 
-    <h2>🔐 تسجيل الدخول</h2>
+    <div class="logo">
+        WIFI5<span>GAMES</span>
+    </div>
 
-    <p>أدخل بريدك الإلكتروني</p>
+    <nav>
+        <a href="#home">الرئيسية</a>
+        <a href="#games">الألعاب</a>
+        <a href="#features">المميزات</a>
+    </nav>
 
-    <input
-        id="email"
-        type="email"
-        placeholder="مثال: fahed@gmail.com"
-        autocomplete="email"
-    >
+    <div id="authArea">
 
-    <button onclick="login()">
-        تسجيل الدخول
-    </button>
+        <button class="login-button" onclick="openLogin()">
+            🔐 تسجيل الدخول
+        </button>
 
-    <div id="message"></div>
+        <div class="user" id="userArea">
+
+            <span class="user-email" id="userEmail"></span>
+
+            <button class="logout" onclick="logout()">
+                خروج
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+<main>
+
+<section class="hero" id="home">
+
+    <div>
+
+        <h1>
+            WIFI5<br>
+            <span>GAMES</span>
+        </h1>
+
+        <p>
+            مرحباً بك في عالم Wifi5Games 🎮
+            اكتشف أشهر ألعاب الكمبيوتر
+            وروابطها الرسمية في مكان واحد.
+        </p>
+
+        <a href="#games" class="hero-btn">
+            🎮 تصفح الألعاب
+        </a>
+
+    </div>
+
+</section>
+
+<section id="games">
+
+    <div class="title">
+        <h2>🎮 مكتبة <span>الألعاب</span></h2>
+    </div>
+
+    <div class="search">
+        <input
+            id="search"
+            type="text"
+            placeholder="🔎 ابحث عن لعبة..."
+            oninput="searchGames()"
+        >
+    </div>
+
+    <div class="games">
+
+        <div class="card">
+            <div class="cover">GTA V</div>
+            <div class="info">
+                <h3>Grand Theft Auto V</h3>
+                <p>عالم مفتوح وأكشن ومغامرات.</p>
+                <a class="game-btn"
+                   href="https://www.rockstargames.com/gta-v"
+                   target="_blank">
+                    🎮 الموقع الرسمي
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">FORTNITE</div>
+            <div class="info">
+                <h3>Fortnite</h3>
+                <p>باتل رويال مجانية ومنافسات قوية.</p>
+                <a class="game-btn"
+                   href="https://www.fortnite.com/download"
+                   target="_blank">
+                    🎮 تحميل Fortnite
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">CS2</div>
+            <div class="info">
+                <h3>Counter-Strike 2</h3>
+                <p>تصويب تنافسي شهير.</p>
+                <a class="game-btn"
+                   href="https://store.steampowered.com/app/730/CounterStrike_2/"
+                   target="_blank">
+                    🎮 Steam
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">MINECRAFT</div>
+            <div class="info">
+                <h3>Minecraft</h3>
+                <p>بناء واستكشاف وعالم مفتوح.</p>
+                <a class="game-btn"
+                   href="https://www.minecraft.net/store/minecraft-java-bedrock-edition-pc"
+                   target="_blank">
+                    🎮 الموقع الرسمي
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">ROBLOX</div>
+            <div class="info">
+                <h3>Roblox</h3>
+                <p>ملايين التجارب والألعاب.</p>
+                <a class="game-btn"
+                   href="https://www.roblox.com/download"
+                   target="_blank">
+                    🎮 تحميل
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">PUBG</div>
+            <div class="info">
+                <h3>PUBG: BATTLEGROUNDS</h3>
+                <p>باتل رويال تنافسية.</p>
+                <a class="game-btn"
+                   href="https://store.steampowered.com/app/578080/PUBG_BATTLEGROUNDS/"
+                   target="_blank">
+                    🎮 Steam
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">APEX</div>
+            <div class="info">
+                <h3>Apex Legends</h3>
+                <p>باتل رويال سريعة.</p>
+                <a class="game-btn"
+                   href="https://store.steampowered.com/app/1172470/Apex_Legends/"
+                   target="_blank">
+                    🎮 Steam
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">WARFRAME</div>
+            <div class="info">
+                <h3>Warframe</h3>
+                <p>أكشن وخيال علمي أونلاين.</p>
+                <a class="game-btn"
+                   href="https://store.steampowered.com/app/230410/Warframe/"
+                   target="_blank">
+                    🎮 Steam
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">DOTA 2</div>
+            <div class="info">
+                <h3>Dota 2</h3>
+                <p>لعبة MOBA تنافسية.</p>
+                <a class="game-btn"
+                   href="https://store.steampowered.com/app/570/Dota_2/"
+                   target="_blank">
+                    🎮 Steam
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">TF2</div>
+            <div class="info">
+                <h3>Team Fortress 2</h3>
+                <p>تصويب جماعي مجاني.</p>
+                <a class="game-btn"
+                   href="https://store.steampowered.com/app/440/Team_Fortress_2/"
+                   target="_blank">
+                    🎮 Steam
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">TERRARIA</div>
+            <div class="info">
+                <h3>Terraria</h3>
+                <p>استكشاف وبناء ومغامرات.</p>
+                <a class="game-btn"
+                   href="https://store.steampowered.com/app/105600/Terraria/"
+                   target="_blank">
+                    🎮 Steam
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">ETS2</div>
+            <div class="info">
+                <h3>Euro Truck Simulator 2</h3>
+                <p>قيادة الشاحنات واستكشاف أوروبا.</p>
+                <a class="game-btn"
+                   href="https://store.steampowered.com/app/227300/Euro_Truck_Simulator_2/"
+                   target="_blank">
+                    🎮 Steam
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">THE LONG DARK</div>
+            <div class="info">
+                <h3>The Long Dark</h3>
+                <p>بقاء واستكشاف في الشتاء.</p>
+                <a class="game-btn"
+                   href="https://store.steampowered.com/app/305620/The_Long_Dark/"
+                   target="_blank">
+                    🎮 Steam
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">UNTURNED</div>
+            <div class="info">
+                <h3>Unturned</h3>
+                <p>بقاء وعالم مليء بالزومبي.</p>
+                <a class="game-btn"
+                   href="https://store.steampowered.com/app/304930/Unturned/"
+                   target="_blank">
+                    🎮 Steam
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">PALADINS</div>
+            <div class="info">
+                <h3>Paladins</h3>
+                <p>تصويب جماعي بالأبطال.</p>
+                <a class="game-btn"
+                   href="https://store.steampowered.com/app/444090/Paladins/"
+                   target="_blank">
+                    🎮 Steam
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">BRAWLHALLA</div>
+            <div class="info">
+                <h3>Brawlhalla</h3>
+                <p>قتالات أونلاين سريعة.</p>
+                <a class="game-btn"
+                   href="https://store.steampowered.com/app/291550/Brawlhalla/"
+                   target="_blank">
+                    🎮 Steam
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">ROCKET</div>
+            <div class="info">
+                <h3>Rocket League</h3>
+                <p>كرة قدم بالسيارات.</p>
+                <a class="game-btn"
+                   href="https://www.rocketleague.com/"
+                   target="_blank">
+                    🎮 الموقع الرسمي
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">SIMS 4</div>
+            <div class="info">
+                <h3>The Sims 4</h3>
+                <p>أنشئ شخصياتك وحياتك.</p>
+                <a class="game-btn"
+                   href="https://www.ea.com/games/the-sims/the-sims-4"
+                   target="_blank">
+                    🎮 الموقع الرسمي
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">FALL GUYS</div>
+            <div class="info">
+                <h3>Fall Guys</h3>
+                <p>منافسات جماعية ممتعة.</p>
+                <a class="game-btn"
+                   href="https://store.epicgames.com/en-US/p/fall-guys"
+                   target="_blank">
+                    🎮 Epic Games
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover">GTA VI</div>
+            <div class="info">
+                <h3>Grand Theft Auto VI</h3>
+                <p>آخر أخبار وتفاصيل GTA VI.</p>
+                <a class="game-btn"
+                   href="https://www.rockstargames.com/VI"
+                   target="_blank">
+                    🎮 Rockstar
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section id="features">
+
+    <div class="title">
+        <h2>⚡ مميزات <span>Wifi5Games</span></h2>
+    </div>
+
+    <div class="features">
+
+        <div class="feature">
+            <div>🎮</div>
+            <h3>ألعاب مشهورة</h3>
+            <p>
+                أشهر ألعاب الكمبيوتر في مكان واحد.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div>🔐</div>
+            <h3>تسجيل دخول</h3>
+            <p>
+                المستخدم يدخل إيميله بنفسه.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div>📱</div>
+            <h3>متوافق مع الجوال</h3>
+            <p>
+                الموقع يعمل على الهاتف والكمبيوتر.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<footer>
+    © 2026 <span>Wifi5Games</span> — جميع الحقوق محفوظة
+</footer>
+
+
+<!-- LOGIN MODAL -->
+
+<div class="modal" id="loginModal">
+
+    <div class="login-box">
+
+        <button class="close" onclick="closeLogin()">
+            ×
+        </button>
+
+        <h2>🔐 تسجيل الدخول</h2>
+
+        <p>
+            أدخل إيميلك الخاص
+        </p>
+
+        <input
+            id="email"
+            class="email-input"
+            type="email"
+            placeholder="مثال: fahed@gmail.com"
+            autocomplete="email"
+        >
+
+        <button
+            class="login-submit"
+            onclick="login()">
+            دخول
+        </button>
+
+        <div
+            class="message"
+            id="message">
+        </div>
+
+    </div>
 
 </div>
 
+
 <script>
+
+/* =========================
+   LOGIN
+========================= */
+
+function openLogin(){
+
+    document
+    .getElementById("loginModal")
+    .classList.add("active");
+
+    document
+    .getElementById("email")
+    .focus();
+}
+
+
+function closeLogin(){
+
+    document
+    .getElementById("loginModal")
+    .classList.remove("active");
+
+    document
+    .getElementById("message")
+    .textContent="";
+}
+
+
+/* =========================
+   CHECK GMAIL
+========================= */
 
 function login(){
 
     const email =
-        document.getElementById("email").value.trim();
+        document
+        .getElementById("email")
+        .value
+        .trim();
 
     const message =
-        document.getElementById("message");
+        document
+        .getElementById("message");
 
     if(email === ""){
-        message.style.color = "#ff5555";
-        message.textContent =
-            "❌ اكتب بريدك الإلكتروني";
+
+        message.style.color="#ff5555";
+
+        message.textContent=
+        "❌ اكتب الإيميل أولاً";
+
         return;
     }
+
 
     if(!email.endsWith("@gmail.com")){
-        message.style.color = "#ff5555";
-        message.textContent =
-            "❌ لازم يكون الإيميل من نوع @gmail.com";
+
+        message.style.color="#ff5555";
+
+        message.textContent=
+        "❌ لازم يكون الإيميل من نوع @gmail.com";
+
         return;
     }
 
-    if(email.length <= "@gmail.com".length){
-        message.style.color = "#ff5555";
-        message.textContent =
-            "❌ اكتب اسم الإيميل قبل @gmail.com";
+
+    const username =
+        email.replace("@gmail.com","");
+
+
+    if(username.length < 3){
+
+        message.style.color="#ff5555";
+
+        message.textContent=
+        "❌ اكتب إيميل صحيح";
+
         return;
     }
 
-    message.style.color = "#35c8ff";
-    message.textContent =
-        "✅ تم إدخال الإيميل بشكل صحيح: " + email;
+
+    message.style.color="#35c8ff";
+
+    message.textContent=
+    "✅ تم تسجيل الدخول: " + email;
+
+
+    document
+    .getElementById("authArea")
+    .querySelector(".login-button")
+    .style.display="none";
+
+
+    document
+    .getElementById("userArea")
+    .style.display="flex";
+
+
+    document
+    .getElementById("userEmail")
+    .textContent=email;
+
+
+    setTimeout(() => {
+
+        closeLogin();
+
+    },1000);
 
 }
 
-</script>
 
-</body>
-</html>
+/* =========================
+   LOGOUT
+========================= */
+
+function logout(){
+
+    document
+    .getElementById("userArea")
+    .style.display="none";
+
+
+    document
+    .getElementById("authArea")
+    .querySelector(".login-button")
+    .style.display="block";
+
+
+    document
+    .getElementById("userEmail")
+    .textContent="";
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchGames(){
+
+    const search =
+        document
+        .getElementById("search")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const cards =
+        document.querySelectorAll(".card");
+
+
+    cards.forEach(card => {
+
+        const text =
+            card.textContent.toLowerCase();
+
+        if(text.includes(search)){
+
+            card.style.display="block";
+
+        }else{
+
+            card.style.display="none";
+
+        }
+
+    });
+
+}
+
+
+/* =========================
+   CLOSE MODAL OUTSIDE
+========================= */
+
+document
+.getElementById("loginModal")
+.addEventListener("click",
