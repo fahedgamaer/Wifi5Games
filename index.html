@@ -6,6 +6,10 @@
 
 <title>WIFI5GAMES — Ultimate Gaming</title>
 
+<meta name="description" content="WIFI5GAMES - عالم الألعاب بين إيديك. GTA V, GTA VI, Fortnite و Counter-Strike.">
+<meta name="keywords" content="WIFI5GAMES, GTA V, GTA VI, Fortnite, Counter Strike, ألعاب">
+<meta name="theme-color" content="#05070d">
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
 
@@ -21,16 +25,41 @@ html{
 
 body{
     font-family:'Cairo',sans-serif;
-    background:#05070b;
-    color:#fff;
-    min-height:100vh;
+    background:#05070d;
+    color:white;
     overflow-x:hidden;
 }
 
-/* ================================
-   شاشة التحميل
-================================ */
+/* BACKGROUND */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-3;
+    background:
+        linear-gradient(rgba(0,255,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,255,255,.035) 1px,transparent 1px);
+    background-size:50px 50px;
+    animation:gridMove 15s linear infinite;
+}
 
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    background:
+        radial-gradient(circle at 15% 20%,rgba(0,255,255,.12),transparent 30%),
+        radial-gradient(circle at 85% 70%,rgba(150,0,255,.10),transparent 30%);
+    pointer-events:none;
+}
+
+@keyframes gridMove{
+    from{transform:translateY(0)}
+    to{transform:translateY(50px)}
+}
+
+/* LOADER */
 #loader{
     position:fixed;
     inset:0;
@@ -38,612 +67,901 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    overflow:hidden;
-    background:
-        radial-gradient(circle at 50% 45%,rgba(0,255,255,.10),transparent 35%),
-        #030509;
-    transition:opacity .6s ease,visibility .6s ease;
+    background:#03050a;
+    transition:opacity .7s,visibility .7s;
 }
 
 #loader.hide{
     opacity:0;
     visibility:hidden;
-    pointer-events:none;
 }
 
-.loader-grid{
-    position:absolute;
-    inset:-100px;
-    background:
-        linear-gradient(rgba(0,255,255,.04) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,255,255,.04) 1px,transparent 1px);
-    background-size:45px 45px;
-    transform:perspective(500px) rotateX(55deg) translateY(100px);
-    animation:gridLoader 4s linear infinite;
-}
-
-@keyframes gridLoader{
-    from{
-        transform:perspective(500px) rotateX(55deg) translateY(0);
-    }
-    to{
-        transform:perspective(500px) rotateX(55deg) translateY(45px);
-    }
-}
-
-.loader-content{
-    position:relative;
-    z-index:2;
-    width:min(500px,90%);
+.loader-box{
+    width:min(90%,450px);
     text-align:center;
 }
 
 .loader-logo{
-    font-size:clamp(40px,9vw,75px);
+    font-size:42px;
     font-weight:900;
-    letter-spacing:4px;
-    color:#fff;
-    text-shadow:
-        0 0 10px #00ffff,
-        0 0 30px rgba(0,255,255,.55);
-    animation:logoPulse 1.5s infinite alternate;
+    letter-spacing:3px;
+    text-shadow:0 0 20px #00ffff;
+    margin-bottom:25px;
 }
 
 .loader-logo span{
     color:#00ffff;
 }
 
-@keyframes logoPulse{
-    from{
-        transform:scale(1);
-        opacity:.85;
-    }
-    to{
-        transform:scale(1.03);
-        opacity:1;
-    }
+.loader-sub{
+    color:#9da8b7;
+    margin-bottom:25px;
 }
 
-.loader-subtitle{
-    margin-top:5px;
-    color:#8fa2ad;
-    letter-spacing:5px;
-    font-size:13px;
-}
-
-/* GTA VI مبرمج داخل الصفحة */
-
-.gta6-art{
-    width:210px;
-    height:170px;
-    margin:30px auto 20px;
-    position:relative;
-    filter:drop-shadow(0 0 25px rgba(255,0,180,.3));
-}
-
-.gta6-sun{
-    position:absolute;
-    width:130px;
-    height:130px;
-    border-radius:50%;
-    left:40px;
-    top:5px;
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            #ff4fb3 0 8px,
-            #ffb15c 8px 13px
-        );
-    box-shadow:
-        0 0 25px rgba(255,80,170,.5);
-}
-
-.gta6-palms{
-    position:absolute;
-    bottom:15px;
-    left:20px;
-    width:170px;
-    height:100px;
-}
-
-.palm{
-    position:absolute;
-    bottom:0;
-    width:5px;
-    height:90px;
-    background:#08090d;
-    transform:rotate(-12deg);
-}
-
-.palm.one{
-    left:45px;
-}
-
-.palm.two{
-    right:35px;
-    height:70px;
-    transform:rotate(15deg);
-}
-
-.palm::before,
-.palm::after{
-    content:"";
-    position:absolute;
-    width:65px;
-    height:5px;
-    background:#08090d;
-    top:0;
-    left:-30px;
-    border-radius:100%;
-}
-
-.palm::before{
-    transform:rotate(-30deg);
-}
-
-.palm::after{
-    transform:rotate(30deg);
-}
-
-.gta6-title{
-    position:absolute;
-    left:0;
-    right:0;
-    bottom:0;
-    font-family:Impact,Arial Black,sans-serif;
-    font-size:52px;
-    letter-spacing:3px;
-    color:#fff;
-    text-shadow:
-        3px 3px 0 #ff48ad,
-        -2px -2px 0 #43d7ff;
-    transform:rotate(-3deg);
-}
-
-.loader-status{
-    color:#00ffff;
-    font-size:14px;
-    margin-bottom:10px;
-}
-
-.loader-bar{
+.loader-line{
+    height:7px;
     width:100%;
-    height:8px;
+    background:#111827;
     border-radius:20px;
     overflow:hidden;
-    background:#111a21;
-    border:1px solid rgba(0,255,255,.2);
 }
 
 .loader-progress{
-    width:0%;
     height:100%;
-    background:linear-gradient(90deg,#00a8ff,#00ffff);
-    box-shadow:0 0 15px #00ffff;
+    width:0%;
+    background:linear-gradient(90deg,#00ffff,#0077ff,#b000ff);
+    box-shadow:0 0 20px #00ffff;
+    transition:width .1s;
 }
 
 .loader-percent{
-    margin-top:10px;
-    color:#71828e;
-    font-size:13px;
+    margin-top:12px;
+    color:#00ffff;
+    font-weight:800;
 }
 
-/* ================================
-   الخلفية
-================================ */
-
-body::before{
-    content:"";
+/* NAV */
+nav{
     position:fixed;
-    inset:0;
-    z-index:-2;
-    background:
-        linear-gradient(rgba(0,255,255,.025) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,255,255,.025) 1px,transparent 1px);
-    background-size:45px 45px;
-    animation:gridMove 10s linear infinite;
-}
-
-@keyframes gridMove{
-    from{transform:translateY(0)}
-    to{transform:translateY(45px)}
-}
-
-/* ================================
-   تسجيل الدخول
-================================ */
-
-#loginPage{
-    min-height:100vh;
-    display:none;
-    justify-content:center;
+    top:0;
+    left:0;
+    right:0;
+    height:82px;
+    z-index:1000;
+    display:flex;
     align-items:center;
-    padding:20px;
-}
-
-.login-card{
-    width:100%;
-    max-width:440px;
-    padding:40px 30px;
-    background:rgba(8,13,20,.96);
-    border:1px solid rgba(0,255,255,.35);
-    border-radius:25px;
-    box-shadow:
-        0 0 35px rgba(0,255,255,.12),
-        inset 0 0 30px rgba(0,255,255,.025);
-    text-align:center;
+    justify-content:space-between;
+    padding:0 6%;
+    background:rgba(3,5,10,.78);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid rgba(0,255,255,.12);
 }
 
 .logo{
-    font-size:38px;
+    font-size:25px;
     font-weight:900;
     letter-spacing:2px;
-    text-shadow:0 0 18px rgba(0,255,255,.7);
 }
 
 .logo span{
     color:#00ffff;
-}
-
-.login-title{
-    margin-top:25px;
-    font-size:26px;
-    font-weight:800;
-}
-
-.login-subtitle{
-    color:#8996a3;
-    font-size:14px;
-    margin:8px 0 25px;
-}
-
-.email-input{
-    width:100%;
-    padding:16px;
-    border-radius:13px;
-    border:1px solid #26333d;
-    outline:none;
-    background:#0c1219;
-    color:#fff;
-    font-size:16px;
-    direction:ltr;
-    text-align:left;
-}
-
-.email-input:focus{
-    border-color:#00ffff;
-    box-shadow:0 0 18px rgba(0,255,255,.15);
-}
-
-.login-button{
-    width:100%;
-    margin-top:15px;
-    padding:15px;
-    border:0;
-    border-radius:13px;
-    background:linear-gradient(90deg,#00caca,#00ffff);
-    color:#001010;
-    font-size:17px;
-    font-weight:900;
-    font-family:'Cairo',sans-serif;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.login-button:hover{
-    transform:translateY(-2px);
-    box-shadow:0 0 25px rgba(0,255,255,.35);
-}
-
-.error{
-    color:#ff5470;
-    font-size:14px;
-    margin-top:12px;
-    min-height:20px;
-}
-
-/* ================================
-   الموقع
-================================ */
-
-#site{
-    display:none;
-}
-
-nav{
-    height:85px;
-    padding:0 6%;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border-bottom:1px solid rgba(0,255,255,.12);
-    background:rgba(5,7,11,.88);
-    backdrop-filter:blur(15px);
-    position:sticky;
-    top:0;
-    z-index:100;
-}
-
-.nav-logo{
-    font-size:25px;
-    font-weight:900;
     text-shadow:0 0 15px #00ffff;
 }
 
-.nav-logo span{
+.logo small{
+    display:block;
+    color:#788391;
+    font-size:9px;
+    letter-spacing:3px;
+}
+
+.nav-links{
+    display:flex;
+    gap:30px;
+    list-style:none;
+}
+
+.nav-links a{
+    color:#cbd5e1;
+    text-decoration:none;
+    font-size:14px;
+    transition:.3s;
+}
+
+.nav-links a:hover{
     color:#00ffff;
 }
 
-.account{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:9px 15px;
-    border:1px solid rgba(0,255,255,.25);
-    border-radius:30px;
-    background:rgba(0,255,255,.05);
-}
-
-.account-icon{
-    width:32px;
-    height:32px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:50%;
-    background:#00ffff;
-    color:#001010;
-}
-
-#accountName{
-    font-size:14px;
-    font-weight:700;
-}
-
-/* Hero */
-
-.hero{
-    min-height:620px;
-    padding:80px 7%;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:50px;
-}
-
-.hero-text{
-    max-width:650px;
-}
-
-.live{
-    display:inline-block;
-    padding:7px 14px;
+.login-btn{
     border:1px solid #00ffff;
     color:#00ffff;
-    border-radius:30px;
-    font-size:13px;
+    background:rgba(0,255,255,.06);
+    padding:10px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-family:inherit;
+    font-weight:800;
+    transition:.3s;
+}
+
+.login-btn:hover{
+    background:#00ffff;
+    color:#001015;
+    box-shadow:0 0 25px rgba(0,255,255,.4);
+}
+
+/* HERO */
+.hero{
+    min-height:100vh;
+    padding:140px 7% 70px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+    gap:40px;
+    position:relative;
+}
+
+.hero-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:#00ffff;
+    border:1px solid rgba(0,255,255,.3);
+    background:rgba(0,255,255,.05);
+    padding:8px 15px;
+    border-radius:50px;
+    font-size:12px;
     margin-bottom:20px;
+}
+
+.live-dot{
+    width:7px;
+    height:7px;
+    background:#00ffff;
+    border-radius:50%;
+    box-shadow:0 0 12px #00ffff;
 }
 
 .hero h1{
     font-size:clamp(50px,8vw,100px);
     line-height:.95;
     font-weight:900;
-    text-shadow:0 0 30px rgba(0,255,255,.3);
+    letter-spacing:-4px;
 }
 
 .hero h1 span{
     color:#00ffff;
+    text-shadow:
+        0 0 10px #00ffff,
+        0 0 35px rgba(0,255,255,.35);
 }
 
 .hero p{
-    color:#9aa7b4;
-    font-size:18px;
     margin:25px 0;
+    max-width:600px;
+    color:#9ba6b5;
+    line-height:2;
 }
 
-.hero-button{
-    display:inline-block;
-    padding:15px 28px;
-    border-radius:12px;
-    background:#00ffff;
-    color:#001010;
-    font-weight:900;
+.hero-buttons{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:14px 24px;
+    border-radius:10px;
     text-decoration:none;
+    font-weight:900;
+    cursor:pointer;
+    border:0;
+    font-family:inherit;
+    transition:.3s;
 }
 
-/* Hero GTA */
+.btn-main{
+    background:#00ffff;
+    color:#001014;
+    box-shadow:0 0 25px rgba(0,255,255,.25);
+}
 
-.hero-art{
-    width:420px;
-    height:420px;
-    border-radius:30px;
-    border:1px solid rgba(0,255,255,.3);
+.btn-main:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 35px rgba(0,255,255,.5);
+}
+
+.btn-dark{
+    border:1px solid #263241;
+    color:white;
+    background:#0b1018;
+}
+
+.btn-dark:hover{
+    border-color:#00ffff;
+}
+
+/* GTA ART */
+.gta-art{
+    min-height:500px;
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.gta-glow{
+    position:absolute;
+    width:340px;
+    height:340px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(255,0,140,.25),transparent 65%);
+    filter:blur(20px);
+}
+
+.gta-ring{
+    position:absolute;
+    width:390px;
+    height:390px;
+    border:1px solid rgba(0,255,255,.25);
+    border-radius:50%;
+    animation:spin 15s linear infinite;
+}
+
+.gta-ring::before,
+.gta-ring::after{
+    content:"";
+    position:absolute;
+    width:10px;
+    height:10px;
+    background:#00ffff;
+    border-radius:50%;
+    box-shadow:0 0 20px #00ffff;
+}
+
+.gta-ring::before{
+    top:-5px;
+    left:50%;
+}
+
+.gta-ring::after{
+    bottom:30px;
+    right:15px;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+/* GTA VI PANEL */
+.gta-card{
+    width:min(390px,90%);
+    min-height:480px;
+    border-radius:25px;
+    overflow:hidden;
+    position:relative;
     background:
-        radial-gradient(circle at 50% 40%,rgba(255,70,180,.22),transparent 35%),
-        linear-gradient(145deg,rgba(0,255,255,.08),rgba(255,0,150,.04)),
-        #090e15;
+        linear-gradient(145deg,rgba(255,0,135,.22),rgba(0,255,255,.07)),
+        #0b0d15;
+    border:1px solid rgba(255,255,255,.13);
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.6),
+        0 0 50px rgba(255,0,150,.12);
+    transform:rotate(-3deg);
+    transition:.5s;
+}
+
+.gta-card:hover{
+    transform:rotate(0) scale(1.03);
+}
+
+.gta-sky{
+    height:290px;
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 50% 25%,#ffcf6b 0 7%,transparent 8%),
+        linear-gradient(180deg,#f24b89 0%,#fa9b9d 48%,#4ec8d5 49%,#122d49 100%);
+}
+
+.gta-sun{
+    position:absolute;
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#ffd46b;
+    left:50%;
+    top:45px;
+    transform:translateX(-50%);
+    box-shadow:0 0 45px rgba(255,210,100,.8);
+}
+
+.palm{
+    position:absolute;
+    bottom:-5px;
+    width:13px;
+    height:160px;
+    background:#101522;
+    border-radius:50%;
+}
+
+.palm:before{
+    content:"";
+    position:absolute;
+    width:130px;
+    height:80px;
+    left:-58px;
+    top:-40px;
+    background:
+        radial-gradient(ellipse at center,#101522 0 35%,transparent 37%);
+}
+
+.palm.one{
+    right:35px;
+    transform:rotate(12deg);
+}
+
+.palm.two{
+    left:40px;
+    height:130px;
+    transform:rotate(-10deg);
+}
+
+.city{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    height:85px;
+    background:
+        linear-gradient(90deg,
+        #15192b 0 12%,
+        transparent 12% 16%,
+        #202039 16% 28%,
+        transparent 28% 32%,
+        #111827 32% 45%,
+        transparent 45% 49%,
+        #202039 49% 63%,
+        transparent 63% 68%,
+        #111827 68% 82%,
+        transparent 82% 86%,
+        #1e293b 86%);
+}
+
+.gta-text{
+    position:absolute;
+    inset:0;
     display:flex;
     align-items:center;
     justify-content:center;
-    position:relative;
-    overflow:hidden;
-    box-shadow:0 0 50px rgba(0,255,255,.12);
-}
-
-.hero-art::before{
-    content:"GTA VI";
-    font-family:Impact,Arial Black,sans-serif;
-    font-size:85px;
-    letter-spacing:3px;
-    color:#fff;
+    font-family:Arial,sans-serif;
+    font-size:88px;
+    font-weight:900;
+    font-style:italic;
+    color:white;
     text-shadow:
-        4px 4px 0 #ff48ad,
-        -3px -3px 0 #43d7ff;
+        4px 5px 0 #ff2b91,
+        -3px -2px 0 #00d9ff;
     transform:rotate(-7deg);
 }
 
-.hero-art::after{
-    content:"WIFI5GAMES";
-    position:absolute;
-    bottom:25px;
-    color:#00ffff;
+.gta-info{
+    padding:22px;
+}
+
+.gta-info h2{
+    font-size:28px;
+}
+
+.gta-info h2 span{
+    color:#ff3e9d;
+}
+
+.gta-info p{
+    color:#8994a3;
+    font-size:12px;
+    margin:8px 0 15px;
+}
+
+.gta-btn{
+    display:block;
+    text-align:center;
+    text-decoration:none;
+    color:white;
+    background:linear-gradient(90deg,#ff1687,#7c3aed);
+    padding:12px;
+    border-radius:10px;
     font-weight:900;
-    letter-spacing:4px;
 }
 
-/* الألعاب */
-
-.section-title{
-    padding:30px 7%;
+/* FLOATING */
+.float-card{
+    position:absolute;
+    background:rgba(8,12,20,.9);
+    border:1px solid #263445;
+    padding:12px 15px;
+    border-radius:12px;
+    backdrop-filter:blur(10px);
+    box-shadow:0 10px 35px rgba(0,0,0,.4);
+    font-size:11px;
+    z-index:5;
 }
 
-.section-title h2{
-    font-size:36px;
-}
-
-.section-title span{
+.float-card strong{
     color:#00ffff;
+    display:block;
+    font-size:16px;
 }
 
+.fc1{
+    top:60px;
+    right:5px;
+}
+
+.fc2{
+    bottom:60px;
+    left:0;
+}
+
+/* TICKER */
+.ticker{
+    border-top:1px solid rgba(0,255,255,.1);
+    border-bottom:1px solid rgba(0,255,255,.1);
+    padding:13px 0;
+    overflow:hidden;
+    background:rgba(0,255,255,.02);
+}
+
+.ticker-track{
+    white-space:nowrap;
+    animation:ticker 25s linear infinite;
+    color:#667383;
+    font-size:12px;
+}
+
+.ticker-track span{
+    color:#00ffff;
+    margin:0 25px;
+}
+
+@keyframes ticker{
+    from{transform:translateX(0)}
+    to{transform:translateX(50%)}
+}
+
+/* SECTION */
+section{
+    padding:100px 7%;
+}
+
+.section-head{
+    margin-bottom:45px;
+}
+
+.section-head small{
+    color:#00ffff;
+    font-weight:800;
+}
+
+.section-head h2{
+    font-size:42px;
+    margin-top:7px;
+}
+
+.section-head p{
+    color:#7e8998;
+    margin-top:10px;
+}
+
+/* GAMES */
 .games{
-    padding:10px 7% 80px;
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:25px;
+    gap:22px;
 }
 
 .game{
-    min-height:300px;
-    padding:25px;
-    border-radius:20px;
-    border:1px solid rgba(255,255,255,.08);
-    background:linear-gradient(145deg,#0c1219,#070a0f);
+    min-height:390px;
     position:relative;
     overflow:hidden;
-    transition:.3s;
+    border:1px solid #1c2735;
+    border-radius:20px;
+    background:#0a0e15;
+    transition:.4s;
 }
 
 .game:hover{
     transform:translateY(-8px);
-    border-color:rgba(0,255,255,.5);
-    box-shadow:0 0 30px rgba(0,255,255,.12);
+    border-color:#00ffff;
+    box-shadow:0 20px 50px rgba(0,255,255,.08);
 }
 
-.game-number{
+.game-cover{
+    height:220px;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+.game-cover::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(transparent,rgba(5,7,13,.9));
+}
+
+.cover-gta{
+    background:
+        radial-gradient(circle at 70% 25%,#ffcf6a 0 8%,transparent 9%),
+        linear-gradient(135deg,#ef4d80,#ef9f92 48%,#15384c);
+}
+
+.cover-fortnite{
+    background:
+        radial-gradient(circle at 70% 20%,#00eaff,transparent 20%),
+        linear-gradient(135deg,#5423a5,#00a7d9);
+}
+
+.cover-cs{
+    background:
+        radial-gradient(circle at 30% 25%,#ffb000,transparent 20%),
+        linear-gradient(135deg,#131313,#734318);
+}
+
+.cover-title{
+    position:relative;
+    z-index:2;
+    font-size:38px;
+    font-weight:900;
+    text-shadow:0 4px 20px #000;
+}
+
+.game-body{
+    padding:20px;
+}
+
+.game-body h3{
+    font-size:22px;
+}
+
+.game-body p{
+    color:#7e8998;
+    font-size:12px;
+    margin:7px 0 15px;
+}
+
+.game-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.game-tag{
+    font-size:10px;
     color:#00ffff;
-    font-size:13px;
+    background:rgba(0,255,255,.07);
+    border:1px solid rgba(0,255,255,.15);
+    padding:5px 9px;
+    border-radius:20px;
 }
 
-.game h3{
-    font-size:28px;
-    margin-top:50px;
-}
-
-.game p{
-    color:#8793a0;
-    margin:10px 0 25px;
-}
-
-.game-button{
-    display:inline-block;
-    padding:10px 18px;
-    border-radius:9px;
-    background:#00ffff;
-    color:#001010;
+.play{
     text-decoration:none;
-    font-weight:800;
+    background:#00ffff;
+    color:#001014;
+    padding:8px 14px;
+    border-radius:8px;
+    font-weight:900;
+    font-size:11px;
 }
 
-/* الحساب */
-
-.profile{
-    margin:20px 7% 80px;
-    padding:35px;
-    border-radius:22px;
-    border:1px solid rgba(0,255,255,.2);
-    background:#080d13;
+/* FEATURE */
+.big-feature{
+    min-height:500px;
+    border-radius:30px;
+    overflow:hidden;
+    position:relative;
+    display:flex;
+    align-items:center;
+    padding:60px;
+    background:
+        linear-gradient(90deg,rgba(4,7,13,.98) 10%,rgba(4,7,13,.75) 55%,rgba(4,7,13,.25)),
+        linear-gradient(135deg,#0c2230,#43172f);
+    border:1px solid #1c2b3a;
 }
 
-.profile h2{
+.big-feature::after{
+    content:"GTA V";
+    position:absolute;
+    right:-20px;
+    bottom:-90px;
+    font-size:260px;
+    font-weight:900;
+    color:rgba(255,255,255,.025);
+    pointer-events:none;
+}
+
+.feature-content{
+    max-width:550px;
+    position:relative;
+    z-index:2;
+}
+
+.feature-content small{
     color:#00ffff;
-    margin-bottom:10px;
+    font-weight:900;
 }
 
-.profile p{
-    color:#9aa7b4;
+.feature-content h2{
+    font-size:60px;
+    line-height:1;
+    margin:15px 0;
 }
 
-.logout{
-    margin-top:20px;
-    padding:11px 20px;
-    border:1px solid #ff4567;
-    background:transparent;
-    color:#ff4567;
+.feature-content p{
+    color:#9aa5b3;
+    line-height:2;
+}
+
+.specs{
+    display:flex;
+    gap:10px;
+    margin:25px 0;
+    flex-wrap:wrap;
+}
+
+.spec{
+    background:rgba(255,255,255,.04);
+    border:1px solid #273241;
     border-radius:10px;
-    cursor:pointer;
-    font-family:'Cairo',sans-serif;
-    font-weight:700;
+    padding:10px 15px;
 }
 
-footer{
-    padding:35px 7%;
+.spec strong{
+    display:block;
+    color:#00ffff;
+}
+
+/* FEATURES */
+.features{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.feature-box{
+    background:#090d14;
+    border:1px solid #1b2633;
+    padding:28px;
+    border-radius:18px;
+}
+
+.feature-icon{
+    font-size:30px;
+    margin-bottom:15px;
+}
+
+.feature-box h3{
+    font-size:17px;
+}
+
+.feature-box p{
+    color:#707c8b;
+    font-size:12px;
+    line-height:1.8;
+    margin-top:8px;
+}
+
+/* COMMUNITY */
+.community{
     text-align:center;
-    color:#687581;
-    border-top:1px solid rgba(255,255,255,.06);
+    border-top:1px solid #111b27;
 }
 
-/* الجوال */
+.community h2{
+    font-size:45px;
+}
 
-@media(max-width:850px){
+.community p{
+    color:#7c8796;
+    margin:12px auto 25px;
+    max-width:600px;
+}
+
+/* FOOTER */
+footer{
+    border-top:1px solid #16202c;
+    padding:35px 7%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:#596575;
+    font-size:12px;
+}
+
+footer strong{
+    color:#00ffff;
+}
+
+/* LOGIN */
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(10px);
+    z-index:5000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.login-box{
+    width:min(420px,100%);
+    background:#090d14;
+    border:1px solid #263443;
+    border-radius:22px;
+    padding:30px;
+    box-shadow:0 30px 80px #000;
+}
+
+.login-box h2{
+    font-size:28px;
+}
+
+.login-box p{
+    color:#7d8897;
+    font-size:12px;
+    margin:8px 0 25px;
+}
+
+.input{
+    width:100%;
+    background:#05080e;
+    border:1px solid #25313e;
+    color:white;
+    padding:14px;
+    border-radius:10px;
+    outline:none;
+    font-family:inherit;
+    margin-bottom:12px;
+}
+
+.input:focus{
+    border-color:#00ffff;
+}
+
+.login-submit{
+    width:100%;
+    border:0;
+    background:#00ffff;
+    color:#001014;
+    padding:14px;
+    border-radius:10px;
+    font-family:inherit;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.close{
+    float:left;
+    background:none;
+    border:0;
+    color:#8a96a5;
+    font-size:22px;
+    cursor:pointer;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+
+    .nav-links{
+        display:none;
+    }
 
     .hero{
-        flex-direction:column;
+        grid-template-columns:1fr;
         text-align:center;
-        padding-top:60px;
+        padding-top:130px;
     }
 
-    .hero-art{
-        width:90%;
-        max-width:420px;
-        height:330px;
+    .hero p{
+        margin-left:auto;
+        margin-right:auto;
     }
 
-    .hero-art::before{
-        font-size:65px;
+    .hero-buttons{
+        justify-content:center;
+    }
+
+    .gta-art{
+        min-height:470px;
+    }
+
+    .games{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .features{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .big-feature{
+        padding:35px;
+    }
+}
+
+@media(max-width:600px){
+
+    nav{
+        padding:0 20px;
+    }
+
+    .logo{
+        font-size:19px;
+    }
+
+    .hero{
+        padding-left:20px;
+        padding-right:20px;
+    }
+
+    .hero h1{
+        font-size:55px;
+    }
+
+    section{
+        padding:70px 20px;
+    }
+
+    .section-head h2{
+        font-size:32px;
     }
 
     .games{
         grid-template-columns:1fr;
     }
 
-    nav{
-        padding:0 20px;
-    }
-}
-
-@media(max-width:500px){
-
-    .logo{
-        font-size:29px;
+    .features{
+        grid-template-columns:1fr;
     }
 
-    .login-card{
+    .gta-ring{
+        width:300px;
+        height:300px;
+    }
+
+    .gta-card{
+        min-height:430px;
+    }
+
+    .gta-sky{
+        height:250px;
+    }
+
+    .float-card{
+        display:none;
+    }
+
+    .big-feature{
         padding:30px 20px;
+        min-height:430px;
     }
 
-    .hero h1{
-        font-size:52px;
+    .feature-content h2{
+        font-size:43px;
     }
 
-    .account{
-        padding:6px 10px;
-    }
-
-    #accountName{
-        max-width:100px;
-        overflow:hidden;
-        text-overflow:ellipsis;
+    footer{
+        flex-direction:column;
+        gap:10px;
+        text-align:center;
     }
 }
 </style>
@@ -651,472 +969,537 @@ footer{
 
 <body>
 
-<!-- =========================
-     LOADER
-========================= -->
-
+<!-- LOADER -->
 <div id="loader">
-
-    <div class="loader-grid"></div>
-
-    <div class="loader-content">
-
+    <div class="loader-box">
         <div class="loader-logo">
             WIFI5<span>GAMES</span>
         </div>
 
-        <div class="loader-subtitle">
-            ULTIMATE GAMING
+        <div class="loader-sub">
+            عالم الألعاب بين إيديك 🎮
         </div>
 
-        <div class="gta6-art">
-
-            <div class="gta6-sun"></div>
-
-            <div class="gta6-palms">
-                <div class="palm one"></div>
-                <div class="palm two"></div>
-            </div>
-
-            <div class="gta6-title">
-                GTA VI
-            </div>
-
-        </div>
-
-        <div class="loader-status" id="loaderStatus">
-            جاري تشغيل عالم الألعاب...
-        </div>
-
-        <div class="loader-bar">
+        <div class="loader-line">
             <div class="loader-progress" id="loaderProgress"></div>
         </div>
 
-        <div class="loader-percent" id="loaderPercent">
-            0%
+        <div class="loader-percent" id="loaderPercent">0%</div>
+    </div>
+</div>
+
+<!-- NAV -->
+<nav>
+    <div class="logo">
+        WIFI5<span>GAMES</span>
+        <small>ULTIMATE GAMING</small>
+    </div>
+
+    <ul class="nav-links">
+        <li><a href="#home">الرئيسية</a></li>
+        <li><a href="#games">الألعاب</a></li>
+        <li><a href="#featured">المميزة</a></li>
+        <li><a href="#community">المجتمع</a></li>
+    </ul>
+
+    <button class="login-btn" onclick="openLogin()">
+        تسجيل الدخول
+    </button>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="home">
+
+    <div class="hero-content">
+
+        <div class="hero-tag">
+            <span class="live-dot"></span>
+            LIVE GAMING PLATFORM
+        </div>
+
+        <h1>
+            WIFI5<br>
+            <span>GAMES</span>
+        </h1>
+
+        <p>
+            مرحباً بك في عالم WIFI5GAMES —
+            اكتشف أشهر الألعاب، تابع آخر الإصدارات
+            واستمتع بتجربة Gaming مختلفة.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#games" class="btn btn-main">
+                🎮 استكشف الألعاب
+            </a>
+
+            <a href="#featured" class="btn btn-dark">
+                🚀 اللعبة المميزة
+            </a>
         </div>
 
     </div>
 
+    <!-- GTA ART -->
+    <div class="gta-art">
+
+        <div class="gta-glow"></div>
+        <div class="gta-ring"></div>
+
+        <div class="float-card fc1">
+            <strong>GTA VI</strong>
+            COMING SOON
+        </div>
+
+        <div class="float-card fc2">
+            <strong>WIFI5</strong>
+            GAMING HUB
+        </div>
+
+        <div class="gta-card">
+
+            <div class="gta-sky">
+
+                <div class="gta-sun"></div>
+
+                <div class="palm one"></div>
+                <div class="palm two"></div>
+
+                <div class="city"></div>
+
+                <div class="gta-text">
+                    GTA VI
+                </div>
+
+            </div>
+
+            <div class="gta-info">
+                <h2>
+                    GRAND THEFT <span>AUTO VI</span>
+                </h2>
+
+                <p>
+                    تجربة الجيل الجديد من عالم GTA.
+                </p>
+
+                <a
+                    class="gta-btn"
+                    href="#featured"
+                >
+                    مشاهدة التفاصيل
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<!-- TICKER -->
+<div class="ticker">
+    <div class="ticker-track">
+        WIFI5GAMES
+        <span>◆</span>
+        GTA V
+        <span>◆</span>
+        GTA VI
+        <span>◆</span>
+        FORTNITE
+        <span>◆</span>
+        COUNTER-STRIKE
+        <span>◆</span>
+        GAMING
+        <span>◆</span>
+        WIFI5GAMES
+        <span>◆</span>
+        GTA V
+        <span>◆</span>
+        FORTNITE
+    </div>
 </div>
 
+<!-- GAMES -->
+<section id="games">
 
-<!-- =========================
-     LOGIN
-========================= -->
+    <div class="section-head">
+        <small>GAME LIBRARY</small>
+        <h2>الألعاب</h2>
+        <p>أشهر الألعاب في مكان واحد.</p>
+    </div>
 
-<section id="loginPage">
+    <div class="games">
 
-    <div class="login-card">
+        <!-- GTA V -->
+        <article class="game">
 
-        <div class="logo">
-            WIFI5<span>GAMES</span>
+            <div class="game-cover cover-gta">
+                <div class="cover-title">
+                    GTA V
+                </div>
+            </div>
+
+            <div class="game-body">
+
+                <h3>Grand Theft Auto V</h3>
+
+                <p>
+                    عالم مفتوح، سيارات، مهام ومغامرات لا تنتهي.
+                </p>
+
+                <div class="game-bottom">
+                    <span class="game-tag">OPEN WORLD</span>
+
+                    <a
+                        class="play"
+                        href="https://store.rockstargames.com/game/buy-gta-v"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        الموقع الرسمي
+                    </a>
+                </div>
+
+            </div>
+
+        </article>
+
+        <!-- FORTNITE -->
+        <article class="game">
+
+            <div class="game-cover cover-fortnite">
+                <div class="cover-title">
+                    FORTNITE
+                </div>
+            </div>
+
+            <div class="game-body">
+
+                <h3>Fortnite</h3>
+
+                <p>
+                    Battle Royale وأطوار لعب متنوعة مع أصدقائك.
+                </p>
+
+                <div class="game-bottom">
+                    <span class="game-tag">BATTLE ROYALE</span>
+
+                    <a
+                        class="play"
+                        href="https://www.fortnite.com/download"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        تحميل رسمي
+                    </a>
+                </div>
+
+            </div>
+
+        </article>
+
+        <!-- CS2 -->
+        <article class="game">
+
+            <div class="game-cover cover-cs">
+                <div class="cover-title">
+                    CS2
+                </div>
+            </div>
+
+            <div class="game-body">
+
+                <h3>Counter-Strike 2</h3>
+
+                <p>
+                    لعبة تصويب تنافسية من Valve.
+                </p>
+
+                <div class="game-bottom">
+                    <span class="game-tag">FPS</span>
+
+                    <a
+                        class="play"
+                        href="https://store.steampowered.com/app/730/CounterStrike_2/"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Steam
+                    </a>
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+</section>
+
+<!-- FEATURED GTA -->
+<section id="featured">
+
+    <div class="big-feature">
+
+        <div class="feature-content">
+
+            <small>FEATURED GAME</small>
+
+            <h2>
+                GRAND<br>
+                THEFT AUTO
+            </h2>
+
+            <p>
+                استكشف عالم GTA V وابقَ على اطلاع
+                بآخر أخبار GTA VI من خلال WIFI5GAMES.
+            </p>
+
+            <div class="specs">
+
+                <div class="spec">
+                    <strong>OPEN</strong>
+                    WORLD
+                </div>
+
+                <div class="spec">
+                    <strong>GTA</strong>
+                    SERIES
+                </div>
+
+                <div class="spec">
+                    <strong>HD</strong>
+                    GAMING
+                </div>
+
+            </div>
+
+            <a
+                class="btn btn-main"
+                href="https://store.rockstargames.com/game/buy-gta-v"
+                target="_blank"
+                rel="noopener"
+            >
+                🎮 الموقع الرسمي لـ GTA V
+            </a>
+
         </div>
-
-        <div class="login-title">
-            مرحباً بك 🎮
-        </div>
-
-        <div class="login-subtitle">
-            سجّل دخولك باستخدام Gmail
-        </div>
-
-        <input
-            id="email"
-            class="email-input"
-            type="email"
-            placeholder="example@gmail.com"
-            autocomplete="email"
-        >
-
-        <button class="login-button" onclick="login()">
-            🚀 تسجيل الدخول
-        </button>
-
-        <div id="error" class="error"></div>
 
     </div>
 
 </section>
 
+<!-- FEATURES -->
+<section>
 
-<!-- =========================
-     SITE
-========================= -->
+    <div class="section-head">
+        <small>WHY WIFI5GAMES</small>
+        <h2>ليش WIFI5GAMES؟</h2>
+    </div>
 
-<div id="site">
+    <div class="features">
 
-    <nav>
-
-        <div class="nav-logo">
-            WIFI5<span>GAMES</span>
-        </div>
-
-        <div class="account">
-
-            <div class="account-icon">
-                👤
-            </div>
-
-            <div id="accountName">
-                الحساب
-            </div>
-
-        </div>
-
-    </nav>
-
-
-    <section class="hero">
-
-        <div class="hero-text">
-
-            <div class="live">
-                ● LIVE GAMING
-            </div>
-
-            <h1>
-                WIFI5<span>GAMES</span>
-            </h1>
-
+        <div class="feature-box">
+            <div class="feature-icon">🎮</div>
+            <h3>ألعاب مشهورة</h3>
             <p>
-                عالم الألعاب بين إيديك 🎮🔥
-                <br>
-                GTA V • Fortnite • Counter-Strike
+                مكان واحد لمتابعة ألعابك المفضلة.
             </p>
-
-            <a href="#games" class="hero-button">
-                🎮 استكشف الألعاب
-            </a>
-
         </div>
 
-        <div class="hero-art"></div>
+        <div class="feature-box">
+            <div class="feature-icon">⚡</div>
+            <h3>سرعة</h3>
+            <p>
+                تصميم سريع وخفيف ومتجاوب.
+            </p>
+        </div>
 
-    </section>
+        <div class="feature-box">
+            <div class="feature-icon">🌐</div>
+            <h3>متعدد الأجهزة</h3>
+            <p>
+                يعمل على الكمبيوتر والموبايل.
+            </p>
+        </div>
 
-
-    <div class="section-title" id="games">
-
-        <h2>
-            الألعاب <span>المميزة</span>
-        </h2>
+        <div class="feature-box">
+            <div class="feature-icon">🚀</div>
+            <h3>Gaming Future</h3>
+            <p>
+                تصميم مستقبلي لعالم الألعاب.
+            </p>
+        </div>
 
     </div>
 
+</section>
 
-    <section class="games">
+<!-- COMMUNITY -->
+<section class="community" id="community">
 
-        <div class="game">
+    <h2>
+        عالم الألعاب بين إيديك 🎮
+    </h2>
 
-            <div class="game-number">
-                GAME 01
-            </div>
+    <p>
+        تابع WIFI5GAMES واكتشف الألعاب والمحتوى الجديد.
+    </p>
 
-            <h3>GTA V</h3>
+    <button
+        class="btn btn-main"
+        onclick="openLogin()"
+    >
+        🔐 تسجيل الدخول
+    </button>
 
-            <p>
-                عيش عالم Los Santos المفتوح واستمتع بتجربة GTA V.
-            </p>
+</section>
 
-            <a
-                class="game-button"
-                href="https://www.rockstargames.com/gta-v"
-                target="_blank"
-            >
-                🎮 الموقع الرسمي
-            </a>
+<!-- FOOTER -->
+<footer>
 
-        </div>
+    <div>
+        © 2026 <strong>WIFI5GAMES</strong>
+    </div>
 
+    <div>
+        ULTIMATE GAMING
+    </div>
 
-        <div class="game">
+</footer>
 
-            <div class="game-number">
-                GAME 02
-            </div>
+<!-- LOGIN MODAL -->
+<div class="modal" id="loginModal">
 
-            <h3>Fortnite</h3>
+    <div class="login-box">
 
-            <p>
-                ادخل المعركة واستمتع بعالم Fortnite.
-            </p>
-
-            <a
-                class="game-button"
-                href="https://www.fortnite.com/download"
-                target="_blank"
-            >
-                🎮 تحميل Fortnite
-            </a>
-
-        </div>
-
-
-        <div class="game">
-
-            <div class="game-number">
-                GAME 03
-            </div>
-
-            <h3>Counter-Strike</h3>
-
-            <p>
-                تجربة FPS تنافسية مع Counter-Strike 2.
-            </p>
-
-            <a
-                class="game-button"
-                href="https://store.steampowered.com/app/730/CounterStrike_2/"
-                target="_blank"
-            >
-                🎮 Steam
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <section class="profile">
+        <button class="close" onclick="closeLogin()">
+            ×
+        </button>
 
         <h2>
-            👤 حسابك
+            تسجيل الدخول
         </h2>
 
         <p>
-            اسم الحساب:
-            <strong id="profileName"></strong>
+            اكتب إيميلك للدخول إلى WIFI5GAMES.
         </p>
 
-        <p style="margin-top:8px">
-            البريد:
-            <strong id="profileEmail"></strong>
-        </p>
+        <input
+            class="input"
+            type="email"
+            id="email"
+            placeholder="example@gmail.com"
+            autocomplete="email"
+        >
 
-        <button class="logout" onclick="logout()">
-            تسجيل الخروج
+        <button
+            class="login-submit"
+            onclick="login()"
+        >
+            دخول
         </button>
 
-    </section>
-
-
-    <footer>
-        © 2026 WIFI5GAMES — Ultimate Gaming 🎮
-    </footer>
+    </div>
 
 </div>
 
-
 <script>
 
-/* =========================
-   شاشة التحميل — 3 ثواني
-========================= */
+/* LOADER - 3 SECONDS */
+let progress = 0;
 
-let startTime = Date.now();
+const loaderProgress =
+    document.getElementById("loaderProgress");
+
+const loaderPercent =
+    document.getElementById("loaderPercent");
 
 const loader =
     document.getElementById("loader");
 
-const progress =
-    document.getElementById("loaderProgress");
+const loadingTimer = setInterval(() => {
 
-const percent =
-    document.getElementById("loaderPercent");
+    progress++;
 
-const status =
-    document.getElementById("loaderStatus");
+    loaderProgress.style.width = progress + "%";
+    loaderPercent.textContent = progress + "%";
 
+    if(progress >= 100){
 
-const messages = [
-    "جاري تشغيل عالم الألعاب...",
-    "تحميل WIFI5GAMES...",
-    "تحضير GTA VI...",
-    "تجهيز الألعاب...",
-    "جاهز للدخول 🎮"
-];
+        clearInterval(loadingTimer);
 
-
-function updateLoader(){
-
-    const elapsed =
-        Date.now() - startTime;
-
-    const value =
-        Math.min(
-            100,
-            Math.floor((elapsed / 3000) * 100)
-        );
-
-    progress.style.width =
-        value + "%";
-
-    percent.textContent =
-        value + "%";
-
-
-    const messageIndex =
-        Math.min(
-            messages.length - 1,
-            Math.floor(value / 25)
-        );
-
-    status.textContent =
-        messages[messageIndex];
-
-
-    if(elapsed < 3000){
-
-        requestAnimationFrame(updateLoader);
-
-    }else{
-
-        progress.style.width = "100%";
-        percent.textContent = "100%";
-
-        setTimeout(function(){
-
+        setTimeout(() => {
             loader.classList.add("hide");
-
-            const savedEmail =
-                localStorage.getItem("wifi5_email");
-
-            const savedName =
-                localStorage.getItem("wifi5_name");
-
-            if(savedEmail && savedName){
-
-                showSite();
-
-            }else{
-
-                document.getElementById("loginPage")
-                    .style.display = "flex";
-
-            }
-
-        },100);
+        }, 100);
 
     }
+
+}, 30);
+
+
+/* LOGIN */
+const modal =
+    document.getElementById("loginModal");
+
+function openLogin(){
+    modal.classList.add("active");
+
+    setTimeout(() => {
+        document.getElementById("email").focus();
+    },100);
 }
 
-updateLoader();
-
-
-/* =========================
-   تسجيل الدخول
-========================= */
+function closeLogin(){
+    modal.classList.remove("active");
+}
 
 function login(){
 
     const email =
-        document.getElementById("email")
-        .value.trim();
+        document.getElementById("email").value.trim();
 
-    const error =
-        document.getElementById("error");
+    if(!email){
 
-
-    if(email === ""){
-
-        error.textContent =
-            "❌ اكتب Gmail أولاً";
+        alert("اكتب الإيميل أولاً.");
 
         return;
     }
 
+    if(!email.includes("@")){
 
-    if(!email.toLowerCase().endsWith("@gmail.com")){
-
-        error.textContent =
-            "❌ لازم تدخل حساب Gmail صحيح";
+        alert("تأكد من كتابة إيميل صحيح.");
 
         return;
     }
 
+    localStorage.setItem("wifi5games_email",email);
 
-    let name =
-        email.substring(
-            0,
-            email.lastIndexOf("@")
-        );
-
-
-    name =
-        name.replace(/[._-]+/g," ");
-
-
-    name =
-        name.charAt(0).toUpperCase()
-        + name.slice(1);
-
-
-    localStorage.setItem(
-        "wifi5_email",
-        email
+    alert(
+        "تم تسجيل الدخول بنجاح ✅\n\nمرحباً بك في WIFI5GAMES!"
     );
 
-    localStorage.setItem(
-        "wifi5_name",
-        name
-    );
-
-
-    showSite();
+    closeLogin();
 }
 
 
-/* =========================
-   فتح الموقع
-========================= */
+/* ESC CLOSE */
+document.addEventListener("keydown",(e)=>{
 
-function showSite(){
-
-    const email =
-        localStorage.getItem("wifi5_email");
-
-    const name =
-        localStorage.getItem("wifi5_name");
-
-
-    if(!email || !name){
-        return;
+    if(e.key === "Escape"){
+        closeLogin();
     }
 
-
-    document.getElementById("loginPage")
-        .style.display = "none";
-
-    document.getElementById("site")
-        .style.display = "block";
+});
 
 
-    document.getElementById("accountName")
-        .textContent = name;
+/* CLICK OUTSIDE */
+modal.addEventListener("click",(e)=>{
 
+    if(e.target === modal){
+        closeLogin();
+    }
 
-    document.getElementById("profileName")
-        .textContent = name;
-
-
-    document.getElementById("profileEmail")
-        .textContent = email;
-}
-
-
-/* =========================
-   تسجيل الخروج
-========================= */
-
-function logout(){
-
-    localStorage.removeItem("wifi5_email");
-    localStorage.removeItem("wifi5_name");
-
-    location.reload();
-
-}
+});
 
 </script>
 
