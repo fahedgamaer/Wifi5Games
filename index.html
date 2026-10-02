@@ -15,6 +15,10 @@
     box-sizing:border-box;
 }
 
+html{
+    scroll-behavior:smooth;
+}
+
 body{
     font-family:'Cairo',sans-serif;
     background:#05070b;
@@ -23,15 +27,219 @@ body{
     overflow-x:hidden;
 }
 
-/* الخلفية */
+/* ================================
+   شاشة التحميل
+================================ */
+
+#loader{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 50% 45%,rgba(0,255,255,.10),transparent 35%),
+        #030509;
+    transition:opacity .6s ease,visibility .6s ease;
+}
+
+#loader.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.loader-grid{
+    position:absolute;
+    inset:-100px;
+    background:
+        linear-gradient(rgba(0,255,255,.04) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,255,255,.04) 1px,transparent 1px);
+    background-size:45px 45px;
+    transform:perspective(500px) rotateX(55deg) translateY(100px);
+    animation:gridLoader 4s linear infinite;
+}
+
+@keyframes gridLoader{
+    from{
+        transform:perspective(500px) rotateX(55deg) translateY(0);
+    }
+    to{
+        transform:perspective(500px) rotateX(55deg) translateY(45px);
+    }
+}
+
+.loader-content{
+    position:relative;
+    z-index:2;
+    width:min(500px,90%);
+    text-align:center;
+}
+
+.loader-logo{
+    font-size:clamp(40px,9vw,75px);
+    font-weight:900;
+    letter-spacing:4px;
+    color:#fff;
+    text-shadow:
+        0 0 10px #00ffff,
+        0 0 30px rgba(0,255,255,.55);
+    animation:logoPulse 1.5s infinite alternate;
+}
+
+.loader-logo span{
+    color:#00ffff;
+}
+
+@keyframes logoPulse{
+    from{
+        transform:scale(1);
+        opacity:.85;
+    }
+    to{
+        transform:scale(1.03);
+        opacity:1;
+    }
+}
+
+.loader-subtitle{
+    margin-top:5px;
+    color:#8fa2ad;
+    letter-spacing:5px;
+    font-size:13px;
+}
+
+/* GTA VI مبرمج داخل الصفحة */
+
+.gta6-art{
+    width:210px;
+    height:170px;
+    margin:30px auto 20px;
+    position:relative;
+    filter:drop-shadow(0 0 25px rgba(255,0,180,.3));
+}
+
+.gta6-sun{
+    position:absolute;
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    left:40px;
+    top:5px;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #ff4fb3 0 8px,
+            #ffb15c 8px 13px
+        );
+    box-shadow:
+        0 0 25px rgba(255,80,170,.5);
+}
+
+.gta6-palms{
+    position:absolute;
+    bottom:15px;
+    left:20px;
+    width:170px;
+    height:100px;
+}
+
+.palm{
+    position:absolute;
+    bottom:0;
+    width:5px;
+    height:90px;
+    background:#08090d;
+    transform:rotate(-12deg);
+}
+
+.palm.one{
+    left:45px;
+}
+
+.palm.two{
+    right:35px;
+    height:70px;
+    transform:rotate(15deg);
+}
+
+.palm::before,
+.palm::after{
+    content:"";
+    position:absolute;
+    width:65px;
+    height:5px;
+    background:#08090d;
+    top:0;
+    left:-30px;
+    border-radius:100%;
+}
+
+.palm::before{
+    transform:rotate(-30deg);
+}
+
+.palm::after{
+    transform:rotate(30deg);
+}
+
+.gta6-title{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    font-family:Impact,Arial Black,sans-serif;
+    font-size:52px;
+    letter-spacing:3px;
+    color:#fff;
+    text-shadow:
+        3px 3px 0 #ff48ad,
+        -2px -2px 0 #43d7ff;
+    transform:rotate(-3deg);
+}
+
+.loader-status{
+    color:#00ffff;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.loader-bar{
+    width:100%;
+    height:8px;
+    border-radius:20px;
+    overflow:hidden;
+    background:#111a21;
+    border:1px solid rgba(0,255,255,.2);
+}
+
+.loader-progress{
+    width:0%;
+    height:100%;
+    background:linear-gradient(90deg,#00a8ff,#00ffff);
+    box-shadow:0 0 15px #00ffff;
+}
+
+.loader-percent{
+    margin-top:10px;
+    color:#71828e;
+    font-size:13px;
+}
+
+/* ================================
+   الخلفية
+================================ */
+
 body::before{
     content:"";
     position:fixed;
     inset:0;
     z-index:-2;
     background:
-        linear-gradient(rgba(0,255,255,.035) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,255,255,.035) 1px,transparent 1px);
+        linear-gradient(rgba(0,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,255,255,.025) 1px,transparent 1px);
     background-size:45px 45px;
     animation:gridMove 10s linear infinite;
 }
@@ -41,10 +249,13 @@ body::before{
     to{transform:translateY(45px)}
 }
 
-/* شاشة تسجيل الدخول */
+/* ================================
+   تسجيل الدخول
+================================ */
+
 #loginPage{
     min-height:100vh;
-    display:flex;
+    display:none;
     justify-content:center;
     align-items:center;
     padding:20px;
@@ -54,7 +265,7 @@ body::before{
     width:100%;
     max-width:440px;
     padding:40px 30px;
-    background:rgba(8,13,20,.95);
+    background:rgba(8,13,20,.96);
     border:1px solid rgba(0,255,255,.35);
     border-radius:25px;
     box-shadow:
@@ -97,7 +308,6 @@ body::before{
     font-size:16px;
     direction:ltr;
     text-align:left;
-    font-family:Arial,sans-serif;
 }
 
 .email-input:focus{
@@ -132,12 +342,14 @@ body::before{
     min-height:20px;
 }
 
-/* الموقع */
+/* ================================
+   الموقع
+================================ */
+
 #site{
     display:none;
 }
 
-/* الناف بار */
 nav{
     height:85px;
     padding:0 6%;
@@ -181,7 +393,6 @@ nav{
     border-radius:50%;
     background:#00ffff;
     color:#001010;
-    font-weight:900;
 }
 
 #accountName{
@@ -189,7 +400,8 @@ nav{
     font-weight:700;
 }
 
-/* الهيرو */
+/* Hero */
+
 .hero{
     min-height:620px;
     padding:80px 7%;
@@ -240,31 +452,35 @@ nav{
     text-decoration:none;
 }
 
-/* صورة GTA */
+/* Hero GTA */
+
 .hero-art{
     width:420px;
     height:420px;
     border-radius:30px;
     border:1px solid rgba(0,255,255,.3);
     background:
+        radial-gradient(circle at 50% 40%,rgba(255,70,180,.22),transparent 35%),
         linear-gradient(145deg,rgba(0,255,255,.08),rgba(255,0,150,.04)),
         #090e15;
     display:flex;
     align-items:center;
     justify-content:center;
     position:relative;
+    overflow:hidden;
     box-shadow:0 0 50px rgba(0,255,255,.12);
 }
 
 .hero-art::before{
-    content:"GTA V";
-    font-size:90px;
-    font-weight:900;
+    content:"GTA VI";
+    font-family:Impact,Arial Black,sans-serif;
+    font-size:85px;
+    letter-spacing:3px;
     color:#fff;
     text-shadow:
-        0 0 10px #00ffff,
-        0 0 35px rgba(0,255,255,.5);
-    transform:rotate(-8deg);
+        4px 4px 0 #ff48ad,
+        -3px -3px 0 #43d7ff;
+    transform:rotate(-7deg);
 }
 
 .hero-art::after{
@@ -276,7 +492,8 @@ nav{
     letter-spacing:4px;
 }
 
-/* العنوان */
+/* الألعاب */
+
 .section-title{
     padding:30px 7%;
 }
@@ -289,7 +506,6 @@ nav{
     color:#00ffff;
 }
 
-/* الألعاب */
 .games{
     padding:10px 7% 80px;
     display:grid;
@@ -340,6 +556,7 @@ nav{
 }
 
 /* الحساب */
+
 .profile{
     margin:20px 7% 80px;
     padding:35px;
@@ -369,7 +586,6 @@ nav{
     font-weight:700;
 }
 
-/* الفوتر */
 footer{
     padding:35px 7%;
     text-align:center;
@@ -378,6 +594,7 @@ footer{
 }
 
 /* الجوال */
+
 @media(max-width:850px){
 
     .hero{
@@ -435,7 +652,57 @@ footer{
 <body>
 
 <!-- =========================
-     تسجيل الدخول
+     LOADER
+========================= -->
+
+<div id="loader">
+
+    <div class="loader-grid"></div>
+
+    <div class="loader-content">
+
+        <div class="loader-logo">
+            WIFI5<span>GAMES</span>
+        </div>
+
+        <div class="loader-subtitle">
+            ULTIMATE GAMING
+        </div>
+
+        <div class="gta6-art">
+
+            <div class="gta6-sun"></div>
+
+            <div class="gta6-palms">
+                <div class="palm one"></div>
+                <div class="palm two"></div>
+            </div>
+
+            <div class="gta6-title">
+                GTA VI
+            </div>
+
+        </div>
+
+        <div class="loader-status" id="loaderStatus">
+            جاري تشغيل عالم الألعاب...
+        </div>
+
+        <div class="loader-bar">
+            <div class="loader-progress" id="loaderProgress"></div>
+        </div>
+
+        <div class="loader-percent" id="loaderPercent">
+            0%
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     LOGIN
 ========================= -->
 
 <section id="loginPage">
@@ -474,7 +741,7 @@ footer{
 
 
 <!-- =========================
-     الموقع
+     SITE
 ========================= -->
 
 <div id="site">
@@ -523,7 +790,6 @@ footer{
             </a>
 
         </div>
-
 
         <div class="hero-art"></div>
 
@@ -644,15 +910,109 @@ footer{
 
 <script>
 
-/* تسجيل الدخول */
+/* =========================
+   شاشة التحميل — 3 ثواني
+========================= */
+
+let startTime = Date.now();
+
+const loader =
+    document.getElementById("loader");
+
+const progress =
+    document.getElementById("loaderProgress");
+
+const percent =
+    document.getElementById("loaderPercent");
+
+const status =
+    document.getElementById("loaderStatus");
+
+
+const messages = [
+    "جاري تشغيل عالم الألعاب...",
+    "تحميل WIFI5GAMES...",
+    "تحضير GTA VI...",
+    "تجهيز الألعاب...",
+    "جاهز للدخول 🎮"
+];
+
+
+function updateLoader(){
+
+    const elapsed =
+        Date.now() - startTime;
+
+    const value =
+        Math.min(
+            100,
+            Math.floor((elapsed / 3000) * 100)
+        );
+
+    progress.style.width =
+        value + "%";
+
+    percent.textContent =
+        value + "%";
+
+
+    const messageIndex =
+        Math.min(
+            messages.length - 1,
+            Math.floor(value / 25)
+        );
+
+    status.textContent =
+        messages[messageIndex];
+
+
+    if(elapsed < 3000){
+
+        requestAnimationFrame(updateLoader);
+
+    }else{
+
+        progress.style.width = "100%";
+        percent.textContent = "100%";
+
+        setTimeout(function(){
+
+            loader.classList.add("hide");
+
+            const savedEmail =
+                localStorage.getItem("wifi5_email");
+
+            const savedName =
+                localStorage.getItem("wifi5_name");
+
+            if(savedEmail && savedName){
+
+                showSite();
+
+            }else{
+
+                document.getElementById("loginPage")
+                    .style.display = "flex";
+
+            }
+
+        },100);
+
+    }
+}
+
+updateLoader();
+
+
+/* =========================
+   تسجيل الدخول
+========================= */
 
 function login(){
 
-    const emailInput =
-        document.getElementById("email");
-
     const email =
-        emailInput.value.trim();
+        document.getElementById("email")
+        .value.trim();
 
     const error =
         document.getElementById("error");
@@ -676,24 +1036,12 @@ function login(){
     }
 
 
-    /*
-      أخذ اسم الحساب من Gmail
-
-      example:
-      fahed123@gmail.com
-
-      يصبح:
-      fahed123
-    */
-
     let name =
         email.substring(
             0,
             email.lastIndexOf("@")
         );
 
-
-    /* تحويل بعض الرموز إلى شكل أجمل */
 
     name =
         name.replace(/[._-]+/g," ");
@@ -703,8 +1051,6 @@ function login(){
         name.charAt(0).toUpperCase()
         + name.slice(1);
 
-
-    /* حفظ بيانات الحساب */
 
     localStorage.setItem(
         "wifi5_email",
@@ -717,14 +1063,13 @@ function login(){
     );
 
 
-    /* عرض الموقع */
-
     showSite();
-
 }
 
 
-/* عرض الموقع */
+/* =========================
+   فتح الموقع
+========================= */
 
 function showSite(){
 
@@ -757,11 +1102,12 @@ function showSite(){
 
     document.getElementById("profileEmail")
         .textContent = email;
-
 }
 
 
-/* تسجيل الخروج */
+/* =========================
+   تسجيل الخروج
+========================= */
 
 function logout(){
 
@@ -771,24 +1117,6 @@ function logout(){
     location.reload();
 
 }
-
-
-/* إذا كان المستخدم مسجل دخول سابقاً */
-
-window.addEventListener("load",function(){
-
-    const email =
-        localStorage.getItem("wifi5_email");
-
-    const name =
-        localStorage.getItem("wifi5_name");
-
-
-    if(email && name){
-        showSite();
-    }
-
-});
 
 </script>
 
