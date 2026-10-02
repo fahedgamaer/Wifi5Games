@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Wifi5Games | متجر الألعاب</title>
-
-<meta name="description"
-content="Wifi5Games - متجر ألعاب إلكتروني لعشاق الألعاب.">
-
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="description" content="Wifi5Games - عالم الألعاب والجيمنج. اكتشف أشهر ألعاب الكمبيوتر وروابط التحميل الرسمية.">
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
 
 *{
     margin:0;
@@ -26,220 +21,554 @@ html{
 }
 
 body{
-    font-family:Arial,Tahoma,sans-serif;
-    background:#080b12;
+    font-family:'Cairo',sans-serif;
+    background:#050914;
     color:#fff;
     overflow-x:hidden;
 }
 
-/* =========================
-   شاشة التحميل
-========================= */
+/* ===== BACKGROUND ===== */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    background:
+        radial-gradient(circle at 20% 20%,rgba(0,190,255,.12),transparent 30%),
+        radial-gradient(circle at 80% 70%,rgba(0,110,255,.10),transparent 30%),
+        #050914;
+}
 
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    opacity:.08;
+    background-image:
+        linear-gradient(rgba(0,200,255,.4) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,200,255,.4) 1px,transparent 1px);
+    background-size:40px 40px;
+    pointer-events:none;
+}
+
+/* ===== LOADER ===== */
 #loader{
     position:fixed;
     inset:0;
-    z-index:99999;
-
-    background:
-        radial-gradient(
-            circle at center,
-            #162b45,
-            #080b12 65%
-        );
-
+    background:#03060d;
     display:flex;
-    align-items:center;
     justify-content:center;
-
-    transition:.7s;
-}
-
-#loader.hide{
-    opacity:0;
-    visibility:hidden;
-}
-
-.loader-box{
-    width:90%;
-    max-width:650px;
-    text-align:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:99999;
 }
 
 .loader-logo{
-    font-size:clamp(45px,8vw,80px);
+    font-size:42px;
     font-weight:900;
-    color:#35b8ff;
-
-    text-shadow:
-        0 0 15px #35b8ff,
-        0 0 40px #1688c9;
+    letter-spacing:3px;
+    color:#fff;
+    text-shadow:0 0 25px #00bfff;
 }
 
 .loader-logo span{
-    color:white;
+    color:#35c9ff;
 }
 
-.loader-welcome{
-    margin-top:20px;
-    font-size:28px;
-    font-weight:bold;
+.loader-sub{
+    margin-top:8px;
+    color:#8ca6ba;
 }
 
-.loader-text{
-    color:#8996a8;
-    margin-top:10px;
-}
-
-.progress{
-    height:13px;
-    background:#17202c;
-    border-radius:30px;
-    overflow:hidden;
+.loader-progress{
+    width:280px;
+    height:7px;
     margin-top:30px;
+    border-radius:20px;
+    background:#14202c;
+    overflow:hidden;
 }
 
-.progress-bar{
-    width:0;
+#loaderBar{
+    width:0%;
     height:100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            #1688c9,
-            #35b8ff,
-            #8edcff
-        );
-
-    box-shadow:0 0 20px #35b8ff;
+    background:linear-gradient(90deg,#00aaff,#53ddff);
+    box-shadow:0 0 20px #00bfff;
 }
 
-.percent{
+#loaderText{
     margin-top:12px;
-    color:#35b8ff;
-    font-weight:bold;
+    color:#55d9ff;
+    font-weight:800;
 }
 
-/* =========================
-   الموقع
-========================= */
-
-#site{
-    display:none;
-}
-
-#site.show{
-    display:block;
-}
-
-/* =========================
-   الهيدر
-========================= */
-
+/* ===== HEADER ===== */
 header{
     position:sticky;
     top:0;
-    z-index:5000;
-
-    background:rgba(8,11,18,.94);
-
-    backdrop-filter:blur(15px);
-
-    border-bottom:
-        1px solid rgba(255,255,255,.08);
-}
-
-.nav{
-    max-width:1300px;
-    min-height:72px;
-
-    margin:auto;
-    padding:0 20px;
-
+    z-index:1000;
+    height:75px;
     display:flex;
     align-items:center;
-    gap:30px;
+    justify-content:space-between;
+    padding:0 5%;
+    background:rgba(3,8,18,.88);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid rgba(53,184,255,.12);
 }
 
 .logo{
-    font-size:25px;
+    color:#fff;
+    text-decoration:none;
+    font-size:24px;
     font-weight:900;
-
-    color:#35b8ff;
-    white-space:nowrap;
+    letter-spacing:1px;
 }
 
 .logo span{
-    color:white;
+    color:#35c8ff;
 }
 
-.nav-links{
+.logo-small{
+    display:block;
+    font-size:10px;
+    color:#71899d;
+    letter-spacing:2px;
+    margin-top:-5px;
+}
+
+nav{
     display:flex;
+    align-items:center;
     gap:24px;
-    list-style:none;
-    flex:1;
 }
 
-.nav-links a{
-    color:#aab4c1;
+nav a{
+    color:#c9d8e3;
     text-decoration:none;
-    font-weight:bold;
-    transition:.3s;
+    font-weight:700;
+    transition:.25s;
 }
 
-.nav-links a:hover{
-    color:#35b8ff;
+nav a:hover{
+    color:#35c8ff;
 }
 
-/* أزرار تسجيل الدخول */
-
+/* ===== AUTH ===== */
 .auth-area{
     display:flex;
     align-items:center;
     gap:8px;
 }
 
-.login-button,
-.logout-button{
-    border:0;
+.login-btn,
+.logout-btn{
+    border:none;
+    border-radius:10px;
+    padding:9px 15px;
+    font-family:inherit;
+    font-weight:800;
     cursor:pointer;
+    transition:.25s;
+}
 
-    padding:10px 15px;
+.login-btn{
+    background:#35b8ff;
+    color:#03111b;
+}
 
-    border-radius:8px;
+.login-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 20px rgba(53,184,255,.5);
+}
 
-    font-weight:bold;
-    font-family:Arial,Tahoma,sans-serif;
+.logout-btn{
+    background:#172431;
+    color:#fff;
+    border:1px solid #294152;
+}
 
+.user-box{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.user-email{
+    max-width:160px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color:#8fe3ff;
+    font-size:13px;
+    font-weight:700;
+}
+
+/* ===== HERO ===== */
+.hero{
+    min-height:530px;
+    padding:80px 7%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:40px;
+}
+
+.hero-content{
+    max-width:650px;
+}
+
+.badge{
+    display:inline-block;
+    padding:7px 14px;
+    border:1px solid #159bd3;
+    border-radius:50px;
+    color:#53d4ff;
+    background:rgba(0,160,255,.08);
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-size:clamp(45px,7vw,85px);
+    line-height:1;
+    font-weight:900;
+    letter-spacing:-3px;
+}
+
+.hero h1 span{
+    color:#35c8ff;
+    text-shadow:0 0 35px rgba(53,200,255,.4);
+}
+
+.hero p{
+    margin-top:25px;
+    color:#91a7b8;
+    line-height:2;
+    font-size:17px;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:12px;
+    margin-top:30px;
+    flex-wrap:wrap;
+}
+
+.hero-btn{
+    padding:13px 22px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:800;
+}
+
+.hero-primary{
+    color:#00101a;
+    background:#35c8ff;
+}
+
+.hero-secondary{
+    color:#fff;
+    border:1px solid #29485b;
+    background:#0c1621;
+}
+
+/* ===== HERO ART ===== */
+.hero-art{
+    width:390px;
+    height:390px;
+    border-radius:50%;
+    border:1px solid rgba(53,200,255,.3);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    box-shadow:
+        0 0 60px rgba(0,180,255,.12),
+        inset 0 0 60px rgba(0,180,255,.05);
+}
+
+.hero-art::before,
+.hero-art::after{
+    content:"";
+    position:absolute;
+    border:1px solid rgba(53,200,255,.25);
+    border-radius:50%;
+}
+
+.hero-art::before{
+    width:290px;
+    height:290px;
+}
+
+.hero-art::after{
+    width:190px;
+    height:190px;
+}
+
+.hero-art-center{
+    width:145px;
+    height:145px;
+    border-radius:25px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(145deg,#102a3b,#07121d);
+    border:1px solid #2ca9dc;
+    box-shadow:0 0 45px rgba(0,190,255,.25);
+    font-size:28px;
+    font-weight:900;
+    color:#35c8ff;
+}
+
+/* ===== SECTION ===== */
+section{
+    padding:80px 6%;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.section-title h2{
+    font-size:38px;
+    font-weight:900;
+}
+
+.section-title span{
+    color:#35c8ff;
+}
+
+.section-title p{
+    color:#758b9b;
+    margin-top:8px;
+}
+
+/* ===== SEARCH ===== */
+.search-box{
+    max-width:700px;
+    margin:0 auto 35px;
+    position:relative;
+}
+
+.search-box input{
+    width:100%;
+    padding:17px 20px;
+    border-radius:13px;
+    border:1px solid #1d3d50;
+    background:#09131e;
+    color:#fff;
+    outline:none;
+    font-family:inherit;
+    font-size:16px;
+}
+
+.search-box input:focus{
+    border-color:#35c8ff;
+    box-shadow:0 0 20px rgba(53,200,255,.12);
+}
+
+/* ===== GAMES ===== */
+.games-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.game-card{
+    background:linear-gradient(145deg,#0b1722,#07101a);
+    border:1px solid #152d3d;
+    border-radius:18px;
+    overflow:hidden;
     transition:.3s;
 }
 
-.login-button{
+.game-card:hover{
+    transform:translateY(-7px);
+    border-color:#279dcf;
+    box-shadow:0 15px 40px rgba(0,150,220,.12);
+}
+
+.game-cover{
+    height:155px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:42px;
+    font-weight:900;
+    position:relative;
     background:
-        linear-gradient(
-            135deg,
-            #1688c9,
-            #35b8ff
-        );
-
-    color:#04111a;
+        radial-gradient(circle at center,rgba(53,200,255,.16),transparent 55%),
+        #08121c;
+    border-bottom:1px solid #132b3a;
 }
 
-.login-button:hover{
-    transform:translateY(-2px);
-
-    box-shadow:
-        0 8px 25px
-        rgba(53,184,255,.25);
+.game-cover::after{
+    content:"";
+    position:absolute;
+    inset:12px;
+    border:1px solid rgba(53,200,255,.12);
+    border-radius:12px;
 }
 
-.logout-button{
+.game-info{
+    padding:18px;
+}
+
+.game-info h3{
+    font-size:19px;
+    margin-bottom:7px;
+}
+
+.game-info p{
+    color:#728a9b;
+    font-size:13px;
+    min-height:42px;
+    line-height:1.7;
+}
+
+.game-btn{
+    display:block;
+    text-align:center;
+    text-decoration:none;
+    margin-top:15px;
+    padding:11px;
+    border-radius:9px;
+    background:#35b8ff;
+    color:#00121c;
+    font-weight:900;
+    transition:.25s;
+}
+
+.game-btn:hover{
+    box-shadow:0 0 20px rgba(53,184,255,.35);
+}
+
+/* ===== FEATURES ===== */
+.features{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.feature{
+    text-align:center;
+    padding:30px 20px;
+    border:1px solid #142d3c;
+    background:#08131e;
+    border-radius:16px;
+}
+
+.feature-icon{
+    font-size:38px;
+    margin-bottom:15px;
+}
+
+.feature h3{
+    margin-bottom:8px;
+}
+
+.feature p{
+    color:#748c9e;
+    line-height:1.8;
+    font-size:14px;
+}
+
+/* ===== FOOTER ===== */
+footer{
+    text-align:center;
+    padding:35px 20px;
+    border-top:1px solid #132a39;
+    color:#718595;
+}
+
+footer strong{
+    color:#35c8ff;
+}
+
+/* ===== LOGIN MODAL ===== */
+.login-modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(8px);
     display:none;
-
-    background:#18222e;
-    color:#ff6b7d;
-
-    border:1px solid #293747;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:5000;
 }
 
-.logout-button:hover
+.login-modal.active{
+    display:flex;
+}
+
+.login-box{
+    width:100%;
+    max-width:430px;
+    background:linear-gradient(145deg,#0d1c29,#06101a);
+    border:1px solid #23617e;
+    border-radius:20px;
+    padding:30px;
+    position:relative;
+    box-shadow:0 0 70px rgba(0,170,255,.18);
+}
+
+.close-login{
+    position:absolute;
+    top:12px;
+    left:15px;
+    border:none;
+    background:transparent;
+    color:#8da5b5;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.login-icon{
+    text-align:center;
+    font-size:45px;
+    margin-bottom:8px;
+}
+
+.login-box h2{
+    text-align:center;
+    font-size:28px;
+}
+
+.login-box > p{
+    text-align:center;
+    color:#7d94a4;
+    font-size:14px;
+    margin:8px 0 25px;
+}
+
+.login-input{
+    width:100%;
+    padding:14px;
+    margin-bottom:12px;
+    background:#07111a;
+    border:1px solid #1d3b4c;
+    border-radius:10px;
+    color:#fff;
+    outline:none;
+    font-family:inherit;
+    direction:ltr;
+    text-align:left;
+}
+
+.login-input:focus{
+    border-color:#35c8ff;
+}
+
+.login-submit{
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:10px;
+    background:#35c8ff;
+    color:#00121b;
+    font-family
