@@ -3,35 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WIFI5GAMES — تسجيل الدخول</title>
+
+<title>WIFI5GAMES — Ultimate Gaming</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
 }
 
 body{
-    min-height:100vh;
-    font-family:Arial, sans-serif;
+    font-family:'Cairo',sans-serif;
     background:#05070b;
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
+    color:#fff;
+    min-height:100vh;
+    overflow-x:hidden;
 }
 
+/* الخلفية */
 body::before{
     content:"";
     position:fixed;
     inset:0;
+    z-index:-2;
     background:
         linear-gradient(rgba(0,255,255,.035) 1px,transparent 1px),
         linear-gradient(90deg,rgba(0,255,255,.035) 1px,transparent 1px);
     background-size:45px 45px;
-    animation:gridMove 8s linear infinite;
+    animation:gridMove 10s linear infinite;
 }
 
 @keyframes gridMove{
@@ -39,154 +41,392 @@ body::before{
     to{transform:translateY(45px)}
 }
 
-.login-box{
-    position:relative;
-    width:min(430px,92%);
-    padding:35px;
+/* شاشة تسجيل الدخول */
+#loginPage{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.login-card{
+    width:100%;
+    max-width:440px;
+    padding:40px 30px;
+    background:rgba(8,13,20,.95);
     border:1px solid rgba(0,255,255,.35);
     border-radius:25px;
-    background:rgba(8,13,20,.94);
     box-shadow:
-        0 0 30px rgba(0,255,255,.12),
-        inset 0 0 30px rgba(0,255,255,.03);
+        0 0 35px rgba(0,255,255,.12),
+        inset 0 0 30px rgba(0,255,255,.025);
     text-align:center;
-    z-index:2;
 }
 
 .logo{
-    font-size:32px;
+    font-size:38px;
     font-weight:900;
     letter-spacing:2px;
-    color:#fff;
-    text-shadow:0 0 15px #00ffff;
+    text-shadow:0 0 18px rgba(0,255,255,.7);
 }
 
 .logo span{
     color:#00ffff;
 }
 
-.subtitle{
-    margin-top:8px;
-    color:#8e9aa8;
+.login-title{
+    margin-top:25px;
+    font-size:26px;
+    font-weight:800;
+}
+
+.login-subtitle{
+    color:#8996a3;
     font-size:14px;
-    margin-bottom:30px;
+    margin:8px 0 25px;
 }
 
-h2{
-    margin-bottom:20px;
-    font-size:25px;
-}
-
-input{
+.email-input{
     width:100%;
-    padding:15px;
-    margin-bottom:15px;
-    border-radius:12px;
+    padding:16px;
+    border-radius:13px;
     border:1px solid #26333d;
-    background:#0c1219;
-    color:white;
-    font-size:16px;
     outline:none;
+    background:#0c1219;
+    color:#fff;
+    font-size:16px;
     direction:ltr;
     text-align:left;
+    font-family:Arial,sans-serif;
 }
 
-input:focus{
+.email-input:focus{
     border-color:#00ffff;
-    box-shadow:0 0 15px rgba(0,255,255,.15);
+    box-shadow:0 0 18px rgba(0,255,255,.15);
 }
 
-button{
+.login-button{
     width:100%;
-    border:0;
+    margin-top:15px;
     padding:15px;
-    border-radius:12px;
+    border:0;
+    border-radius:13px;
     background:linear-gradient(90deg,#00caca,#00ffff);
     color:#001010;
     font-size:17px;
     font-weight:900;
+    font-family:'Cairo',sans-serif;
     cursor:pointer;
     transition:.2s;
 }
 
-button:hover{
+.login-button:hover{
     transform:translateY(-2px);
     box-shadow:0 0 25px rgba(0,255,255,.35);
 }
 
-.message{
-    min-height:25px;
-    margin-top:15px;
-    font-size:14px;
-}
-
-.success{
-    color:#00ffb3;
-}
-
 .error{
-    color:#ff4f6d;
+    color:#ff5470;
+    font-size:14px;
+    margin-top:12px;
+    min-height:20px;
 }
 
-.demo-code{
+/* الموقع */
+#site{
     display:none;
-    margin-top:20px;
-    padding:15px;
-    border:1px dashed #00ffff;
-    border-radius:12px;
+}
+
+/* الناف بار */
+nav{
+    height:85px;
+    padding:0 6%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid rgba(0,255,255,.12);
+    background:rgba(5,7,11,.88);
+    backdrop-filter:blur(15px);
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.nav-logo{
+    font-size:25px;
+    font-weight:900;
+    text-shadow:0 0 15px #00ffff;
+}
+
+.nav-logo span{
+    color:#00ffff;
+}
+
+.account{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 15px;
+    border:1px solid rgba(0,255,255,.25);
+    border-radius:30px;
     background:rgba(0,255,255,.05);
 }
 
-.demo-code strong{
-    display:block;
-    font-size:30px;
-    letter-spacing:8px;
-    color:#00ffff;
-    margin-top:8px;
-}
-
-#verifyBox{
-    display:none;
-}
-
-#mainSite{
-    display:none;
-    position:relative;
-    z-index:5;
-    text-align:center;
-}
-
-.main-logo{
-    font-size:55px;
+.account-icon{
+    width:32px;
+    height:32px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#00ffff;
+    color:#001010;
     font-weight:900;
-    text-shadow:0 0 25px #00ffff;
 }
 
-.main-logo span{
+#accountName{
+    font-size:14px;
+    font-weight:700;
+}
+
+/* الهيرو */
+.hero{
+    min-height:620px;
+    padding:80px 7%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:50px;
+}
+
+.hero-text{
+    max-width:650px;
+}
+
+.live{
+    display:inline-block;
+    padding:7px 14px;
+    border:1px solid #00ffff;
+    color:#00ffff;
+    border-radius:30px;
+    font-size:13px;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-size:clamp(50px,8vw,100px);
+    line-height:.95;
+    font-weight:900;
+    text-shadow:0 0 30px rgba(0,255,255,.3);
+}
+
+.hero h1 span{
     color:#00ffff;
 }
 
-.main-text{
-    color:#aeb9c4;
-    margin:15px 0 30px;
+.hero p{
+    color:#9aa7b4;
+    font-size:18px;
+    margin:25px 0;
+}
+
+.hero-button{
+    display:inline-block;
+    padding:15px 28px;
+    border-radius:12px;
+    background:#00ffff;
+    color:#001010;
+    font-weight:900;
+    text-decoration:none;
+}
+
+/* صورة GTA */
+.hero-art{
+    width:420px;
+    height:420px;
+    border-radius:30px;
+    border:1px solid rgba(0,255,255,.3);
+    background:
+        linear-gradient(145deg,rgba(0,255,255,.08),rgba(255,0,150,.04)),
+        #090e15;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    box-shadow:0 0 50px rgba(0,255,255,.12);
+}
+
+.hero-art::before{
+    content:"GTA V";
+    font-size:90px;
+    font-weight:900;
+    color:#fff;
+    text-shadow:
+        0 0 10px #00ffff,
+        0 0 35px rgba(0,255,255,.5);
+    transform:rotate(-8deg);
+}
+
+.hero-art::after{
+    content:"WIFI5GAMES";
+    position:absolute;
+    bottom:25px;
+    color:#00ffff;
+    font-weight:900;
+    letter-spacing:4px;
+}
+
+/* العنوان */
+.section-title{
+    padding:30px 7%;
+}
+
+.section-title h2{
+    font-size:36px;
+}
+
+.section-title span{
+    color:#00ffff;
+}
+
+/* الألعاب */
+.games{
+    padding:10px 7% 80px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+}
+
+.game{
+    min-height:300px;
+    padding:25px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.08);
+    background:linear-gradient(145deg,#0c1219,#070a0f);
+    position:relative;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.game:hover{
+    transform:translateY(-8px);
+    border-color:rgba(0,255,255,.5);
+    box-shadow:0 0 30px rgba(0,255,255,.12);
+}
+
+.game-number{
+    color:#00ffff;
+    font-size:13px;
+}
+
+.game h3{
+    font-size:28px;
+    margin-top:50px;
+}
+
+.game p{
+    color:#8793a0;
+    margin:10px 0 25px;
+}
+
+.game-button{
+    display:inline-block;
+    padding:10px 18px;
+    border-radius:9px;
+    background:#00ffff;
+    color:#001010;
+    text-decoration:none;
+    font-weight:800;
+}
+
+/* الحساب */
+.profile{
+    margin:20px 7% 80px;
+    padding:35px;
+    border-radius:22px;
+    border:1px solid rgba(0,255,255,.2);
+    background:#080d13;
+}
+
+.profile h2{
+    color:#00ffff;
+    margin-bottom:10px;
+}
+
+.profile p{
+    color:#9aa7b4;
 }
 
 .logout{
-    width:auto;
-    padding:12px 30px;
+    margin-top:20px;
+    padding:11px 20px;
+    border:1px solid #ff4567;
+    background:transparent;
+    color:#ff4567;
+    border-radius:10px;
+    cursor:pointer;
+    font-family:'Cairo',sans-serif;
+    font-weight:700;
+}
+
+/* الفوتر */
+footer{
+    padding:35px 7%;
+    text-align:center;
+    color:#687581;
+    border-top:1px solid rgba(255,255,255,.06);
+}
+
+/* الجوال */
+@media(max-width:850px){
+
+    .hero{
+        flex-direction:column;
+        text-align:center;
+        padding-top:60px;
+    }
+
+    .hero-art{
+        width:90%;
+        max-width:420px;
+        height:330px;
+    }
+
+    .hero-art::before{
+        font-size:65px;
+    }
+
+    .games{
+        grid-template-columns:1fr;
+    }
+
+    nav{
+        padding:0 20px;
+    }
 }
 
 @media(max-width:500px){
-    .login-box{
-        padding:25px 20px;
-    }
 
     .logo{
-        font-size:27px;
+        font-size:29px;
     }
 
-    .main-logo{
-        font-size:38px;
+    .login-card{
+        padding:30px 20px;
+    }
+
+    .hero h1{
+        font-size:52px;
+    }
+
+    .account{
+        padding:6px 10px;
+    }
+
+    #accountName{
+        max-width:100px;
+        overflow:hidden;
+        text-overflow:ellipsis;
     }
 }
 </style>
@@ -194,221 +434,361 @@ button:hover{
 
 <body>
 
-<!-- تسجيل الدخول -->
-<div class="login-box" id="loginBox">
+<!-- =========================
+     تسجيل الدخول
+========================= -->
 
-    <div class="logo">
-        WIFI5<span>GAMES</span>
-    </div>
+<section id="loginPage">
 
-    <div class="subtitle">
-        عالم الألعاب بين إيديك 🎮
-    </div>
+    <div class="login-card">
 
-    <!-- الخطوة الأولى -->
-    <div id="emailBox">
-        <h2>تسجيل الدخول</h2>
+        <div class="logo">
+            WIFI5<span>GAMES</span>
+        </div>
+
+        <div class="login-title">
+            مرحباً بك 🎮
+        </div>
+
+        <div class="login-subtitle">
+            سجّل دخولك باستخدام Gmail
+        </div>
 
         <input
-            type="email"
             id="email"
+            class="email-input"
+            type="email"
             placeholder="example@gmail.com"
             autocomplete="email"
         >
 
-        <button onclick="sendCode()">
-            🔐 تسجيل الدخول
+        <button class="login-button" onclick="login()">
+            🚀 تسجيل الدخول
         </button>
 
-        <div class="message" id="emailMessage"></div>
+        <div id="error" class="error"></div>
 
-        <div class="demo-code" id="demoCode">
-            كود التحقق التجريبي:
-            <strong id="generatedCode"></strong>
-        </div>
     </div>
 
-    <!-- التحقق -->
-    <div id="verifyBox">
+</section>
 
-        <h2>تحقق من حسابك</h2>
 
-        <p style="color:#8e9aa8;margin-bottom:20px">
-            أدخل كود التحقق المكوّن من 6 أرقام
+<!-- =========================
+     الموقع
+========================= -->
+
+<div id="site">
+
+    <nav>
+
+        <div class="nav-logo">
+            WIFI5<span>GAMES</span>
+        </div>
+
+        <div class="account">
+
+            <div class="account-icon">
+                👤
+            </div>
+
+            <div id="accountName">
+                الحساب
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <section class="hero">
+
+        <div class="hero-text">
+
+            <div class="live">
+                ● LIVE GAMING
+            </div>
+
+            <h1>
+                WIFI5<span>GAMES</span>
+            </h1>
+
+            <p>
+                عالم الألعاب بين إيديك 🎮🔥
+                <br>
+                GTA V • Fortnite • Counter-Strike
+            </p>
+
+            <a href="#games" class="hero-button">
+                🎮 استكشف الألعاب
+            </a>
+
+        </div>
+
+
+        <div class="hero-art"></div>
+
+    </section>
+
+
+    <div class="section-title" id="games">
+
+        <h2>
+            الألعاب <span>المميزة</span>
+        </h2>
+
+    </div>
+
+
+    <section class="games">
+
+        <div class="game">
+
+            <div class="game-number">
+                GAME 01
+            </div>
+
+            <h3>GTA V</h3>
+
+            <p>
+                عيش عالم Los Santos المفتوح واستمتع بتجربة GTA V.
+            </p>
+
+            <a
+                class="game-button"
+                href="https://www.rockstargames.com/gta-v"
+                target="_blank"
+            >
+                🎮 الموقع الرسمي
+            </a>
+
+        </div>
+
+
+        <div class="game">
+
+            <div class="game-number">
+                GAME 02
+            </div>
+
+            <h3>Fortnite</h3>
+
+            <p>
+                ادخل المعركة واستمتع بعالم Fortnite.
+            </p>
+
+            <a
+                class="game-button"
+                href="https://www.fortnite.com/download"
+                target="_blank"
+            >
+                🎮 تحميل Fortnite
+            </a>
+
+        </div>
+
+
+        <div class="game">
+
+            <div class="game-number">
+                GAME 03
+            </div>
+
+            <h3>Counter-Strike</h3>
+
+            <p>
+                تجربة FPS تنافسية مع Counter-Strike 2.
+            </p>
+
+            <a
+                class="game-button"
+                href="https://store.steampowered.com/app/730/CounterStrike_2/"
+                target="_blank"
+            >
+                🎮 Steam
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <section class="profile">
+
+        <h2>
+            👤 حسابك
+        </h2>
+
+        <p>
+            اسم الحساب:
+            <strong id="profileName"></strong>
         </p>
 
-        <input
-            type="text"
-            id="code"
-            maxlength="6"
-            inputmode="numeric"
-            placeholder="000000"
-        >
+        <p style="margin-top:8px">
+            البريد:
+            <strong id="profileEmail"></strong>
+        </p>
 
-        <button onclick="verifyCode()">
-            ✅ تحقق ودخول
+        <button class="logout" onclick="logout()">
+            تسجيل الخروج
         </button>
 
-        <div class="message" id="codeMessage"></div>
+    </section>
 
-        <button
-            onclick="backToEmail()"
-            style="margin-top:10px;background:#18222b;color:white;"
-        >
-            رجوع
-        </button>
 
-    </div>
+    <footer>
+        © 2026 WIFI5GAMES — Ultimate Gaming 🎮
+    </footer>
 
 </div>
 
-<!-- الموقع بعد الدخول -->
-<div id="mainSite">
-
-    <div class="main-logo">
-        WIFI5<span>GAMES</span>
-    </div>
-
-    <div class="main-text">
-        مرحباً بك في عالم Wifi5Games 🎮🔥
-    </div>
-
-    <button class="logout" onclick="logout()">
-        تسجيل الخروج
-    </button>
-
-</div>
 
 <script>
 
-let verificationCode = "";
+/* تسجيل الدخول */
 
-function sendCode(){
+function login(){
 
-    const email = document.getElementById("email").value.trim();
-    const emailMessage = document.getElementById("emailMessage");
+    const emailInput =
+        document.getElementById("email");
 
-    if(!email){
-        emailMessage.className = "message error";
-        emailMessage.textContent = "❌ اكتب Gmail أولاً";
+    const email =
+        emailInput.value.trim();
+
+    const error =
+        document.getElementById("error");
+
+
+    if(email === ""){
+
+        error.textContent =
+            "❌ اكتب Gmail أولاً";
+
         return;
     }
+
 
     if(!email.toLowerCase().endsWith("@gmail.com")){
-        emailMessage.className = "message error";
-        emailMessage.textContent = "❌ لازم يكون البريد Gmail";
+
+        error.textContent =
+            "❌ لازم تدخل حساب Gmail صحيح";
+
         return;
     }
 
-    // إنشاء كود من 6 أرقام
-    verificationCode = Math.floor(
-        100000 + Math.random() * 900000
-    ).toString();
 
-    emailMessage.className = "message success";
-    emailMessage.textContent =
-        "✅ تم إنشاء كود التحقق التجريبي";
+    /*
+      أخذ اسم الحساب من Gmail
 
-    // إظهار الكود
-    document.getElementById("generatedCode").textContent =
-        verificationCode;
+      example:
+      fahed123@gmail.com
 
-    document.getElementById("demoCode").style.display = "block";
+      يصبح:
+      fahed123
+    */
 
-    // الانتقال إلى شاشة التحقق
-    setTimeout(function(){
-
-        document.getElementById("emailBox").style.display = "none";
-        document.getElementById("verifyBox").style.display = "block";
-
-    },800);
-}
-
-
-function verifyCode(){
-
-    const enteredCode =
-        document.getElementById("code").value.trim();
-
-    const codeMessage =
-        document.getElementById("codeMessage");
-
-    if(enteredCode === verificationCode){
-
-        codeMessage.className = "message success";
-        codeMessage.textContent =
-            "✅ تم التحقق بنجاح!";
-
-        localStorage.setItem(
-            "wifi5games_login",
-            "true"
+    let name =
+        email.substring(
+            0,
+            email.lastIndexOf("@")
         );
 
-        setTimeout(function(){
 
-            document.getElementById("loginBox").style.display =
-                "none";
+    /* تحويل بعض الرموز إلى شكل أجمل */
 
-            document.getElementById("mainSite").style.display =
-                "block";
+    name =
+        name.replace(/[._-]+/g," ");
 
-        },700);
 
-    }else{
+    name =
+        name.charAt(0).toUpperCase()
+        + name.slice(1);
 
-        codeMessage.className = "message error";
-        codeMessage.textContent =
-            "❌ الكود غير صحيح";
 
+    /* حفظ بيانات الحساب */
+
+    localStorage.setItem(
+        "wifi5_email",
+        email
+    );
+
+    localStorage.setItem(
+        "wifi5_name",
+        name
+    );
+
+
+    /* عرض الموقع */
+
+    showSite();
+
+}
+
+
+/* عرض الموقع */
+
+function showSite(){
+
+    const email =
+        localStorage.getItem("wifi5_email");
+
+    const name =
+        localStorage.getItem("wifi5_name");
+
+
+    if(!email || !name){
+        return;
     }
+
+
+    document.getElementById("loginPage")
+        .style.display = "none";
+
+    document.getElementById("site")
+        .style.display = "block";
+
+
+    document.getElementById("accountName")
+        .textContent = name;
+
+
+    document.getElementById("profileName")
+        .textContent = name;
+
+
+    document.getElementById("profileEmail")
+        .textContent = email;
+
 }
 
 
-function backToEmail(){
-
-    document.getElementById("verifyBox").style.display =
-        "none";
-
-    document.getElementById("emailBox").style.display =
-        "block";
-
-    document.getElementById("code").value = "";
-}
-
+/* تسجيل الخروج */
 
 function logout(){
 
-    localStorage.removeItem("wifi5games_login");
+    localStorage.removeItem("wifi5_email");
+    localStorage.removeItem("wifi5_name");
 
-    document.getElementById("mainSite").style.display =
-        "none";
+    location.reload();
 
-    document.getElementById("loginBox").style.display =
-        "block";
-
-    document.getElementById("verifyBox").style.display =
-        "none";
-
-    document.getElementById("emailBox").style.display =
-        "block";
-
-    document.getElementById("email").value = "";
-    document.getElementById("code").value = "";
 }
 
 
-window.onload = function(){
+/* إذا كان المستخدم مسجل دخول سابقاً */
 
-    if(localStorage.getItem("wifi5games_login") === "true"){
+window.addEventListener("load",function(){
 
-        document.getElementById("loginBox").style.display =
-            "none";
+    const email =
+        localStorage.getItem("wifi5_email");
 
-        document.getElementById("mainSite").style.display =
-            "block";
+    const name =
+        localStorage.getItem("wifi5_name");
+
+
+    if(email && name){
+        showSite();
     }
 
-};
+});
 
 </script>
 
