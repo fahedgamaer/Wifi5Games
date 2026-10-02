@@ -1,1 +1,1562 @@
-نونو الصينية 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WIFI5GAMES — عالم الألعاب</title>
+
+<meta name="description"
+content="WIFI5GAMES — عالم الألعاب. اكتشف أكثر من 100 لعبة شهيرة في مكان واحد.">
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Cairo',sans-serif;
+    background:#05070c;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+/* =========================
+   LOADER
+========================= */
+
+#loader{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:
+        radial-gradient(circle at center,#101b30 0%,#05070c 48%,#000 100%);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    overflow:hidden;
+}
+
+#loader::before{
+    content:"";
+    position:absolute;
+    width:600px;
+    height:600px;
+    border-radius:50%;
+    border:1px solid rgba(0,229,255,.15);
+    box-shadow:
+        0 0 80px rgba(0,229,255,.08),
+        inset 0 0 80px rgba(0,229,255,.04);
+    animation:loaderPulse 2s infinite;
+}
+
+#loader::after{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:
+        linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);
+    background-size:50px 50px;
+    transform:perspective(500px) rotateX(60deg) scale(2);
+    transform-origin:center bottom;
+    opacity:.4;
+}
+
+.loader-content{
+    position:relative;
+    z-index:3;
+    text-align:center;
+}
+
+.loader-logo{
+    font-size:clamp(40px,8vw,100px);
+    font-weight:900;
+    letter-spacing:5px;
+    text-shadow:
+        0 0 10px #00e5ff,
+        0 0 30px rgba(0,229,255,.8),
+        0 0 80px rgba(0,229,255,.3);
+}
+
+.loader-logo span{
+    color:#00e5ff;
+}
+
+.loader-sub{
+    margin-top:5px;
+    color:#aaa;
+    letter-spacing:8px;
+    font-size:14px;
+}
+
+.loader-line{
+    width:min(500px,80vw);
+    height:5px;
+    background:#18202d;
+    margin:40px auto 15px;
+    border-radius:50px;
+    overflow:hidden;
+    box-shadow:0 0 20px rgba(0,229,255,.1);
+}
+
+.loader-progress{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#006eff,#00e5ff,#fff);
+    box-shadow:0 0 20px #00e5ff;
+    transition:.1s linear;
+}
+
+.loader-percent{
+    color:#00e5ff;
+    font-weight:800;
+    font-size:15px;
+}
+
+.loader-status{
+    color:#777;
+    margin-top:12px;
+    font-size:13px;
+}
+
+@keyframes loaderPulse{
+    0%,100%{
+        transform:scale(.8);
+        opacity:.3;
+    }
+    50%{
+        transform:scale(1.1);
+        opacity:.8;
+    }
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.bg-grid{
+    position:fixed;
+    inset:0;
+    z-index:-3;
+    background:
+        linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);
+    background-size:55px 55px;
+}
+
+.bg-glow{
+    position:fixed;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:#006eff;
+    filter:blur(180px);
+    opacity:.08;
+    z-index:-2;
+    top:-200px;
+    right:-150px;
+}
+
+/* =========================
+   NAV
+========================= */
+
+nav{
+    position:sticky;
+    top:0;
+    z-index:5000;
+    height:78px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 5%;
+    background:rgba(4,7,13,.82);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(0,229,255,.12);
+}
+
+.logo{
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:2px;
+}
+
+.logo span{
+    color:#00e5ff;
+}
+
+.logo small{
+    display:block;
+    color:#667080;
+    font-size:9px;
+    letter-spacing:4px;
+    text-align:center;
+}
+
+.nav-links{
+    display:flex;
+    gap:28px;
+}
+
+.nav-links a{
+    color:#aaa;
+    text-decoration:none;
+    font-size:14px;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:#00e5ff;
+}
+
+.nav-online{
+    border:1px solid rgba(0,229,255,.3);
+    padding:8px 14px;
+    border-radius:30px;
+    font-size:11px;
+    color:#00e5ff;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:650px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    align-items:center;
+    padding:70px 7%;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    width:600px;
+    height:600px;
+    background:#006eff;
+    filter:blur(220px);
+    opacity:.1;
+    left:-200px;
+    top:0;
+}
+
+.hero-text{
+    position:relative;
+    z-index:2;
+}
+
+.hero-badge{
+    display:inline-flex;
+    gap:8px;
+    align-items:center;
+    border:1px solid rgba(0,229,255,.35);
+    background:rgba(0,229,255,.06);
+    padding:8px 15px;
+    border-radius:30px;
+    color:#00e5ff;
+    font-size:12px;
+    margin-bottom:22px;
+}
+
+.dot{
+    width:7px;
+    height:7px;
+    background:#00ff88;
+    border-radius:50%;
+    box-shadow:0 0 10px #00ff88;
+}
+
+.hero h1{
+    font-size:clamp(48px,7vw,100px);
+    line-height:.95;
+    font-weight:900;
+}
+
+.hero h1 span{
+    color:#00e5ff;
+    text-shadow:0 0 30px rgba(0,229,255,.5);
+}
+
+.hero p{
+    color:#9199a8;
+    max-width:600px;
+    margin:25px 0;
+    line-height:2;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    border:none;
+    text-decoration:none;
+    padding:13px 25px;
+    border-radius:10px;
+    font-family:inherit;
+    font-weight:800;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-primary{
+    background:#00e5ff;
+    color:#001017;
+    box-shadow:0 0 30px rgba(0,229,255,.25);
+}
+
+.btn-primary:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 40px rgba(0,229,255,.5);
+}
+
+.btn-dark{
+    background:#111722;
+    color:#fff;
+    border:1px solid #283344;
+}
+
+.btn-dark:hover{
+    border-color:#00e5ff;
+}
+
+/* =========================
+   CINEMATIC ART
+========================= */
+
+.cinema{
+    height:430px;
+    position:relative;
+    border-radius:25px;
+    overflow:hidden;
+    background:
+        linear-gradient(180deg,#141a35 0%,#342451 42%,#e35d55 68%,#101116 69%,#050608 100%);
+    border:1px solid rgba(0,229,255,.18);
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.7),
+        0 0 50px rgba(0,229,255,.08);
+}
+
+.cinema::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(90deg,transparent 49%,rgba(255,255,255,.05) 50%,transparent 51%),
+        linear-gradient(0deg,transparent 49%,rgba(255,255,255,.03) 50%,transparent 51%);
+    background-size:80px 80px;
+    opacity:.3;
+}
+
+.sun{
+    position:absolute;
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    background:#ffb36b;
+    box-shadow:0 0 70px #ff835e;
+    left:15%;
+    top:23%;
+}
+
+.city{
+    position:absolute;
+    bottom:31%;
+    left:0;
+    right:0;
+    height:100px;
+    background:
+        linear-gradient(90deg,
+        #111 0 6%,
+        transparent 6% 10%,
+        #181818 10% 17%,
+        transparent 17% 20%,
+        #0e0e0e 20% 30%,
+        transparent 30% 34%,
+        #161616 34% 45%,
+        transparent 45% 50%,
+        #111 50% 63%,
+        transparent 63% 68%,
+        #171717 68% 80%,
+        transparent 80% 84%,
+        #111 84%);
+}
+
+.road{
+    position:absolute;
+    bottom:0;
+    left:-10%;
+    width:120%;
+    height:34%;
+    background:#090a0c;
+    transform:perspective(300px) rotateX(18deg);
+}
+
+.road::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;
+    width:8px;
+    height:100%;
+    background:repeating-linear-gradient(
+        #d8c67c 0 40px,
+        transparent 40px 75px
+    );
+}
+
+.car{
+    position:absolute;
+    width:170px;
+    height:65px;
+    background:#111;
+    border-radius:30px 45px 15px 15px;
+    bottom:17%;
+    z-index:4;
+    box-shadow:0 15px 20px #000;
+}
+
+.car::before{
+    content:"";
+    position:absolute;
+    width:80px;
+    height:35px;
+    background:#18202c;
+    top:-25px;
+    right:30px;
+    border-radius:45px 45px 0 0;
+}
+
+.car::after{
+    content:"●    ●";
+    position:absolute;
+    color:#050505;
+    bottom:-13px;
+    left:20px;
+    font-size:28px;
+    letter-spacing:65px;
+}
+
+.car1{
+    right:14%;
+    transform:rotate(-3deg);
+}
+
+.car2{
+    right:48%;
+    transform:scale(.8) rotate(4deg);
+    opacity:.9;
+}
+
+.person{
+    position:absolute;
+    width:18px;
+    height:75px;
+    background:#111;
+    bottom:25%;
+    z-index:3;
+    border-radius:15px;
+}
+
+.person::before{
+    content:"";
+    position:absolute;
+    width:32px;
+    height:32px;
+    background:#151515;
+    border-radius:50%;
+    top:-27px;
+    left:-7px;
+}
+
+.person1{
+    left:40%;
+}
+
+.person2{
+    left:64%;
+    transform:scale(.8);
+}
+
+.cinema-title{
+    position:absolute;
+    z-index:6;
+    bottom:25px;
+    left:0;
+    right:0;
+    text-align:center;
+    font-size:42px;
+    font-weight:900;
+    letter-spacing:5px;
+    text-shadow:0 5px 30px #000;
+}
+
+.cinema-title span{
+    color:#ff6b55;
+}
+
+/* =========================
+   TICKER
+========================= */
+
+.ticker{
+    border-top:1px solid rgba(0,229,255,.1);
+    border-bottom:1px solid rgba(0,229,255,.1);
+    overflow:hidden;
+    white-space:nowrap;
+    padding:13px 0;
+    background:#080b11;
+    color:#00e5ff;
+}
+
+.ticker-track{
+    display:inline-block;
+    animation:ticker 25s linear infinite;
+}
+
+@keyframes ticker{
+    from{transform:translateX(0)}
+    to{transform:translateX(-50%)}
+}
+
+/* =========================
+   GAMES
+========================= */
+
+.games-section{
+    padding:80px 5%;
+}
+
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.section-head h2{
+    font-size:38px;
+    font-weight:900;
+}
+
+.section-head h2 span{
+    color:#00e5ff;
+}
+
+.section-head p{
+    color:#6e7786;
+    font-size:13px;
+}
+
+.search-box{
+    width:min(450px,100%);
+    margin-bottom:25px;
+    position:relative;
+}
+
+.search-box input{
+    width:100%;
+    padding:15px 20px;
+    border-radius:12px;
+    background:#0c1119;
+    border:1px solid #202b3b;
+    color:#fff;
+    outline:none;
+    font-family:inherit;
+}
+
+.search-box input:focus{
+    border-color:#00e5ff;
+    box-shadow:0 0 20px rgba(0,229,255,.08);
+}
+
+.filters{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:35px;
+}
+
+.filter{
+    background:#0c1119;
+    border:1px solid #202b3b;
+    color:#8993a3;
+    padding:8px 15px;
+    border-radius:30px;
+    cursor:pointer;
+    font-family:inherit;
+}
+
+.filter.active,
+.filter:hover{
+    background:#00e5ff;
+    color:#001017;
+    border-color:#00e5ff;
+}
+
+/* =========================
+   GAME GRID
+========================= */
+
+.games-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:18px;
+}
+
+.game-card{
+    position:relative;
+    background:#0b1018;
+    border:1px solid #1b2533;
+    border-radius:14px;
+    overflow:hidden;
+    transition:.35s;
+}
+
+.game-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(0,229,255,.6);
+    box-shadow:0 20px 45px rgba(0,0,0,.55);
+}
+
+.cover{
+    width:100%;
+    aspect-ratio:2/3;
+    object-fit:cover;
+    display:block;
+    background:
+        linear-gradient(135deg,#182131,#06080d);
+    transition:.5s;
+}
+
+.game-card:hover .cover{
+    transform:scale(1.04);
+}
+
+.game-info{
+    padding:14px;
+}
+
+.game-title{
+    font-size:15px;
+    font-weight:800;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.game-type{
+    color:#687384;
+    font-size:10px;
+    margin-top:5px;
+}
+
+.game-btn{
+    display:block;
+    width:100%;
+    margin-top:12px;
+    border:none;
+    background:#111a26;
+    border:1px solid #243245;
+    color:#00e5ff;
+    padding:9px;
+    border-radius:8px;
+    cursor:pointer;
+    font-family:inherit;
+    font-weight:700;
+    transition:.25s;
+}
+
+.game-btn:hover{
+    background:#00e5ff;
+    color:#001017;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    padding:30px 5% 80px;
+}
+
+.stats-box{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border:1px solid #1d2a3a;
+    border-radius:18px;
+    background:#080c13;
+    overflow:hidden;
+}
+
+.stat{
+    padding:35px;
+    text-align:center;
+    border-left:1px solid #1d2a3a;
+}
+
+.stat:last-child{
+    border-left:0;
+}
+
+.stat strong{
+    display:block;
+    font-size:35px;
+    color:#00e5ff;
+}
+
+.stat span{
+    color:#687384;
+    font-size:12px;
+}
+
+/* =========================
+   FEATURE
+========================= */
+
+.feature{
+    margin:20px 5% 90px;
+    padding:70px;
+    border-radius:25px;
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 80% 50%,rgba(0,229,255,.13),transparent 35%),
+        linear-gradient(135deg,#0d1420,#080b11);
+    border:1px solid #1d2b3b;
+}
+
+.feature h2{
+    font-size:45px;
+    font-weight:900;
+}
+
+.feature h2 span{
+    color:#00e5ff;
+}
+
+.feature p{
+    color:#7e8999;
+    max-width:650px;
+    line-height:2;
+    margin:15px 0 25px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    border-top:1px solid #172131;
+    padding:40px 5%;
+    background:#030509;
+    text-align:center;
+}
+
+.footer-logo{
+    font-size:25px;
+    font-weight:900;
+}
+
+.footer-logo span{
+    color:#00e5ff;
+}
+
+footer p{
+    color:#566170;
+    font-size:12px;
+    margin-top:10px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:1100px){
+
+    .games-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+}
+
+@media(max-width:800px){
+
+    nav{
+        height:70px;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero{
+        grid-template-columns:1fr;
+        padding:55px 5%;
+    }
+
+    .hero h1{
+        font-size:58px;
+    }
+
+    .cinema{
+        height:350px;
+    }
+
+    .games-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .stats-box{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .stat:nth-child(2){
+        border-left:0;
+    }
+
+    .feature{
+        padding:40px 25px;
+    }
+
+}
+
+@media(max-width:520px){
+
+    .hero h1{
+        font-size:47px;
+    }
+
+    .cinema{
+        height:290px;
+    }
+
+    .cinema-title{
+        font-size:25px;
+    }
+
+    .games-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
+    }
+
+    .game-info{
+        padding:10px;
+    }
+
+    .game-title{
+        font-size:13px;
+    }
+
+    .section-head{
+        display:block;
+    }
+
+    .stats-box{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .stat{
+        padding:20px 10px;
+    }
+
+    .stat strong{
+        font-size:25px;
+    }
+
+}
+
+/* =========================
+   HIDE
+========================= */
+
+.hidden{
+    display:none!important;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     LOADER
+========================= -->
+
+<div id="loader">
+
+    <div class="loader-content">
+
+        <div class="loader-logo">
+            WIFI<span>5</span>GAMES
+        </div>
+
+        <div class="loader-sub">
+            ULTIMATE GAMING WORLD
+        </div>
+
+        <div class="loader-line">
+            <div class="loader-progress" id="loaderProgress"></div>
+        </div>
+
+        <div class="loader-percent" id="loaderPercent">
+            0%
+        </div>
+
+        <div class="loader-status" id="loaderStatus">
+            جاري تجهيز عالم الألعاب...
+        </div>
+
+    </div>
+
+</div>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<!-- =========================
+     NAV
+========================= -->
+
+<nav>
+
+    <div class="logo">
+        WIFI<span>5</span>GAMES
+        <small>ULTIMATE GAMING</small>
+    </div>
+
+    <div class="nav-links">
+        <a href="#home">الرئيسية</a>
+        <a href="#games">الألعاب</a>
+        <a href="#featured">المميز</a>
+        <a href="#about">عن الموقع</a>
+    </div>
+
+    <div class="nav-online">
+        ● ONLINE
+    </div>
+
+</nav>
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-text">
+
+        <div class="hero-badge">
+            <span class="dot"></span>
+            WIFI5GAMES ONLINE
+        </div>
+
+        <h1>
+            عالمك<br>
+            <span>يبدأ هنا</span>
+        </h1>
+
+        <p>
+            مرحباً بك في WIFI5GAMES —
+            بوابتك لعالم الألعاب.
+            اكتشف عشرات الألعاب الشهيرة
+            بتصميم سينمائي حديث وسريع.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#games" class="btn btn-primary">
+                🎮 تصفح الألعاب
+            </a>
+
+            <a href="#featured" class="btn btn-dark">
+                🔥 الألعاب المميزة
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- CINEMATIC SCENE -->
+
+    <div class="cinema">
+
+        <div class="sun"></div>
+
+        <div class="city"></div>
+
+        <div class="person person1"></div>
+        <div class="person person2"></div>
+
+        <div class="car car1"></div>
+        <div class="car car2"></div>
+
+        <div class="road"></div>
+
+        <div class="cinema-title">
+            GTA <span>VI</span>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     TICKER
+========================= -->
+
+<div class="ticker">
+
+    <div class="ticker-track">
+
+        🔥 WIFI5GAMES
+        &nbsp;&nbsp; • &nbsp;&nbsp;
+        🎮 100+ لعبة
+        &nbsp;&nbsp; • &nbsp;&nbsp;
+        ⚡ تجربة سريعة
+        &nbsp;&nbsp; • &nbsp;&nbsp;
+        🕹️ عالم الألعاب بين إيديك
+        &nbsp;&nbsp; • &nbsp;&nbsp;
+        🔥 WIFI5GAMES
+        &nbsp;&nbsp; • &nbsp;&nbsp;
+        🎮 100+ لعبة
+        &nbsp;&nbsp; • &nbsp;&nbsp;
+        ⚡ تجربة سريعة
+
+    </div>
+
+</div>
+
+<!-- =========================
+     GAMES
+========================= -->
+
+<section class="games-section" id="games">
+
+    <div class="section-head">
+
+        <div>
+            <h2>
+                مكتبة <span>الألعاب</span>
+            </h2>
+
+            <p>
+                اكتشف أكثر من 100 لعبة
+            </p>
+        </div>
+
+        <div class="search-box">
+            <input
+                type="text"
+                id="search"
+                placeholder="🔎 ابحث عن لعبة..."
+            >
+        </div>
+
+    </div>
+
+    <div class="filters">
+
+        <button class="filter active" data-filter="all">
+            الكل
+        </button>
+
+        <button class="filter" data-filter="action">
+            🔥 أكشن
+        </button>
+
+        <button class="filter" data-filter="fps">
+            🎯 FPS
+        </button>
+
+        <button class="filter" data-filter="racing">
+            🏎️ سباقات
+        </button>
+
+        <button class="filter" data-filter="rpg">
+            ⚔️ RPG
+        </button>
+
+        <button class="filter" data-filter="survival">
+            🧟 بقاء
+        </button>
+
+    </div>
+
+    <div class="games-grid" id="gamesGrid"></div>
+
+</section>
+
+<!-- =========================
+     STATS
+========================= -->
+
+<section class="stats">
+
+    <div class="stats-box">
+
+        <div class="stat">
+            <strong id="gameCount">100+</strong>
+            <span>لعبة</span>
+        </div>
+
+        <div class="stat">
+            <strong>24/7</strong>
+            <span>متاح دائماً</span>
+        </div>
+
+        <div class="stat">
+            <strong>HD</strong>
+            <span>أغلفة عالية الجودة</span>
+        </div>
+
+        <div class="stat">
+            <strong>W5</strong>
+            <span>WIFI5GAMES</span>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     FEATURE
+========================= -->
+
+<section class="feature" id="featured">
+
+    <h2>
+        🎬 تجربة <span>سينمائية</span>
+    </h2>
+
+    <p>
+        صممنا WIFI5GAMES ليكون أكثر من مجرد قائمة ألعاب.
+        واجهة مظلمة، إضاءة نيون، شاشة تحميل سينمائية،
+        أغلفة ألعاب، بحث وتصنيفات — كل ذلك في صفحة واحدة.
+    </p>
+
+    <a href="#games" class="btn btn-primary">
+        ابدأ الاستكشاف 🚀
+    </a>
+
+</section>
+
+<!-- =========================
+     ABOUT
+========================= -->
+
+<section class="feature" id="about">
+
+    <h2>
+        WIFI<span style="color:#00e5ff">5</span>GAMES
+    </h2>
+
+    <p>
+        عالم الألعاب بين إيديك.
+        الموقع مصمم ليجمع الألعاب الشهيرة
+        في واجهة واحدة سهلة الاستخدام.
+    </p>
+
+</section>
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="footer-logo">
+        WIFI<span>5</span>GAMES
+    </div>
+
+    <p>
+        © 2026 WIFI5GAMES — جميع الحقوق محفوظة
+    </p>
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   LOADER
+===================================================== */
+
+let progress = 0;
+
+const progressBar =
+    document.getElementById("loaderProgress");
+
+const percent =
+    document.getElementById("loaderPercent");
+
+const status =
+    document.getElementById("loaderStatus");
+
+const statuses = [
+    "جاري تشغيل النظام...",
+    "جاري تحميل عالم الألعاب...",
+    "جاري تجهيز الأغلفة...",
+    "جاري تجهيز المكتبة...",
+    "WIFI5GAMES جاهز 🎮"
+];
+
+const loaderTimer = setInterval(() => {
+
+    progress += 1;
+
+    progressBar.style.width = progress + "%";
+    percent.textContent = progress + "%";
+
+    if(progress === 20){
+        status.textContent = statuses[1];
+    }
+
+    if(progress === 45){
+        status.textContent = statuses[2];
+    }
+
+    if(progress === 70){
+        status.textContent = statuses[3];
+    }
+
+    if(progress >= 100){
+
+        clearInterval(loaderTimer);
+
+        status.textContent = statuses[4];
+
+        setTimeout(() => {
+
+            document.getElementById("loader").style.opacity = "0";
+            document.getElementById("loader").style.transition = "1s";
+
+            setTimeout(() => {
+                document.getElementById("loader").style.display = "none";
+            },1000);
+
+        },500);
+
+    }
+
+},30);
+
+
+/* =====================================================
+   GAME DATABASE
+===================================================== */
+
+const games = [
+
+/* 1-10 */
+
+["Grand Theft Auto V","gta v","action","271590"],
+["Grand Theft Auto IV","gta iv","action","12210"],
+["Grand Theft Auto: San Andreas","gta san andreas","action","12120"],
+["Grand Theft Auto III","gta iii","action","12100"],
+["Cyberpunk 2077","cyberpunk","rpg","1091500"],
+["Red Dead Redemption 2","red dead redemption","action","1174180"],
+["The Witcher 3","witcher","rpg","292030"],
+["Elden Ring","elden ring","rpg","1245620"],
+["Baldur's Gate 3","baldur","rpg","1086940"],
+["Hogwarts Legacy","hogwarts","rpg","990080"],
+
+/* 11-20 */
+
+["Counter-Strike 2","counter strike cs2","fps","730"],
+["PUBG: BATTLEGROUNDS","pubg","fps","578080"],
+["Apex Legends","apex legends","fps","1172470"],
+["Destiny 2","destiny","fps","1085660"],
+["Warframe","warframe","fps","230410"],
+["Team Fortress 2","team fortress","fps","440"],
+["Dota 2","dota","action","570"],
+["Rust","rust","survival","252490"],
+["Palworld","palworld","survival","1623730"],
+["Valheim","valheim","survival","892970"],
+
+/* 21-30 */
+
+["Forza Horizon 5","forza horizon","racing","1551360"],
+["Forza Horizon 4","forza","racing","1293830"],
+["Forza Motorsport","forza motorsport","racing","2440510"],
+["Need for Speed Heat","need for speed","racing","1222680"],
+["Need for Speed Unbound","need for speed unbound","racing","1846380"],
+["Assetto Corsa","assetto corsa","racing","244210"],
+["Euro Truck Simulator 2","euro truck","racing","227300"],
+["American Truck Simulator","american truck","racing","270880"],
+["BeamNG.drive","beamng","racing","284160"],
+["The Crew 2","the crew","racing","646910"],
+
+/* 31-40 */
+
+["Marvel Rivals","marvel rivals","fps","2767030"],
+["Rainbow Six Siege","rainbow six","fps","359550"],
+["HELLDIVERS 2","helldivers","action","553850"],
+["Warhammer 40,000 Space Marine 2","space marine","action","2183900"],
+["The Finals","the finals","fps","2073850"],
+["Battlefield 2042","battlefield","fps","1517290"],
+["Battlefield V","battlefield v","fps","1238810"],
+["Battlefield 1","battlefield 1","fps","1238840"],
+["Titanfall 2","titanfall","fps","1237970"],
+["DOOM Eternal","doom","fps","782330"],
+
+/* 41-50 */
+
+["DOOM","doom","fps","379720"],
+["Wolfenstein: The New Order","wolfenstein","fps","201810"],
+["Metro Exodus","metro","fps","412020"],
+["Far Cry 5","far cry","action","552520"],
+["Far Cry 6","far cry 6","action","2369390"],
+["Tom Clancy's The Division 2","division","action","365590"],
+["Watch Dogs 2","watch dogs","action","447040"],
+["Watch Dogs","watch dogs","action","243470"],
+["Assassin's Creed Odyssey","assassin","rpg","812140"],
+["Assassin's Creed Valhalla","assassin valhalla","rpg","2208920"],
+
+/* 51-60 */
+
+["Assassin's Creed Origins","assassin origins","rpg","582160"],
+["Assassin's Creed IV Black Flag","black flag","action","242050"],
+["Middle-earth: Shadow of Mordor","shadow mordor","action","241930"],
+["Middle-earth: Shadow of War","shadow war","action","356190"],
+["Horizon Zero Dawn","horizon","rpg","1151640"],
+["Days Gone","days gone","action","1259420"],
+["Death Stranding","death stranding","action","1190460"],
+["God of War","god of war","action","1593500"],
+["Marvel's Spider-Man Remastered","spiderman","action","1817070"],
+["Marvel's Spider-Man Miles Morales","miles morales","action","1817190"],
+
+/* 61-70 */
+
+["The Last of Us Part I","last of us","action","1888930"],
+["Resident Evil 2","resident evil","survival","883710"],
+["Resident Evil 3","resident evil 3","survival","952060"],
+["Resident Evil 4","resident evil 4","survival","2050650"],
+["Resident Evil 7","resident evil 7","survival","418370"],
+["Resident Evil Village","resident evil village","survival","1196590"],
+["Dead by Daylight","dead by daylight","survival","381210"],
+["The Outlast Trials","outlast","survival","1304930"],
+["Phasmophobia","phasmophobia","survival","739630"],
+["Left 4 Dead 2","left 4 dead","action","550"],
+
+/* 71-80 */
+
+["Dying Light","dying light","action","239140"],
+["Dying Light 2","dying light 2","action","534380"],
+["Dead Island 2","dead island","action","934700"],
+["Days Gone","days gone","action","1259420"],
+["ARK: Survival Evolved","ark","survival","346110"],
+["7 Days to Die","7 days","survival","251570"],
+["The Forest","the forest","survival","242760"],
+["Sons of the Forest","sons forest","survival","1326470"],
+["Subnautica","subnautica","survival","264710"],
+["Subnautica: Below Zero","subnautica zero","survival","848450"],
+
+/* 81-90 */
+
+["Minecraft Dungeons","minecraft dungeons","action","1672970"],
+["Terraria","terraria","survival","105600"],
+["Starbound","starbound","survival","211820"],
+["Don't Starve Together","dont starve","survival","322330"],
+["Project Zomboid","project zomboid","survival","108600"],
+["DayZ","dayz","survival","221100"],
+["The Long Dark","long dark","survival","305620"],
+["Green Hell","green hell","survival","815370"],
+["Raft","raft","survival","648800"],
+["Grounded","grounded","survival","962130"],
+
+/* 91-100 */
+
+["The Elder Scrolls V: Skyrim","skyrim","rpg","489830"],
+["Fallout 4","fallout","rpg","377160"],
+["Fallout 76","fallout 76","rpg","1151340"],
+["Mass Effect Legendary Edition","mass effect","rpg","1328670"],
+["Dragon Age: Inquisition","dragon age","rpg","1222690"],
+["Starfield","starfield","rpg","1716740"],
+["No Man's Sky","no mans sky","rpg","275850"],
+["The Elder Scrolls Online","elder scrolls","rpg","306130"],
+["Monster Hunter: World","monster hunter","rpg","582010"],
+["Monster Hunter Wilds","monster hunter wilds","rpg","2246340"]
+
+];
+
+
+/* =====================================================
+   RENDER GAMES
+===================================================== */
+
+const grid =
+    document.getElementById("gamesGrid");
+
+function createGameCard(game,index){
+
+    const name = game[0];
+    const searchName = game[1];
+    const category = game[2];
+    const appid = game[3];
+
+    const image =
+        `https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/library_600x900_2x.jpg`;
+
+    const card =
+        document.createElement("article");
+
+    card.className = "game-card";
+    card.dataset.category = category;
+    card.dataset.name =
+        (name + " " + searchName).toLowerCase();
+
+    card.innerHTML = `
+
+        <img
+            class="cover"
+            src="${image}"
+            alt="${name}"
+            loading="lazy"
+            onerror="this.style.background='linear-gradient(135deg,#172233,#05070b)'; this.removeAttribute('src');"
+        >
+
+        <div class="game-info">
+
+            <div class="game-title">
+                ${name}
+            </div>
+
+            <div class="game-type">
+                ${category.toUpperCase()} • GAME #${index+1}
+            </div>
+
+            <button
+                class="game-btn"
+                onclick="openGame('${name.replace(/'/g,"\\'")}')"
+            >
+                🎮 عرض اللعبة
+            </button>
+
+        </div>
+    `;
+
+    return card;
+}
+
+games.forEach((game,index)=>{
+
+    grid.appendChild(
+        createGameCard(game,index)
+    );
+
+});
+
+
+/* =====================================================
+   GAME COUNT
+===================================================== */
+
+document.getElementById("gameCount").textContent =
+    games.length + "+";
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+const search =
+    document.getElementById("search");
+
+search.addEventListener("input",function(){
+
+    const value =
+        this.value.toLowerCase().trim();
+
+    document.querySelectorAll(".game-card")
+    .forEach(card=>{
+
+        const name =
+            card.dataset.name;
+
+        card.classList.toggle(
+            "hidden",
+            !name.includes(value)
+        );
+
+    });
+
+});
+
+
+/* =====================================================
+   FILTER
+===================================================== */
+
+document.querySelectorAll(".filter")
+.forEach(button=>{
+
+    button.addEventListener("click",function(){
+
+        document.querySelectorAll(".filter")
+        .forEach(b=>b.classList.remove("active"));
+
+        this.classList.add("active");
+
+        const filter =
+            this.dataset.filter;
+
+        document.querySelectorAll(".game-card")
+        .forEach(card=>{
+
+            if(filter === "all"){
+
+                card.classList.remove("hidden");
+
+            }else{
+
+                card.classList.toggle(
+                    "hidden",
+                    card.dataset.category !== filter
+                );
+
+            }
+
+        });
+
+    });
+
+});
+
+
+/* =====================================================
+   GAME BUTTON
+===================================================== */
+
+function openGame(name){
+
+    alert(
+        "🎮 " + name +
+        "\n\nهذه اللعبة موجودة في مكتبة WIFI5GAMES."
+    );
+
+}
+
+</script>
+
+</body>
+</html>  
