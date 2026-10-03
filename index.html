@@ -1,579 +1,248 @@
-<!-- =========================
-     LOGIN SYSTEM
-========================= -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WIFI5GAMES — عالم الألعاب</title>
+
+<meta name="description"
+content="WIFI5GAMES — عالم الألعاب. اكتشف أكثر من 100 لعبة شهيرة في مكان واحد.">
 
 <style>
 
-.login-button{
-    background:rgba(0,229,255,.08);
-    color:#00e5ff;
-    border:1px solid rgba(0,229,255,.45);
-    padding:9px 17px;
-    border-radius:8px;
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
     font-family:'Cairo',sans-serif;
-    font-weight:800;
-    cursor:pointer;
-    transition:.3s;
+    background:#05070c;
+    color:#fff;
+    overflow-x:hidden;
 }
 
-.login-button:hover{
-    background:#00e5ff;
-    color:#001015;
-    box-shadow:0 0 25px rgba(0,229,255,.35);
-}
+/* =========================
+   LOGIN SCREEN
+========================= */
 
-.login-modal{
+#loginScreen{
     position:fixed;
     inset:0;
-    z-index:999999;
-    background:rgba(0,0,0,.78);
-    backdrop-filter:blur(12px);
-    display:none;
+    z-index:100000;
+    display:flex;
     align-items:center;
     justify-content:center;
-    padding:20px;
+    background:
+        radial-gradient(circle at center,#101b30 0%,#05070c 50%,#000 100%);
+    overflow:hidden;
 }
 
-.login-modal.active{
-    display:flex;
+#loginScreen::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);
+    background-size:50px 50px;
+    transform:perspective(500px) rotateX(60deg) scale(2);
+    transform-origin:center bottom;
+    opacity:.5;
+}
+
+.login-glow{
+    position:absolute;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:#006eff;
+    filter:blur(180px);
+    opacity:.12;
 }
 
 .login-box{
-    width:100%;
-    max-width:430px;
-    background:#080c14;
-    border:1px solid rgba(0,229,255,.3);
-    border-radius:18px;
-    padding:35px;
     position:relative;
+    z-index:5;
+    width:min(450px,90%);
+    padding:45px 35px;
+    border:1px solid rgba(0,229,255,.25);
+    border-radius:25px;
+    background:rgba(5,10,20,.88);
+    backdrop-filter:blur(25px);
     box-shadow:
-        0 0 80px rgba(0,229,255,.12),
+        0 0 50px rgba(0,229,255,.08),
         inset 0 0 30px rgba(0,229,255,.025);
+    text-align:center;
 }
 
-.login-close{
-    position:absolute;
-    top:12px;
-    left:17px;
-    border:0;
-    background:none;
-    color:#777;
-    font-size:27px;
-    cursor:pointer;
+.login-logo{
+    font-size:38px;
+    font-weight:900;
+    letter-spacing:3px;
+    text-shadow:
+        0 0 10px #00e5ff,
+        0 0 30px rgba(0,229,255,.6);
 }
 
-.login-close:hover{
+.login-logo span{
     color:#00e5ff;
+}
+
+.login-sub{
+    color:#777;
+    font-size:12px;
+    letter-spacing:4px;
+    margin-top:3px;
+    margin-bottom:30px;
 }
 
 .login-title{
-    text-align:center;
-    font-size:29px;
-    font-weight:900;
-}
-
-.login-title span{
-    color:#00e5ff;
-    text-shadow:0 0 15px #00e5ff;
-}
-
-.login-description{
-    text-align:center;
-    color:#707988;
-    font-size:12px;
-    margin:7px 0 28px;
-}
-
-.login-field{
-    margin-bottom:18px;
-}
-
-.login-field label{
-    display:block;
-    color:#aab2bd;
-    font-size:12px;
+    font-size:23px;
+    font-weight:800;
     margin-bottom:8px;
 }
 
-.login-field input{
-    width:100%;
-    padding:13px;
-    background:#04070c;
-    border:1px solid #202a38;
-    border-radius:8px;
-    color:white;
-    outline:none;
-    font-family:'Cairo',sans-serif;
+.login-description{
+    color:#888;
     font-size:13px;
-    direction:rtl;
+    margin-bottom:25px;
 }
 
-.login-field input:focus{
-    border-color:#00e5ff;
-    box-shadow:0 0 15px rgba(0,229,255,.1);
-}
-
-.login-submit{
+.login-input{
     width:100%;
-    padding:14px;
-    border:0;
-    border-radius:8px;
-    background:#00e5ff;
-    color:#001015;
+    padding:15px 17px;
+    margin-bottom:14px;
+    border:1px solid rgba(0,229,255,.15);
+    border-radius:12px;
+    outline:none;
+    background:#080e18;
+    color:white;
     font-family:'Cairo',sans-serif;
+    font-size:14px;
+    transition:.3s;
+}
+
+.login-input:focus{
+    border-color:#00e5ff;
+    box-shadow:0 0 15px rgba(0,229,255,.12);
+}
+
+.login-button-main{
+    width:100%;
+    padding:15px;
+    border:0;
+    border-radius:12px;
+    background:linear-gradient(90deg,#006eff,#00e5ff);
+    color:#001018;
+    font-family:'Cairo',sans-serif;
+    font-size:15px;
     font-weight:900;
     cursor:pointer;
     transition:.3s;
 }
 
-.login-submit:hover{
-    box-shadow:0 0 25px rgba(0,229,255,.4);
+.login-button-main:hover{
     transform:translateY(-2px);
+    box-shadow:0 0 25px rgba(0,229,255,.4);
 }
 
-.login-note{
-    text-align:center;
-    color:#596270;
-    font-size:10px;
-    line-height:1.8;
-    margin-top:15px;
-}
-
-.user-box{
-    text-align:center;
-}
-
-.user-avatar{
-    width:70px;
-    height:70px;
-    margin:auto;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#00e5ff;
-    color:#001015;
-    font-size:28px;
-    font-weight:900;
-    box-shadow:0 0 30px rgba(0,229,255,.25);
-}
-
-.user-box h3{
-    margin-top:15px;
-    font-size:20px;
-}
-
-.user-email{
-    color:#697482;
+.login-error{
+    color:#ff4d6d;
     font-size:12px;
+    min-height:20px;
+    margin-bottom:8px;
+}
+
+/* =========================
+   LOADER
+========================= */
+
+#loader{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:
+        radial-gradient(circle at center,#101b30 0%,#05070c 48%,#000 100%);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    overflow:hidden;
+}
+
+#loader::before{
+    content:"";
+    position:absolute;
+    width:600px;
+    height:600px;
+    border-radius:50%;
+    border:1px solid rgba(0,229,255,.15);
+    box-shadow:
+        0 0 80px rgba(0,229,255,.08),
+        inset 0 0 80px rgba(0,229,255,.04);
+    animation:loaderPulse 2s infinite;
+}
+
+#loader::after{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:
+        linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);
+    background-size:50px 50px;
+    transform:perspective(500px) rotateX(60deg) scale(2);
+    transform-origin:center bottom;
+    opacity:.4;
+}
+
+.loader-content{
+    position:relative;
+    z-index:3;
+    text-align:center;
+}
+
+.loader-logo{
+    font-size:clamp(40px,8vw,100px);
+    font-weight:900;
+    letter-spacing:5px;
+    text-shadow:
+        0 0 10px #00e5ff,
+        0 0 30px rgba(0,229,255,.8),
+        0 0 80px rgba(0,229,255,.3);
+}
+
+.loader-logo span{
+    color:#00e5ff;
+}
+
+.loader-sub{
     margin-top:5px;
+    color:#aaa;
+    letter-spacing:8px;
+    font-size:14px;
 }
 
-.logout-button{
-    margin-top:22px;
-    padding:10px 25px;
-    border-radius:8px;
-    border:1px solid rgba(255,70,70,.3);
-    background:#171016;
-    color:#ff6b6b;
-    font-family:'Cairo',sans-serif;
-    font-weight:700;
-    cursor:pointer;
+.loader-line{
+    width:min(500px,80vw);
+    height:5px;
+    background:#18202d;
+    margin:40px auto 15px;
+    border-radius:50px;
+    overflow:hidden;
 }
 
-@media(max-width:600px){
-
-    .login-box{
-        padding:25px;
-    }
-
-}
-
-</style>
-
-
-<!-- =========================
-     LOGIN MODAL
-========================= -->
-
-<div class="login-modal" id="loginModal">
-
-    <div class="login-box">
-
-        <button
-            class="login-close"
-            onclick="closeLogin()">
-            ×
-        </button>
-
-
-        <!-- REGISTER FORM -->
-
-        <div id="loginForm">
-
-            <div class="login-title">
-                WIFI5<span>GAMES</span>
-            </div>
-
-            <div class="login-description">
-                سجّل دخولك إلى عالم الألعاب
-            </div>
-
-
-            <div class="login-field">
-
-                <label>
-                    البريد الإلكتروني
-                </label>
-
-                <input
-                    type="email"
-                    id="loginEmail"
-                    placeholder="example@gmail.com"
-                    autocomplete="email">
-
-            </div>
-
-
-            <div class="login-field">
-
-                <label>
-                    اسم المستخدم
-                </label>
-
-                <input
-                    type="text"
-                    id="loginUsername"
-                    placeholder="اكتب اسم المستخدم"
-                    maxlength="20"
-                    autocomplete="username">
-
-            </div>
-
-
-            <button
-                class="login-submit"
-                onclick="loginUser()">
-
-                تسجيل الدخول
-
-            </button>
-
-
-            <div class="login-note">
-                تسجيل الدخول باستخدام الإيميل واسم المستخدم فقط.<br>
-                لا يوجد رمز تحقق OTP.
-            </div>
-
-        </div>
-
-
-        <!-- USER PROFILE -->
-
-        <div
-            class="user-box"
-            id="userBox"
-            style="display:none;">
-
-            <div
-                class="user-avatar"
-                id="userAvatar">
-                W
-            </div>
-
-            <h3 id="userName">
-                مرحباً
-            </h3>
-
-            <div
-                class="user-email"
-                id="userEmail">
-            </div>
-
-            <button
-                class="logout-button"
-                onclick="logoutUser()">
-
-                تسجيل الخروج
-
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<script>
-
-/* =========================
-   OPEN LOGIN
-========================= */
-
-function openLogin(){
-
-    document
-    .getElementById("loginModal")
-    .classList.add("active");
-
-    checkLogin();
-
-}
-
-
-/* =========================
-   CLOSE LOGIN
-========================= */
-
-function closeLogin(){
-
-    document
-    .getElementById("loginModal")
-    .classList.remove("active");
-
-}
-
-
-/* =========================
-   LOGIN
-========================= */
-
-function loginUser(){
-
-    const email =
-        document
-        .getElementById("loginEmail")
-        .value
-        .trim();
-
-    const username =
-        document
-        .getElementById("loginUsername")
-        .value
-        .trim();
-
-
-    if(email === ""){
-
-        alert("⚠️ اكتب البريد الإلكتروني.");
-
-        return;
-
-    }
-
-
-    if(!email.includes("@") ||
-       !email.includes(".")){
-
-        alert("⚠️ البريد الإلكتروني غير صحيح.");
-
-        return;
-
-    }
-
-
-    if(username === ""){
-
-        alert("⚠️ اكتب اسم المستخدم.");
-
-        return;
-
-    }
-
-
-    if(username.length < 3){
-
-        alert(
-            "⚠️ اسم المستخدم يجب أن يكون 3 أحرف على الأقل."
-        );
-
-        return;
-
-    }
-
-
-    const user = {
-
-        email:email,
-
-        username:username
-
-    };
-
-
-    localStorage.setItem(
-        "wifi5games_user",
-        JSON.stringify(user)
-    );
-
-
-    showUser(user);
-
-
-    alert(
-        "🎮 أهلاً بك " +
-        username +
-        " في WIFI5GAMES!"
-    );
-
-}
-
-
-/* =========================
-   SHOW USER
-========================= */
-
-function showUser(user){
-
-    document
-    .getElementById("loginForm")
-    .style.display = "none";
-
-
-    document
-    .getElementById("userBox")
-    .style.display = "block";
-
-
-    document
-    .getElementById("userName")
-    .textContent =
-        "مرحباً " + user.username;
-
-
-    document
-    .getElementById("userEmail")
-    .textContent =
-        user.email;
-
-
-    document
-    .getElementById("userAvatar")
-    .textContent =
-        user.username
-        .charAt(0)
-        .toUpperCase();
-
-}
-
-
-/* =========================
-   CHECK LOGIN
-========================= */
-
-function checkLogin(){
-
-    const saved =
-        localStorage.getItem(
-            "wifi5games_user"
-        );
-
-
-    if(saved){
-
-        try{
-
-            const user =
-                JSON.parse(saved);
-
-            showUser(user);
-
-        }catch(error){
-
-            localStorage.removeItem(
-                "wifi5games_user"
-            );
-
-        }
-
-    }else{
-
-        document
-        .getElementById("loginForm")
-        .style.display = "block";
-
-        document
-        .getElementById("userBox")
-        .style.display = "none";
-
-    }
-
-}
-
-
-/* =========================
-   LOGOUT
-========================= */
-
-function logoutUser(){
-
-    localStorage.removeItem(
-        "wifi5games_user"
-    );
-
-
-    document
-    .getElementById("loginForm")
-    .style.display = "block";
-
-
-    document
-    .getElementById("userBox")
-    .style.display = "none";
-
-
-    document
-    .getElementById("loginEmail")
-    .value = "";
-
-
-    document
-    .getElementById("loginUsername")
-    .value = "";
-
-
-    alert("تم تسجيل الخروج.");
-
-}
-
-
-/* =========================
-   CLOSE WHEN CLICK OUTSIDE
-========================= */
-
-document
-.getElementById("loginModal")
-.addEventListener("click",function(e){
-
-    if(e.target === this){
-
-        closeLogin();
-
-    }
-
-});
-
-
-/* =========================
-   CHECK USER ON START
-========================= */
-
-window.addEventListener("load",function(){
-
-    const saved =
-        localStorage.getItem(
-            "wifi5games_user"
-        );
-
-    if(saved){
-
-        console.log(
-            "WIFI5GAMES user is logged in."
-        );
-
-    }
-
-});
-
-</script>
+.loader-progress{
+    height:100%;
+    width:0%;
+    background
