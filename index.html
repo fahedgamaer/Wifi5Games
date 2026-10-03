@@ -2,1396 +2,311 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>WIFI5GAMES — عالم الألعاب</title>
-
-<meta name="description"
-content="WIFI5GAMES — عالم الألعاب. اكتشف أكثر من 100 لعبة شهيرة في مكان واحد.">
+<meta name="description" content="WIFI5GAMES — عالم الألعاب وأكثر من 100 لعبة شهيرة.">
 
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+ --cyan:#00eaff;
+ --blue:#087cff;
+ --purple:#792cff;
+ --pink:#ff2bd6;
+ --green:#00ff9d;
+ --bg:#03050a;
 }
 
-html{
-    scroll-behavior:smooth;
-}
+html{scroll-behavior:smooth}
 
 body{
-    font-family:'Cairo',sans-serif;
-    background:#05070c;
-    color:#fff;
-    overflow-x:hidden;
+ font-family:Cairo,sans-serif;
+ background:#03050a;
+ color:#fff;
+ overflow-x:hidden;
 }
 
-/* =========================
-   LOGIN SCREEN
-========================= */
-
-#loginScreen{
-    position:fixed;
-    inset:0;
-    z-index:100000;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:
-        radial-gradient(circle at center,#101b30 0%,#05070c 50%,#000 100%);
-    overflow:hidden;
+body:before{
+ content:"";
+ position:fixed;
+ inset:0;
+ z-index:-5;
+ pointer-events:none;
+ background:
+ radial-gradient(circle at 10% 10%,rgba(0,234,255,.12),transparent 25%),
+ radial-gradient(circle at 90% 25%,rgba(121,44,255,.12),transparent 28%),
+ radial-gradient(circle at 50% 100%,rgba(255,43,214,.08),transparent 30%);
 }
 
-#loginScreen::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:
-        linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);
-    background-size:50px 50px;
-    transform:perspective(500px) rotateX(60deg) scale(2);
-    transform-origin:center bottom;
-    opacity:.5;
+body:after{
+ content:"";
+ position:fixed;
+ inset:0;
+ z-index:-4;
+ pointer-events:none;
+ opacity:.22;
+ background-image:
+ linear-gradient(rgba(0,234,255,.06) 1px,transparent 1px),
+ linear-gradient(90deg,rgba(0,234,255,.06) 1px,transparent 1px);
+ background-size:50px 50px;
 }
 
-.login-glow{
-    position:absolute;
-    width:500px;
-    height:500px;
-    border-radius:50%;
-    background:#006eff;
-    filter:blur(180px);
-    opacity:.12;
-}
-
-.login-box{
-    position:relative;
-    z-index:5;
-    width:min(450px,90%);
-    padding:45px 35px;
-    border:1px solid rgba(0,229,255,.25);
-    border-radius:25px;
-    background:rgba(5,10,20,.88);
-    backdrop-filter:blur(25px);
-    box-shadow:
-        0 0 50px rgba(0,229,255,.08),
-        inset 0 0 30px rgba(0,229,255,.025);
-    text-align:center;
-}
-
-.login-logo{
-    font-size:38px;
-    font-weight:900;
-    letter-spacing:3px;
-    text-shadow:
-        0 0 10px #00e5ff,
-        0 0 30px rgba(0,229,255,.6);
-}
-
-.login-logo span{
-    color:#00e5ff;
-}
-
-.login-sub{
-    color:#777;
-    font-size:12px;
-    letter-spacing:4px;
-    margin-top:3px;
-    margin-bottom:30px;
-}
-
-.login-title{
-    font-size:23px;
-    font-weight:800;
-    margin-bottom:8px;
-}
-
-.login-description{
-    color:#888;
-    font-size:13px;
-    margin-bottom:25px;
-}
-
-.login-input{
-    width:100%;
-    padding:15px 17px;
-    margin-bottom:14px;
-    border:1px solid rgba(0,229,255,.15);
-    border-radius:12px;
-    outline:none;
-    background:#080e18;
-    color:white;
-    font-family:'Cairo',sans-serif;
-    font-size:14px;
-    transition:.3s;
-}
-
-.login-input:focus{
-    border-color:#00e5ff;
-    box-shadow:0 0 15px rgba(0,229,255,.12);
-}
-
-.login-button-main{
-    width:100%;
-    padding:15px;
-    border:0;
-    border-radius:12px;
-    background:linear-gradient(90deg,#006eff,#00e5ff);
-    color:#001018;
-    font-family:'Cairo',sans-serif;
-    font-size:15px;
-    font-weight:900;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.login-button-main:hover{
-    transform:translateY(-2px);
-    box-shadow:0 0 25px rgba(0,229,255,.4);
-}
-
-.login-error{
-    color:#ff4d6d;
-    font-size:12px;
-    min-height:20px;
-    margin-bottom:8px;
-}
-
-/* =========================
-   LOADER
-========================= */
+/* LOADER */
 
 #loader{
-    position:fixed;
-    inset:0;
-    z-index:99999;
-    background:
-        radial-gradient(circle at center,#101b30 0%,#05070c 48%,#000 100%);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    overflow:hidden;
+ position:fixed;
+ inset:0;
+ z-index:99999;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:#02040a;
+ transition:.7s;
 }
 
-#loader::before{
-    content:"";
-    position:absolute;
-    width:600px;
-    height:600px;
-    border-radius:50%;
-    border:1px solid rgba(0,229,255,.15);
-    box-shadow:
-        0 0 80px rgba(0,229,255,.08),
-        inset 0 0 80px rgba(0,229,255,.04);
-    animation:loaderPulse 2s infinite;
+#loader.hide{
+ opacity:0;
+ visibility:hidden;
 }
 
-#loader::after{
-    content:"";
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:
-        linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);
-    background-size:50px 50px;
-    transform:perspective(500px) rotateX(60deg) scale(2);
-    transform-origin:center bottom;
-    opacity:.4;
-}
-
-.loader-content{
-    position:relative;
-    z-index:3;
-    text-align:center;
+.loader-box{
+ width:min(500px,90%);
+ text-align:center;
 }
 
 .loader-logo{
-    font-size:clamp(40px,8vw,100px);
-    font-weight:900;
-    letter-spacing:5px;
-    text-shadow:
-        0 0 10px #00e5ff,
-        0 0 30px rgba(0,229,255,.8),
-        0 0 80px rgba(0,229,255,.3);
+ font-size:45px;
+ font-weight:900;
+ letter-spacing:3px;
+ text-shadow:0 0 25px var(--cyan);
 }
 
-.loader-logo span{
-    color:#00e5ff;
-}
+.loader-logo span{color:var(--cyan)}
 
 .loader-sub{
-    margin-top:5px;
-    color:#aaa;
-    letter-spacing:8px;
-    font-size:14px;
+ color:#7f8b9d;
+ font-size:12px;
+ letter-spacing:4px;
+ margin:5px 0 30px;
 }
 
-.loader-line{
-    width:min(500px,80vw);
-    height:5px;
-    background:#18202d;
-    margin:40px auto 15px;
-    border-radius:50px;
-    overflow:hidden;
+.loader-ring{
+ width:115px;
+ height:115px;
+ margin:auto;
+ border:3px solid rgba(0,234,255,.12);
+ border-top-color:var(--cyan);
+ border-right-color:var(--purple);
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ animation:spin 1s linear infinite;
 }
+
+.loader-ring span{font-size:38px}
 
 .loader-progress{
-    height:100%;
-    width:0%;
-    background:linear-gradient(90deg,#006eff,#00e5ff,#fff);
-    box-shadow:0 0 20px #00e5ff;
+ height:7px;
+ background:#101722;
+ border-radius:20px;
+ overflow:hidden;
+ margin-top:30px;
+}
+
+.loader-progress div{
+ width:0;
+ height:100%;
+ background:linear-gradient(90deg,var(--purple),var(--cyan));
+ box-shadow:0 0 20px var(--cyan);
 }
 
 .loader-percent{
-    color:#00e5ff;
-    font-weight:800;
-    font-size:15px;
+ color:var(--cyan);
+ font-size:14px;
+ font-weight:900;
+ margin-top:10px;
 }
 
-.loader-status{
-    color:#777;
-    margin-top:12px;
-    font-size:13px;
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* LOGIN */
+
+#loginScreen{
+ position:fixed;
+ inset:0;
+ z-index:9999;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+ background:
+ radial-gradient(circle at center,rgba(0,234,255,.09),transparent 30%),
+ #03050a;
 }
 
-@keyframes loaderPulse{
-    0%,100%{
-        transform:scale(.8);
-        opacity:.3;
-    }
-    50%{
-        transform:scale(1.1);
-        opacity:.8;
-    }
+.login-box{
+ width:min(440px,100%);
+ padding:35px;
+ text-align:center;
+ background:rgba(7,12,20,.96);
+ border:1px solid rgba(0,234,255,.25);
+ border-radius:25px;
+ box-shadow:0 0 70px rgba(0,234,255,.08);
 }
 
-/* =========================
-   BACKGROUND
-========================= */
-
-.bg-grid{
-    position:fixed;
-    inset:0;
-    z-index:-3;
-    background:
-        linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);
-    background-size:55px 55px;
+.login-logo{
+ font-size:32px;
+ font-weight:900;
+ text-shadow:0 0 20px var(--cyan);
 }
 
-.bg-glow{
-    position:fixed;
-    width:500px;
-    height:500px;
-    border-radius:50%;
-    background:#006eff;
-    filter:blur(180px);
-    opacity:.08;
-    z-index:-2;
-    top:-200px;
-    right:-150px;
+.login-logo span{color:var(--cyan)}
+
+.login-box h2{
+ margin-top:15px;
+ font-size:22px;
 }
 
-/* =========================
-   NAV
-========================= */
+.login-box p{
+ color:#8793a4;
+ font-size:12px;
+ margin:8px 0 25px;
+}
+
+.login-input{
+ width:100%;
+ height:52px;
+ margin-bottom:12px;
+ padding:0 16px;
+ border:1px solid #1c2938;
+ border-radius:12px;
+ background:#050a12;
+ color:#fff;
+ outline:none;
+ font-family:inherit;
+}
+
+.login-input:focus{
+ border-color:var(--cyan);
+ box-shadow:0 0 20px rgba(0,234,255,.1);
+}
+
+.login-btn{
+ width:100%;
+ height:52px;
+ border:0;
+ border-radius:12px;
+ background:linear-gradient(90deg,var(--cyan),#6af7ff);
+ color:#001018;
+ font-family:inherit;
+ font-weight:900;
+ cursor:pointer;
+}
+
+.login-error{
+ min-height:20px;
+ margin-top:10px;
+ color:#ff5570;
+ font-size:12px;
+}
+
+/* NAV */
 
 nav{
-    position:sticky;
-    top:0;
-    z-index:5000;
-    height:78px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 5%;
-    background:rgba(4,7,13,.82);
-    backdrop-filter:blur(18px);
-    border-bottom:1px solid rgba(0,229,255,.12);
+ position:sticky;
+ top:0;
+ z-index:1000;
+ height:78px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 5%;
+ background:rgba(3,5,10,.84);
+ backdrop-filter:blur(18px);
+ border-bottom:1px solid rgba(255,255,255,.05);
 }
 
 .logo{
-    font-size:25px;
-    font-weight:900;
-    letter-spacing:2px;
+ font-size:25px;
+ font-weight:900;
+ white-space:nowrap;
 }
 
 .logo span{
-    color:#00e5ff;
+ color:var(--cyan);
+ text-shadow:0 0 15px var(--cyan);
 }
 
 .logo small{
-    display:block;
-    color:#667080;
-    font-size:9px;
-    letter-spacing:4px;
-    text-align:center;
+ display:block;
+ color:#718093;
+ font-size:8px;
+ letter-spacing:3px;
+ margin-top:-5px;
 }
 
 .nav-links{
-    display:flex;
-    gap:28px;
+ display:flex;
+ gap:25px;
 }
 
 .nav-links a{
-    color:#aaa;
-    text-decoration:none;
-    font-size:14px;
-    transition:.3s;
+ color:#aeb8c7;
+ text-decoration:none;
+ font-size:13px;
+ font-weight:700;
 }
 
-.nav-links a:hover{
-    color:#00e5ff;
+.nav-links a:hover{color:var(--cyan)}
+
+.user-area{
+ display:flex;
+ gap:8px;
+ align-items:center;
 }
 
-.nav-right{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.nav-online{
-    border:1px solid rgba(0,229,255,.3);
-    padding:8px 14px;
-    border-radius:30px;
-    font-size:11px;
-    color:#00e5ff;
-}
-
-.nav-user{
-    display:none;
-    border:1px solid rgba(0,229,255,.3);
-    padding:7px 12px;
-    border-radius:30px;
-    font-size:11px;
-    color:#fff;
+.user-pill{
+ display:none;
+ padding:7px 12px;
+ border:1px solid rgba(0,234,255,.2);
+ border-radius:30px;
+ color:var(--cyan);
+ font-size:11px;
 }
 
 .logout{
-    border:1px solid rgba(255,70,100,.3);
-    background:transparent;
-    color:#ff6680;
-    padding:7px 11px;
-    border-radius:30px;
-    cursor:pointer;
-    font-family:'Cairo';
-    font-size:11px;
+ display:none;
+ padding:8px 12px;
+ border-radius:10px;
+ background:#111923;
+ border:1px solid #263344;
+ color:#fff;
+ font-family:inherit;
+ cursor:pointer;
+ font-size:11px;
 }
 
-/* =========================
-   HERO
-========================= */
+/* HERO */
 
 .hero{
-    min-height:650px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:40px;
-    align-items:center;
-    padding:70px 7%;
-    position:relative;
-    overflow:hidden;
-}
-
-.hero::before{
-    content:"";
-    position:absolute;
-    width:600px;
-    height:600px;
-    background:#006eff;
-    filter:blur(220px);
-    opacity:.1;
-    left:-200px;
-    top:0;
-}
-
-.hero-text{
-    position:relative;
-    z-index:2;
+ min-height:650px;
+ display:grid;
+ grid-template-columns:1.1fr .9fr;
+ align-items:center;
+ gap:50px;
+ padding:70px 7%;
 }
 
 .hero-badge{
-    display:inline-flex;
-    gap:8px;
-    align-items:center;
-    padding:8px 15px;
-    border:1px solid rgba(0,229,255,.25);
-    border-radius:30px;
-    color:#00e5ff;
-    font-size:12px;
-    background:rgba(0,229,255,.04);
-}
-
-.hero h1{
-    font-size:clamp(48px,7vw,90px);
-    line-height:1;
-    margin:25px 0;
-    font-weight:900;
-    letter-spacing:2px;
-}
-
-.hero h1 span{
-    color:#00e5ff;
-    text-shadow:0 0 35px rgba(0,229,255,.4);
-}
-
-.hero p{
-    color:#8993a3;
-    max-width:600px;
-    line-height:2;
-    font-size:16px;
-}
-
-.hero-buttons{
-    display:flex;
-    gap:12px;
-    margin-top:30px;
-}
-
-.hero-btn{
-    padding:13px 25px;
-    border-radius:10px;
-    text-decoration:none;
-    font-weight:800;
-    font-size:13px;
-}
-
-.hero-btn.primary{
-    background:linear-gradient(90deg,#006eff,#00e5ff);
-    color:#001018;
-}
-
-.hero-btn.secondary{
-    border:1px solid rgba(0,229,255,.25);
-    color:#00e5ff;
-}
-
-/* =========================
-   HERO VISUAL
-========================= */
-
-.hero-visual{
-    min-height:450px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    position:relative;
-}
-
-.hero-card{
-    width:min(470px,90%);
-    height:390px;
-    border:1px solid rgba(0,229,255,.2);
-    border-radius:25px;
-    background:
-        radial-gradient(circle at 50% 35%,rgba(0,229,255,.15),transparent 40%),
-        linear-gradient(145deg,#101827,#05070c);
-    box-shadow:
-        0 0 80px rgba(0,110,255,.12),
-        inset 0 0 40px rgba(0,229,255,.03);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    position:relative;
-    overflow:hidden;
-}
-
-.hero-card::before{
-    content:"GTA V";
-    position:absolute;
-    font-size:110px;
-    font-weight:900;
-    color:rgba(255,255,255,.025);
-    transform:rotate(-8deg);
-}
-
-.hero-icon{
-    font-size:110px;
-    position:relative;
-    z-index:2;
-    filter:drop-shadow(0 0 30px rgba(0,229,255,.5));
-}
-
-.hero-card h2{
-    position:relative;
-    z-index:2;
-    font-size:28px;
-    margin-top:15px;
-}
-
-.hero-card p{
-    position:relative;
-    z-index:2;
-    color:#7e8795;
-}
-
-/* =========================
-   TICKER
-========================= */
-
-.ticker{
-    border-top:1px solid rgba(0,229,255,.1);
-    border-bottom:1px solid rgba(0,229,255,.1);
-    background:rgba(0,229,255,.025);
-    padding:12px;
-    text-align:center;
-    color:#7e8795;
-    font-size:12px;
-}
-
-.ticker span{
-    color:#00e5ff;
-    margin:0 10px;
-}
-
-/* =========================
-   GAMES
-========================= */
-
-.section{
-    padding:90px 7%;
-}
-
-.section-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:end;
-    margin-bottom:35px;
-}
-
-.section-title{
-    font-size:35px;
-    font-weight:900;
-}
-
-.section-title span{
-    color:#00e5ff;
-}
-
-.section-sub{
-    color:#667080;
-    font-size:13px;
-}
-
-.games{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:22px;
-}
-
-.game-card{
-    position:relative;
-    overflow:hidden;
-    min-height:360px;
-    border:1px solid rgba(0,229,255,.12);
-    border-radius:18px;
-    background:#080d16;
-    transition:.35s;
-}
-
-.game-card:hover{
-    transform:translateY(-7px);
-    border-color:rgba(0,229,255,.4);
-    box-shadow:0 15px 50px rgba(0,229,255,.08);
-}
-
-.game-cover{
-    height:210px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:75px;
-    background:
-        radial-gradient(circle at center,rgba(0,229,255,.12),transparent 55%),
-        #0c1422;
-}
-
-.game-info{
-    padding:20px;
-}
-
-.game-info h3{
-    font-size:20px;
-    margin-bottom:5px;
-}
-
-.game-info p{
-    color:#727c8d;
-    font-size:12px;
-    margin-bottom:15px;
-}
-
-.game-btn{
-    display:inline-block;
-    padding:9px 15px;
-    border-radius:8px;
-    background:rgba(0,229,255,.08);
-    border:1px solid rgba(0,229,255,.2);
-    color:#00e5ff;
-    text-decoration:none;
-    font-size:12px;
-    transition:.3s;
-}
-
-.game-btn:hover{
-    background:#00e5ff;
-    color:#001018;
-}
-
-/* =========================
-   FEATURES
-========================= */
-
-.features{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
-}
-
-.feature{
-    padding:30px;
-    background:#080d16;
-    border:1px solid rgba(0,229,255,.1);
-    border-radius:18px;
-}
-
-.feature-icon{
-    font-size:35px;
-    margin-bottom:15px;
-}
-
-.feature h3{
-    margin-bottom:8px;
-}
-
-.feature p{
-    color:#737d8d;
-    font-size:13px;
-    line-height:1.9;
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-footer{
-    padding:40px 7%;
-    border-top:1px solid rgba(0,229,255,.1);
-    text-align:center;
-    color:#596272;
-    font-size:12px;
-}
-
-footer strong{
-    color:#00e5ff;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:850px){
-
-    nav{
-        padding:0 4%;
-    }
-
-    .nav-links{
-        display:none;
-    }
-
-    .nav-online{
-        display:none;
-    }
-
-    .hero{
-        grid-template-columns:1fr;
-        padding:55px 5%;
-        text-align:center;
-    }
-
-    .hero p{
-        margin:auto;
-    }
-
-    .hero-buttons{
-        justify-content:center;
-    }
-
-    .hero-visual{
-        min-height:350px;
-    }
-
-    .games{
-        grid-template-columns:1fr;
-    }
-
-    .features{
-        grid-template-columns:1fr;
-    }
-
-    .section{
-        padding:65px 5%;
-    }
-
-    .section-head{
-        display:block;
-    }
-
-    .section-sub{
-        margin-top:8px;
-    }
-
-    .nav-user{
-        font-size:9px;
-        max-width:100px;
-        overflow:hidden;
-        white-space:nowrap;
-    }
-}
-
-</style>
-</head>
-
-<body>
-
-<!-- =========================
-     LOGIN
-========================= -->
-
-<div id="loginScreen">
-
-    <div class="login-glow"></div>
-
-    <div class="login-box">
-
-        <div class="login-logo">
-            WIFI5<span>GAMES</span>
-        </div>
-
-        <div class="login-sub">
-            ULTIMATE GAMING
-        </div>
-
-        <div class="login-title">
-            👤 تسجيل الدخول
-        </div>
-
-        <div class="login-description">
-            أدخل بريدك الإلكتروني واسم المستخدم للدخول إلى الموقع
-        </div>
-
-        <input
-            id="loginEmail"
-            class="login-input"
-            type="email"
-            placeholder="📧 البريد الإلكتروني"
-        >
-
-        <input
-            id="loginUsername"
-            class="login-input"
-            type="text"
-            placeholder="👤 اسم المستخدم"
-        >
-
-        <div id="loginError" class="login-error"></div>
-
-        <button class="login-button-main" onclick="loginUser()">
-            دخول إلى WIFI5GAMES 🎮
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- =========================
-     LOADER
-========================= -->
-
-<div id="loader">
-
-    <div class="loader-content">
-
-        <div class="loader-logo">
-            WIFI5<span>GAMES</span>
-        </div>
-
-        <div class="loader-sub">
-            ULTIMATE GAMING
-        </div>
-
-        <div class="loader-line">
-            <div id="loaderProgress" class="loader-progress"></div>
-        </div>
-
-        <div id="loaderPercent" class="loader-percent">
-            0%
-        </div>
-
-        <div id="loaderStatus" class="loader-status">
-            جاري تشغيل النظام...
-        </div>
-
-    </div>
-
-</div>
-
-
-<div class="bg-grid"></div>
-<div class="bg-glow"></div>
-
-
-<!-- =========================
-     NAV
-========================= -->
-
-<nav>
-
-    <div class="logo">
-        WIFI5<span>GAMES</span>
-        <small>ULTIMATE GAMING</small>
-    </div>
-
-    <div class="nav-links">
-        <a href="#home">الرئيسية</a>
-        <a href="#games">الألعاب</a>
-        <a href="#features">المميزات</a>
-    </div>
-
-    <div class="nav-right">
-
-        <div id="navUser" class="nav-user"></div>
-
-        <button
-            id="logoutButton"
-            class="logout"
-            onclick="logoutUser()"
-            style="display:none;">
-            خروج
-        </button>
-
-        <div class="nav-online">
-            ● ONLINE
-        </div>
-
-    </div>
-
-</nav>
-
-
-<!-- =========================
-     HERO
-========================= -->
-
-<section id="home" class="hero">
-
-    <div class="hero-text">
-
-        <div class="hero-badge">
-            <span>●</span>
-            عالم الألعاب بين إيديك
-        </div>
-
-        <h1>
-            WIFI5<span>GAMES</span>
-        </h1>
-
-        <p>
-            اكتشف عالم الألعاب في مكان واحد.
-            ألعاب مشهورة، تصميم سينمائي، وتجربة جيمنج
-            مصممة لعشاق الألعاب.
-        </p>
-
-        <div class="hero-buttons">
-            <a href="#games" class="hero-btn primary">
-                🎮 استكشف الألعاب
-            </a>
-
-            <a href="#features" class="hero-btn secondary">
-                ⚡ المميزات
-            </a>
-        </div>
-
-    </div>
-
-
-    <div class="hero-visual">
-
-        <div class="hero-card">
-
-            <div class="hero-icon">
-                🎮
-            </div>
-
-            <h2>
-                GAMING WORLD
-            </h2>
-
-            <p>
-                PLAY • DISCOVER • ENJOY
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     TICKER
-========================= -->
-
-<div class="ticker">
-    <span>●</span>
-    WIFI5GAMES
-    <span>◆</span>
-    عالم الألعاب
-    <span>●</span>
-    GTA V
-    <span>◆</span>
-    FORTNITE
-    <span>●</span>
-    COUNTER-STRIKE 2
-</div>
-
-
-<!-- =========================
-     GAMES
-========================= -->
-
-<section id="games" class="section">
-
-    <div class="section-head">
-
-        <div>
-            <div class="section-title">
-                أشهر <span>الألعاب</span>
-            </div>
-
-            <div class="section-sub">
-                اكتشف الألعاب الموجودة في WIFI5GAMES
-            </div>
-        </div>
-
-    </div>
-
-
-    <div class="games">
-
-        <!-- GTA V -->
-
-        <div class="game-card">
-
-            <div class="game-cover">
-                🚗
-            </div>
-
-            <div class="game-info">
-
-                <h3>
-                    GTA V
-                </h3>
-
-                <p>
-                    عالم مفتوح • أكشن • مغامرات
-                </p>
-
-                <a
-                    class="game-btn"
-                    href="https://www.rockstargames.com/gta-v"
-                    target="_blank">
-                    🌐 الموقع الرسمي
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <!-- Fortnite -->
-
-        <div class="game-card">
-
-            <div class="game-cover">
-                🏆
-            </div>
-
-            <div class="game-info">
-
-                <h3>
-                    Fortnite
-                </h3>
-
-                <p>
-                    Battle Royale • Multiplayer
-                </p>
-
-                <a
-                    class="game-btn"
-                    href="https://www.fortnite.com/download"
-                    target="_blank">
-                    🎮 تحميل Fortnite
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <!-- Counter Strike -->
-
-        <div class="game-card">
-
-            <div class="game-cover">
-                🎯
-            </div>
-
-            <div class="game-info">
-
-                <h3>
-                    Counter-Strike 2
-                </h3>
-
-                <p>
-                    FPS • Multiplayer • Competitive
-                </p>
-
-                <a
-                    class="game-btn"
-                    href="https://store.steampowered.com/app/730/CounterStrike_2/"
-                    target="_blank">
-                    🎮 Steam
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     FEATURES
-========================= -->
-
-<section id="features" class="section">
-
-    <div class="section-head">
-
-        <div>
-            <div class="section-title">
-                لماذا <span>WIFI5GAMES؟</span>
-            </div>
-
-            <div class="section-sub">
-                تجربة مصممة لعشاق الجيمنج
-            </div>
-        </div>
-
-    </div>
-
-
-    <div class="features">
-
-        <div class="feature">
-
-            <div class="feature-icon">
-                ⚡
-            </div>
-
-            <h3>
-                سرعة
-            </h3>
-
-            <p>
-                تصميم سريع وخفيف وسهل الاستخدام
-                على الكمبيوتر والموبايل.
-            </p>
-
-        </div>
-
-
-        <div class="feature">
-
-            <div class="feature-icon">
-                🎮
-            </div>
-
-            <h3>
-                ألعاب مشهورة
-            </h3>
-
-            <p>
-                اكتشف مجموعة من أشهر ألعاب
-                الكمبيوتر والمنصات.
-            </p>
-
-        </div>
-
-
-        <div class="feature">
-
-            <div class="feature-icon">
-                🔥
-            </div>
-
-            <h3>
-                تصميم Gaming
-            </h3>
-
-            <p>
-                واجهة داكنة ونظام ألوان نيون
-                يعطي الموقع طابعاً سينمائياً.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     FOOTER
-========================= -->
-
-<footer>
-
-    © 2026
-    <strong>WIFI5GAMES</strong>
-    — جميع الحقوق محفوظة
-
-</footer>
-
-
-<script>
-
-/* =========================
-   LOGIN SYSTEM
-========================= */
-
-function loginUser(){
-
-    const email =
-        document.getElementById("loginEmail").value.trim();
-
-    const username =
-        document.getElementById("loginUsername").value.trim();
-
-    const error =
-        document.getElementById("loginError");
-
-
-    if(!email || !username){
-
-        error.textContent =
-            "⚠️ الرجاء إدخال الإيميل واسم المستخدم.";
-
-        return;
-    }
-
-
-    if(!email.includes("@")){
-
-        error.textContent =
-            "⚠️ أدخل بريد إلكتروني صحيح.";
-
-        return;
-    }
-
-
-    if(username.length < 2){
-
-        error.textContent =
-            "⚠️ اسم المستخدم قصير جداً.";
-
-        return;
-    }
-
-
-    const user = {
-        email: email,
-        username: username
-    };
-
-
-    localStorage.setItem(
-        "wifi5games_user",
-        JSON.stringify(user)
-    );
-
-
-    document.getElementById("loginScreen").style.display = "none";
-
-    showUser(user);
-
-    startLoader();
-}
-
-
-/* =========================
-   SHOW USER
-========================= */
-
-function showUser(user){
-
-    const navUser =
-        document.getElementById("navUser");
-
-    const logout =
-        document.getElementById("logoutButton");
-
-
-    navUser.textContent =
-        "👤 " + user.username;
-
-    navUser.style.display = "block";
-
-    logout.style.display = "block";
-}
-
-
-/* =========================
-   LOGOUT
-========================= */
-
-function logoutUser(){
-
-    localStorage.removeItem("wifi5games_user");
-
-    location.reload();
-}
-
-
-/* =========================
-   LOADER
-========================= */
-
-function startLoader(){
-
-    const loader =
-        document.getElementById("loader");
-
-    const progress =
-        document.getElementById("loaderProgress");
-
-    const percent =
-        document.getElementById("loaderPercent");
-
-    const status =
-        document.getElementById("loaderStatus");
-
-
-    loader.style.display = "flex";
-
-    let value = 0;
-
-
-    const messages = [
-        "جاري تشغيل النظام...",
-        "جاري تحميل الألعاب...",
-        "جاري تجهيز العالم...",
-        "جاري تشغيل WIFI5GAMES...",
-        "جاهز 🎮"
-    ];
-
-
-    const interval = setInterval(function(){
-
-        value++;
-
-        progress.style.width = value + "%";
-
-        percent.textContent = value + "%";
-
-
-        if(value < 25){
-            status.textContent = messages[0];
-        }
-        else if(value < 50){
-            status.textContent = messages[1];
-        }
-        else if(value < 75){
-            status.textContent = messages[2];
-        }
-        else if(value < 95){
-            status.textContent = messages[3];
-        }
-        else{
-            status.textContent = messages[4];
-        }
-
-
-        if(value >= 100){
-
-            clearInterval(interval);
-
-            setTimeout(function(){
-
-                loader.style.opacity = "0";
-                loader.style.transition = "opacity .6s";
-
-                setTimeout(function(){
-
-                    loader.style.display = "none";
-
-                },600);
-
-            },200);
-
-        }
-
-    },30);
-
-}
-
-
-/* =========================
-   CHECK LOGIN
-========================= */
-
-window.addEventListener("load",function(){
-
-    const saved =
-        localStorage.getItem("wifi5games_user");
-
-
-    if(saved){
-
-        const user =
-            JSON.parse(saved);
-
-        document.getElementById("loginScreen")
-            .style.display = "none";
-
-        showUser(user);
-
-        startLoader();
-
-    }
-    else{
-
-        document.getElementById("loader")
-            .style.display = "none";
-
-    }
-
-});
-
-</script>
-
-</body>
-</html>
+ display:inline-flex;
+ align-items:center;
+ gap:8px;
+ padding:7px 14px;
+ margin-bottom:18px;
+ border:1px solid rgba(0,234,255,.25);
+ border
