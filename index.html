@@ -1,1225 +1,226 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>WIFI5GAMES — Ultimate Gaming</title>
-
-<meta name="description"
-content="WIFI5GAMES — عالم الألعاب والجيمنج. اكتشف أشهر ألعاب الكمبيوتر مثل GTA V وFortnite وCounter-Strike.">
+<!-- =========================
+     LOGIN SYSTEM
+========================= -->
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
+.login-button{
+    background:rgba(0,229,255,.08);
+    color:#00e5ff;
+    border:1px solid rgba(0,229,255,.45);
+    padding:9px 17px;
+    border-radius:8px;
     font-family:'Cairo',sans-serif;
-    background:#05070b;
-    color:#fff;
-    overflow-x:hidden;
-}
-
-/* BACKGROUND */
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    z-index:-3;
-    background:
-        linear-gradient(rgba(0,255,255,.035) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,255,255,.035) 1px,transparent 1px);
-    background-size:50px 50px;
-}
-
-body::after{
-    content:"";
-    position:fixed;
-    inset:0;
-    z-index:-2;
-    pointer-events:none;
-    background:
-        radial-gradient(circle at 15% 20%,rgba(0,255,255,.08),transparent 30%),
-        radial-gradient(circle at 85% 70%,rgba(100,0,255,.08),transparent 30%);
-}
-
-/* LOADER */
-#loader{
-    position:fixed;
-    inset:0;
-    background:#030509;
-    z-index:99999;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    transition:.7s;
-}
-
-.loader-logo{
-    font-size:42px;
-    font-weight:900;
-    letter-spacing:4px;
-    text-shadow:0 0 25px #00ffff;
-}
-
-.loader-logo span{
-    color:#00ffff;
-}
-
-.loader-sub{
-    color:#777;
-    margin-top:8px;
-    font-size:13px;
-}
-
-.loader-line{
-    width:280px;
-    height:4px;
-    background:#15191f;
-    border-radius:20px;
-    margin-top:30px;
-    overflow:hidden;
-}
-
-.loader-progress{
-    width:0%;
-    height:100%;
-    background:#00ffff;
-    box-shadow:0 0 20px #00ffff;
-    transition:.1s;
-}
-
-.loader-percent{
-    margin-top:12px;
-    color:#00ffff;
     font-weight:800;
-}
-
-/* HEADER */
-header{
-    height:85px;
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    z-index:1000;
-    background:rgba(3,5,9,.82);
-    backdrop-filter:blur(15px);
-    border-bottom:1px solid rgba(0,255,255,.12);
-}
-
-.nav{
-    max-width:1250px;
-    height:100%;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 20px;
-}
-
-.logo{
-    font-size:25px;
-    font-weight:900;
-    letter-spacing:2px;
-}
-
-.logo span{
-    color:#00ffff;
-    text-shadow:0 0 15px #00ffff;
-}
-
-.logo small{
-    display:block;
-    font-size:8px;
-    color:#777;
-    letter-spacing:4px;
-    margin-top:-5px;
-}
-
-.nav-links{
-    display:flex;
-    gap:25px;
-}
-
-.nav-links a{
-    color:#aaa;
-    text-decoration:none;
-    font-size:14px;
+    cursor:pointer;
     transition:.3s;
 }
 
-.nav-links a:hover{
-    color:#00ffff;
+.login-button:hover{
+    background:#00e5ff;
+    color:#001015;
+    box-shadow:0 0 25px rgba(0,229,255,.35);
 }
 
-.login-btn{
-    border:1px solid #00ffff;
-    color:#00ffff;
-    background:rgba(0,255,255,.06);
-    padding:10px 18px;
-    border-radius:7px;
-    cursor:pointer;
-    font-family:inherit;
-    font-weight:700;
-    transition:.3s;
-}
-
-.login-btn:hover{
-    background:#00ffff;
-    color:#000;
-    box-shadow:0 0 25px rgba(0,255,255,.4);
-}
-
-/* HERO */
-.hero{
-    min-height:760px;
-    padding:150px 20px 80px;
-    max-width:1250px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:1.1fr .9fr;
-    gap:50px;
-    align-items:center;
-}
-
-.live{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    border:1px solid rgba(0,255,255,.35);
-    background:rgba(0,255,255,.05);
-    padding:7px 14px;
-    border-radius:30px;
-    color:#00ffff;
-    font-size:12px;
-    font-weight:800;
-}
-
-.live i{
-    width:7px;
-    height:7px;
-    background:#00ffff;
-    border-radius:50%;
-    box-shadow:0 0 12px #00ffff;
-}
-
-.hero h1{
-    font-size:clamp(50px,8vw,100px);
-    line-height:.95;
-    font-weight:900;
-    letter-spacing:-4px;
-    margin:22px 0;
-}
-
-.hero h1 span{
-    color:#00ffff;
-    text-shadow:0 0 30px rgba(0,255,255,.45);
-}
-
-.hero p{
-    color:#9299a3;
-    max-width:600px;
-    line-height:2;
-}
-
-.hero-buttons{
-    display:flex;
-    gap:12px;
-    margin-top:30px;
-    flex-wrap:wrap;
-}
-
-.primary{
-    background:#00ffff;
-    color:#001010;
-    border:0;
-    padding:14px 27px;
-    border-radius:7px;
-    font-family:inherit;
-    font-weight:900;
-    cursor:pointer;
-    box-shadow:0 0 25px rgba(0,255,255,.2);
-}
-
-.secondary{
-    background:#10141b;
-    color:white;
-    border:1px solid #272e38;
-    padding:14px 27px;
-    border-radius:7px;
-    font-family:inherit;
-    cursor:pointer;
-}
-
-/* HERO ART */
-.hero-art{
-    position:relative;
-    height:480px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.ring{
-    position:absolute;
-    width:350px;
-    height:350px;
-    border:1px solid rgba(0,255,255,.25);
-    border-radius:50%;
-    animation:spin 15s linear infinite;
-}
-
-.ring::before{
-    content:"";
-    position:absolute;
-    inset:35px;
-    border:1px dashed rgba(0,255,255,.35);
-    border-radius:50%;
-}
-
-@keyframes spin{
-    from{transform:rotate(0)}
-    to{transform:rotate(360deg)}
-}
-
-.game-panel{
-    width:350px;
-    height:420px;
-    border-radius:18px;
-    overflow:hidden;
-    position:relative;
-    border:1px solid rgba(0,255,255,.25);
-    background:
-        linear-gradient(to top,rgba(0,0,0,.95),rgba(0,0,0,.05)),
-        radial-gradient(circle at 50% 35%,#174c5c,#111923 40%,#05070b);
-    box-shadow:0 0 70px rgba(0,255,255,.12);
-    display:flex;
-    align-items:flex-end;
-    padding:25px;
-}
-
-.game-panel::before{
-    content:"GTA V";
-    position:absolute;
-    top:70px;
-    left:50%;
-    transform:translateX(-50%);
-    font-size:62px;
-    font-weight:900;
-    color:rgba(255,255,255,.08);
-}
-
-.panel-info{
-    position:relative;
-    z-index:2;
-}
-
-.panel-info h2{
-    font-size:35px;
-    font-weight:900;
-}
-
-.panel-info span{
-    color:#00ffff;
-}
-
-/* TICKER */
-.ticker{
-    border-top:1px solid #141a22;
-    border-bottom:1px solid #141a22;
-    overflow:hidden;
-    white-space:nowrap;
-    background:#070a0f;
-}
-
-.ticker-track{
-    display:inline-block;
-    padding:16px;
-    color:#69717d;
-    animation:ticker 25s linear infinite;
-}
-
-.ticker strong{
-    color:#00ffff;
-    margin:0 20px;
-}
-
-@keyframes ticker{
-    from{transform:translateX(0)}
-    to{transform:translateX(-50%)}
-}
-
-/* SECTION */
-section{
-    max-width:1250px;
-    margin:auto;
-    padding:90px 20px;
-}
-
-.section-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:end;
-    margin-bottom:35px;
-}
-
-.section-head h2{
-    font-size:35px;
-    font-weight:900;
-}
-
-.section-head h2 span{
-    color:#00ffff;
-}
-
-.section-head p{
-    color:#737b86;
-    font-size:13px;
-}
-
-/* GAMES */
-.games-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
-}
-
-.game-card{
-    background:#0a0e14;
-    border:1px solid #171e27;
-    border-radius:14px;
-    overflow:hidden;
-    transition:.35s;
-    position:relative;
-}
-
-.game-card:hover{
-    transform:translateY(-8px);
-    border-color:rgba(0,255,255,.4);
-    box-shadow:0 15px 45px rgba(0,0,0,.5);
-}
-
-.game-cover{
-    height:220px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    position:relative;
-    overflow:hidden;
-}
-
-.gta{
-    background:
-        linear-gradient(to bottom,transparent,#05070b),
-        radial-gradient(circle at 50% 35%,#7a4b23,#24170e 55%,#07090c);
-}
-
-.fortnite{
-    background:
-        linear-gradient(to bottom,transparent,#05070b),
-        radial-gradient(circle at 50% 30%,#3b5e8e,#162234 55%,#07090c);
-}
-
-.cs{
-    background:
-        linear-gradient(to bottom,transparent,#05070b),
-        radial-gradient(circle at 50% 30%,#8c642c,#302314 55%,#07090c);
-}
-
-.cover-title{
-    font-size:42px;
-    font-weight:900;
-    text-shadow:0 5px 20px #000;
-}
-
-.cover-title small{
-    display:block;
-    font-size:13px;
-    color:#00ffff;
-    text-align:center;
-    letter-spacing:3px;
-}
-
-.card-body{
-    padding:20px;
-}
-
-.card-body h3{
-    font-size:20px;
-}
-
-.card-body p{
-    color:#737b86;
-    font-size:12px;
-    line-height:1.8;
-    margin:8px 0 15px;
-}
-
-.card-bottom{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.tag{
-    color:#00ffff;
-    font-size:11px;
-    border:1px solid rgba(0,255,255,.2);
-    padding:5px 9px;
-    border-radius:5px;
-}
-
-.play-btn{
-    background:#00ffff;
-    color:#001010;
-    border:0;
-    padding:8px 14px;
-    border-radius:5px;
-    font-family:inherit;
-    font-weight:800;
-    cursor:pointer;
-}
-
-/* FEATURE */
-.big-feature{
-    min-height:450px;
-    border:1px solid #171e27;
-    border-radius:20px;
-    overflow:hidden;
-    position:relative;
-    background:
-        linear-gradient(90deg,#080b10 20%,rgba(8,11,16,.8),rgba(8,11,16,.2)),
-        radial-gradient(circle at 80% 45%,#354b3d,#111914 40%,#07090d);
-}
-
-.big-feature::after{
-    content:"GTA V";
-    position:absolute;
-    left:40px;
-    bottom:-40px;
-    font-size:170px;
-    font-weight:900;
-    color:rgba(255,255,255,.025);
-}
-
-.feature-content{
-    position:relative;
-    z-index:2;
-    padding:65px;
-    max-width:600px;
-}
-
-.feature-content .mini{
-    color:#00ffff;
-    font-size:12px;
-    font-weight:900;
-}
-
-.feature-content h2{
-    font-size:55px;
-    line-height:1;
-    margin:15px 0;
-}
-
-.feature-content p{
-    color:#858c96;
-    line-height:2;
-}
-
-/* FEATURES */
-.features{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-}
-
-.feature-box{
-    background:#0a0e14;
-    border:1px solid #171e27;
-    border-radius:12px;
-    padding:25px;
-}
-
-.feature-icon{
-    font-size:28px;
-    margin-bottom:15px;
-}
-
-.feature-box h3{
-    font-size:16px;
-}
-
-.feature-box p{
-    color:#737b86;
-    font-size:12px;
-    line-height:1.8;
-    margin-top:7px;
-}
-
-/* FOOTER */
-footer{
-    border-top:1px solid #151b23;
-    background:#030509;
-    padding:40px 20px;
-    text-align:center;
-}
-
-footer .footer-logo{
-    font-size:25px;
-    font-weight:900;
-}
-
-footer .footer-logo span{
-    color:#00ffff;
-}
-
-footer p{
-    color:#59616c;
-    font-size:12px;
-    margin-top:8px;
-}
-
-/* LOGIN MODAL */
-.modal{
+.login-modal{
     position:fixed;
     inset:0;
+    z-index:999999;
     background:rgba(0,0,0,.78);
     backdrop-filter:blur(12px);
-    z-index:5000;
     display:none;
     align-items:center;
     justify-content:center;
     padding:20px;
 }
 
-.modal.show{
+.login-modal.active{
     display:flex;
 }
 
 .login-box{
     width:100%;
     max-width:430px;
-    background:#090d13;
-    border:1px solid rgba(0,255,255,.25);
+    background:#080c14;
+    border:1px solid rgba(0,229,255,.3);
     border-radius:18px;
     padding:35px;
-    box-shadow:0 0 70px rgba(0,255,255,.12);
     position:relative;
+    box-shadow:
+        0 0 80px rgba(0,229,255,.12),
+        inset 0 0 30px rgba(0,229,255,.025);
 }
 
-.close{
+.login-close{
     position:absolute;
-    top:15px;
-    left:18px;
-    background:none;
+    top:12px;
+    left:17px;
     border:0;
+    background:none;
     color:#777;
-    font-size:25px;
+    font-size:27px;
     cursor:pointer;
 }
 
-.login-logo{
+.login-close:hover{
+    color:#00e5ff;
+}
+
+.login-title{
     text-align:center;
-    font-size:28px;
+    font-size:29px;
     font-weight:900;
-    margin-bottom:5px;
 }
 
-.login-logo span{
-    color:#00ffff;
+.login-title span{
+    color:#00e5ff;
+    text-shadow:0 0 15px #00e5ff;
 }
 
-.login-sub{
+.login-description{
     text-align:center;
-    color:#69717c;
+    color:#707988;
     font-size:12px;
-    margin-bottom:28px;
+    margin:7px 0 28px;
 }
 
-.form-group{
+.login-field{
     margin-bottom:18px;
 }
 
-.form-group label{
+.login-field label{
     display:block;
+    color:#aab2bd;
     font-size:12px;
-    color:#a0a7b0;
     margin-bottom:8px;
 }
 
-.form-group input{
+.login-field input{
     width:100%;
-    background:#05080d;
-    border:1px solid #202934;
-    color:#fff;
     padding:13px;
-    border-radius:7px;
+    background:#04070c;
+    border:1px solid #202a38;
+    border-radius:8px;
+    color:white;
     outline:none;
-    font-family:inherit;
+    font-family:'Cairo',sans-serif;
+    font-size:13px;
     direction:rtl;
 }
 
-.form-group input:focus{
-    border-color:#00ffff;
-    box-shadow:0 0 15px rgba(0,255,255,.08);
+.login-field input:focus{
+    border-color:#00e5ff;
+    box-shadow:0 0 15px rgba(0,229,255,.1);
 }
 
-.register-btn{
+.login-submit{
     width:100%;
     padding:14px;
     border:0;
-    border-radius:7px;
-    background:#00ffff;
-    color:#001010;
-    font-family:inherit;
+    border-radius:8px;
+    background:#00e5ff;
+    color:#001015;
+    font-family:'Cairo',sans-serif;
     font-weight:900;
     cursor:pointer;
-    margin-top:5px;
+    transition:.3s;
+}
+
+.login-submit:hover{
+    box-shadow:0 0 25px rgba(0,229,255,.4);
+    transform:translateY(-2px);
 }
 
 .login-note{
     text-align:center;
-    color:#555d67;
+    color:#596270;
     font-size:10px;
     line-height:1.8;
     margin-top:15px;
 }
 
-.user-panel{
+.user-box{
     text-align:center;
 }
 
 .user-avatar{
-    width:65px;
-    height:65px;
+    width:70px;
+    height:70px;
     margin:auto;
     border-radius:50%;
-    background:#00ffff;
-    color:#001010;
     display:flex;
-    justify-content:center;
     align-items:center;
-    font-size:27px;
+    justify-content:center;
+    background:#00e5ff;
+    color:#001015;
+    font-size:28px;
     font-weight:900;
+    box-shadow:0 0 30px rgba(0,229,255,.25);
 }
 
-.user-panel h3{
+.user-box h3{
     margin-top:15px;
+    font-size:20px;
 }
 
 .user-email{
-    color:#69717c;
+    color:#697482;
     font-size:12px;
     margin-top:5px;
 }
 
-.logout-btn{
+.logout-button{
     margin-top:22px;
-    background:#161b22;
-    color:#ff6464;
-    border:1px solid #352025;
     padding:10px 25px;
-    border-radius:7px;
-    font-family:inherit;
+    border-radius:8px;
+    border:1px solid rgba(255,70,70,.3);
+    background:#171016;
+    color:#ff6b6b;
+    font-family:'Cairo',sans-serif;
+    font-weight:700;
     cursor:pointer;
-}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-
-    .nav-links{
-        display:none;
-    }
-
-    .hero{
-        grid-template-columns:1fr;
-        text-align:center;
-        padding-top:130px;
-    }
-
-    .hero p{
-        margin:auto;
-    }
-
-    .hero-buttons{
-        justify-content:center;
-    }
-
-    .games-grid{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .features{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .hero-art{
-        height:420px;
-    }
 }
 
 @media(max-width:600px){
 
-    header{
-        height:72px;
-    }
-
-    .logo{
-        font-size:19px;
-    }
-
-    .login-btn{
-        padding:8px 12px;
-        font-size:11px;
-    }
-
-    .hero{
-        min-height:auto;
-        padding-top:115px;
-    }
-
-    .hero h1{
-        font-size:55px;
-        letter-spacing:-3px;
-    }
-
-    .hero-art{
-        height:370px;
-    }
-
-    .ring{
-        width:280px;
-        height:280px;
-    }
-
-    .game-panel{
-        width:280px;
-        height:340px;
-    }
-
-    .games-grid{
-        grid-template-columns:1fr;
-    }
-
-    .features{
-        grid-template-columns:1fr;
-    }
-
-    .section-head{
-        display:block;
-    }
-
-    .section-head p{
-        margin-top:7px;
-    }
-
-    .feature-content{
-        padding:35px 25px;
-    }
-
-    .feature-content h2{
-        font-size:40px;
-    }
-
     .login-box{
         padding:25px;
     }
+
 }
+
 </style>
-</head>
 
-<body>
 
-<!-- LOADER -->
-<div id="loader">
-    <div class="loader-logo">
-        WIFI5<span>GAMES</span>
-    </div>
+<!-- =========================
+     LOGIN MODAL
+========================= -->
 
-    <div class="loader-sub">
-        ULTIMATE GAMING EXPERIENCE
-    </div>
-
-    <div class="loader-line">
-        <div class="loader-progress" id="loaderProgress"></div>
-    </div>
-
-    <div class="loader-percent" id="loaderPercent">
-        0%
-    </div>
-</div>
-
-
-<!-- HEADER -->
-<header>
-    <div class="nav">
-
-        <div class="logo">
-            WIFI5<span>GAMES</span>
-            <small>ULTIMATE GAMING</small>
-        </div>
-
-        <nav class="nav-links">
-            <a href="#home">الرئيسية</a>
-            <a href="#games">الألعاب</a>
-            <a href="#featured">المميزة</a>
-            <a href="#about">عن الموقع</a>
-        </nav>
-
-        <button class="login-btn" onclick="openLogin()">
-            تسجيل الدخول
-        </button>
-
-    </div>
-</header>
-
-
-<!-- HERO -->
-<main id="home">
-
-<section class="hero">
-
-    <div>
-
-        <div class="live">
-            <i></i>
-            WIFI5GAMES ONLINE
-        </div>
-
-        <h1>
-            عالم<br>
-            <span>الألعاب</span>
-        </h1>
-
-        <p>
-            مرحباً بك في WIFI5GAMES — منصتك لعالم الألعاب.
-            اكتشف الألعاب الشهيرة، استكشف المحتوى واستمتع بتجربة
-            جيمنج بتصميم سينمائي.
-        </p>
-
-        <div class="hero-buttons">
-            <button class="primary"
-                    onclick="document.getElementById('games').scrollIntoView()">
-                استكشف الألعاب
-            </button>
-
-            <button class="secondary"
-                    onclick="openLogin()">
-                إنشاء حساب
-            </button>
-        </div>
-
-    </div>
-
-
-    <div class="hero-art">
-
-        <div class="ring"></div>
-
-        <div class="game-panel">
-
-            <div class="panel-info">
-                <div style="color:#777;font-size:11px;">
-                    FEATURED GAME
-                </div>
-
-                <h2>
-                    GTA <span>V</span>
-                </h2>
-
-                <div style="color:#777;font-size:12px;">
-                    OPEN WORLD
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- TICKER -->
-<div class="ticker">
-    <div class="ticker-track">
-        WIFI5GAMES
-        <strong>✦</strong>
-        GTA V
-        <strong>✦</strong>
-        FORTNITE
-        <strong>✦</strong>
-        COUNTER-STRIKE
-        <strong>✦</strong>
-        ULTIMATE GAMING
-        <strong>✦</strong>
-        WIFI5GAMES
-        <strong>✦</strong>
-        GTA V
-        <strong>✦</strong>
-        FORTNITE
-        <strong>✦</strong>
-        COUNTER-STRIKE
-    </div>
-</div>
-
-
-<!-- GAMES -->
-<section id="games">
-
-    <div class="section-head">
-
-        <div>
-            <h2>
-                أشهر <span>الألعاب</span>
-            </h2>
-
-            <p>
-                مجموعة من أشهر الألعاب
-            </p>
-        </div>
-
-    </div>
-
-
-    <div class="games-grid">
-
-        <!-- GTA -->
-        <div class="game-card">
-
-            <div class="game-cover gta">
-                <div class="cover-title">
-                    GTA V
-                    <small>GRAND THEFT AUTO</small>
-                </div>
-            </div>
-
-            <div class="card-body">
-
-                <h3>Grand Theft Auto V</h3>
-
-                <p>
-                    عالم مفتوح ضخم ومغامرات لا تنتهي.
-                </p>
-
-                <div class="card-bottom">
-                    <span class="tag">OPEN WORLD</span>
-
-                    <button class="play-btn"
-                            onclick="gameMessage('GTA V')">
-                        تشغيل الآن
-                    </button>
-                </div>
-
-            </div>
-        </div>
-
-
-        <!-- FORTNITE -->
-        <div class="game-card">
-
-            <div class="game-cover fortnite">
-                <div class="cover-title">
-                    FORTNITE
-                    <small>BATTLE ROYALE</small>
-                </div>
-            </div>
-
-            <div class="card-body">
-
-                <h3>Fortnite</h3>
-
-                <p>
-                    قاتل وابقَ آخر لاعب أو فريق في المعركة.
-                </p>
-
-                <div class="card-bottom">
-                    <span class="tag">BATTLE ROYALE</span>
-
-                    <button class="play-btn"
-                            onclick="window.open('https://www.fortnite.com/download','_blank')">
-                        تحميل
-                    </button>
-                </div>
-
-            </div>
-        </div>
-
-
-        <!-- CS -->
-        <div class="game-card">
-
-            <div class="game-cover cs">
-                <div class="cover-title">
-                    CS2
-                    <small>COUNTER-STRIKE</small>
-                </div>
-            </div>
-
-            <div class="card-body">
-
-                <h3>Counter-Strike 2</h3>
-
-                <p>
-                    تجربة FPS تنافسية تعتمد على المهارة والتكتيك.
-                </p>
-
-                <div class="card-bottom">
-                    <span class="tag">FPS</span>
-
-                    <button class="play-btn"
-                            onclick="gameMessage('Counter-Strike 2')">
-                        تشغيل الآن
-                    </button>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- FEATURED -->
-<section id="featured">
-
-    <div class="big-feature">
-
-        <div class="feature-content">
-
-            <div class="mini">
-                WIFI5GAMES FEATURED
-            </div>
-
-            <h2>
-                GTA V
-            </h2>
-
-            <p>
-                ادخل إلى عالم Los Santos واستكشف عالم GTA V
-                بطريقة مختلفة مع تصميم WIFI5GAMES السينمائي.
-            </p>
-
-            <button class="primary"
-                    style="margin-top:25px;"
-                    onclick="gameMessage('GTA V')">
-                استكشف اللعبة
-            </button>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- FEATURES -->
-<section id="about">
-
-    <div class="section-head">
-
-        <div>
-            <h2>
-                لماذا <span>WIFI5GAMES؟</span>
-            </h2>
-
-            <p>
-                تجربة جيمنج بسيطة وسريعة
-            </p>
-        </div>
-
-    </div>
-
-
-    <div class="features">
-
-        <div class="feature-box">
-            <div class="feature-icon">🎮</div>
-            <h3>ألعاب مشهورة</h3>
-            <p>
-                اكتشف مجموعة من أشهر ألعاب الكمبيوتر.
-            </p>
-        </div>
-
-        <div class="feature-box">
-            <div class="feature-icon">⚡</div>
-            <h3>سرعة</h3>
-            <p>
-                تصميم خفيف وسريع ومتجاوب مع الأجهزة.
-            </p>
-        </div>
-
-        <div class="feature-box">
-            <div class="feature-icon">🌐</div>
-            <h3>متاح للجميع</h3>
-            <p>
-                استخدم الموقع من الهاتف أو الكمبيوتر.
-            </p>
-        </div>
-
-        <div class="feature-box">
-            <div class="feature-icon">🔥</div>
-            <h3>Gaming Style</h3>
-            <p>
-                تصميم داكن مستوحى من عالم الألعاب.
-            </p>
-        </div>
-
-    </div>
-
-</section>
-
-</main>
-
-
-<!-- FOOTER -->
-<footer>
-
-    <div class="footer-logo">
-        WIFI5<span>GAMES</span>
-    </div>
-
-    <p>
-        © 2026 WIFI5GAMES — جميع الحقوق محفوظة
-    </p>
-
-</footer>
-
-
-<!-- LOGIN MODAL -->
-<div class="modal" id="loginModal">
+<div class="login-modal" id="loginModal">
 
     <div class="login-box">
 
-        <button class="close" onclick="closeLogin()">
+        <button
+            class="login-close"
+            onclick="closeLogin()">
             ×
         </button>
 
 
         <!-- REGISTER FORM -->
-        <div id="registerForm">
 
-            <div class="login-logo">
+        <div id="loginForm">
+
+            <div class="login-title">
                 WIFI5<span>GAMES</span>
             </div>
 
-            <div class="login-sub">
-                إنشاء حساب جديد
+            <div class="login-description">
+                سجّل دخولك إلى عالم الألعاب
             </div>
 
 
-            <div class="form-group">
+            <div class="login-field">
 
                 <label>
                     البريد الإلكتروني
@@ -1227,14 +228,14 @@ footer p{
 
                 <input
                     type="email"
-                    id="emailInput"
+                    id="loginEmail"
                     placeholder="example@gmail.com"
                     autocomplete="email">
 
             </div>
 
 
-            <div class="form-group">
+            <div class="login-field">
 
                 <label>
                     اسم المستخدم
@@ -1242,7 +243,7 @@ footer p{
 
                 <input
                     type="text"
-                    id="usernameInput"
+                    id="loginUsername"
                     placeholder="اكتب اسم المستخدم"
                     maxlength="20"
                     autocomplete="username">
@@ -1250,41 +251,51 @@ footer p{
             </div>
 
 
-            <button class="register-btn"
-                    onclick="registerUser()">
-                إنشاء الحساب والدخول
+            <button
+                class="login-submit"
+                onclick="loginUser()">
+
+                تسجيل الدخول
+
             </button>
 
 
             <div class="login-note">
-                لا يوجد رمز تحقق OTP.<br>
-                أدخل الإيميل واسم المستخدم فقط.
+                تسجيل الدخول باستخدام الإيميل واسم المستخدم فقط.<br>
+                لا يوجد رمز تحقق OTP.
             </div>
 
         </div>
 
 
-        <!-- USER PANEL -->
-        <div id="userPanel"
-             class="user-panel"
-             style="display:none;">
+        <!-- USER PROFILE -->
 
-            <div class="user-avatar"
-                 id="userAvatar">
+        <div
+            class="user-box"
+            id="userBox"
+            style="display:none;">
+
+            <div
+                class="user-avatar"
+                id="userAvatar">
                 W
             </div>
 
-            <h3 id="welcomeUser">
+            <h3 id="userName">
                 مرحباً
             </h3>
 
-            <div class="user-email"
-                 id="welcomeEmail">
+            <div
+                class="user-email"
+                id="userEmail">
             </div>
 
-            <button class="logout-btn"
-                    onclick="logoutUser()">
+            <button
+                class="logout-button"
+                onclick="logoutUser()">
+
                 تسجيل الخروج
+
             </button>
 
         </div>
@@ -1297,96 +308,56 @@ footer p{
 <script>
 
 /* =========================
-   LOADER
-========================= */
-
-let progress = 0;
-
-const loaderProgress =
-    document.getElementById("loaderProgress");
-
-const loaderPercent =
-    document.getElementById("loaderPercent");
-
-const loader =
-    document.getElementById("loader");
-
-const loaderTimer =
-    setInterval(() => {
-
-        progress++;
-
-        loaderProgress.style.width =
-            progress + "%";
-
-        loaderPercent.textContent =
-            progress + "%";
-
-        if(progress >= 100){
-
-            clearInterval(loaderTimer);
-
-            setTimeout(() => {
-
-                loader.style.opacity = "0";
-                loader.style.pointerEvents = "none";
-
-                setTimeout(() => {
-                    loader.style.display = "none";
-                },700);
-
-            },300);
-        }
-
-    },30);
-
-
-/* =========================
-   LOGIN MODAL
+   OPEN LOGIN
 ========================= */
 
 function openLogin(){
 
     document
-        .getElementById("loginModal")
-        .classList.add("show");
+    .getElementById("loginModal")
+    .classList.add("active");
 
-    checkUser();
-
-}
-
-
-function closeLogin(){
-
-    document
-        .getElementById("loginModal")
-        .classList.remove("show");
+    checkLogin();
 
 }
 
 
 /* =========================
-   REGISTER
+   CLOSE LOGIN
 ========================= */
 
-function registerUser(){
+function closeLogin(){
+
+    document
+    .getElementById("loginModal")
+    .classList.remove("active");
+
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+function loginUser(){
 
     const email =
         document
-        .getElementById("emailInput")
+        .getElementById("loginEmail")
         .value
         .trim();
 
     const username =
         document
-        .getElementById("usernameInput")
+        .getElementById("loginUsername")
         .value
         .trim();
 
 
-    if(!email){
+    if(email === ""){
 
-        alert("⚠️ اكتب البريد الإلكتروني أولاً.");
+        alert("⚠️ اكتب البريد الإلكتروني.");
+
         return;
 
     }
@@ -1395,15 +366,17 @@ function registerUser(){
     if(!email.includes("@") ||
        !email.includes(".")){
 
-        alert("⚠️ اكتب بريد إلكتروني صحيح.");
+        alert("⚠️ البريد الإلكتروني غير صحيح.");
+
         return;
 
     }
 
 
-    if(!username){
+    if(username === ""){
 
-        alert("⚠️ اكتب اسم المستخدم أولاً.");
+        alert("⚠️ اكتب اسم المستخدم.");
+
         return;
 
     }
@@ -1411,7 +384,10 @@ function registerUser(){
 
     if(username.length < 3){
 
-        alert("⚠️ اسم المستخدم يجب أن يكون 3 أحرف على الأقل.");
+        alert(
+            "⚠️ اسم المستخدم يجب أن يكون 3 أحرف على الأقل."
+        );
+
         return;
 
     }
@@ -1419,11 +395,9 @@ function registerUser(){
 
     const user = {
 
-        email: email,
+        email:email,
 
-        username: username,
-
-        createdAt: new Date().toISOString()
+        username:username
 
     };
 
@@ -1447,10 +421,48 @@ function registerUser(){
 
 
 /* =========================
-   CHECK USER
+   SHOW USER
 ========================= */
 
-function checkUser(){
+function showUser(user){
+
+    document
+    .getElementById("loginForm")
+    .style.display = "none";
+
+
+    document
+    .getElementById("userBox")
+    .style.display = "block";
+
+
+    document
+    .getElementById("userName")
+    .textContent =
+        "مرحباً " + user.username;
+
+
+    document
+    .getElementById("userEmail")
+    .textContent =
+        user.email;
+
+
+    document
+    .getElementById("userAvatar")
+    .textContent =
+        user.username
+        .charAt(0)
+        .toUpperCase();
+
+}
+
+
+/* =========================
+   CHECK LOGIN
+========================= */
+
+function checkLogin(){
 
     const saved =
         localStorage.getItem(
@@ -1478,52 +490,14 @@ function checkUser(){
     }else{
 
         document
-            .getElementById("registerForm")
-            .style.display = "block";
-
-        document
-            .getElementById("userPanel")
-            .style.display = "none";
-
-    }
-
-}
-
-
-/* =========================
-   SHOW USER
-========================= */
-
-function showUser(user){
-
-    document
-        .getElementById("registerForm")
-        .style.display = "none";
-
-
-    document
-        .getElementById("userPanel")
+        .getElementById("loginForm")
         .style.display = "block";
 
+        document
+        .getElementById("userBox")
+        .style.display = "none";
 
-    document
-        .getElementById("welcomeUser")
-        .textContent =
-        "مرحباً " + user.username;
-
-
-    document
-        .getElementById("welcomeEmail")
-        .textContent =
-        user.email;
-
-
-    document
-        .getElementById("userAvatar")
-        .textContent =
-        user.username
-        .charAt(0)
-        .toUpperCase();
+    }
 
 }
 
@@ -1540,23 +514,23 @@ function logoutUser(){
 
 
     document
-        .getElementById("registerForm")
-        .style.display = "block";
+    .getElementById("loginForm")
+    .style.display = "block";
 
 
     document
-        .getElementById("userPanel")
-        .style.display = "none";
+    .getElementById("userBox")
+    .style.display = "none";
 
 
     document
-        .getElementById("emailInput")
-        .value = "";
+    .getElementById("loginEmail")
+    .value = "";
 
 
     document
-        .getElementById("usernameInput")
-        .value = "";
+    .getElementById("loginUsername")
+    .value = "";
 
 
     alert("تم تسجيل الخروج.");
@@ -1565,65 +539,41 @@ function logoutUser(){
 
 
 /* =========================
-   GAME BUTTONS
-========================= */
-
-function gameMessage(game){
-
-    alert(
-        "🎮 " +
-        game +
-        "\n\nسيتم إضافة نظام التشغيل/التحميل لهذه اللعبة لاحقاً."
-    );
-
-}
-
-
-/* =========================
-   CLOSE MODAL WHEN CLICKING
-   OUTSIDE BOX
+   CLOSE WHEN CLICK OUTSIDE
 ========================= */
 
 document
-    .getElementById("loginModal")
-    .addEventListener(
-        "click",
-        function(event){
+.getElementById("loginModal")
+.addEventListener("click",function(e){
 
-            if(event.target === this){
-                closeLogin();
-            }
+    if(e.target === this){
 
-        }
-    );
+        closeLogin();
+
+    }
+
+});
 
 
 /* =========================
-   AUTO CHECK LOGIN
+   CHECK USER ON START
 ========================= */
 
-window.addEventListener(
-    "load",
-    function(){
+window.addEventListener("load",function(){
 
-        const saved =
-            localStorage.getItem(
-                "wifi5games_user"
-            );
+    const saved =
+        localStorage.getItem(
+            "wifi5games_user"
+        );
 
-        if(saved){
+    if(saved){
 
-            // المستخدم مسجل مسبقاً
-            console.log(
-                "WIFI5GAMES user found."
-            );
-
-        }
+        console.log(
+            "WIFI5GAMES user is logged in."
+        );
 
     }
-);
+
+});
 
 </script>
-
-</body>
-</html>
