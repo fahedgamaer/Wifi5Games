@@ -4,517 +4,465 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>WIFI5GAMES — عالم الألعاب</title>
-<meta name="description" content="WIFI5GAMES — أكثر من 100 لعبة شهيرة في مكان واحد.">
+<title>WIFI5GAMES | عالم الألعاب</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
-
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
-}
-
-:root{
-    --cyan:#00eaff;
-    --blue:#1677ff;
-    --purple:#7b2cff;
-    --pink:#ff2c8b;
-    --green:#20e070;
-    --bg:#05070d;
-    --card:#0b101b;
-    --card2:#0e1524;
-    --text:#fff;
-    --muted:#8d98ad;
-    --border:rgba(255,255,255,.09);
-}
-
-html{
-    scroll-behavior:smooth;
 }
 
 body{
-    font-family:'Cairo',sans-serif;
-    background:
-        radial-gradient(circle at 10% 10%,rgba(0,234,255,.10),transparent 25%),
-        radial-gradient(circle at 90% 20%,rgba(123,44,255,.12),transparent 25%),
-        var(--bg);
-    color:var(--text);
-    min-height:100vh;
+    font-family:Arial,Tahoma,sans-serif;
+    background:#05070d;
+    color:white;
     overflow-x:hidden;
 }
 
-/* GRID */
-body:before{
+body::before{
     content:"";
     position:fixed;
     inset:0;
-    pointer-events:none;
-    z-index:-1;
-    background-image:
-        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    z-index:-2;
+    background:
+    linear-gradient(rgba(0,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,255,255,.025) 1px,transparent 1px);
     background-size:45px 45px;
 }
 
+body::after{
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:#0066ff;
+    opacity:.08;
+    filter:blur(120px);
+    left:-150px;
+    top:100px;
+    z-index:-1;
+}
+
 /* LOADER */
+
 #loader{
     position:fixed;
     inset:0;
-    background:#03050a;
+    background:#020409;
     z-index:99999;
     display:flex;
     justify-content:center;
     align-items:center;
-    transition:.7s;
-}
-
-.loader-box{
-    width:min(90%,500px);
     text-align:center;
 }
 
+.loader-content{
+    width:90%;
+    max-width:500px;
+}
+
 .loader-logo{
-    font-size:clamp(38px,9vw,75px);
+    font-size:clamp(42px,10vw,80px);
     font-weight:900;
     letter-spacing:4px;
-    text-shadow:0 0 20px var(--cyan),0 0 50px rgba(0,234,255,.5);
+    text-shadow:
+    0 0 10px #00eaff,
+    0 0 30px #00eaff,
+    0 0 70px #0066ff;
 }
 
 .loader-logo span{
-    color:var(--cyan);
+    color:#00eaff;
 }
 
 .loader-sub{
-    color:#9aa7bd;
-    margin-top:5px;
-    font-size:14px;
+    color:#8995a8;
+    margin-top:8px;
+    letter-spacing:3px;
+    font-size:12px;
 }
 
-.loader-ring{
-    width:85px;
-    height:85px;
-    border:4px solid rgba(255,255,255,.08);
-    border-top-color:var(--cyan);
-    border-right-color:var(--purple);
-    border-radius:50%;
+.loader-circle{
+    width:80px;
+    height:80px;
     margin:35px auto 25px;
-    animation:spin 1s linear infinite;
+    border:4px solid #151c29;
+    border-top-color:#00eaff;
+    border-right-color:#7b2cff;
+    border-radius:50%;
+    animation:rotate 1s linear infinite;
 }
 
-.loader-progress{
+.loader-line{
+    width:100%;
     height:7px;
-    background:#121927;
+    background:#111725;
     border-radius:20px;
     overflow:hidden;
 }
 
-.loader-progress div{
+.loader-line div{
+    width:0%;
     height:100%;
-    width:0;
-    background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple));
-    box-shadow:0 0 18px var(--cyan);
-    transition:.08s;
+    background:linear-gradient(90deg,#00eaff,#1677ff,#7b2cff);
+    box-shadow:0 0 20px #00eaff;
 }
 
-.loader-percent{
+#loaderPercent{
+    color:#00eaff;
     margin-top:12px;
-    font-weight:800;
-    color:var(--cyan);
+    font-weight:bold;
 }
 
-@keyframes spin{
-    to{transform:rotate(360deg)}
+@keyframes rotate{
+    to{
+        transform:rotate(360deg);
+    }
 }
 
 /* LOGIN */
-#loginScreen{
-    position:fixed;
-    inset:0;
-    z-index:9000;
-    background:
-        radial-gradient(circle at 50% 30%,rgba(0,234,255,.13),transparent 30%),
-        #04060b;
+
+#login{
+    min-height:100vh;
     display:none;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
     padding:20px;
+    background:
+    radial-gradient(circle at center,rgba(0,234,255,.10),transparent 35%);
 }
 
 .login-box{
-    width:min(450px,100%);
-    background:rgba(11,16,27,.95);
+    width:100%;
+    max-width:430px;
+    background:#0a101b;
     border:1px solid rgba(0,234,255,.25);
     border-radius:25px;
     padding:35px;
-    box-shadow:0 0 60px rgba(0,234,255,.08);
     text-align:center;
+    box-shadow:0 0 80px rgba(0,234,255,.08);
 }
 
 .login-logo{
-    font-size:35px;
+    font-size:34px;
     font-weight:900;
 }
 
 .login-logo span{
-    color:var(--cyan);
+    color:#00eaff;
 }
 
 .login-box h2{
-    margin-top:12px;
-    font-size:24px;
+    margin-top:15px;
 }
 
 .login-box p{
-    color:var(--muted);
+    color:#8490a4;
     font-size:14px;
     margin:8px 0 25px;
 }
 
 .input{
     width:100%;
-    height:53px;
-    margin-bottom:13px;
-    border-radius:13px;
-    border:1px solid var(--border);
-    background:#070b13;
+    height:52px;
+    margin-bottom:12px;
+    padding:0 15px;
+    background:#050912;
     color:white;
-    padding:0 16px;
+    border:1px solid #1b2638;
+    border-radius:12px;
     outline:none;
-    font-family:inherit;
     font-size:15px;
-    direction:ltr;
-    text-align:left;
 }
 
 .input:focus{
-    border-color:var(--cyan);
-    box-shadow:0 0 15px rgba(0,234,255,.12);
+    border-color:#00eaff;
 }
 
-.login-btn{
+.login-button{
     width:100%;
-    height:54px;
+    height:52px;
     border:0;
-    border-radius:13px;
-    background:linear-gradient(135deg,var(--cyan),var(--blue));
+    border-radius:12px;
+    background:linear-gradient(135deg,#00eaff,#1677ff);
     color:#001018;
-    font-family:inherit;
     font-size:16px;
-    font-weight:900;
+    font-weight:bold;
     cursor:pointer;
-    margin-top:5px;
 }
 
-.login-btn:hover{
-    filter:brightness(1.12);
-    transform:translateY(-1px);
-}
-
-.login-error{
-    color:#ff547d;
-    min-height:24px;
-    margin-top:12px;
+#error{
+    min-height:22px;
+    margin-top:10px;
+    color:#ff5577;
     font-size:13px;
 }
 
-/* SITE */
-#site{
+/* WEBSITE */
+
+#website{
     display:none;
 }
 
 /* NAV */
+
 nav{
     position:sticky;
     top:0;
-    z-index:500;
-    height:76px;
+    z-index:1000;
+    height:75px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:20px;
-    padding:0 5%;
-    background:rgba(5,7,13,.82);
-    backdrop-filter:blur(18px);
-    border-bottom:1px solid var(--border);
+    padding:0 6%;
+    background:rgba(4,7,13,.88);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid #151c29;
 }
 
 .logo{
     color:white;
-    text-decoration:none;
     font-size:24px;
     font-weight:900;
-    letter-spacing:1px;
+    text-decoration:none;
 }
 
 .logo span{
-    color:var(--cyan);
+    color:#00eaff;
 }
 
 .nav-links{
     display:flex;
-    align-items:center;
     gap:25px;
 }
 
 .nav-links a{
-    color:#aab4c6;
+    color:#a4afc1;
     text-decoration:none;
     font-size:14px;
-    font-weight:700;
+    font-weight:bold;
 }
 
 .nav-links a:hover{
-    color:var(--cyan);
+    color:#00eaff;
 }
 
-.user-area{
+.user{
     display:flex;
     align-items:center;
     gap:8px;
 }
 
-.user-pill{
-    background:#0e1624;
-    border:1px solid var(--border);
-    border-radius:30px;
-    padding:8px 13px;
+.username{
+    background:#0d1624;
+    border:1px solid #1c2a3e;
+    border-radius:20px;
+    padding:8px 12px;
     font-size:12px;
-    color:#dce5f5;
 }
 
 .logout{
-    border:1px solid rgba(255,70,100,.3);
-    background:rgba(255,50,80,.08);
-    color:#ff6b89;
-    border-radius:10px;
-    padding:8px 11px;
+    border:1px solid #5b2433;
+    background:#1d0c12;
+    color:#ff6683;
+    border-radius:9px;
+    padding:8px 10px;
     cursor:pointer;
-    font-family:inherit;
 }
 
 /* HERO */
+
 .hero{
     min-height:590px;
+    padding:70px 7%;
     display:grid;
-    grid-template-columns:1.15fr .85fr;
-    gap:45px;
+    grid-template-columns:1.1fr .9fr;
+    gap:50px;
     align-items:center;
-    padding:65px 7%;
-    position:relative;
-    overflow:hidden;
 }
 
-.hero:after{
-    content:"";
-    position:absolute;
-    width:500px;
-    height:500px;
-    background:rgba(0,234,255,.08);
-    filter:blur(100px);
-    border-radius:50%;
-    left:-150px;
-    top:100px;
-    pointer-events:none;
-}
-
-.live{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    border:1px solid rgba(0,234,255,.25);
-    background:rgba(0,234,255,.06);
-    padding:7px 13px;
+.badge{
+    display:inline-block;
+    color:#00eaff;
+    border:1px solid rgba(0,234,255,.3);
+    background:rgba(0,234,255,.05);
     border-radius:30px;
-    color:var(--cyan);
+    padding:8px 15px;
     font-size:12px;
-    font-weight:800;
-}
-
-.live i{
-    width:7px;
-    height:7px;
-    background:#22e36d;
-    border-radius:50%;
-    box-shadow:0 0 12px #22e36d;
+    font-weight:bold;
 }
 
 .hero h1{
-    font-size:clamp(48px,7vw,92px);
+    font-size:clamp(48px,7vw,90px);
     line-height:.95;
     margin:20px 0;
     font-weight:900;
 }
 
 .hero h1 span{
-    color:var(--cyan);
+    color:#00eaff;
     text-shadow:0 0 35px rgba(0,234,255,.35);
 }
 
-.hero-text{
-    color:#98a4b9;
+.hero p{
     max-width:650px;
+    color:#919db0;
     line-height:2;
-    font-size:16px;
 }
 
-.hero-buttons{
+.buttons{
     display:flex;
-    flex-wrap:wrap;
     gap:12px;
-    margin-top:28px;
+    flex-wrap:wrap;
+    margin-top:25px;
 }
 
-.btn{
-    border:0;
-    border-radius:13px;
-    padding:13px 22px;
-    font-family:inherit;
-    font-weight:800;
-    cursor:pointer;
+.button{
+    display:inline-block;
     text-decoration:none;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
+    padding:13px 21px;
+    border-radius:12px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.btn-main{
-    background:linear-gradient(135deg,var(--cyan),var(--blue));
+.primary{
+    background:linear-gradient(135deg,#00eaff,#1677ff);
     color:#001018;
 }
 
-.btn-dark{
+.secondary{
     background:#101827;
-    border:1px solid var(--border);
+    border:1px solid #1c2738;
     color:white;
 }
 
-.hero-card{
-    min-height:390px;
-    border:1px solid rgba(0,234,255,.2);
+.hero-art{
+    height:390px;
     border-radius:30px;
-    background:
-        radial-gradient(circle at 50% 35%,rgba(255,255,255,.1),transparent 20%),
-        linear-gradient(145deg,#101d30,#090d16);
     position:relative;
     overflow:hidden;
+    border:1px solid rgba(0,234,255,.25);
+    background:
+    radial-gradient(circle at 50% 40%,rgba(0,234,255,.25),transparent 20%),
+    linear-gradient(145deg,#111d30,#070b12);
     display:flex;
     align-items:flex-end;
-    padding:28px;
-    box-shadow:0 0 80px rgba(0,234,255,.08);
+    padding:30px;
 }
 
-.hero-card:before,
-.hero-card:after{
+.hero-art::before{
+    content:"GTA";
+    position:absolute;
+    font-size:150px;
+    font-weight:900;
+    color:white;
+    opacity:.05;
+    left:50%;
+    top:30%;
+    transform:translate(-50%,-50%);
+}
+
+.hero-art::after{
     content:"";
     position:absolute;
-    border:1px solid rgba(0,234,255,.3);
+    width:280px;
+    height:280px;
+    border:2px solid rgba(0,234,255,.25);
     border-radius:50%;
-    width:300px;
-    height:300px;
-    top:35px;
     left:50%;
-    transform:translateX(-50%) rotate(20deg);
+    top:45%;
+    transform:translate(-50%,-50%);
+    box-shadow:
+    0 0 0 35px rgba(0,234,255,.04),
+    0 0 0 70px rgba(0,234,255,.025);
 }
 
-.hero-card:after{
-    width:380px;
-    height:180px;
-    top:95px;
-    transform:translateX(-50%) rotate(-18deg);
-}
-
-.hero-game{
+.hero-title{
     position:relative;
     z-index:2;
 }
 
-.hero-game small{
-    color:var(--cyan);
-    font-weight:900;
+.hero-title small{
+    color:#00eaff;
 }
 
-.hero-game strong{
-    display:block;
+.hero-title h2{
     font-size:55px;
     line-height:1;
     margin:7px 0;
-    font-weight:900;
-    text-shadow:0 0 20px rgba(255,255,255,.15);
-}
-
-.hero-game span{
-    color:#9ca8ba;
 }
 
 /* STATS */
+
 .stats{
+    padding:0 7% 50px;
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:15px;
-    padding:0 7% 50px;
 }
 
 .stat{
-    background:rgba(12,18,30,.8);
-    border:1px solid var(--border);
-    border-radius:18px;
     padding:22px;
     text-align:center;
+    background:#0a101a;
+    border:1px solid #151e2d;
+    border-radius:18px;
 }
 
 .stat strong{
     display:block;
-    color:var(--cyan);
     font-size:30px;
-    font-weight:900;
+    color:#00eaff;
 }
 
 .stat span{
-    color:#8e99ac;
+    color:#8792a5;
     font-size:13px;
 }
 
 /* GAMES */
-.games-section{
+
+.games{
     padding:60px 6%;
 }
 
-.section-head{
+.section-header{
     display:flex;
-    align-items:end;
     justify-content:space-between;
+    align-items:end;
     gap:20px;
     margin-bottom:25px;
 }
 
-.section-title h2{
-    font-size:34px;
-    font-weight:900;
+.section-header h2{
+    font-size:35px;
 }
 
-.section-title p{
-    color:var(--muted);
+.section-header p{
+    color:#818da0;
     font-size:13px;
-    margin-top:4px;
+    margin-top:5px;
 }
 
 .search{
-    width:min(350px,100%);
+    width:330px;
     height:48px;
     background:#0a101a;
-    border:1px solid var(--border);
-    border-radius:13px;
     color:white;
-    padding:0 16px;
-    font-family:inherit;
+    border:1px solid #1b2638;
+    border-radius:12px;
+    padding:0 15px;
     outline:none;
 }
 
 .search:focus{
-    border-color:var(--cyan);
+    border-color:#00eaff;
 }
+
+/* FILTERS */
 
 .filters{
     display:flex;
@@ -524,506 +472,32 @@ nav{
 }
 
 .filter{
-    background:#0c131f;
-    color:#9ba7ba;
-    border:1px solid var(--border);
-    border-radius:10px;
+    background:#0b121e;
+    color:#9ba7b9;
+    border:1px solid #1a2536;
+    border-radius:9px;
     padding:9px 14px;
-    font-family:inherit;
-    font-weight:700;
     cursor:pointer;
+    font-weight:bold;
 }
 
-.filter:hover,
-.filter.active{
+.filter.active,
+.filter:hover{
+    background:#00eaff;
     color:#001018;
-    background:var(--cyan);
-    border-color:var(--cyan);
 }
 
-.games-grid{
+/* GRID */
+
+.grid{
     display:grid;
     grid-template-columns:repeat(5,1fr);
     gap:15px;
 }
 
-.game-card{
-    background:linear-gradient(160deg,#0c131f,#080c14);
-    border:1px solid var(--border);
-    border-radius:16px;
+.card{
     overflow:hidden;
-    transition:.25s;
-}
-
-.game-card:hover{
-    transform:translateY(-7px);
-    border-color:rgba(0,234,255,.4);
-    box-shadow:0 15px 35px rgba(0,0,0,.3);
-}
-
-.cover{
-    aspect-ratio:16/10;
-    position:relative;
-    overflow:hidden;
-    background:#101827;
-}
-
-.cover img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-}
-
-.cover-number{
-    position:absolute;
-    top:9px;
-    right:9px;
-    background:rgba(0,0,0,.6);
-    backdrop-filter:blur(8px);
-    border:1px solid rgba(255,255,255,.15);
-    border-radius:8px;
-    padding:4px 7px;
-    font-size:10px;
-    font-weight:900;
-}
-
-.game-info{
-    padding:13px;
-}
-
-.game-info h3{
-    font-size:15px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-.game-category{
-    color:var(--cyan);
-    font-size:11px;
-    font-weight:800;
-    margin:4px 0 11px;
-}
-
-.game-btn{
-    width:100%;
-    height:38px;
-    border:1px solid rgba(0,234,255,.2);
-    background:rgba(0,234,255,.06);
-    color:var(--cyan);
-    border-radius:9px;
-    font-family:inherit;
-    font-weight:800;
-    cursor:pointer;
-}
-
-.game-btn:hover{
-    background:var(--cyan);
-    color:#001018;
-}
-
-.no-results{
-    grid-column:1/-1;
-    text-align:center;
-    color:#8995a8;
-    padding:50px;
-    display:none;
-}
-
-/* FEATURE */
-.feature{
-    margin:20px 6% 70px;
-    padding:45px;
-    border-radius:25px;
-    border:1px solid rgba(123,44,255,.25);
-    background:
-        radial-gradient(circle at 80% 30%,rgba(123,44,255,.18),transparent 30%),
-        linear-gradient(120deg,#0b101b,#111323);
-}
-
-.feature small{
-    color:#b782ff;
-    font-weight:900;
-}
-
-.feature h2{
-    font-size:clamp(30px,5vw,58px);
-    margin:8px 0;
-}
-
-.feature p{
-    color:#9ba5b8;
-    max-width:700px;
-    line-height:2;
-}
-
-/* FOOTER */
-footer{
-    border-top:1px solid var(--border);
-    padding:35px 6%;
-    display:flex;
-    justify-content:space-between;
-    gap:20px;
-    color:#788499;
-    font-size:12px;
-}
-
-footer strong{
-    color:var(--cyan);
-}
-
-/* MODAL */
-#gameModal{
-    position:fixed;
-    inset:0;
-    z-index:10000;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:rgba(0,0,0,.78);
-    backdrop-filter:blur(10px);
-}
-
-.modal-box{
-    width:min(600px,100%);
-    background:#0a101a;
-    border:1px solid rgba(0,234,255,.25);
-    border-radius:22px;
-    padding:25px;
-    box-shadow:0 30px 100px rgba(0,0,0,.5);
-}
-
-.modal-cover{
-    height:180px;
+    background:#0b111c;
+    border:1px solid #151f2f;
     border-radius:15px;
-    overflow:hidden;
-    margin-bottom:20px;
-}
-
-.modal-cover img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.modal-box h2{
-    font-size:27px;
-}
-
-.modal-box p{
-    color:#9aa6b9;
-    margin:8px 0 20px;
-}
-
-.modal-actions{
-    display:flex;
-    gap:10px;
-}
-
-.close-btn{
-    background:#151d2a;
-    color:white;
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:11px 18px;
-    font-family:inherit;
-    cursor:pointer;
-}
-
-.modal-link{
-    flex:1;
-    text-align:center;
-}
-
-/* MOBILE */
-@media(max-width:1100px){
-    .games-grid{
-        grid-template-columns:repeat(4,1fr);
-    }
-}
-
-@media(max-width:850px){
-    nav{
-        padding:0 4%;
-    }
-
-    .nav-links{
-        display:none;
-    }
-
-    .hero{
-        grid-template-columns:1fr;
-        padding:50px 6%;
-    }
-
-    .hero-card{
-        min-height:300px;
-    }
-
-    .games-grid{
-        grid-template-columns:repeat(3,1fr);
-    }
-
-    .section-head{
-        flex-direction:column;
-        align-items:stretch;
-    }
-
-    .search{
-        width:100%;
-    }
-}
-
-@media(max-width:600px){
-    .logo{
-        font-size:19px;
-    }
-
-    .user-pill{
-        max-width:100px;
-        overflow:hidden;
-        white-space:nowrap;
-        text-overflow:ellipsis;
-    }
-
-    .hero{
-        min-height:auto;
-        padding-top:45px;
-    }
-
-    .hero h1{
-        font-size:52px;
-    }
-
-    .hero-text{
-        font-size:14px;
-    }
-
-    .stats{
-        grid-template-columns:1fr;
-        padding:0 6% 35px;
-    }
-
-    .games-section{
-        padding:40px 4%;
-    }
-
-    .games-grid{
-        grid-template-columns:repeat(2,1fr);
-        gap:10px;
-    }
-
-    .game-info{
-        padding:10px;
-    }
-
-    .game-info h3{
-        font-size:13px;
-    }
-
-    .feature{
-        margin:10px 4% 45px;
-        padding:25px;
-    }
-
-    footer{
-        flex-direction:column;
-        text-align:center;
-    }
-
-    .login-box{
-        padding:25px 18px;
-    }
-}
-
-@media(max-width:360px){
-    .games-grid{
-        grid-template-columns:1fr;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<!-- LOADER -->
-<div id="loader">
-    <div class="loader-box">
-        <div class="loader-logo">WIFI5<span>GAMES</span></div>
-        <div class="loader-sub">ULTIMATE GAMING EXPERIENCE</div>
-        <div class="loader-ring"></div>
-        <div class="loader-progress">
-            <div id="loaderBar"></div>
-        </div>
-        <div class="loader-percent" id="loaderPercent">0%</div>
-    </div>
-</div>
-
-<!-- LOGIN -->
-<div id="loginScreen">
-    <div class="login-box">
-        <div class="login-logo">WIFI5<span>GAMES</span></div>
-        <h2>مرحباً بك في عالم الألعاب</h2>
-        <p>سجّل دخولك باستخدام الإيميل واسم المستخدم</p>
-
-        <input
-            id="email"
-            class="input"
-            type="email"
-            placeholder="البريد الإلكتروني"
-            autocomplete="email"
-        >
-
-        <input
-            id="username"
-            class="input"
-            type="text"
-            placeholder="اسم المستخدم"
-            maxlength="25"
-            autocomplete="nickname"
-        >
-
-        <button class="login-btn" onclick="loginUser()">
-            🚀 دخول إلى WIFI5GAMES
-        </button>
-
-        <div class="login-error" id="loginError"></div>
-    </div>
-</div>
-
-<!-- SITE -->
-<div id="site">
-
-<nav>
-    <a class="logo" href="#">WIFI5<span>GAMES</span></a>
-
-    <div class="nav-links">
-        <a href="#home">الرئيسية</a>
-        <a href="#games">الألعاب</a>
-        <a href="#featured">المميز</a>
-    </div>
-
-    <div class="user-area">
-        <div class="user-pill" id="userPill">👤 مستخدم</div>
-        <button class="logout" onclick="logoutUser()">خروج</button>
-    </div>
-</nav>
-
-<section class="hero" id="home">
-
-    <div>
-        <div class="live">
-            <i></i>
-            ONLINE GAMING
-        </div>
-
-        <h1>
-            عالم الألعاب<br>
-            <span>بين إيديك</span>
-        </h1>
-
-        <p class="hero-text">
-            أهلاً بك في WIFI5GAMES — منصة ألعاب بتصميم سينمائي
-            تجمع لك أكثر من 100 لعبة شهيرة في مكان واحد.
-        </p>
-
-        <div class="hero-buttons">
-            <a href="#games" class="btn btn-main">🎮 استكشف الألعاب</a>
-            <a href="#featured" class="btn btn-dark">🔥 الألعاب المميزة</a>
-        </div>
-    </div>
-
-    <div class="hero-card">
-        <div class="hero-game">
-            <small>FEATURED GAME</small>
-            <strong>GTA V</strong>
-            <span>Los Santos awaits you.</span>
-        </div>
-    </div>
-
-</section>
-
-<section class="stats">
-    <div class="stat">
-        <strong id="gameCount">100+</strong>
-        <span>لعبة</span>
-    </div>
-
-    <div class="stat">
-        <strong>10+</strong>
-        <span>تصنيفات</span>
-    </div>
-
-    <div class="stat">
-        <strong>24/7</strong>
-        <span>Gaming</span>
-    </div>
-</section>
-
-<section class="games-section" id="games">
-
-    <div class="section-head">
-        <div class="section-title">
-            <h2>🎮 مكتبة الألعاب</h2>
-            <p>اختر لعبتك وابحث داخل أكثر من 100 لعبة</p>
-        </div>
-
-        <input
-            id="searchInput"
-            class="search"
-            type="search"
-            placeholder="🔎 ابحث عن لعبة..."
-            oninput="renderGames()"
-        >
-    </div>
-
-    <div class="filters" id="filters">
-        <button class="filter active" onclick="setFilter('الكل',this)">الكل</button>
-        <button class="filter" onclick="setFilter('أكشن',this)">🔥 أكشن</button>
-        <button class="filter" onclick="setFilter('عالم مفتوح',this)">🌍 عالم مفتوح</button>
-        <button class="filter" onclick="setFilter('تصويب',this)">🎯 تصويب</button>
-        <button class="filter" onclick="setFilter('رعب',this)">👻 رعب</button>
-        <button class="filter" onclick="setFilter('سباقات',this)">🏎️ سباقات</button>
-        <button class="filter" onclick="setFilter('رياضة',this)">⚽ رياضة</button>
-        <button class="filter" onclick="setFilter('بقاء',this)">🌲 بقاء</button>
-        <button class="filter" onclick="setFilter('RPG',this)">⚔️ RPG</button>
-        <button class="filter" onclick="setFilter('أونلاين',this)">🌐 أونلاين</button>
-        <button class="filter" onclick="setFilter('استراتيجية',this)">♟️ استراتيجية</button>
-    </div>
-
-    <div class="games-grid" id="gamesGrid"></div>
-
-</section>
-
-<section class="feature" id="featured">
-    <small>WIFI5GAMES FEATURED</small>
-    <h2>GTA V — LOS SANTOS</h2>
-    <p>
-        واحدة من أشهر ألعاب العالم المفتوح. استكشف المدينة،
-        السيارات، المهمات والعالم الواسع داخل تجربة GTA V.
-    </p>
-</section>
-
-<footer>
-    <div>
-        <strong>WIFI5GAMES</strong> — عالم الألعاب بين إيديك 🎮
-    </div>
-
-    <div>
-        © 2026 WIFI5GAMES
-    </div>
-</footer>
-
-</div>
-
-<!-- MODAL -->
-<div id="gameModal" onclick="closeModal(event)">
-    <div class="modal-box" onclick="event.stopPropagation()">
-
-        <div class="modal-cover">
-            <img id="modalImage" src="" alt="">
-        </div>
-
-        <
+    transition
