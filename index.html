@@ -1,1383 +1,281 @@
-Wifi5Games/
-│
-├── index.html
-│
-└── models/
-    └── car.glbcar.glb<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-<title>WIFI5GAMES — Realistic Drift</title>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html,
-body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#05070a;
-    font-family:
-        Arial,
-        Tahoma,
-        sans-serif;
-}
-
-body{
-    touch-action:none;
-}
-
-#game{
-    position:fixed;
-    inset:0;
-}
-
-/* =========================
-   LOADING
-========================= */
-
-#loading{
-    position:fixed;
-    inset:0;
-    z-index:100;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(0,220,255,.13),
-            transparent 35%
-        ),
-        #030508;
-    color:white;
-}
-
-.loadingLogo{
-    font-size:clamp(42px,9vw,90px);
-    font-weight:900;
-    letter-spacing:5px;
-    text-shadow:
-        0 0 10px #00eaff,
-        0 0 35px rgba(0,234,255,.6);
-}
-
-.loadingLogo span{
-    color:#00eaff;
-}
-
-.loadingTitle{
-    margin-top:8px;
-    color:#8c9aac;
-    letter-spacing:4px;
-    font-size:13px;
-}
-
-.loaderBox{
-    width:min(380px,80vw);
-    height:7px;
-    margin-top:35px;
-    overflow:hidden;
-    border-radius:20px;
-    background:#18202a;
-}
-
-.loaderBar{
-    width:0%;
-    height:100%;
-    border-radius:20px;
-    background:
-        linear-gradient(
-            90deg,
-            #147cff,
-            #00eaff
-        );
-    box-shadow:
-        0 0 15px #00eaff;
-}
-
-#loadingText{
-    margin-top:13px;
-    color:#708094;
-    font-size:12px;
-}
-
-/* =========================
-   START SCREEN
-========================= */
-
-#startScreen{
-    position:fixed;
-    inset:0;
-    z-index:90;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    color:white;
-    text-align:center;
-
-    background:
-        linear-gradient(
-            rgba(0,0,0,.25),
-            rgba(0,0,0,.75)
-        ),
-        radial-gradient(
-            circle at 50% 40%,
-            rgba(0,220,255,.12),
-            transparent 40%
-        );
-}
-
-.gameLogo{
-    font-size:clamp(38px,8vw,80px);
-    font-weight:900;
-    letter-spacing:5px;
-    text-shadow:
-        0 0 15px #00eaff,
-        0 0 50px rgba(0,234,255,.5);
-}
-
-.gameLogo span{
-    color:#00eaff;
-}
-
-.gameSub{
-    color:#a3afbd;
-    margin-top:8px;
-    letter-spacing:5px;
-}
-
-.startButton{
-    margin-top:35px;
-    border:0;
-    padding:16px 45px;
-    border-radius:14px;
-    color:#001116;
-    background:
-        linear-gradient(
-            90deg,
-            #1980ff,
-            #00eaff
-        );
-    font-size:18px;
-    font-weight:900;
-    cursor:pointer;
-    box-shadow:
-        0 0 25px rgba(0,234,255,.3);
-}
-
-.startButton:active{
-    transform:scale(.96);
-}
-
-.hint{
-    margin-top:18px;
-    color:#657386;
-    font-size:12px;
-}
-
-/* =========================
-   HUD
-========================= */
-
-#hud{
-    position:fixed;
-    inset:0;
-    z-index:20;
-    display:none;
-    pointer-events:none;
-}
-
-.topHUD{
-    position:absolute;
-    top:18px;
-    left:18px;
-    right:18px;
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-}
-
-.hudBox{
-    min-width:120px;
-    padding:10px 14px;
-    border-radius:14px;
-
-    border:1px solid
-        rgba(255,255,255,.1);
-
-    background:
-        rgba(4,9,15,.68);
-
-    backdrop-filter:
-        blur(12px);
-
-    color:white;
-
-    box-shadow:
-        0 8px 30px
-        rgba(0,0,0,.25);
-}
-
-.hudLabel{
-    display:block;
-    color:#77869a;
-    font-size:10px;
-    margin-bottom:3px;
-}
-
-.speed{
-    font-size:36px;
-    line-height:1;
-    font-weight:900;
-    color:#00eaff;
-}
-
-.speedUnit{
-    color:#9da9b6;
-    font-size:10px;
-}
-
-#gear{
-    font-size:22px;
-    font-weight:900;
-}
-
-#scoreBox{
-    position:absolute;
-    top:95px;
-    right:18px;
-}
-
-#score{
-    color:#00eaff;
-    font-size:24px;
-    font-weight:900;
-}
-
-/* =========================
-   DRIFT TEXT
-========================= */
-
-#driftText{
-    position:absolute;
-    top:44%;
-    left:50%;
-
-    transform:
-        translate(-50%,-50%)
-        scale(.5)
-        rotate(-5deg);
-
-    opacity:0;
-
-    color:white;
-
-    font-size:
-        clamp(35px,8vw,90px);
-
-    font-weight:900;
-
-    font-style:italic;
-
-    text-shadow:
-        0 0 10px #00eaff,
-        0 0 30px #00eaff,
-        0 5px 20px #000;
-
-    transition:
-        opacity .12s,
-        transform .12s;
-}
-
-#driftText.active{
-    opacity:1;
-
-    transform:
-        translate(-50%,-50%)
-        scale(1)
-        rotate(-5deg);
-}
-
-/* =========================
-   CROSSHAIR
-========================= */
-
-#crosshair{
-    position:absolute;
-    left:50%;
-    top:50%;
-
-    width:4px;
-    height:4px;
-
-    border-radius:50%;
-
-    background:
-        rgba(255,255,255,.6);
-
-    box-shadow:
-        0 0 10px
-        rgba(255,255,255,.5);
-
-    transform:
-        translate(-50%,-50%);
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-#mobileControls{
-    position:fixed;
-    z-index:40;
-    left:0;
-    right:0;
-    bottom:15px;
-
-    display:none;
-
-    justify-content:
-        space-between;
-
-    padding:
-        0 15px;
-
-    pointer-events:none;
-}
-
-.steering{
-    width:210px;
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,65px);
-
-    grid-template-rows:
-        repeat(2,65px);
-
-    gap:7px;
-
-    pointer-events:auto;
-}
-
-.mobileButton{
-    width:65px;
-    height:65px;
-
-    border-radius:18px;
-
-    border:
-        1px solid
-        rgba(255,255,255,.15);
-
-    background:
-        rgba(5,12,20,.78);
-
-    color:white;
-
-    display:flex;
-
-    justify-content:center;
-    align-items:center;
-
-    font-size:24px;
-
-    user-select:none;
-    -webkit-user-select:none;
-}
-
-.mobileButton:active{
-    background:
-        rgba(0,190,220,.8);
-}
-
-.up{
-    grid-column:2;
-}
-
-.left{
-    grid-column:1;
-    grid-row:2;
-}
-
-.right{
-    grid-column:3;
-    grid-row:2;
-}
-
-.down{
-    grid-column:2;
-    grid-row:2;
-}
-
-.mobileActions{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-
-    pointer-events:auto;
-}
-
-.driftButton,
-.resetButton{
-    width:72px;
-    height:72px;
-
-    border-radius:50%;
-
-    border:
-        1px solid
-        rgba(0,234,255,.3);
-
-    background:
-        rgba(5,12,20,.8);
-
-    color:#00eaff;
-
-    font-weight:900;
-}
-
-.driftButton:active{
-    background:#00aeca;
-    color:white;
-}
-
-@media(max-width:800px){
-
-    #mobileControls{
-        display:flex;
-    }
-
-    .hudBox{
-        min-width:95px;
-        padding:8px 11px;
-    }
-
-    .speed{
-        font-size:27px;
-    }
-
-    #scoreBox{
-        top:90px;
-        right:12px;
-    }
-
-}
-
-</style>
-</head>
-
-<body>
-
-<div id="game"></div>
-
-<!-- =========================
-     LOADING
-========================= -->
-
-<div id="loading">
-
-    <div class="loadingLogo">
-        WIFI<span>5</span>GAMES
-    </div>
-
-    <div class="loadingTitle">
-        REALISTIC DRIFT
-    </div>
-
-    <div class="loaderBox">
-        <div
-            class="loaderBar"
-            id="loaderBar">
-        </div>
-    </div>
-
-    <div id="loadingText">
-        تجهيز المدينة...
-    </div>
-
-</div>
-
-
-<!-- =========================
-     START
-========================= -->
-
-<div id="startScreen">
-
-    <div class="gameLogo">
-        WIFI<span>5</span>GAMES
-    </div>
-
-    <div class="gameSub">
-        REALISTIC DRIFT CITY
-    </div>
-
-    <button
-        class="startButton"
-        id="startButton">
-
-        🚗 ابدأ القيادة
-
-    </button>
-
-    <div class="hint">
-        W A S D — قيادة
-        &nbsp; | &nbsp;
-        SPACE — تخميس
-    </div>
-
-</div>
-
-
-<!-- =========================
-     HUD
-========================= -->
-
-<div id="hud">
-
-    <div class="topHUD">
-
-        <div class="hudBox">
-
-            <span class="hudLabel">
-                SPEED
-            </span>
-
-            <span
-                class="speed"
-                id="speed">
-                0
-            </span>
-
-            <span class="speedUnit">
-                KM/H
-            </span>
-
-        </div>
-
-
-        <div class="hudBox">
-
-            <span class="hudLabel">
-                GEAR
-            </span>
-
-            <span id="gear">
-                N
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <div
-        class="hudBox"
-        id="scoreBox">
-
-        <span class="hudLabel">
-            DRIFT SCORE
-        </span>
-
-        <span id="score">
-            0
-        </span>
-
-    </div>
-
-
-    <div id="driftText">
-        DRIFT!
-    </div>
-
-
-    <div id="crosshair"></div>
-
-</div>
-
-
-<!-- =========================
-     MOBILE CONTROLS
-========================= -->
-
-<div id="mobileControls">
-
-    <div class="steering">
-
-        <div
-            class="mobileButton up"
-            data-key="w">
-            ▲
-        </div>
-
-        <div
-            class="mobileButton left"
-            data-key="a">
-            ◀
-        </div>
-
-        <div
-            class="mobileButton right"
-            data-key="d">
-            ▶
-        </div>
-
-        <div
-            class="mobileButton down"
-            data-key="s">
-            ▼
-        </div>
-
-    </div>
-
-
-    <div class="mobileActions">
-
-        <button
-            class="driftButton"
-            data-key="space">
-
-            DRIFT
-
-        </button>
-
-        <button
-            class="resetButton"
-            id="resetButton">
-
-            ↻
-
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- =========================
-     THREE.JS
-========================= -->
-
-<script type="importmap">
-{
-    "imports": {
-        "three":
-        "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
-
-        "three/addons/":
-        "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
-    }
-}
-</script>
-
-
-<script type="module">
-
-import * as THREE from
-"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
-
-import {
-    GLTFLoader
-} from
-"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js";
-
-import {
-    DRACOLoader
-} from
-"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/DRACOLoader.js";
-
-import {
-    Sky
-} from
-"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/objects/Sky.js";
-
-
-/* ==========================================
-   VARIABLES
-========================================== */
-
-let scene;
-let camera;
-let renderer;
-
-let car;
-let carModel;
-
-let clock =
-    new THREE.Clock();
-
-let started=false;
-
-let speed=0;
-
-let heading=0;
-
-let steer=0;
-
-let driftScore=0;
-
-let lastDriftTime=0;
-
-let cameraShake=0;
-
-const keys={};
-
-const smoke=[];
-
-const skidMarks=[];
-
-const wheelNodes=[];
-
-const frontWheelNodes=[];
-
-
-/* ==========================================
-   ELEMENTS
-========================================== */
-
-const loading =
-    document.getElementById(
-        "loading"
-    );
-
-const loaderBar =
-    document.getElementById(
-        "loaderBar"
-    );
-
-const loadingText =
-    document.getElementById(
-        "loadingText"
-    );
-
-const startScreen =
-    document.getElementById(
-        "startScreen"
-    );
-
-const startButton =
-    document.getElementById(
-        "startButton"
-    );
-
-const hud =
-    document.getElementById(
-        "hud"
-    );
-
-const speedElement =
-    document.getElementById(
-        "speed"
-    );
-
-const gearElement =
-    document.getElementById(
-        "gear"
-    );
-
-const scoreElement =
-    document.getElementById(
-        "score"
-    );
-
-const driftElement =
-    document.getElementById(
-        "driftText"
-    );
-
-
-/* ==========================================
-   INITIALIZE
-========================================== */
-
-async function init(){
-
-    createScene();
-
-    createLighting();
-
-    createEnvironment();
-
-    createRoads();
-
-    createBuildings();
-
-    createTrees();
-
-    createStreetLights();
-
-    createParkingArea();
-
-    await loadCar();
-
-    resetCar();
-
-    animate();
-
-    setLoading(
-        100,
-        "اكتمل التحميل"
-    );
-
-    setTimeout(
-        ()=>{
-            loading.style.display="none";
-            startScreen.style.display="flex";
-        },
-        500
-    );
-
-}
-
-
-/* ==========================================
-   LOADING
-========================================== */
-
-function setLoading(
-    percent,
-    text
-){
-
-    loaderBar.style.width =
-        percent+"%";
-
-    loadingText.textContent =
-        text;
-
-}
-
-
-/* ==========================================
-   SCENE
-========================================== */
-
-function createScene(){
-
-    scene =
-        new THREE.Scene();
-
-    scene.background =
-        new THREE.Color(
-            0x87b5d9
-        );
-
-    scene.fog =
-        new THREE.FogExp2(
-            0x9eb8c8,
-            .0025
-        );
-
-
-    camera =
-        new THREE.PerspectiveCamera(
-            65,
-            innerWidth/innerHeight,
-            .1,
-            1500
-        );
-
-
-    camera.position.set(
-        0,
-        4,
-        -10
-    );
-
-
-    renderer =
-        new THREE.WebGLRenderer({
-            antialias:true,
-            powerPreference:
-                "high-performance"
-        });
-
-
-    renderer.setSize(
-        innerWidth,
-        innerHeight
-    );
-
-
-    renderer.setPixelRatio(
-        Math.min(
-            devicePixelRatio,
-            1.5
-        )
-    );
-
-
-    renderer.shadowMap.enabled=true;
-
-
-    renderer.shadowMap.type =
-        THREE.PCFSoftShadowMap;
-
-
-    renderer.outputColorSpace =
-        THREE.SRGBColorSpace;
-
-
-    renderer.toneMapping =
-        THREE.ACESFilmicToneMapping;
-
-
-    renderer.toneMappingExposure =
-        1.15;
-
-
-    document
-        .getElementById("game")
-        .appendChild(
-            renderer.domElement
-        );
-
-}
-
-
-/* ==========================================
-   SKY + LIGHTING
-========================================== */
-
-function createLighting(){
-
-    const sky =
-        new Sky();
-
-    sky.scale.setScalar(450);
-
-    scene.add(sky);
-
-
-    const uniforms =
-        sky.material.uniforms;
-
-    uniforms
-        .turbidity
-        .value=4;
-
-    uniforms
-        .rayleigh
-        .value=1.4;
-
-    uniforms
-        .mieCoefficient
-        .value=.006;
-
-    uniforms
-        .mieDirectionalG
-        .value=.8;
-
-
-    const sun =
-        new THREE.Vector3();
-
-    sun.setFromSphericalCoords(
-        450,
-        THREE.MathUtils.degToRad(65),
-        THREE.MathUtils.degToRad(180)
-    );
-
-    uniforms
-        .sunPosition
-        .value
-        .copy(sun);
-
-
-    const hemi =
-        new THREE.HemisphereLight(
-            0xd7efff,
-            0x29313b,
-            1.5
-        );
-
-    scene.add(hemi);
-
-
-    const sunlight =
-        new THREE.DirectionalLight(
-            0xfff2d2,
-            3
-        );
-
-
-    sunlight.position.set(
-        -100,
-        180,
-        -80
-    );
-
-
-    sunlight.castShadow=true;
-
-
-    sunlight.shadow.mapSize.width=2048;
-
-    sunlight.shadow.mapSize.height=2048;
-
-
-    sunlight.shadow.camera.left=-250;
-    sunlight.shadow.camera.right=250;
-    sunlight.shadow.camera.top=250;
-    sunlight.shadow.camera.bottom=-250;
-
-
-    sunlight.shadow.camera.near=1;
-    sunlight.shadow.camera.far=500;
-
-
-    scene.add(sunlight);
-
-}
-
-
-/* ==========================================
-   ENVIRONMENT
-========================================== */
-
-function createEnvironment(){
-
-    const ground =
-        new THREE.Mesh(
-
-            new THREE.PlaneGeometry(
-                1000,
-                1000
-            ),
-
-            new THREE.MeshStandardMaterial({
-                color:0x38433d,
-                roughness:.9
-            })
-
-        );
-
-
-    ground.rotation.x =
-        -Math.PI/2;
-
-
-    ground.receiveShadow=true;
-
-
-    scene.add(ground);
-
-
-    /* grass areas */
-
-    for(
-        let x=-400;
-        x<=400;
-        x+=35
-    ){
-
-        const grass =
-            new THREE.Mesh(
-
-                new THREE.BoxGeometry(
-                    27,
-                    .08,
-                    27
-                ),
-
-                new THREE.MeshStandardMaterial({
-                    color:0x304638,
-                    roughness:1
-                })
-
-            );
-
-
-        grass.position.set(
-            x,
-            .04,
-            120
-        );
-
-
-        scene.add(grass);
-
-    }
-
-}
-
-
-/* ==========================================
-   ROADS
-========================================== */
-
-function createRoads(){
-
-    createRoad(
-        0,
-        0,
-        900,
-        32,
-        0
-    );
-
-
-    createRoad(
-        0,
-        0,
-        900,
-        32,
-        Math.PI/2
-    );
-
-
-    createRoad(
-        0,
-        90,
-        900,
-        22,
-        0
-    );
-
-
-    createRoad(
-        120,
-        0,
-        220,
-        22,
-        Math.PI/2
-    );
-
-
-    createRoad(
-        -120,
-        0,
-        220,
-        22,
-        Math.PI/2
-    );
-
-
-    createRoad(
-        0,
-        -120,
-        900,
-        22,
-        0
-    );
-
-
-    createRoadLines();
-
-}
-
-
-function createRoad(
-    x,
-    z,
-    length,
-    width,
-    rotation
-){
-
-    const road =
-        new THREE.Mesh(
-
-            new THREE.BoxGeometry(
-                length,
-                .08,
-                width
-            ),
-
-            new THREE.MeshStandardMaterial({
-                color:0x202326,
-                roughness:.72,
-                metalness:.08
-            })
-
-        );
-
-
-    road.position.set(
-        x,
-        .06,
-        z
-    );
-
-
-    road.rotation.y =
-        rotation;
-
-
-    road.receiveShadow=true;
-
-
-    scene.add(road);
-
-}
-
-
-/* ==========================================
-   ROAD LINES
-========================================== */
-
-function createRoadLines(){
-
-    const lineMaterial =
-        new THREE.MeshBasicMaterial({
-            color:0xe6c94a
-        });
-
-
-    for(
-        let x=-430;
-        x<430;
-        x+=16
-    ){
-
-        const line =
-            new THREE.Mesh(
-
-                new THREE.BoxGeometry(
-                    8,
-                    .11,
-                    .18
-                ),
-
-                lineMaterial
-
-            );
-
-
-        line.position.set(
-            x,
-            .13,
-            0
-        );
-
-
-        scene.add(line);
-
-
-        const line2 =
-            line.clone();
-
-
-        line2.position.z =
-            90;
-
-
-        scene.add(line2);
-
-
-        const line3 =
-            line.clone();
-
-
-        line3.position.z =
-            -120;
-
-
-        scene.add(line3);
-
-    }
-
-}
-
-
-/* ==========================================
-   BUILDINGS
-========================================== */
-
-function createBuildings(){
-
-    const colors=[
-        0x70777c,
-        0x59636a,
-        0x464f56,
-        0x7c7d79,
-        0x3f494d
-    ];
-
-
-    for(
-        let x=-320;
-        x<=320;
-        x+=45
-    ){
-
-        for(
-            let z=-280;
-            z<=260;
-            z+=50
-        ){
-
-            if(
-                Math.abs(x)<65 &&
-                Math.abs(z)<150
-            ){
-                continue;
-            }
-
-
-            if(
-                Math.abs(x)<170 &&
-                Math.abs(z-90)<35
-            ){
-                continue;
-            }
-
-
-            const width =
-                25+
-                Math.random()*12;
-
-
-            const depth =
-                28+
-                Math.random()*12;
-
-
-            const height =
-                12+
-                Math.random()*55;
-
-
-            const building =
-                new THREE.Mesh(
-
-                    new THREE.BoxGeometry(
-                        width,
-                        height,
-                        depth
-                    ),
-
-                    new THREE.MeshStandardMaterial({
-                        color:
-                            colors[
-                                Math.floor(
-                                    Math.random()*
-                                    colors.length
-                                )
-                            ],
-                        roughness:.9
-                    })
-
-                );
-
-
-            building.position.set(
-                x+
-                (Math.random()-.5)*7,
-
-                height
-models/car.glb
+‏<!DOCTYPE html>
+‏<html lang="ar" dir="rtl">
+‏<head>
+‏<meta charset="UTF-8">
+‏<meta name="viewport" content="width=device-width, initial-scale=1.0">
+‏
+‏<title>WIFI5GAMES — عالم الألعاب بين إيديك</title>
+‏
+‏<style>
+‏@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+‏
+‏*{
+‏    margin:0;
+‏    padding:0;
+‏    box-sizing:border-box;
+‏}
+‏
+‏html{
+‏    scroll-behavior:smooth;
+‏}
+‏
+‏body{
+‏    font-family:'Cairo',sans-serif;
+‏    background:#05070d;
+‏    color:white;
+‏    overflow-x:hidden;
+‏}
+‏
+‏/* BACKGROUND */
+‏body:before{
+‏    content:"";
+‏    position:fixed;
+‏    inset:0;
+‏    z-index:-3;
+‏    background:
+‏        linear-gradient(rgba(0,255,255,.025) 1px,transparent 1px),
+‏        linear-gradient(90deg,rgba(0,255,255,.025) 1px,transparent 1px);
+‏    background-size:45px 45px;
+‏}
+‏
+‏body:after{
+‏    content:"";
+‏    position:fixed;
+‏    inset:0;
+‏    z-index:-2;
+‏    background:
+‏        radial-gradient(circle at 20% 20%,rgba(0,255,255,.12),transparent 30%),
+‏        radial-gradient(circle at 80% 30%,rgba(110,0,255,.12),transparent 30%),
+‏        radial-gradient(circle at 50% 90%,rgba(0,100,255,.08),transparent 35%);
+‏    pointer-events:none;
+‏}
+‏
+‏/* LOADER */
+‏#loader{
+‏    position:fixed;
+‏    inset:0;
+‏    background:#03050a;
+‏    display:flex;
+‏    justify-content:center;
+‏    align-items:center;
+‏    flex-direction:column;
+‏    z-index:99999;
+‏    transition:.7s;
+‏}
+‏
+‏.loader-logo{
+‏    font-size:48px;
+‏    font-weight:900;
+‏    letter-spacing:3px;
+‏    text-shadow:0 0 20px #00ffff;
+‏}
+‏
+‏.loader-logo span{
+‏    color:#00ffff;
+‏}
+‏
+‏.loader-sub{
+‏    margin-top:8px;
+‏    color:#8c9aaa;
+‏    font-size:14px;
+‏}
+‏
+‏.loader-box{
+‏    width:280px;
+‏    height:6px;
+‏    background:#17202b;
+‏    border-radius:20px;
+‏    overflow:hidden;
+‏    margin-top:30px;
+‏}
+‏
+‏.loader-bar{
+‏    width:0%;
+‏    height:100%;
+‏    background:linear-gradient(90deg,#00ffff,#008cff,#8c00ff);
+‏    box-shadow:0 0 20px #00ffff;
+‏    transition:.1s;
+‏}
+‏
+‏.loader-percent{
+‏    margin-top:12px;
+‏    color:#00ffff;
+‏    font-weight:800;
+‏}
+‏
+‏/* HEADER */
+‏header{
+‏    height:82px;
+‏    display:flex;
+‏    align-items:center;
+‏    justify-content:space-between;
+‏    padding:0 5%;
+‏    position:sticky;
+‏    top:0;
+‏    z-index:1000;
+‏    background:rgba(3,6,12,.86);
+‏    backdrop-filter:blur(18px);
+‏    border-bottom:1px solid rgba(0,255,255,.12);
+‏}
+‏
+‏.logo{
+‏    font-size:25px;
+‏    font-weight:900;
+‏    color:white;
+‏    text-shadow:0 0 15px #00ffff;
+‏}
+‏
+‏.logo span{
+‏    color:#00ffff;
+‏}
+‏
+‏.logo small{
+‏    display:block;
+‏    font-size:9px;
+‏    color:#778394;
+‏    letter-spacing:2px;
+‏}
+‏
+‏nav{
+‏    display:flex;
+‏    gap:24px;
+‏}
+‏
+‏nav a{
+‏    color:#c9d1dc;
+‏    text-decoration:none;
+‏    font-size:14px;
+‏    font-weight:700;
+‏    transition:.3s;
+‏}
+‏
+‏nav a:hover{
+‏    color:#00ffff;
+‏}
+‏
+‏.user-area{
+‏    display:flex;
+‏    align-items:center;
+‏    gap:10px;
+‏}
+‏
+‏.login-btn{
+‏    border:1px solid #00ffff;
+‏    color:#00ffff;
+‏    background:rgba(0,255,255,.05);
+‏    padding:9px 18px;
+‏    border-radius:10px;
+‏    cursor:pointer;
+‏    font-family:inherit;
+‏    font-weight:800;
+‏}
+‏
+‏.user-name{
+‏    display:none;
+‏    color:#00ffff;
+‏    font-weight:800;
+‏}
+‏
+‏/* HERO */
+‏.hero{
+‏    min-height:610px;
+‏    display:flex;
+‏    align-items:center;
+‏    justify-content:center;
+‏    position:relative;
+‏    padding:70px 6%;
+‏    overflow:hidden;
+‏}
+‏
+‏.hero-content{
+‏    max-width:900px;
+‏    text-align:center;
+‏    position:relative;
+‏    z-index:2;
+‏}
+‏
+‏.live{
+‏    display:inline-flex;
+‏    gap:8px;
+‏    align-items:center;
+‏    padding:7px 16px;
+‏    border:1px solid rgba(0,255,255,.5);
+‏    background:rgba(0,255,255,.06);
+‏    border-radius:30px;
+‏    color:#00ffff;
+‏    font-size:12px;
+‏    font-weight:800;
+‏}
+‏
+‏.live i{
+‏    width:8px;
+‏    height:8px;
+‏    background:#00ffff;
+‏    border-radius:50%;
+‏    box-shadow:0 0 12px #00ffff;
+‏}
+‏
+‏.hero h1{
+‏    font-size:clamp(48px,9vw,110px);
+‏    line-height:.95;
+‏    margin:25px 0 20px;
+‏    font-weight:900;
+‏    letter-spacing:-3px;
+‏    text-shadow:
+‏        0 0 10px rgba(0,255,255,.25),
+‏        0 0 45px rgba(0,255,255,.15);
+‏}
+‏
+‏.hero h1 span{
+‏    color:#00ffff;
+‏}
+‏
+‏.hero p{
+‏    color:#9ca8b8;
+‏    font-size:17px;
+‏    max-width:650px;
+‏    margin:auto;
+‏    line-height:2;
+‏}
+‏
+‏.hero-buttons{
+‏    margin-top:30px;
+‏    display:flex;
+‏    justify-content:center;
+‏    gap:12px;
+‏    flex-wrap:wrap;
+‏}
+‏
+‏.primary-btn,
+‏.secondary-btn{
+‏    padding:13px 28px;
+‏    border-radius:12px;
+‏    text-decoration:none;
+‏    font-weight:900;
+‏    transition:.3s;
+‏}
+‏
+‏.primary-btn{
+‏    color:#001014;
+‏    background:#00ffff;
+‏    box-shadow:0 0 30px rgba(0,255,255,.3);
+‏}
+‏
+‏.secondary-btn{
+‏    color:white;
+‏    border:1px solid #34404e;
+‏    background:#111722;
+‏}
+‏
+‏.primary-btn:hover,
+‏.secondary-btn:hover{
+‏    transform:translateY(-3px);
+‏}
+‏
+‏/* SEARCH */
+‏.store{
+‏    padding:30px 5% 100px;
+‏}
+‏
+‏.store-top{
+‏    max-wi
