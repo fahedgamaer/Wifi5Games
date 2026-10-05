@@ -1,266 +1,1691 @@
-‏<!DOCTYPE html>
-‏<html lang="ar" dir="rtl">
-‏<head>
-‏<meta charset="UTF-8">
-‏<meta name="viewport" content="width=device-width, initial-scale=1.0">
-‏
-‏<title>WIFI5GAMES — عالم الألعاب</title>
-‏
-‏<meta name="description"
-‏content="WIFI5GAMES — عالم الألعاب. اكتشف أكثر من 100 لعبة شهيرة في مكان واحد.">
-‏
-‏<style>
-‏
-‏@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
-‏
-‏*{
-‏    margin:0;
-‏    padding:0;
-‏    box-sizing:border-box;
-‏}
-‏
-‏html{
-‏    scroll-behavior:smooth;
-‏}
-‏
-‏body{
-‏    font-family:'Cairo',sans-serif;
-‏    background:#05070c;
-‏    color:#fff;
-‏    overflow-x:hidden;
-‏}
-‏
-‏/* =========================
-‏   LOADER
-‏========================= */
-‏
-‏#loader{
-‏    position:fixed;
-‏    inset:0;
-‏    z-index:99999;
-‏    background:
-‏        radial-gradient(circle at center,#101b30 0%,#05070c 48%,#000 100%);
-‏    display:flex;
-‏    justify-content:center;
-‏    align-items:center;
-‏    flex-direction:column;
-‏    overflow:hidden;
-‏}
-‏
-‏#loader::before{
-‏    content:"";
-‏    position:absolute;
-‏    width:600px;
-‏    height:600px;
-‏    border-radius:50%;
-‏    border:1px solid rgba(0,229,255,.15);
-‏    box-shadow:
-‏        0 0 80px rgba(0,229,255,.08),
-‏        inset 0 0 80px rgba(0,229,255,.04);
-‏    animation:loaderPulse 2s infinite;
-‏}
-‏
-‏#loader::after{
-‏    content:"";
-‏    position:absolute;
-‏    width:100%;
-‏    height:100%;
-‏    background:
-‏        linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),
-‏        linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);
-‏    background-size:50px 50px;
-‏    transform:perspective(500px) rotateX(60deg) scale(2);
-‏    transform-origin:center bottom;
-‏    opacity:.4;
-‏}
-‏
-‏.loader-content{
-‏    position:relative;
-‏    z-index:3;
-‏    text-align:center;
-‏}
-‏
-‏.loader-logo{
-‏    font-size:clamp(40px,8vw,100px);
-‏    font-weight:900;
-‏    letter-spacing:5px;
-‏    text-shadow:
-‏        0 0 10px #00e5ff,
-‏        0 0 30px rgba(0,229,255,.8),
-‏        0 0 80px rgba(0,229,255,.3);
-‏}
-‏
-‏.loader-logo span{
-‏    color:#00e5ff;
-‏}
-‏
-‏.loader-sub{
-‏    margin-top:5px;
-‏    color:#aaa;
-‏    letter-spacing:8px;
-‏    font-size:14px;
-‏}
-‏
-‏.loader-line{
-‏    width:min(500px,80vw);
-‏    height:5px;
-‏    background:#18202d;
-‏    margin:40px auto 15px;
-‏    border-radius:50px;
-‏    overflow:hidden;
-‏    box-shadow:0 0 20px rgba(0,229,255,.1);
-‏}
-‏
-‏.loader-progress{
-‏    height:100%;
-‏    width:0%;
-‏    background:linear-gradient(90deg,#006eff,#00e5ff,#fff);
-‏    box-shadow:0 0 20px #00e5ff;
-‏    transition:.1s linear;
-‏}
-‏
-‏.loader-percent{
-‏    color:#00e5ff;
-‏    font-weight:800;
-‏    font-size:15px;
-‏}
-‏
-‏.loader-status{
-‏    color:#777;
-‏    margin-top:12px;
-‏    font-size:13px;
-‏}
-‏
-‏@keyframes loaderPulse{
-‏    0%,100%{
-‏        transform:scale(.8);
-‏        opacity:.3;
-‏    }
-‏    50%{
-‏        transform:scale(1.1);
-‏        opacity:.8;
-‏    }
-‏}
-‏
-‏/* =========================
-‏   BACKGROUND
-‏========================= */
-‏
-‏.bg-grid{
-‏    position:fixed;
-‏    inset:0;
-‏    z-index:-3;
-‏    background:
-‏        linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),
-‏        linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);
-‏    background-size:55px 55px;
-‏}
-‏
-‏.bg-glow{
-‏    position:fixed;
-‏    width:500px;
-‏    height:500px;
-‏    border-radius:50%;
-‏    background:#006eff;
-‏    filter:blur(180px);
-‏    opacity:.08;
-‏    z-index:-2;
-‏    top:-200px;
-‏    right:-150px;
-‏}
-‏
-‏/* =========================
-‏   NAV
-‏========================= */
-‏
-‏nav{
-‏    position:sticky;
-‏    top:0;
-‏    z-index:5000;
-‏    height:78px;
-‏    display:flex;
-‏    align-items:center;
-‏    justify-content:space-between;
-‏    padding:0 5%;
-‏    background:rgba(4,7,13,.82);
-‏    backdrop-filter:blur(18px);
-‏    border-bottom:1px solid rgba(0,229,255,.12);
-‏}
-‏
-‏.logo{
-‏    font-size:25px;
-‏    font-weight:900;
-‏    letter-spacing:2px;
-‏}
-‏
-‏.logo span{
-‏    color:#00e5ff;
-‏}
-‏
-‏.logo small{
-‏    display:block;
-‏    color:#667080;
-‏    font-size:9px;
-‏    letter-spacing:4px;
-‏    text-align:center;
-‏}
-‏
-‏.nav-links{
-‏    display:flex;
-‏    gap:28px;
-‏}
-‏
-‏.nav-links a{
-‏    color:#aaa;
-‏    text-decoration:none;
-‏    font-size:14px;
-‏    transition:.3s;
-‏}
-‏
-‏.nav-links a:hover{
-‏    color:#00e5ff;
-‏}
-‏
-‏.nav-online{
-‏    border:1px solid rgba(0,229,255,.3);
-‏    padding:8px 14px;
-‏    border-radius:30px;
-‏    font-size:11px;
-‏    color:#00e5ff;
-‏}
-‏
-‏/* =========================
-‏   HERO
-‏========================= */
-‏
-‏.hero{
-‏    min-height:650px;
-‏    display:grid;
-‏    grid-template-columns:1fr 1fr;
-‏    gap:40px;
-‏    align-items:center;
-‏    padding:70px 7%;
-‏    position:relative;
-‏    overflow:hidden;
-‏}
-‏
-‏.hero::before{
-‏    content:"";
-‏    position:absolute;
-‏    width:600px;
-‏    height:600px;
-‏    background:#006eff;
-‏    filter:blur(220px);
-‏    opacity:.1;
-‏    left:-200px;
-‏    top:0;
-‏}
-‏
-‏.hero-text{
-‏    position:relative;
-‏    z-index:2;
-‏}
-‏
-‏.hero-badge{
-‏    display:inline-flex;
-‏    ga
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WIFI5GAMES — عالم الألعاب بين إيديك</title>
+
+<meta name="description"
+content="WIFI5GAMES — أكثر من 100 لعبة شهيرة في مكان واحد">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:"Cairo",Arial,sans-serif;
+    background:#05050a;
+    color:white;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-2;
+    background:
+    radial-gradient(circle at 15% 15%,rgba(0,255,255,.10),transparent 28%),
+    radial-gradient(circle at 85% 20%,rgba(140,0,255,.13),transparent 30%),
+    radial-gradient(circle at 50% 90%,rgba(0,140,255,.08),transparent 30%);
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+button,
+input{
+    font-family:inherit;
+}
+
+
+/* =========================
+   LOADER
+========================= */
+
+.loader{
+    position:fixed;
+    inset:0;
+    background:#030308;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:99999;
+    transition:.7s;
+}
+
+.loader.hide{
+    opacity:0;
+    visibility:hidden;
+}
+
+.loader-content{
+    text-align:center;
+}
+
+.loader-logo{
+    font-size:clamp(42px,9vw,82px);
+    font-weight:900;
+    letter-spacing:2px;
+    text-shadow:
+    0 0 15px #00ffff,
+    0 0 35px #008cff,
+    0 0 60px #8c00ff;
+}
+
+.loader-logo span{
+    color:#8c00ff;
+}
+
+.loader-text{
+    color:#aaa;
+    letter-spacing:4px;
+    margin-top:5px;
+}
+
+.loader-bar{
+    width:300px;
+    max-width:75vw;
+    height:4px;
+    background:#181820;
+    margin:25px auto 0;
+    overflow:hidden;
+    border-radius:20px;
+}
+
+.loader-bar span{
+    display:block;
+    width:40%;
+    height:100%;
+    background:#00ffff;
+    box-shadow:0 0 20px #00ffff;
+    animation:loaderMove 1s infinite;
+}
+
+@keyframes loaderMove{
+    from{
+        transform:translateX(300%);
+    }
+    to{
+        transform:translateX(-300%);
+    }
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(4,4,10,.84);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(0,255,255,.13);
+}
+
+.navbar{
+    max-width:1400px;
+    margin:auto;
+    padding:14px 20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:900;
+    color:#00ffff;
+    text-shadow:0 0 15px #00ffff;
+}
+
+.logo span{
+    color:#8c00ff;
+}
+
+nav{
+    display:flex;
+    gap:25px;
+    color:#aaa;
+}
+
+nav a{
+    transition:.2s;
+}
+
+nav a:hover{
+    color:#00ffff;
+}
+
+.login-btn{
+    border:1px solid rgba(0,255,255,.45);
+    background:linear-gradient(135deg,#008cff,#8c00ff);
+    color:white;
+    padding:10px 18px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:800;
+    box-shadow:0 0 20px rgba(0,140,255,.2);
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:570px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:80px 20px;
+    position:relative;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    width:700px;
+    height:400px;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(0,255,255,.12),
+        transparent 68%
+    );
+
+    z-index:-1;
+}
+
+.hero-pill{
+    display:inline-block;
+    padding:8px 16px;
+    border-radius:50px;
+
+    color:#00ffff;
+
+    border:1px solid rgba(0,255,255,.35);
+
+    background:rgba(0,255,255,.05);
+
+    margin-bottom:22px;
+}
+
+.hero h1{
+    font-size:clamp(45px,8vw,95px);
+    line-height:1.05;
+    font-weight:900;
+}
+
+.hero h1 span{
+    display:block;
+    color:#00ffff;
+
+    text-shadow:
+    0 0 15px #00ffff,
+    0 0 35px #008cff;
+}
+
+.hero p{
+    color:#aaa;
+    font-size:18px;
+    max-width:700px;
+    margin:22px auto;
+}
+
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.hero-btn{
+    border:1px solid rgba(0,255,255,.45);
+    background:linear-gradient(135deg,#008cff,#8c00ff);
+    color:white;
+
+    padding:12px 22px;
+    border-radius:12px;
+
+    font-weight:800;
+    cursor:pointer;
+}
+
+.hero-btn.secondary{
+    background:transparent;
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+.section{
+    max-width:1400px;
+    margin:auto;
+    padding:45px 20px;
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:20px;
+    flex-wrap:wrap;
+
+    margin-bottom:25px;
+}
+
+.section-title h2{
+    font-size:32px;
+}
+
+.section-title h2 span{
+    color:#00ffff;
+}
+
+.description{
+    color:#888;
+    font-size:13px;
+    margin-top:5px;
+}
+
+
+/* SEARCH */
+
+.search{
+    width:min(450px,100%);
+
+    padding:13px 17px;
+
+    background:#0c0c14;
+    border:1px solid #28283a;
+
+    color:white;
+
+    border-radius:13px;
+
+    outline:none;
+}
+
+.search:focus{
+    border-color:#00ffff;
+
+    box-shadow:
+    0 0 15px rgba(0,255,255,.12);
+}
+
+
+/* FILTERS */
+
+.filters{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+
+    margin-bottom:25px;
+}
+
+.filter{
+    border:1px solid #29293b;
+
+    background:#0b0b12;
+
+    color:#aaa;
+
+    padding:9px 15px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+}
+
+.filter:hover,
+.filter.active{
+    background:#00ffff;
+    color:#001010;
+    border-color:#00ffff;
+}
+
+
+/* =========================
+   GAME GRID
+========================= */
+
+.games-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:18px;
+}
+
+.game-card{
+    background:
+    linear-gradient(
+        180deg,
+        #10101a,
+        #090910
+    );
+
+    border:1px solid #202034;
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+    transition:.25s;
+
+    box-shadow:
+    0 8px 30px rgba(0,0,0,.25);
+}
+
+.game-card:hover{
+    transform:translateY(-6px);
+
+    border-color:
+    rgba(0,255,255,.5);
+
+    box-shadow:
+    0 0 30px rgba(0,255,255,.12);
+}
+
+.game-cover{
+    width:100%;
+
+    aspect-ratio:460/215;
+
+    object-fit:cover;
+
+    display:block;
+
+    background:#111;
+}
+
+.game-info{
+    padding:14px;
+}
+
+.game-name{
+    font-size:17px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+.game-category{
+    display:inline-block;
+
+    color:#00ffff;
+
+    font-size:12px;
+
+    margin:6px 0 11px;
+}
+
+.game-button{
+    display:block;
+
+    width:100%;
+
+    text-align:center;
+
+    background:#00ffff;
+
+    color:#001010;
+
+    padding:9px;
+
+    border-radius:10px;
+
+    font-weight:900;
+
+    transition:.2s;
+}
+
+.game-button:hover{
+    background:white;
+}
+
+
+/* =========================
+   IO GAMES
+========================= */
+
+.io-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(5,1fr);
+
+    gap:15px;
+}
+
+.io-card{
+    background:#0d0d15;
+
+    border:1px solid #28283a;
+
+    border-radius:16px;
+
+    padding:22px;
+
+    text-align:center;
+
+    transition:.2s;
+}
+
+.io-card:hover{
+    transform:translateY(-5px);
+
+    border-color:#00ffff66;
+}
+
+.io-icon{
+    font-size:45px;
+
+    margin-bottom:10px;
+}
+
+.io-card h3{
+    margin-bottom:13px;
+}
+
+.io-button{
+    display:block;
+
+    background:#00ffff;
+
+    color:#001010;
+
+    border-radius:10px;
+
+    padding:9px;
+
+    font-weight:900;
+}
+
+
+/* =========================
+   ABOUT
+========================= */
+
+.about-box{
+    padding:30px;
+
+    background:#0d0d15;
+
+    border:1px solid #202034;
+
+    border-radius:17px;
+}
+
+.about-box h2 span{
+    color:#00ffff;
+}
+
+.about-box p{
+    color:#aaa;
+
+    margin-top:10px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    text-align:center;
+
+    color:#777;
+
+    border-top:1px solid #181827;
+
+    padding:35px 20px;
+
+    margin-top:30px;
+}
+
+
+/* =========================
+   LOGIN MODAL
+========================= */
+
+.modal{
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.78);
+
+    backdrop-filter:blur(10px);
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    z-index:5000;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:min(420px,92vw);
+
+    background:#0c0c14;
+
+    border:1px solid rgba(0,255,255,.3);
+
+    border-radius:18px;
+
+    padding:25px;
+
+    box-shadow:
+    0 0 50px rgba(0,255,255,.12);
+}
+
+.modal-box h2{
+    margin-bottom:8px;
+}
+
+.modal-box p{
+    color:#888;
+
+    font-size:13px;
+
+    margin-bottom:18px;
+}
+
+.modal-box input{
+    width:100%;
+
+    padding:12px;
+
+    margin:6px 0;
+
+    background:#05050a;
+
+    border:1px solid #29293b;
+
+    border-radius:10px;
+
+    color:white;
+
+    outline:none;
+}
+
+.modal-box input:focus{
+    border-color:#00ffff;
+}
+
+.modal-buttons{
+    display:flex;
+
+    gap:8px;
+
+    margin-top:12px;
+}
+
+.modal-buttons button{
+    flex:1;
+
+    padding:11px;
+
+    border:0;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:800;
+}
+
+.save{
+    background:#00ffff;
+    color:#001010;
+}
+
+.close{
+    background:#222231;
+    color:#bbb;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1050px){
+
+    .games-grid{
+        grid-template-columns:
+        repeat(3,1fr);
+    }
+
+    .io-grid{
+        grid-template-columns:
+        repeat(3,1fr);
+    }
+
+}
+
+@media(max-width:750px){
+
+    nav{
+        display:none;
+    }
+
+    .games-grid{
+        grid-template-columns:
+        repeat(2,1fr);
+    }
+
+    .io-grid{
+        grid-template-columns:
+        repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:430px){
+
+    .games-grid,
+    .io-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:46px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- LOADER -->
+
+<div class="loader" id="loader">
+
+    <div class="loader-content">
+
+        <div class="loader-logo">
+            WIFI<span>5</span>GAMES
+        </div>
+
+        <div class="loader-text">
+            ULTIMATE GAMING EXPERIENCE
+        </div>
+
+        <div class="loader-bar">
+            <span></span>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- HEADER -->
+
+<header>
+
+<div class="navbar">
+
+    <a href="#" class="logo">
+        WIFI<span>5</span>GAMES
+    </a>
+
+    <nav>
+
+        <a href="#">
+            الرئيسية
+        </a>
+
+        <a href="#games">
+            الألعاب
+        </a>
+
+        <a href="#io">
+            ألعاب IO
+        </a>
+
+        <a href="#about">
+            عن الموقع
+        </a>
+
+    </nav>
+
+    <button class="login-btn" id="loginButton">
+        تسجيل الدخول
+    </button>
+
+</div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div>
+
+    <div class="hero-pill">
+        ⚡ WELCOME TO WIFI5GAMES
+    </div>
+
+    <h1>
+        عالم الألعاب
+        <span>
+            بين إيديك
+        </span>
+    </h1>
+
+    <p>
+        أكثر من 100 لعبة شهيرة في مكان واحد
+        بالإضافة إلى ألعاب المتصفح.
+    </p>
+
+    <div class="hero-buttons">
+
+        <a href="#games" class="hero-btn">
+            🎮 تصفح الألعاب
+        </a>
+
+        <a href="#io" class="hero-btn secondary">
+            🕹️ ألعاب IO
+        </a>
+
+        <button class="hero-btn secondary" id="heroLogin">
+            👤 تسجيل الدخول
+        </button>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- PC GAMES -->
+
+<section class="section" id="games">
+
+<div class="section-title">
+
+    <div>
+
+        <h2>
+            🎮 مكتبة
+            <span>
+                الألعاب
+            </span>
+        </h2>
+
+        <p class="description">
+            أكثر من 100 لعبة — اضغط على الموقع الرسمي.
+        </p>
+
+    </div>
+
+    <input
+        class="search"
+        id="search"
+        placeholder="🔎 ابحث عن لعبة..."
+    >
+
+</div>
+
+
+<div class="filters" id="filters"></div>
+
+
+<div class="games-grid" id="gamesGrid"></div>
+
+</section>
+
+
+<!-- IO -->
+
+<section class="section" id="io">
+
+<div class="section-title">
+
+    <div>
+
+        <h2>
+            🕹️ ألعاب
+            <span>
+                .IO
+            </span>
+        </h2>
+
+        <p class="description">
+            ألعاب متصفح حقيقية. بعض الألعاب الخارجية تمنع التشغيل داخل iframe،
+            لذلك يتم فتحها من موقعها الرسمي.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="io-grid" id="ioGrid"></div>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section class="section" id="about">
+
+<div class="about-box">
+
+    <h2>
+        عن
+        <span>
+            WIFI5GAMES
+        </span>
+    </h2>
+
+    <p>
+        WIFI5GAMES — عالم الألعاب بين إيديك.
+        منصة ألعاب عربية بتصميم Gaming Neon
+        ومتوافقة مع الكمبيوتر والموبايل.
+    </p>
+
+</div>
+
+</section>
+
+
+<footer>
+
+© 2026 WIFI5GAMES — عالم الألعاب بين إيديك
+
+</footer>
+
+
+<!-- LOGIN -->
+
+<div class="modal" id="loginModal">
+
+<div class="modal-box">
+
+    <h2>
+        👤 تسجيل الدخول
+    </h2>
+
+    <p>
+        تسجيل بسيط بدون OTP وبدون رمز تحقق.
+    </p>
+
+    <form id="loginForm">
+
+        <input
+            id="email"
+            type="email"
+            placeholder="البريد الإلكتروني"
+            required
+        >
+
+        <input
+            id="username"
+            type="text"
+            placeholder="اسم المستخدم"
+            minlength="2"
+            required
+        >
+
+        <div class="modal-buttons">
+
+            <button
+                type="submit"
+                class="save"
+            >
+                دخول
+            </button>
+
+            <button
+                type="button"
+                class="close"
+                id="closeModal"
+            >
+                إلغاء
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+</div>
+
+
+<script>
+
+
+/* =========================
+   GAMES
+========================= */
+
+const games = [
+
+["Grand Theft Auto V","عالم مفتوح",271590,"https://www.rockstargames.com/gta-v"],
+
+["Grand Theft Auto IV","عالم مفتوح",12210,"https://www.rockstargames.com/games/IV"],
+
+["GTA San Andreas","عالم مفتوح",12120,"https://www.rockstargames.com/sanandreas"],
+
+["GTA Vice City","عالم مفتوح",12110,"https://www.rockstargames.com/games/vice-city"],
+
+["GTA III","عالم مفتوح",12100,"https://www.rockstargames.com/games/grand-theft-auto-iii"],
+
+["Red Dead Redemption 2","عالم مفتوح",1174180,"https://www.rockstargames.com/reddeadredemption2"],
+
+["Cyberpunk 2077","عالم مفتوح",1091500,"https://www.cyberpunk.net/"],
+
+["The Witcher 3","عالم مفتوح",292030,"https://www.thewitcher.com/witcher3"],
+
+["Elden Ring","أكشن",1245620,"https://en.bandainamcoent.eu/elden-ring/elden-ring"],
+
+["Baldur's Gate 3","أكشن",1086940,"https://baldursgate3.game/"],
+
+["Skyrim","عالم مفتوح",489830,"https://elderscrolls.bethesda.net/en/skyrim10/"],
+
+["Fallout 4","عالم مفتوح",377160,"https://fallout.bethesda.net/"],
+
+["Fallout New Vegas","عالم مفتوح",22380,"https://fallout.bethesda.net/"],
+
+["Hogwarts Legacy","عالم مفتوح",990080,"https://www.hogwartslegacy.com/"],
+
+["Starfield","عالم مفتوح",1716740,"https://bethesda.net/en/game/starfield"],
+
+["No Man's Sky","عالم مفتوح",275850,"https://www.nomanssky.com/"],
+
+["Watch Dogs","عالم مفتوح",243470,"https://www.ubisoft.com/game/watch-dogs"],
+
+["Watch Dogs 2","عالم مفتوح",447040,"https://www.ubisoft.com/game/watch-dogs/watch-dogs-2"],
+
+["Far Cry 3","أكشن",220240,"https://www.ubisoft.com/game/far-cry/far-cry-3"],
+
+["Far Cry 4","أكشن",298110,"https://www.ubisoft.com/game/far-cry/far-cry-4"],
+
+["Far Cry 5","أكشن",552520,"https://www.ubisoft.com/game/far-cry/far-cry-5"],
+
+["Far Cry New Dawn","أكشن",939960,"https://www.ubisoft.com/game/far-cry/far-cry-new-dawn"],
+
+["Assassin's Creed II","أكشن",33230,"https://www.ubisoft.com/game/assassins-creed/assassins-creed-2"],
+
+["Assassin's Creed Brotherhood","أكشن",48190,"https://www.ubisoft.com/game/assassins-creed/brotherhood"],
+
+["Assassin's Creed Black Flag","أكشن",242050,"https://www.ubisoft.com/game/assassins-creed/black-flag"],
+
+["Assassin's Creed Unity","أكشن",289650,"https://www.ubisoft.com/game/assassins-creed/unity"],
+
+["Assassin's Creed Origins","أكشن",582160,"https://www.ubisoft.com/game/assassins-creed/origins"],
+
+["Assassin's Creed Odyssey","أكشن",812140,"https://www.ubisoft.com/game/assassins-creed/odyssey"],
+
+["Assassin's Creed Valhalla","أكشن",2208920,"https://www.ubisoft.com/game/assassins-creed/valhalla"],
+
+["Fortnite","أكشن",0,"https://www.fortnite.com/download"],
+
+["Counter-Strike 2","FPS",730,"https://www.counter-strike.net/"],
+
+["PUBG","FPS",578080,"https://pubg.com/"],
+
+["Apex Legends","FPS",1172470,"https://www.ea.com/games/apex-legends/apex-legends"],
+
+["Rainbow Six Siege","FPS",359550,"https://www.ubisoft.com/game/rainbow-six/siege"],
+
+["Call of Duty","FPS",1938090,"https://www.callofduty.com/"],
+
+["Call of Duty Black Ops III","FPS",311210,"https://www.callofduty.com/"],
+
+["Battlefield 1","FPS",1238840,"https://www.ea.com/games/battlefield/battlefield-1"],
+
+["Battlefield V","FPS",1238810,"https://www.ea.com/games/battlefield/battlefield-5"],
+
+["Battlefield 2042","FPS",1517290,"https://www.ea.com/games/battlefield/battlefield-2042"],
+
+["DOOM","FPS",379720,"https://doom.bethesda.net/"],
+
+["DOOM Eternal","FPS",782330,"https://doom.bethesda.net/"],
+
+["Titanfall 2","FPS",1237970,"https://www.ea.com/games/titanfall/titanfall-2"],
+
+["Half-Life 2","FPS",220,"https://www.half-life.com/en/halflife2"],
+
+["Portal 2","أكشن",620,"https://www.thinkwithportals.com/"],
+
+["Left 4 Dead 2","أكشن",550,"https://www.l4d.com/"],
+
+["PAYDAY 2","أكشن",218620,"https://www.paydaythegame.com/"],
+
+["Borderlands 2","FPS",49520,"https://borderlands.2k.com/"],
+
+["Borderlands 3","FPS",397540,"https://borderlands.2k.com/"],
+
+["Metro Exodus","FPS",412020,"https://www.metrothegame.com/"],
+
+["Dying Light","أكشن",239140,"https://dyinglightgame.com/"],
+
+["Dying Light 2","أكشن",534380,"https://dyinglightgame.com/"],
+
+["Wolfenstein The New Order","FPS",201810,"https://bethesda.net/en/game/wolfenstein-the-new-order"],
+
+["Forza Horizon 4","سباقات",1293830,"https://forza.net/forza-horizon-4"],
+
+["Forza Horizon 5","سباقات",1551360,"https://forza.net/forza-horizon-5"],
+
+["Need for Speed Heat","سباقات",1222680,"https://www.ea.com/games/need-for-speed/need-for-speed-heat"],
+
+["Need for Speed Unbound","سباقات",1846380,"https://www.ea.com/games/need-for-speed/need-for-speed-unbound"],
+
+["Assetto Corsa","سباقات",244210,"https://assettocorsa.gg/"],
+
+["BeamNG.drive","سباقات",284160,"https://www.beamng.com/"],
+
+["Dirt Rally 2.0","سباقات",690790,"https://www.ea.com/games/dirt"],
+
+["CarX Drift Racing Online","سباقات",635260,"https://carx-online.com/"],
+
+["Wreckfest","سباقات",228380,"https://wreckfest.thqnordic.com/"],
+
+["Euro Truck Simulator 2","سباقات",227300,"https://www.eurotrucksimulator2.com/"],
+
+["American Truck Simulator","سباقات",270880,"https://www.americantrucksimulator.com/"],
+
+["The Crew 2","سباقات",646910,"https://www.ubisoft.com/game/the-crew/the-crew-2"],
+
+["EA SPORTS FC 25","رياضة",2669320,"https://www.ea.com/games/ea-sports-fc/fc-25"],
+
+["NBA 2K25","رياضة",2878980,"https://nba.2k.com/"],
+
+["WWE 2K25","رياضة",2878960,"https://wwe.2k.com/"],
+
+["Terraria","بقاء",105600,"https://www.terraria.org/"],
+
+["ARK Survival Evolved","بقاء",346110,"https://www.playark.com/"],
+
+["Rust","بقاء",252490,"https://rust.facepunch.com/"],
+
+["DayZ","بقاء",221100,"https://dayz.com/"],
+
+["The Forest","بقاء",242760,"https://endnightgames.com/games/the-forest"],
+
+["Sons of the Forest","بقاء",1326470,"https://endnightgames.com/games/sons-of-the-forest"],
+
+["Raft","بقاء",648800,"https://raft-game.com/"],
+
+["Valheim","بقاء",892970,"https://www.valheimgame.com/"],
+
+["Stardew Valley","بقاء",413150,"https://www.stardewvalley.net/"],
+
+["Palworld","بقاء",1623730,"https://www.palworld.com/"],
+
+["Subnautica","بقاء",264710,"https://unknownworlds.com/subnautica/"],
+
+["Project Zomboid","بقاء",108600,"https://projectzomboid.com/"],
+
+["Don't Starve Together","بقاء",322330,"https://www.klei.com/games/dont-starve-together"],
+
+["Green Hell","بقاء",815370,"https://greenhell-game.com/"],
+
+["Grounded","بقاء",962130,"https://grounded.obsidian.net/"],
+
+["Among Us","بقاء",945360,"https://www.innersloth.com/games/among-us/"],
+
+["Phasmophobia","بقاء",739630,"https://kineticgames.co.uk/"],
+
+["Lethal Company","بقاء",1966720,"https://store.steampowered.com/app/1966720/Lethal_Company/"],
+
+["Destiny 2","FPS",1085660,"https://www.bungie.net/7/en/Destiny"],
+
+["Warframe","FPS",230410,"https://www.warframe.com/"],
+
+["Team Fortress 2","FPS",440,"https://www.teamfortress.com/"],
+
+["Garry's Mod","أكشن",4000,"https://gmod.facepunch.com/"],
+
+["Unturned","بقاء",304930,"https://unturned.com/"],
+
+["Brawlhalla","أكشن",291550,"https://www.brawlhalla.com/"],
+
+["War Thunder","أكشن",236390,"https://warthunder.com/"],
+
+["Dota 2","أكشن",570,"https://www.dota2.com/"],
+
+["Path of Exile","أكشن",238960,"https://www.pathofexile.com/"],
+
+["The Sims 4","أكشن",1222670,"https://www.ea.com/games/the-sims/the-sims-4"],
+
+["Cities Skylines","أكشن",255710,"https://www.paradoxinteractive.com/games/cities-skylines"],
+
+["Cities Skylines II","أكشن",949230,"https://www.paradoxinteractive.com/games/cities-skylines-ii"],
+
+["PowerWash Simulator","أكشن",1290000,"https://www.futurlab.co.uk/powerwash-simulator"],
+
+["Farming Simulator 22","أكشن",1248130,"https://www.farming-simulator.com/"],
+
+["Resident Evil 2","أكشن",883710,"https://www.residentevil.com/re2/"],
+
+["Resident Evil 3","أكشن",952060,"https://www.residentevil.com/re3/"],
+
+["Resident Evil 4","أكشن",2050650,"https://www.residentevil.com/re4/"],
+
+["Resident Evil 7","أكشن",418370,"https://www.residentevil.com/7/"],
+
+["Resident Evil Village","أكشن",1196590,"https://www.residentevil.com/village/"],
+
+["Silent Hill 2","أكشن",2124490,"https://www.konami.com/games/silenthill/2/"],
+
+["Dead by Daylight","بقاء",381210,"https://deadbydaylight.com/"],
+
+["Dark Souls II","أكشن",335300,"https://en.bandainamcoent.eu/dark-souls/dark-souls-ii"],
+
+["Dark Souls III","أكشن",374320,"https://en.bandainamcoent.eu/dark-souls/dark-souls-iii"],
+
+["Dark Souls Remastered","أكشن",570940,"https://en.bandainamcoent.eu/dark-souls/dark-souls-remastered"],
+
+["Sekiro","أكشن",814380,"https://en.bandainamcoent.eu/sekiro-shadows-die-twice"],
+
+["Batman Arkham Knight","أكشن",208650,"https://www.dc.com/games/batman-arkham-knight"],
+
+["Batman Arkham City","أكشن",200260,"https://www.dc.com/games/batman-arkham-city"],
+
+["Shadow of Mordor","أكشن",241930,"https://www.warnerbros.com/games-and-apps/middle-earth-shadow-mordor"],
+
+["Shadow of War","أكشن",356190,"https://www.warnerbros.com/games-and-apps/middle-earth-shadow-war"],
+
+["Mad Max","أكشن",234140,"https://www.warnerbros.com/games-and-apps/mad-max"],
+
+["Just Cause 3","أكشن",225540,"https://square-enix-games.com/en_US/games/just-cause-3"],
+
+["Just Cause 4","أكشن",517630,"https://square-enix-games.com/en_US/games/just-cause-4"],
+
+["Tekken 8","أكشن",1778820,"https://en.bandainamcoent.eu/tekken/tekken-8"],
+
+["Mortal Kombat 1","أكشن",1971870,"https://www.mortalkombat.com/"],
+
+["Street Fighter 6","أكشن",1364780,"https://www.streetfighter.com/6/"],
+
+["Hades","أكشن",1145360,"https://www.supergiantgames.com/games/hades/"],
+
+["Hollow Knight","أكشن",367520,"https://www.hollowknight.com/"],
+
+["Dead Cells","أكشن",588650,"https://deadcells.com/"],
+
+["Cuphead","أكشن",268910,"https://www.cupheadgame.com/"],
+
+["God of War","أكشن",1593500,"https://www.playstation.com/games/god-of-war/"],
+
+["Marvel's Spider-Man Remastered","أكشن",1817070,"https://www.playstation.com/games/marvels-spider-man-remastered/"],
+
+["Horizon Zero Dawn","عالم مفتوح",1151640,"https://www.playstation.com/games/horizon-zero-dawn/"],
+
+["Days Gone","عالم مفتوح",1259420,"https://www.playstation.com/games/days-gone/"],
+
+["Death Stranding","أكشن",1190460,"https://www.kojimaproductions.jp/en/death-stranding"],
+
+["The Last of Us Part I","أكشن",1888930,"https://www.playstation.com/games/the-last-of-us-part-i/"],
+
+["Uncharted Legacy of Thieves","أكشن",1659420,"https://www.playstation.com/games/uncharted-legacy-of-thieves-collection/"]
+
+];
+
+
+/* =========================
+   FILTERS
+========================= */
+
+const categories=[
+    "الكل",
+    "أكشن",
+    "عالم مفتوح",
+    "FPS",
+    "سباقات",
+    "بقاء",
+    "رياضة"
+];
+
+const filters=
+document.getElementById("filters");
+
+let currentCategory="الكل";
+
+
+categories.forEach(category=>{
+
+    const button=
+    document.createElement("button");
+
+    button.className=
+    "filter"+
+    (category==="الكل"?" active":"");
+
+    button.textContent=
+    category;
+
+    button.onclick=()=>{
+
+        currentCategory=
+        category;
+
+        document
+        .querySelectorAll(".filter")
+        .forEach(x=>
+            x.classList.remove("active")
+        );
+
+        button.classList.add("active");
+
+        renderGames();
+
+    };
+
+    filters.appendChild(button);
+
+});
+
+
+/* =========================
+   RENDER GAMES
+========================= */
+
+const gamesGrid=
+document.getElementById("gamesGrid");
+
+const search=
+document.getElementById("search");
+
+
+function renderGames(){
+
+    const query=
+    search.value
+    .trim()
+    .toLowerCase();
+
+
+    const filtered=
+    games.filter(game=>{
+
+        const categoryMatch=
+        currentCategory==="الكل" ||
+        game[1]===currentCategory;
+
+        const searchMatch=
+        game[0]
+        .toLowerCase()
+        .includes(query);
+
+        return categoryMatch &&
+        searchMatch;
+
+    });
+
+
+    gamesGrid.innerHTML="";
+
+
+    if(filtered.length===0){
+
+        gamesGrid.innerHTML=`
+            <div style="
+                grid-column:1/-1;
+                text-align:center;
+                color:#777;
+                padding:50px;
+            ">
+                لا توجد ألعاب مطابقة 🔎
+            </div>
+        `;
+
+        return;
+    }
+
+
+    filtered.forEach(game=>{
+
+        const name=
+        game[0];
+
+        const category=
+        game[1];
+
+        const appId=
+        game[2];
+
+        const url=
+        game[3];
+
+
+        const card=
+        document.createElement("article");
+
+        card.className=
+        "game-card";
+
+
+        let image;
+
+
+        if(appId){
+
+            image=
+            `https://cdn.cloudflare.steamstatic.com/steam/apps/${appId}/header.jpg`;
+
+        }else{
+
+            image=
+            `https://placehold.co/920x430/090910/00ffff?text=${encodeURIComponent(name)}`;
+
+        }
+
+
+        card.innerHTML=`
+
+            <img
+                class="game-cover"
+                loading="lazy"
+                src="${image}"
+                alt="${name}"
+                onerror="
+                    this.src='https://placehold.co/920x430/090910/00ffff?text=GAME'
+                "
+            >
+
+            <div class="game-info">
+
+                <div class="game-name">
+                    ${name}
+                </div>
+
+                <div class="game-category">
+                    ${category}
+                </div>
+
+                <a
+                    class="game-button"
+                    href="${url}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    🌐 الموقع الرسمي
+                </a>
+
+            </div>
+
+        `;
+
+
+        gamesGrid.appendChild(card);
+
+    });
+
+}
+
+
+search.addEventListener(
+    "input",
+    renderGames
+);
+
+
+renderGames();
+
+
+/* =========================
+   IO GAMES
+========================= */
+
+const ioGames=[
+
+["Agar.io","https://agar.io/","🟢"],
+
+["Slither.io","https://slither.io/","🐍"],
+
+["Diep.io","https://diep.io/","🔫"],
+
+["Krunker.io","https://krunker.io/","🎯"],
+
+["Shell Shockers","https://shellshock.io/","🥚"],
+
+["Paper.io 2","https://paper-io.com/","📄"],
+
+["Hole.io","https://hole-io.com/","🕳️"],
+
+["ZombsRoyale.io","https://zombsroyale.io/","🧟"],
+
+["Bloxd.io","https://bloxd.io/","🧱"],
+
+["Smash Karts","https://smashkarts.io/","🏎️"],
+
+["Drift Hunters","https://drifthunters.io/","🚗"],
+
+["Moto X3M","https://motox3m.io/","🏍️"],
+
+["1v1.LOL","https://1v1.lol/","🎯"]
+
+];
+
+
+const ioGrid=
+document.getElementById("ioGrid");
+
+
+ioGames.forEach(game=>{
+
+    const card=
+    document.createElement("article");
+
+    card.className=
+    "io-card";
+
+
+    card.innerHTML=`
+
+        <div class="io-icon">
+            ${game[2]}
+        </div>
+
+        <h3>
+            ${game[0]}
+        </h3>
+
+        <a
+            class="io-button"
+            href="${game[1]}"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            ▶ العب الآن
+        </a>
+
+    `;
+
+
+    ioGrid.appendChild(card);
+
+});
+
+
+/* =========================
+   LOGIN
+========================= */
+
+const modal=
+document.getElementById("loginModal");
+
+const loginButton=
+document.getElementById("loginButton");
+
+const heroLogin=
+document.getElementById("heroLogin");
+
+const closeModal=
+document.getElementById("closeModal");
+
+const loginForm=
+document.getElementById("loginForm");
+
+
+function openLogin(){
+
+    modal.classList.add("show");
+
+}
+
+
+function updateUser(){
+
+    const user=
+    JSON.parse(
+        localStorage.getItem("wifi5_user") ||
+        "null"
+    );
+
+
+    if(user){
+
+        loginButton.textContent=
+        "👤 "+user.username;
+
+        heroLogin.textContent=
+        "👤 "+user.username;
+
+    }else{
+
+        loginButton.textContent=
+        "تسجيل الدخول";
+
+        heroLogin.textContent=
+        "👤 تسجيل الدخول";
+
+    }
+
+}
+
+
+loginButton.onclick=
+openLogin;
+
+heroLogin.onclick=
+openLogin;
+
+
+closeModal.onclick=()=>{
+
+    modal.classList.remove("show");
+
+};
+
+
+modal.onclick=(event)=>{
+
+    if(event.target===modal){
+
+        modal.classList.remove("show");
+
+    }
+
+};
+
+
+loginForm.onsubmit=(event)=>{
+
+    event.preventDefault();
+
+
+    const email=
+    document.getElementById("email")
+    .value
+    .trim();
+
+
+    const username=
+    document.getElementById("username")
+    .value
+    .trim();
+
+
+    localStorage.setItem(
+        "wifi5_user",
+        JSON.stringify({
+            email:email,
+            username:username
+        })
+    );
+
+
+    modal.classList.remove("show");
+
+    updateUser();
+
+
+    alert(
+        "تم تسجيل الدخول باسم "+
+        username+
+        " ✅"
+    );
+
+};
+
+
+updateUser();
+
+
+/* =========================
+   3 SECOND LOADER
+========================= */
+
+setTimeout(()=>{
+
+    document
+    .getElementById("loader")
+    .classList.add("hide");
+
+},3000);
+
+</script>
+
+</body>
+</html>
