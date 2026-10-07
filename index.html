@@ -3,144 +3,390 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>موقعي للفيديوهات</title>
+  <title>YouTube Clone</title>
 
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
     }
 
     body {
+      font-family: Arial, sans-serif;
       background: #0f0f0f;
       color: white;
     }
 
-    /* الشريط العلوي */
+    /* ===== Header ===== */
     header {
-      height: 65px;
-      background: #181818;
+      height: 64px;
+      background: #0f0f0f;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
+      gap: 20px;
+      padding: 0 22px;
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 100;
+      border-bottom: 1px solid #222;
+    }
+
+    .menu {
+      font-size: 26px;
+      cursor: pointer;
     }
 
     .logo {
-      font-size: 24px;
+      font-size: 25px;
       font-weight: bold;
-      color: #ff0000;
+      white-space: nowrap;
     }
 
-    .search {
+    .logo span {
+      background: red;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 8px;
+      margin-left: 5px;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 650px;
+      margin: auto;
       display: flex;
-      width: 45%;
+      height: 42px;
     }
 
-    .search input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #444;
+    .search-box input {
+      flex: 1;
       background: #121212;
+      border: 1px solid #444;
+      border-radius: 22px 0 0 22px;
+      padding: 0 20px;
       color: white;
+      font-size: 16px;
       outline: none;
-      border-radius: 5px 0 0 5px;
     }
 
-    .search button {
-      width: 55px;
+    .search-box button {
+      width: 65px;
       border: none;
-      background: #303030;
+      background: #272727;
       color: white;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 0 22px 22px 0;
+    }
+
+    .mic {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #272727;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
     }
 
-    /* القائمة */
-    nav {
-      width: 220px;
+    .user {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #673ab7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    /* ===== Sidebar ===== */
+    .sidebar {
+      width: 230px;
       position: fixed;
       right: 0;
-      top: 65px;
+      top: 64px;
       bottom: 0;
-      background: #181818;
-      padding: 20px;
+      background: #0f0f0f;
+      padding: 15px 10px;
+      overflow-y: auto;
+      transition: .3s;
+      z-index: 50;
     }
 
-    nav button {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 8px;
-      background: transparent;
-      border: none;
-      color: white;
-      text-align: right;
+    .sidebar.hide {
+      right: -240px;
+    }
+
+    .side-item {
+      padding: 13px 15px;
+      border-radius: 10px;
       cursor: pointer;
-      border-radius: 8px;
-      font-size: 16px;
+      margin-bottom: 4px;
+      font-size: 15px;
     }
 
-    nav button:hover {
-      background: #303030;
+    .side-item:hover,
+    .side-item.active {
+      background: #272727;
     }
 
-    /* الفيديوهات */
+    .side-item span {
+      margin-left: 12px;
+      font-size: 19px;
+    }
+
+    .line {
+      height: 1px;
+      background: #333;
+      margin: 15px 5px;
+    }
+
+    /* ===== Main ===== */
     main {
-      margin-right: 220px;
+      margin-right: 230px;
       padding: 25px;
+      transition: .3s;
     }
 
+    main.full {
+      margin-right: 0;
+    }
+
+    .categories {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 20px;
+    }
+
+    .category {
+      background: #272727;
+      padding: 9px 18px;
+      border-radius: 8px;
+      white-space: nowrap;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .category:hover,
+    .category.active {
+      background: white;
+      color: black;
+    }
+
+    /* ===== Videos ===== */
     .videos {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px 18px;
     }
 
-    .video {
+    .video-card {
       cursor: pointer;
+      min-width: 0;
     }
 
     .thumbnail {
       width: 100%;
       aspect-ratio: 16 / 9;
-      object-fit: cover;
       border-radius: 10px;
-      background: #333;
+      overflow: hidden;
+      position: relative;
+      background: #222;
     }
 
-    .video h3 {
-      font-size: 16px;
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: .2s;
+    }
+
+    .video-card:hover .thumbnail img {
+      transform: scale(1.04);
+    }
+
+    .duration {
+      position: absolute;
+      bottom: 7px;
+      left: 7px;
+      background: rgba(0,0,0,.85);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .video-info {
+      display: flex;
+      gap: 10px;
       margin-top: 10px;
+    }
+
+    .channel-avatar {
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      border-radius: 50%;
+      background: #444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .video-title {
+      font-size: 15px;
       line-height: 1.5;
+      font-weight: bold;
     }
 
-    .video p {
+    .channel-name,
+    .views {
       color: #aaa;
+      font-size: 13px;
       margin-top: 5px;
-      font-size: 14px;
     }
 
-    /* الجوال */
-    @media (max-width: 700px) {
-      nav {
-        display: none;
+    /* ===== Player ===== */
+    .player-page {
+      display: none;
+    }
+
+    .player-page.show {
+      display: block;
+    }
+
+    .home-page.hide {
+      display: none;
+    }
+
+    .player-container {
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    video {
+      width: 100%;
+      max-height: 600px;
+      background: black;
+      border-radius: 10px;
+    }
+
+    .player-title {
+      font-size: 21px;
+      margin: 15px 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .action-btn {
+      border: none;
+      background: #272727;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .action-btn:hover {
+      background: #3a3a3a;
+    }
+
+    .description {
+      background: #272727;
+      padding: 18px;
+      border-radius: 10px;
+      line-height: 1.7;
+    }
+
+    .comments {
+      margin-top: 30px;
+    }
+
+    .comment-input {
+      display: flex;
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .comment-input input {
+      flex: 1;
+      background: #181818;
+      border: none;
+      border-bottom: 1px solid #777;
+      color: white;
+      padding: 12px;
+      outline: none;
+    }
+
+    .comment-input button {
+      background: #3ea6ff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .comment {
+      padding: 12px 0;
+      border-bottom: 1px solid #292929;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1100px) {
+      .videos {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 800px) {
+      .sidebar {
+        right: -240px;
+      }
+
+      .sidebar.show {
+        right: 0;
       }
 
       main {
         margin-right: 0;
-        padding: 12px;
+        padding: 15px;
       }
 
-      .search {
-        width: 55%;
+      .videos {
+        grid-template-columns: repeat(2, 1fr);
       }
 
+      .logo {
+        font-size: 20px;
+      }
+
+      .mic {
+        display: none;
+      }
+    }
+
+    @media (max-width: 520px) {
       header {
+        gap: 10px;
         padding: 0 10px;
+      }
+
+      .logo {
+        display: none;
+      }
+
+      .search-box {
+        max-width: none;
       }
 
       .videos {
@@ -152,88 +398,655 @@
 
 <body>
 
-<header>
-  <div class="logo">▶ موقعي</div>
+<!-- ================= HEADER ================= -->
 
-  <div class="search">
-    <input id="searchInput" type="text" placeholder="بحث...">
+<header>
+
+  <div class="menu" onclick="toggleSidebar()">☰</div>
+
+  <div class="logo">
+    <span>▶</span> YouTube
+  </div>
+
+  <div class="search-box">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="بحث"
+      onkeyup="searchVideos()"
+    >
     <button onclick="searchVideos()">🔍</button>
   </div>
+
+  <div class="mic">🎙️</div>
+
+  <div class="user">غ</div>
+
 </header>
 
-<nav>
-  <button onclick="showAll()">🏠 الرئيسية</button>
-  <button>🔥 الشائع</button>
-  <button>📺 الاشتراكات</button>
-  <button>🎵 الموسيقى</button>
-  <button>🎮 الألعاب</button>
-</nav>
 
-<main>
-  <div class="videos" id="videos">
+<!-- ================= SIDEBAR ================= -->
 
-    <div class="video" data-title="فيديو برمجة HTML">
-      <img class="thumbnail"
-        src="https://picsum.photos/600/350?random=1">
-      <h3>تعلم HTML من الصفر</h3>
-      <p>قناة البرمجة • 120 ألف مشاهدة</p>
-    </div>
+<aside class="sidebar" id="sidebar">
 
-    <div class="video" data-title="تعلم JavaScript">
-      <img class="thumbnail"
-        src="https://picsum.photos/600/350?random=2">
-      <h3>تعلم JavaScript بسهولة</h3>
-      <p>عالم البرمجة • 85 ألف مشاهدة</p>
-    </div>
-
-    <div class="video" data-title="تصميم المواقع">
-      <img class="thumbnail"
-        src="https://picsum.photos/600/350?random=3">
-      <h3>كيف تصمم موقع احترافي؟</h3>
-      <p>Web Studio • 300 ألف مشاهدة</p>
-    </div>
-
-    <div class="video" data-title="تعلم CSS">
-      <img class="thumbnail"
-        src="https://picsum.photos/600/350?random=4">
-      <h3>شرح CSS للمبتدئين</h3>
-      <p>Code بالعربي • 60 ألف مشاهدة</p>
-    </div>
-
+  <div class="side-item active" onclick="goHome()">
+    <span>🏠</span> الرئيسية
   </div>
+
+  <div class="side-item">
+    <span>🔥</span> الرائج
+  </div>
+
+  <div class="side-item">
+    <span>📺</span> الاشتراكات
+  </div>
+
+  <div class="line"></div>
+
+  <div class="side-item">
+    <span>📚</span> المكتبة
+  </div>
+
+  <div class="side-item">
+    <span>🕘</span> السجل
+  </div>
+
+  <div class="side-item">
+    <span>👍</span> الفيديوهات التي أعجبتني
+  </div>
+
+  <div class="line"></div>
+
+  <div class="side-item">
+    <span>⚙️</span> الإعدادات
+  </div>
+
+  <div class="side-item">
+    <span>❓</span> المساعدة
+  </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main id="main">
+
+  <!-- HOME -->
+
+  <section class="home-page" id="homePage">
+
+    <div class="categories">
+
+      <div class="category active" onclick="filterCategory('all')">
+        الكل
+      </div>
+
+      <div class="category" onclick="filterCategory('music')">
+        موسيقى
+      </div>
+
+      <div class="category" onclick="filterCategory('gaming')">
+        ألعاب
+      </div>
+
+      <div class="category" onclick="filterCategory('programming')">
+        برمجة
+      </div>
+
+      <div class="category" onclick="filterCategory('news')">
+        أخبار
+      </div>
+
+      <div class="category" onclick="filterCategory('sports')">
+        رياضة
+      </div>
+
+    </div>
+
+
+    <div class="videos" id="videos">
+
+      <!-- VIDEO 1 -->
+
+      <div class="video-card"
+           data-category="music"
+           data-title="أفضل موسيقى عربية"
+           onclick="openVideo('أفضل موسيقى عربية','music')">
+
+        <div class="thumbnail">
+          <img src="https://picsum.photos/seed/music1/800/450">
+          <div class="duration">4:32</div>
+        </div>
+
+        <div class="video-info">
+
+          <div class="channel-avatar">م</div>
+
+          <div>
+            <div class="video-title">
+              أفضل موسيقى عربية للاستماع 🎵
+            </div>
+
+            <div class="channel-name">
+              Music Channel
+            </div>
+
+            <div class="views">
+              1.2 مليون مشاهدة • منذ أسبوع
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- VIDEO 2 -->
+
+      <div class="video-card"
+           data-category="gaming"
+           data-title="أقوى ألعاب 2026"
+           onclick="openVideo('أقوى ألعاب 2026','gaming')">
+
+        <div class="thumbnail">
+          <img src="https://picsum.photos/seed/gaming2/800/450">
+          <div class="duration">12:18</div>
+        </div>
+
+        <div class="video-info">
+
+          <div class="channel-avatar">G</div>
+
+          <div>
+            <div class="video-title">
+              أقوى ألعاب جديدة تستحق التجربة 🎮
+            </div>
+
+            <div class="channel-name">
+              Gaming World
+            </div>
+
+            <div class="views">
+              850 ألف مشاهدة • منذ 3 أيام
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- VIDEO 3 -->
+
+      <div class="video-card"
+           data-category="programming"
+           data-title="تعلم HTML"
+           onclick="openVideo('تعلم HTML من الصفر','programming')">
+
+        <div class="thumbnail">
+          <img src="https://picsum.photos/seed/code3/800/450">
+          <div class="duration">18:44</div>
+        </div>
+
+        <div class="video-info">
+
+          <div class="channel-avatar">C</div>
+
+          <div>
+            <div class="video-title">
+              تعلم HTML من الصفر للمبتدئين 💻
+            </div>
+
+            <div class="channel-name">
+              Code Academy
+            </div>
+
+            <div class="views">
+              420 ألف مشاهدة • منذ شهر
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- VIDEO 4 -->
+
+      <div class="video-card"
+           data-category="news"
+           data-title="آخر الأخبار"
+           onclick="openVideo('آخر الأخبار اليوم','news')">
+
+        <div class="thumbnail">
+          <img src="https://picsum.photos/seed/news4/800/450">
+          <div class="duration">8:21</div>
+        </div>
+
+        <div class="video-info">
+
+          <div class="channel-avatar">N</div>
+
+          <div>
+            <div class="video-title">
+              آخر الأخبار والتحديثات اليوم 📰
+            </div>
+
+            <div class="channel-name">
+              News Channel
+            </div>
+
+            <div class="views">
+              250 ألف مشاهدة • منذ يوم
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- VIDEO 5 -->
+
+      <div class="video-card"
+           data-category="sports"
+           data-title="أجمل أهداف كرة القدم"
+           onclick="openVideo('أجمل أهداف كرة القدم','sports')">
+
+        <div class="thumbnail">
+          <img src="https://picsum.photos/seed/sports5/800/450">
+          <div class="duration">10:02</div>
+        </div>
+
+        <div class="video-info">
+
+          <div class="channel-avatar">S</div>
+
+          <div>
+            <div class="video-title">
+              أجمل أهداف كرة القدم 🔥⚽
+            </div>
+
+            <div class="channel-name">
+              Sports TV
+            </div>
+
+            <div class="views">
+              3.1 مليون مشاهدة • منذ أسبوعين
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- VIDEO 6 -->
+
+      <div class="video-card"
+           data-category="programming"
+           data-title="JavaScript"
+           onclick="openVideo('تعلم JavaScript','programming')">
+
+        <div class="thumbnail">
+          <img src="https://picsum.photos/seed/js6/800/450">
+          <div class="duration">25:15</div>
+        </div>
+
+        <div class="video-info">
+
+          <div class="channel-avatar">J</div>
+
+          <div>
+            <div class="video-title">
+              JavaScript للمبتدئين - الدرس الأول
+            </div>
+
+            <div class="channel-name">
+              Programming Arabic
+            </div>
+
+            <div class="views">
+              190 ألف مشاهدة • منذ أسبوع
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- VIDEO 7 -->
+
+      <div class="video-card"
+           data-category="music"
+           data-title="أغاني جديدة"
+           onclick="openVideo('أغاني جديدة 2026','music')">
+
+        <div class="thumbnail">
+          <img src="https://picsum.photos/seed/music7/800/450">
+          <div class="duration">5:43</div>
+        </div>
+
+        <div class="video-info">
+
+          <div class="channel-avatar">A</div>
+
+          <div>
+            <div class="video-title">
+              أجمل الأغاني الجديدة 🎧
+            </div>
+
+            <div class="channel-name">
+              Arabic Music
+            </div>
+
+            <div class="views">
+              720 ألف مشاهدة • منذ 4 أيام
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- VIDEO 8 -->
+
+      <div class="video-card"
+           data-category="gaming"
+           data-title="Gaming"
+           onclick="openVideo('Gaming Challenge','gaming')">
+
+        <div class="thumbnail">
+          <img src="https://picsum.photos/seed/game8/800/450">
+          <div class="duration">15:30</div>
+        </div>
+
+        <div class="video-info">
+
+          <div class="channel-avatar">X</div>
+
+          <div>
+            <div class="video-title">
+              تحدي الألعاب المستحيل 🎮🔥
+            </div>
+
+            <div class="channel-name">
+              Gamer X
+            </div>
+
+            <div class="views">
+              980 ألف مشاهدة • منذ يومين
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= VIDEO PLAYER ================= -->
+
+  <section class="player-page" id="playerPage">
+
+    <div class="player-container">
+
+      <video id="videoPlayer" controls>
+        <source
+          src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+          type="video/mp4">
+        متصفحك لا يدعم تشغيل الفيديو.
+      </video>
+
+      <h1 class="player-title" id="playerTitle">
+        عنوان الفيديو
+      </h1>
+
+      <div class="actions">
+
+        <button class="action-btn" onclick="likeVideo()">
+          👍 <span id="likeCount">0</span>
+        </button>
+
+        <button class="action-btn">
+          👎
+        </button>
+
+        <button class="action-btn" onclick="shareVideo()">
+          ↗ مشاركة
+        </button>
+
+        <button class="action-btn">
+          💾 حفظ
+        </button>
+
+      </div>
+
+      <div class="description">
+        <b>وصف الفيديو</b>
+        <br><br>
+        هذا فيديو تجريبي داخل نسخة YouTube Clone.
+        يمكنك تعديل العنوان والوصف وإضافة فيديوهاتك الخاصة.
+      </div>
+
+      <div class="comments">
+
+        <h2>التعليقات</h2>
+
+        <div class="comment-input">
+          <input
+            type="text"
+            id="commentInput"
+            placeholder="أضف تعليقًا..."
+          >
+
+          <button onclick="addComment()">
+            تعليق
+          </button>
+        </div>
+
+        <div id="commentsList">
+
+          <div class="comment">
+            <b>أحمد</b>
+            <br>
+            فيديو رائع! 🔥
+          </div>
+
+          <div class="comment">
+            <b>محمد</b>
+            <br>
+            ممتاز 👏
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
 </main>
 
+
 <script>
+
+  /* ================= SIDEBAR ================= */
+
+  function toggleSidebar() {
+
+    const sidebar = document.getElementById("sidebar");
+    const main = document.getElementById("main");
+
+    sidebar.classList.toggle("show");
+
+    if (window.innerWidth > 800) {
+      sidebar.classList.toggle("hide");
+      main.classList.toggle("full");
+    }
+  }
+
+
+  /* ================= SEARCH ================= */
+
   function searchVideos() {
+
     const input =
       document.getElementById("searchInput").value.toLowerCase();
 
-    const videos =
-      document.querySelectorAll(".video");
+    const cards =
+      document.querySelectorAll(".video-card");
 
-    videos.forEach(video => {
+    cards.forEach(card => {
+
       const title =
-        video.dataset.title.toLowerCase();
+        card.dataset.title.toLowerCase();
 
       if (title.includes(input)) {
-        video.style.display = "block";
+        card.style.display = "";
       } else {
-        video.style.display = "none";
+        card.style.display = "none";
       }
+
     });
+
   }
 
-  function showAll() {
-    document.getElementById("searchInput").value = "";
 
-    document.querySelectorAll(".video").forEach(video => {
-      video.style.display = "block";
+  /* ================= CATEGORY ================= */
+
+  function filterCategory(category) {
+
+    const cards =
+      document.querySelectorAll(".video-card");
+
+    document.querySelectorAll(".category")
+      .forEach(button => button.classList.remove("active"));
+
+    event.target.classList.add("active");
+
+    cards.forEach(card => {
+
+      if (
+        category === "all" ||
+        card.dataset.category === category
+      ) {
+
+        card.style.display = "";
+
+      } else {
+
+        card.style.display = "none";
+
+      }
+
     });
+
   }
 
-  document
-    .getElementById("searchInput")
-    .addEventListener("keyup", searchVideos);
+
+  /* ================= OPEN VIDEO ================= */
+
+  function openVideo(title, category) {
+
+    document.getElementById("homePage")
+      .classList.add("hide");
+
+    document.getElementById("playerPage")
+      .classList.add("show");
+
+    document.getElementById("playerTitle")
+      .textContent = title;
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  /* ================= HOME ================= */
+
+  function goHome() {
+
+    document.getElementById("homePage")
+      .classList.remove("hide");
+
+    document.getElementById("playerPage")
+      .classList.remove("show");
+
+  }
+
+
+  /* ================= LIKE ================= */
+
+  let likes = 0;
+
+  function likeVideo() {
+
+    likes++;
+
+    document.getElementById("likeCount")
+      .textContent = likes;
+
+  }
+
+
+  /* ================= SHARE ================= */
+
+  function shareVideo() {
+
+    const title =
+      document.getElementById("playerTitle").textContent;
+
+    if (navigator.share) {
+
+      navigator.share({
+        title: title,
+        text: "شاهد هذا الفيديو",
+        url: window.location.href
+      });
+
+    } else {
+
+      navigator.clipboard.writeText(window.location.href);
+
+      alert("تم نسخ رابط الفيديو!");
+
+    }
+
+  }
+
+
+  /* ================= COMMENTS ================= */
+
+  function addComment() {
+
+    const input =
+      document.getElementById("commentInput");
+
+    const text =
+      input.value.trim();
+
+    if (text === "") return;
+
+    const comment =
+      document.createElement("div");
+
+    comment.className = "comment";
+
+    comment.innerHTML =
+      "<b>أنت</b><br>" +
+      text;
+
+    document
+      .getElementById("commentsList")
+      .prepend(comment);
+
+    input.value = "";
+
+  }
+
 </script>
 
 </body>
