@@ -1,281 +1,559 @@
-‏<!DOCTYPE html>
-‏<html lang="ar" dir="rtl">
-‏<head>
-‏<meta charset="UTF-8">
-‏<meta name="viewport" content="width=device-width, initial-scale=1.0">
-‏
-‏<title>WIFI5GAMES — عالم الألعاب بين إيديك</title>
-‏
-‏<style>
-‏@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
-‏
-‏*{
-‏    margin:0;
-‏    padding:0;
-‏    box-sizing:border-box;
-‏}
-‏
-‏html{
-‏    scroll-behavior:smooth;
-‏}
-‏
-‏body{
-‏    font-family:'Cairo',sans-serif;
-‏    background:#05070d;
-‏    color:white;
-‏    overflow-x:hidden;
-‏}
-‏
-‏/* BACKGROUND */
-‏body:before{
-‏    content:"";
-‏    position:fixed;
-‏    inset:0;
-‏    z-index:-3;
-‏    background:
-‏        linear-gradient(rgba(0,255,255,.025) 1px,transparent 1px),
-‏        linear-gradient(90deg,rgba(0,255,255,.025) 1px,transparent 1px);
-‏    background-size:45px 45px;
-‏}
-‏
-‏body:after{
-‏    content:"";
-‏    position:fixed;
-‏    inset:0;
-‏    z-index:-2;
-‏    background:
-‏        radial-gradient(circle at 20% 20%,rgba(0,255,255,.12),transparent 30%),
-‏        radial-gradient(circle at 80% 30%,rgba(110,0,255,.12),transparent 30%),
-‏        radial-gradient(circle at 50% 90%,rgba(0,100,255,.08),transparent 35%);
-‏    pointer-events:none;
-‏}
-‏
-‏/* LOADER */
-‏#loader{
-‏    position:fixed;
-‏    inset:0;
-‏    background:#03050a;
-‏    display:flex;
-‏    justify-content:center;
-‏    align-items:center;
-‏    flex-direction:column;
-‏    z-index:99999;
-‏    transition:.7s;
-‏}
-‏
-‏.loader-logo{
-‏    font-size:48px;
-‏    font-weight:900;
-‏    letter-spacing:3px;
-‏    text-shadow:0 0 20px #00ffff;
-‏}
-‏
-‏.loader-logo span{
-‏    color:#00ffff;
-‏}
-‏
-‏.loader-sub{
-‏    margin-top:8px;
-‏    color:#8c9aaa;
-‏    font-size:14px;
-‏}
-‏
-‏.loader-box{
-‏    width:280px;
-‏    height:6px;
-‏    background:#17202b;
-‏    border-radius:20px;
-‏    overflow:hidden;
-‏    margin-top:30px;
-‏}
-‏
-‏.loader-bar{
-‏    width:0%;
-‏    height:100%;
-‏    background:linear-gradient(90deg,#00ffff,#008cff,#8c00ff);
-‏    box-shadow:0 0 20px #00ffff;
-‏    transition:.1s;
-‏}
-‏
-‏.loader-percent{
-‏    margin-top:12px;
-‏    color:#00ffff;
-‏    font-weight:800;
-‏}
-‏
-‏/* HEADER */
-‏header{
-‏    height:82px;
-‏    display:flex;
-‏    align-items:center;
-‏    justify-content:space-between;
-‏    padding:0 5%;
-‏    position:sticky;
-‏    top:0;
-‏    z-index:1000;
-‏    background:rgba(3,6,12,.86);
-‏    backdrop-filter:blur(18px);
-‏    border-bottom:1px solid rgba(0,255,255,.12);
-‏}
-‏
-‏.logo{
-‏    font-size:25px;
-‏    font-weight:900;
-‏    color:white;
-‏    text-shadow:0 0 15px #00ffff;
-‏}
-‏
-‏.logo span{
-‏    color:#00ffff;
-‏}
-‏
-‏.logo small{
-‏    display:block;
-‏    font-size:9px;
-‏    color:#778394;
-‏    letter-spacing:2px;
-‏}
-‏
-‏nav{
-‏    display:flex;
-‏    gap:24px;
-‏}
-‏
-‏nav a{
-‏    color:#c9d1dc;
-‏    text-decoration:none;
-‏    font-size:14px;
-‏    font-weight:700;
-‏    transition:.3s;
-‏}
-‏
-‏nav a:hover{
-‏    color:#00ffff;
-‏}
-‏
-‏.user-area{
-‏    display:flex;
-‏    align-items:center;
-‏    gap:10px;
-‏}
-‏
-‏.login-btn{
-‏    border:1px solid #00ffff;
-‏    color:#00ffff;
-‏    background:rgba(0,255,255,.05);
-‏    padding:9px 18px;
-‏    border-radius:10px;
-‏    cursor:pointer;
-‏    font-family:inherit;
-‏    font-weight:800;
-‏}
-‏
-‏.user-name{
-‏    display:none;
-‏    color:#00ffff;
-‏    font-weight:800;
-‏}
-‏
-‏/* HERO */
-‏.hero{
-‏    min-height:610px;
-‏    display:flex;
-‏    align-items:center;
-‏    justify-content:center;
-‏    position:relative;
-‏    padding:70px 6%;
-‏    overflow:hidden;
-‏}
-‏
-‏.hero-content{
-‏    max-width:900px;
-‏    text-align:center;
-‏    position:relative;
-‏    z-index:2;
-‏}
-‏
-‏.live{
-‏    display:inline-flex;
-‏    gap:8px;
-‏    align-items:center;
-‏    padding:7px 16px;
-‏    border:1px solid rgba(0,255,255,.5);
-‏    background:rgba(0,255,255,.06);
-‏    border-radius:30px;
-‏    color:#00ffff;
-‏    font-size:12px;
-‏    font-weight:800;
-‏}
-‏
-‏.live i{
-‏    width:8px;
-‏    height:8px;
-‏    background:#00ffff;
-‏    border-radius:50%;
-‏    box-shadow:0 0 12px #00ffff;
-‏}
-‏
-‏.hero h1{
-‏    font-size:clamp(48px,9vw,110px);
-‏    line-height:.95;
-‏    margin:25px 0 20px;
-‏    font-weight:900;
-‏    letter-spacing:-3px;
-‏    text-shadow:
-‏        0 0 10px rgba(0,255,255,.25),
-‏        0 0 45px rgba(0,255,255,.15);
-‏}
-‏
-‏.hero h1 span{
-‏    color:#00ffff;
-‏}
-‏
-‏.hero p{
-‏    color:#9ca8b8;
-‏    font-size:17px;
-‏    max-width:650px;
-‏    margin:auto;
-‏    line-height:2;
-‏}
-‏
-‏.hero-buttons{
-‏    margin-top:30px;
-‏    display:flex;
-‏    justify-content:center;
-‏    gap:12px;
-‏    flex-wrap:wrap;
-‏}
-‏
-‏.primary-btn,
-‏.secondary-btn{
-‏    padding:13px 28px;
-‏    border-radius:12px;
-‏    text-decoration:none;
-‏    font-weight:900;
-‏    transition:.3s;
-‏}
-‏
-‏.primary-btn{
-‏    color:#001014;
-‏    background:#00ffff;
-‏    box-shadow:0 0 30px rgba(0,255,255,.3);
-‏}
-‏
-‏.secondary-btn{
-‏    color:white;
-‏    border:1px solid #34404e;
-‏    background:#111722;
-‏}
-‏
-‏.primary-btn:hover,
-‏.secondary-btn:hover{
-‏    transform:translateY(-3px);
-‏}
-‏
-‏/* SEARCH */
-‏.store{
-‏    padding:30px 5% 100px;
-‏}
-‏
-‏.store-top{
-‏    max-wi
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gaming Console UI</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#07111f;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* الخلفية */
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    background:
+      radial-gradient(circle at 80% 20%,#174b85 0%,transparent 35%),
+      radial-gradient(circle at 20% 80%,#162c50 0%,transparent 40%),
+      linear-gradient(135deg,#050b14,#0a1729);
+}
+
+.background::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(90deg,rgba(0,0,0,.65),transparent,rgba(0,0,0,.3));
+}
+
+/* الشريط العلوي */
+header{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 35px;
+    background:rgba(4,10,18,.72);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.logo{
+    font-size:27px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.logo span{
+    color:#49a6ff;
+}
+
+nav{
+    display:flex;
+    gap:30px;
+}
+
+nav button{
+    background:none;
+    border:0;
+    color:#aaa;
+    font-size:16px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+nav button:hover,
+nav button.active{
+    color:white;
+    transform:translateY(-2px);
+}
+
+.profile{
+    width:43px;
+    height:43px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#4ba9ff,#875cff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+/* المحتوى */
+main{
+    padding:35px;
+}
+
+.welcome{
+    margin-bottom:30px;
+}
+
+.welcome h1{
+    font-size:38px;
+    margin-bottom:8px;
+}
+
+.welcome p{
+    color:#9baabd;
+}
+
+/* الألعاب */
+.games{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:22px;
+}
+
+.game{
+    position:relative;
+    height:310px;
+    border-radius:18px;
+    overflow:hidden;
+    cursor:pointer;
+    background:#111;
+    box-shadow:0 12px 35px rgba(0,0,0,.35);
+    transition:.3s;
+}
+
+.game:hover{
+    transform:scale(1.035) translateY(-5px);
+    box-shadow:0 18px 45px rgba(0,0,0,.55);
+}
+
+.game img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.game::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(transparent 45%,rgba(0,0,0,.9));
+}
+
+.game-info{
+    position:absolute;
+    bottom:18px;
+    right:18px;
+    left:18px;
+    z-index:2;
+}
+
+.game-info h2{
+    font-size:21px;
+    margin-bottom:7px;
+}
+
+.game-info p{
+    color:#bbb;
+    font-size:13px;
+}
+
+/* قسم سريع */
+.quick{
+    display:flex;
+    gap:15px;
+    margin:25px 0 35px;
+    flex-wrap:wrap;
+}
+
+.quick button{
+    padding:13px 22px;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(255,255,255,.07);
+    color:white;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.quick button:hover{
+    background:#1976d2;
+}
+
+/* نافذة اللعبة */
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.78);
+    backdrop-filter:blur(12px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:10;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:min(850px,100%);
+    background:#0b1626;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:0 25px 80px #000;
+}
+
+.modal-cover{
+    height:300px;
+    position:relative;
+}
+
+.modal-cover img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.modal-cover::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(transparent,#0b1626);
+}
+
+.modal-content{
+    padding:25px;
+    margin-top:-60px;
+    position:relative;
+    z-index:2;
+}
+
+.modal-content h2{
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.modal-content p{
+    color:#aab6c5;
+    line-height:1.7;
+}
+
+.actions{
+    display:flex;
+    gap:12px;
+    margin-top:22px;
+}
+
+.play{
+    background:#fff;
+    color:#111;
+    border:0;
+    padding:13px 28px;
+    border-radius:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.close{
+    background:#25344a;
+    color:white;
+    border:0;
+    padding:13px 25px;
+    border-radius:9px;
+    cursor:pointer;
+}
+
+/* البحث */
+.search{
+    display:none;
+    margin-bottom:25px;
+}
+
+.search input{
+    width:100%;
+    padding:16px;
+    border-radius:12px;
+    border:1px solid #29415d;
+    background:#101e31;
+    color:white;
+    outline:none;
+}
+
+/* موبايل */
+@media(max-width:650px){
+    header{
+        padding:0 15px;
+    }
+
+    nav{
+        gap:12px;
+    }
+
+    nav button{
+        font-size:13px;
+    }
+
+    main{
+        padding:20px 15px;
+    }
+
+    .welcome h1{
+        font-size:28px;
+    }
+
+    .game{
+        height:260px;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<header>
+    <div class="logo">GAME<span>ZONE</span></div>
+
+    <nav>
+        <button class="active" onclick="showHome()">الرئيسية</button>
+        <button onclick="showLibrary()">الألعاب</button>
+        <button onclick="toggleSearch()">بحث</button>
+        <button onclick="settings()">⚙</button>
+    </nav>
+
+    <div class="profile">G</div>
+</header>
+
+<main>
+
+    <div class="welcome">
+        <h1>مرحباً بك 🎮</h1>
+        <p>اختر لعبة وابدأ اللعب</p>
+    </div>
+
+    <div class="search" id="searchBox">
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="ابحث عن لعبة..."
+            oninput="searchGames()"
+        >
+    </div>
+
+    <div class="quick">
+        <button onclick="showHome()">🏠 الرئيسية</button>
+        <button onclick="showLibrary()">🎮 مكتبة الألعاب</button>
+        <button onclick="randomGame()">🎲 لعبة عشوائية</button>
+    </div>
+
+    <section class="games" id="games">
+
+        <div class="game" data-name="Grand Theft Auto V"
+             onclick="openGame('Grand Theft Auto V','https://images.unsplash.com/photo-1511512578047-dfb367046420')">
+            <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420">
+            <div class="game-info">
+                <h2>Grand Theft Auto V</h2>
+                <p>Action • Open World</p>
+            </div>
+        </div>
+
+        <div class="game" data-name="Fortnite"
+             onclick="openGame('Fortnite','https://images.unsplash.com/photo-1542751371-adc38448a05e')">
+            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e">
+            <div class="game-info">
+                <h2>Fortnite</h2>
+                <p>Battle Royale</p>
+            </div>
+        </div>
+
+        <div class="game" data-name="Minecraft"
+             onclick="openGame('Minecraft','https://images.unsplash.com/photo-1607513746994-51f730a44832')">
+            <img src="https://images.unsplash.com/photo-1607513746994-51f730a44832">
+            <div class="game-info">
+                <h2>Minecraft</h2>
+                <p>Adventure • Building</p>
+            </div>
+        </div>
+
+        <div class="game" data-name="Spider Man"
+             onclick="openGame('Spider-Man','https://images.unsplash.com/photo-1608889825103-eb5ed706fc64')">
+            <img src="https://images.unsplash.com/photo-1608889825103-eb5ed706fc64">
+            <div class="game-info">
+                <h2>Spider-Man</h2>
+                <p>Action • Adventure</p>
+            </div>
+        </div>
+
+        <div class="game" data-name="Racing"
+             onclick="openGame('Racing','https://images.unsplash.com/photo-1503736334956-4c8f8e92946d')">
+            <img src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d">
+            <div class="game-info">
+                <h2>Racing</h2>
+                <p>Racing • Cars</p>
+            </div>
+        </div>
+
+        <div class="game" data-name="Football"
+             onclick="openGame('Football','https://images.unsplash.com/photo-1579952363873-27f3bade9f55')">
+            <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55">
+            <div class="game-info">
+                <h2>Football</h2>
+                <p>Sports • Football</p>
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<!-- نافذة اللعبة -->
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-cover">
+            <img id="modalImage">
+        </div>
+
+        <div class="modal-content">
+            <h2 id="modalTitle"></h2>
+
+            <p>
+                هذه لعبة تجريبية داخل واجهة الألعاب.
+                يمكنك لاحقاً ربط زر التشغيل بلعبة HTML أو صفحة أخرى.
+            </p>
+
+            <div class="actions">
+                <button class="play" onclick="startGame()">
+                    ▶ تشغيل
+                </button>
+
+                <button class="close" onclick="closeGame()">
+                    إغلاق
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+let selectedGame = "";
+
+function openGame(name,image){
+
+    selectedGame = name;
+
+    document.getElementById("modalTitle").innerText = name;
+    document.getElementById("modalImage").src = image;
+
+    document.getElementById("modal").classList.add("show");
+}
+
+function closeGame(){
+
+    document.getElementById("modal").classList.remove("show");
+}
+
+function startGame(){
+
+    alert("🎮 جاري تشغيل " + selectedGame + " ...");
+}
+
+function toggleSearch(){
+
+    const box = document.getElementById("searchBox");
+
+    if(box.style.display === "block"){
+        box.style.display = "none";
+    }else{
+        box.style.display = "block";
+        document.getElementById("searchInput").focus();
+    }
+}
+
+function searchGames(){
+
+    const value =
+        document.getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    document.querySelectorAll(".game").forEach(game => {
+
+        const name =
+            game.dataset.name.toLowerCase();
+
+        game.style.display =
+            name.includes(value) ? "block" : "none";
+    });
+}
+
+function showHome(){
+
+    document.querySelectorAll(".game")
+    .forEach(game => game.style.display="block");
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+function showLibrary(){
+
+    document.getElementById("games")
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+}
+
+function randomGame(){
+
+    const games =
+        document.querySelectorAll(".game");
+
+    const random =
+        games[Math.floor(Math.random()*games.length)];
+
+    random.click();
+}
+
+function settings(){
+
+    alert(
+        "⚙️ الإعدادات\n\n" +
+        "الحساب\n" +
+        "الصوت\n" +
+        "الشاشة\n" +
+        "التحكم"
+    );
+}
+
+/* إغلاق النافذة عند الضغط خارجها */
+document.getElementById("modal").addEventListener("click",function(e){
+
+    if(e.target === this){
+        closeGame();
+    }
+
+});
+
+</script>
+
+</body>
+</html>
