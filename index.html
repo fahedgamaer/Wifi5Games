@@ -1,552 +1,72 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Chat</title>
+import express from "express";
+import OpenAI from "openai";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
-<style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial, sans-serif;
-}
+dotenv.config();
 
-body{
-    background:#fff;
-    color:#111;
-    height:100vh;
-    overflow:hidden;
-}
+const app = express();
+const port = 3000;
 
-/* التطبيق */
-.app{
-    display:flex;
-    height:100vh;
-}
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-/* القائمة الجانبية */
-.sidebar{
-    width:270px;
-    background:#f7f7f8;
-    border-left:1px solid #ddd;
-    padding:15px;
-    display:flex;
-    flex-direction:column;
-    transition:.3s;
-}
-
-.new-chat{
-    border:1px solid #ccc;
-    background:white;
-    border-radius:10px;
-    padding:13px;
-    cursor:pointer;
-    font-size:15px;
-    margin-bottom:20px;
-}
-
-.new-chat:hover{
-    background:#eee;
-}
-
-.logo{
-    font-size:22px;
-    font-weight:bold;
-    padding:10px;
-    margin-bottom:15px;
-}
-
-.history{
-    flex:1;
-    overflow:auto;
-}
-
-.history-item{
-    padding:11px;
-    border-radius:8px;
-    cursor:pointer;
-    margin-bottom:4px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-.history-item:hover{
-    background:#e9e9e9;
-}
-
-.bottom{
-    border-top:1px solid #ddd;
-    padding-top:12px;
-}
-
-.dark-btn{
-    width:100%;
-    border:0;
-    background:transparent;
-    padding:12px;
-    cursor:pointer;
-    border-radius:8px;
-    text-align:right;
-}
-
-.dark-btn:hover{
-    background:#e5e5e5;
-}
-
-/* المحتوى */
-.main{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    min-width:0;
-}
-
-/* الهيدر */
-.header{
-    height:60px;
-    border-bottom:1px solid #eee;
-    display:flex;
-    align-items:center;
-    padding:0 18px;
-    gap:15px;
-}
-
-.menu{
-    display:none;
-    border:0;
-    background:transparent;
-    font-size:24px;
-    cursor:pointer;
-}
-
-.title{
-    font-size:18px;
-    font-weight:bold;
-}
-
-/* الرسائل */
-.chat{
-    flex:1;
-    overflow-y:auto;
-    padding:30px 15%;
-}
-
-.welcome{
-    text-align:center;
-    margin-top:15vh;
-}
-
-.welcome h1{
-    font-size:35px;
-    margin-bottom:12px;
-}
-
-.welcome p{
-    color:#666;
-}
-
-.message{
-    display:flex;
-    margin:20px 0;
-    gap:12px;
-    line-height:1.7;
-}
-
-.avatar{
-    min-width:35px;
-    height:35px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#111;
-    color:white;
-    font-size:14px;
-}
-
-.user .avatar{
-    background:#555;
-}
-
-.message-text{
-    max-width:85%;
-    white-space:pre-wrap;
-}
-
-/* صندوق الكتابة */
-.input-area{
-    padding:15px 15%;
-    border-top:1px solid #eee;
-}
-
-.input-box{
-    display:flex;
-    align-items:flex-end;
-    gap:8px;
-    border:1px solid #ccc;
-    border-radius:18px;
-    padding:8px 10px;
-    background:white;
-    box-shadow:0 2px 8px rgba(0,0,0,.05);
-}
-
-textarea{
-    flex:1;
-    resize:none;
-    border:0;
-    outline:0;
-    font-size:16px;
-    padding:9px;
-    max-height:150px;
-}
-
-.send{
-    width:40px;
-    height:40px;
-    border:0;
-    border-radius:50%;
-    background:#111;
-    color:white;
-    cursor:pointer;
-    font-size:18px;
-}
-
-.send:hover{
-    transform:scale(1.05);
-}
-
-.note{
-    text-align:center;
-    font-size:11px;
-    color:#888;
-    margin-top:7px;
-}
-
-/* الوضع الليلي */
-body.dark{
-    background:#212121;
-    color:#eee;
-}
-
-.dark .sidebar{
-    background:#171717;
-    border-color:#333;
-}
-
-.dark .new-chat{
-    background:#212121;
-    color:#fff;
-    border-color:#444;
-}
-
-.dark .history-item:hover,
-.dark .dark-btn:hover{
-    background:#2c2c2c;
-}
-
-.dark .header,
-.dark .input-area{
-    border-color:#333;
-}
-
-.dark .input-box{
-    background:#2f2f2f;
-    border-color:#555;
-}
-
-.dark textarea{
-    background:transparent;
-    color:#fff;
-}
-
-.dark .welcome p,
-.dark .note{
-    color:#aaa;
-}
-
-.dark .send{
-    background:#fff;
-    color:#111;
-}
-
-/* الهاتف */
-@media(max-width:800px){
-
-    .sidebar{
-        position:fixed;
-        right:-280px;
-        top:0;
-        height:100%;
-        z-index:10;
-        box-shadow:-5px 0 20px rgba(0,0,0,.15);
-    }
-
-    .sidebar.open{
-        right:0;
-    }
-
-    .menu{
-        display:block;
-    }
-
-    .chat{
-        padding:20px 15px;
-    }
-
-    .input-area{
-        padding:10px;
-    }
-
-    .welcome h1{
-        font-size:27px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<div class="app">
-
-    <!-- القائمة -->
-    <aside class="sidebar" id="sidebar">
-
-        <div class="logo">
-            🤖 AI Chat
-        </div>
-
-        <button class="new-chat" onclick="newChat()">
-            ＋ محادثة جديدة
-        </button>
-
-        <div class="history" id="history"></div>
-
-        <div class="bottom">
-            <button class="dark-btn" onclick="toggleDark()">
-                🌙 الوضع الليلي
-            </button>
-        </div>
-
-    </aside>
-
-    <!-- المحتوى -->
-    <main class="main">
-
-        <header class="header">
-            <button class="menu" onclick="toggleMenu()">☰</button>
-            <div class="title">AI Chat</div>
-        </header>
-
-        <section class="chat" id="chat">
-
-            <div class="welcome" id="welcome">
-                <h1>مرحبًا 👋</h1>
-                <p>كيف يمكنني مساعدتك اليوم؟</p>
-            </div>
-
-        </section>
-
-        <div class="input-area">
-
-            <div class="input-box">
-
-                <textarea
-                    id="input"
-                    rows="1"
-                    placeholder="اكتب رسالتك..."
-                    onkeydown="handleKey(event)"
-                ></textarea>
-
-                <button class="send" onclick="sendMessage()">
-                    ↑
-                </button>
-
-            </div>
-
-            <div class="note">
-                قد يخطئ الذكاء الاصطناعي. تحقق من المعلومات المهمة.
-            </div>
-
-        </div>
-
-    </main>
-
-</div>
-
-<script>
-
-let messages = [];
-let chatNumber = 0;
-
-const input = document.getElementById("input");
-const chat = document.getElementById("chat");
-const welcome = document.getElementById("welcome");
-const history = document.getElementById("history");
-
-/* إرسال الرسالة */
-function sendMessage(){
-
-    const text = input.value.trim();
-
-    if(!text) return;
-
-    welcome.style.display = "none";
-
-    addMessage("user", text);
-
-    input.value = "";
-    input.style.height = "auto";
-
-    messages.push({
-        role:"user",
-        content:text
-    });
-
-    saveHistory(text);
-
-    setTimeout(() => {
-
-        const answer = generateAnswer(text);
-
-        addMessage("ai", answer);
-
-        messages.push({
-            role:"assistant",
-            content:answer
-        });
-
-    },700);
-}
-
-/* إضافة رسالة */
-function addMessage(type,text){
-
-    const row = document.createElement("div");
-
-    row.className = "message " + type;
-
-    const avatar = document.createElement("div");
-    avatar.className = "avatar";
-    avatar.textContent = type === "user" ? "أنت" : "AI";
-
-    const content = document.createElement("div");
-    content.className = "message-text";
-    content.textContent = text;
-
-    row.appendChild(avatar);
-    row.appendChild(content);
-
-    chat.appendChild(row);
-
-    chat.scrollTop = chat.scrollHeight;
-}
-
-/* رد تجريبي */
-function generateAnswer(text){
-
-    const t = text.toLowerCase();
-
-    if(t.includes("مرحبا") || t.includes("السلام")){
-        return "مرحبًا بك 👋 أنا مساعدك الذكي. كيف يمكنني مساعدتك؟";
-    }
-
-    if(t.includes("اسمك")){
-        return "أنا AI Chat، مساعد ذكاء اصطناعي داخل هذا الموقع 🤖";
-    }
-
-    if(t.includes("برمجة")){
-        return "أكيد! أستطيع مساعدتك في HTML وCSS وJavaScript والعديد من لغات البرمجة.";
-    }
-
-    if(t.includes("شكرا") || t.includes("شكر")){
-        return "العفو ❤️ أنا هنا لمساعدتك.";
-    }
-
-    return "فهمت رسالتك: " + text +
-           "\n\nهذا حاليًا إصدار تجريبي من الموقع. لنجعله ذكاءً اصطناعيًا حقيقيًا مثل ChatGPT، نحتاج إلى ربطه بنموذج AI عبر API.";
-}
-
-/* محادثة جديدة */
-function newChat(){
-
-    chat.innerHTML = `
-        <div class="welcome" id="welcome">
-            <h1>مرحبًا 👋</h1>
-            <p>كيف يمكنني مساعدتك اليوم؟</p>
-        </div>
-    `;
-
-    messages = [];
-    input.value = "";
-
-    document.getElementById("sidebar").classList.remove("open");
-}
-
-/* حفظ المحادثة */
-function saveHistory(text){
-
-    chatNumber++;
-
-    const item = document.createElement("div");
-
-    item.className = "history-item";
-
-    item.textContent =
-        text.length > 30
-        ? text.substring(0,30) + "..."
-        : text;
-
-    history.prepend(item);
-}
-
-/* الوضع الليلي */
-function toggleDark(){
-
-    document.body.classList.toggle("dark");
-
-    localStorage.setItem(
-        "darkMode",
-        document.body.classList.contains("dark")
-    );
-}
-
-/* القائمة في الهاتف */
-function toggleMenu(){
-
-    document
-        .getElementById("sidebar")
-        .classList.toggle("open");
-}
-
-/* Enter للإرسال */
-function handleKey(event){
-
-    if(event.key === "Enter" && !event.shiftKey){
-
-        event.preventDefault();
-
-        sendMessage();
-    }
-}
-
-/* تكبير مربع النص */
-input.addEventListener("input",function(){
-
-    this.style.height = "auto";
-
-    this.style.height =
-        Math.min(this.scrollHeight,150) + "px";
+const client = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
 });
 
-/* استعادة الوضع */
-if(localStorage.getItem("darkMode") === "true"){
-    document.body.classList.add("dark");
-}
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
-</script>
+app.post("/api/chat", async (req, res) => {
 
-</body>
-</html>
+    try {
+
+        const { message, previousResponseId } = req.body;
+
+        if (!message || !message.trim()) {
+            return res.status(400).json({
+                error: "اكتب رسالة أولاً"
+            });
+        }
+
+        const response = await client.responses.create({
+
+            model: "gpt-5-mini",
+
+            instructions:
+                "أنت مساعد ذكاء اصطناعي مفيد. " +
+                "أجب باللغة التي يستخدمها المستخدم. " +
+                "إذا طلب المستخدم كودًا، أعطه كودًا واضحًا ومنظمًا.",
+
+            input: [
+                {
+                    role: "user",
+                    content: message
+                }
+            ],
+
+            ...(previousResponseId
+                ? { previous_response_id: previousResponseId }
+                : {})
+        });
+
+        res.json({
+            text: response.output_text,
+            responseId: response.id
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            error: "حدث خطأ أثناء الاتصال بالذكاء الاصطناعي."
+        });
+    }
+});
+
+app.listen(port, () => {
+    console.log(`AI Chat يعمل على http://localhost:${port}`);
+});
