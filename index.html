@@ -1,281 +1,680 @@
-‏<!DOCTYPE html>
-‏<html lang="ar" dir="rtl">
-‏<head>
-‏<meta charset="UTF-8">
-‏<meta name="viewport" content="width=device-width, initial-scale=1.0">
-‏
-‏<title>WIFI5GAMES — عالم الألعاب بين إيديك</title>
-‏
-‏<style>
-‏@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
-‏
-‏*{
-‏    margin:0;
-‏    padding:0;
-‏    box-sizing:border-box;
-‏}
-‏
-‏html{
-‏    scroll-behavior:smooth;
-‏}
-‏
-‏body{
-‏    font-family:'Cairo',sans-serif;
-‏    background:#05070d;
-‏    color:white;
-‏    overflow-x:hidden;
-‏}
-‏
-‏/* BACKGROUND */
-‏body:before{
-‏    content:"";
-‏    position:fixed;
-‏    inset:0;
-‏    z-index:-3;
-‏    background:
-‏        linear-gradient(rgba(0,255,255,.025) 1px,transparent 1px),
-‏        linear-gradient(90deg,rgba(0,255,255,.025) 1px,transparent 1px);
-‏    background-size:45px 45px;
-‏}
-‏
-‏body:after{
-‏    content:"";
-‏    position:fixed;
-‏    inset:0;
-‏    z-index:-2;
-‏    background:
-‏        radial-gradient(circle at 20% 20%,rgba(0,255,255,.12),transparent 30%),
-‏        radial-gradient(circle at 80% 30%,rgba(110,0,255,.12),transparent 30%),
-‏        radial-gradient(circle at 50% 90%,rgba(0,100,255,.08),transparent 35%);
-‏    pointer-events:none;
-‏}
-‏
-‏/* LOADER */
-‏#loader{
-‏    position:fixed;
-‏    inset:0;
-‏    background:#03050a;
-‏    display:flex;
-‏    justify-content:center;
-‏    align-items:center;
-‏    flex-direction:column;
-‏    z-index:99999;
-‏    transition:.7s;
-‏}
-‏
-‏.loader-logo{
-‏    font-size:48px;
-‏    font-weight:900;
-‏    letter-spacing:3px;
-‏    text-shadow:0 0 20px #00ffff;
-‏}
-‏
-‏.loader-logo span{
-‏    color:#00ffff;
-‏}
-‏
-‏.loader-sub{
-‏    margin-top:8px;
-‏    color:#8c9aaa;
-‏    font-size:14px;
-‏}
-‏
-‏.loader-box{
-‏    width:280px;
-‏    height:6px;
-‏    background:#17202b;
-‏    border-radius:20px;
-‏    overflow:hidden;
-‏    margin-top:30px;
-‏}
-‏
-‏.loader-bar{
-‏    width:0%;
-‏    height:100%;
-‏    background:linear-gradient(90deg,#00ffff,#008cff,#8c00ff);
-‏    box-shadow:0 0 20px #00ffff;
-‏    transition:.1s;
-‏}
-‏
-‏.loader-percent{
-‏    margin-top:12px;
-‏    color:#00ffff;
-‏    font-weight:800;
-‏}
-‏
-‏/* HEADER */
-‏header{
-‏    height:82px;
-‏    display:flex;
-‏    align-items:center;
-‏    justify-content:space-between;
-‏    padding:0 5%;
-‏    position:sticky;
-‏    top:0;
-‏    z-index:1000;
-‏    background:rgba(3,6,12,.86);
-‏    backdrop-filter:blur(18px);
-‏    border-bottom:1px solid rgba(0,255,255,.12);
-‏}
-‏
-‏.logo{
-‏    font-size:25px;
-‏    font-weight:900;
-‏    color:white;
-‏    text-shadow:0 0 15px #00ffff;
-‏}
-‏
-‏.logo span{
-‏    color:#00ffff;
-‏}
-‏
-‏.logo small{
-‏    display:block;
-‏    font-size:9px;
-‏    color:#778394;
-‏    letter-spacing:2px;
-‏}
-‏
-‏nav{
-‏    display:flex;
-‏    gap:24px;
-‏}
-‏
-‏nav a{
-‏    color:#c9d1dc;
-‏    text-decoration:none;
-‏    font-size:14px;
-‏    font-weight:700;
-‏    transition:.3s;
-‏}
-‏
-‏nav a:hover{
-‏    color:#00ffff;
-‏}
-‏
-‏.user-area{
-‏    display:flex;
-‏    align-items:center;
-‏    gap:10px;
-‏}
-‏
-‏.login-btn{
-‏    border:1px solid #00ffff;
-‏    color:#00ffff;
-‏    background:rgba(0,255,255,.05);
-‏    padding:9px 18px;
-‏    border-radius:10px;
-‏    cursor:pointer;
-‏    font-family:inherit;
-‏    font-weight:800;
-‏}
-‏
-‏.user-name{
-‏    display:none;
-‏    color:#00ffff;
-‏    font-weight:800;
-‏}
-‏
-‏/* HERO */
-‏.hero{
-‏    min-height:610px;
-‏    display:flex;
-‏    align-items:center;
-‏    justify-content:center;
-‏    position:relative;
-‏    padding:70px 6%;
-‏    overflow:hidden;
-‏}
-‏
-‏.hero-content{
-‏    max-width:900px;
-‏    text-align:center;
-‏    position:relative;
-‏    z-index:2;
-‏}
-‏
-‏.live{
-‏    display:inline-flex;
-‏    gap:8px;
-‏    align-items:center;
-‏    padding:7px 16px;
-‏    border:1px solid rgba(0,255,255,.5);
-‏    background:rgba(0,255,255,.06);
-‏    border-radius:30px;
-‏    color:#00ffff;
-‏    font-size:12px;
-‏    font-weight:800;
-‏}
-‏
-‏.live i{
-‏    width:8px;
-‏    height:8px;
-‏    background:#00ffff;
-‏    border-radius:50%;
-‏    box-shadow:0 0 12px #00ffff;
-‏}
-‏
-‏.hero h1{
-‏    font-size:clamp(48px,9vw,110px);
-‏    line-height:.95;
-‏    margin:25px 0 20px;
-‏    font-weight:900;
-‏    letter-spacing:-3px;
-‏    text-shadow:
-‏        0 0 10px rgba(0,255,255,.25),
-‏        0 0 45px rgba(0,255,255,.15);
-‏}
-‏
-‏.hero h1 span{
-‏    color:#00ffff;
-‏}
-‏
-‏.hero p{
-‏    color:#9ca8b8;
-‏    font-size:17px;
-‏    max-width:650px;
-‏    margin:auto;
-‏    line-height:2;
-‏}
-‏
-‏.hero-buttons{
-‏    margin-top:30px;
-‏    display:flex;
-‏    justify-content:center;
-‏    gap:12px;
-‏    flex-wrap:wrap;
-‏}
-‏
-‏.primary-btn,
-‏.secondary-btn{
-‏    padding:13px 28px;
-‏    border-radius:12px;
-‏    text-decoration:none;
-‏    font-weight:900;
-‏    transition:.3s;
-‏}
-‏
-‏.primary-btn{
-‏    color:#001014;
-‏    background:#00ffff;
-‏    box-shadow:0 0 30px rgba(0,255,255,.3);
-‏}
-‏
-‏.secondary-btn{
-‏    color:white;
-‏    border:1px solid #34404e;
-‏    background:#111722;
-‏}
-‏
-‏.primary-btn:hover,
-‏.secondary-btn:hover{
-‏    transform:translateY(-3px);
-‏}
-‏
-‏/* SEARCH */
-‏.store{
-‏    padding:30px 5% 100px;
-‏}
-‏
-‏.store-top{
-‏    max-wifi5games 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wifi5Games</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:#070b14;
+    color:white;
+    font-family:Arial, sans-serif;
+}
+
+/* =========================
+   شاشة التحميل - ثانيتين
+========================= */
+
+#loadingScreen{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    background:
+        linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.8)),
+        radial-gradient(circle at center,#25385c,#05070d 70%);
+}
+
+.loading-title{
+    font-size:55px;
+    font-weight:900;
+    letter-spacing:3px;
+    text-shadow:0 0 25px #00c8ff;
+}
+
+.loading-title span{
+    color:#00d9ff;
+}
+
+.loading-sub{
+    margin-top:12px;
+    color:#b9c7dd;
+    font-size:18px;
+}
+
+.loader{
+    width:280px;
+    height:6px;
+    background:#263047;
+    border-radius:20px;
+    margin-top:30px;
+    overflow:hidden;
+}
+
+.loader-bar{
+    width:0%;
+    height:100%;
+    background:#00d9ff;
+    box-shadow:0 0 15px #00d9ff;
+    animation:load 2s linear forwards;
+}
+
+@keyframes load{
+    to{width:100%}
+}
+
+/* =========================
+   الهيدر
+========================= */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    padding:15px 5%;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    background:rgba(8,12,24,.94);
+    border-bottom:1px solid #202b43;
+    backdrop-filter:blur(15px);
+}
+
+.logo{
+    font-size:28px;
+    font-weight:900;
+    white-space:nowrap;
+}
+
+.logo span{
+    color:#00d9ff;
+}
+
+.search{
+    flex:1;
+    max-width:650px;
+}
+
+.search input{
+    width:100%;
+    padding:14px 20px;
+    border:1px solid #2e3d5d;
+    border-radius:30px;
+    background:#11192b;
+    color:white;
+    outline:none;
+    font-size:16px;
+}
+
+.search input:focus{
+    border-color:#00d9ff;
+}
+
+.count{
+    color:#9eabc4;
+    white-space:nowrap;
+}
+
+/* =========================
+   التصنيفات
+========================= */
+
+.categories{
+    display:flex;
+    gap:10px;
+    padding:15px 5%;
+    overflow-x:auto;
+    background:#0b1120;
+}
+
+.categories button{
+    border:0;
+    padding:10px 18px;
+    border-radius:25px;
+    background:#182239;
+    color:white;
+    cursor:pointer;
+    white-space:nowrap;
+}
+
+.categories button:hover,
+.categories button.active{
+    background:#00c9f2;
+    color:#031019;
+}
+
+/* =========================
+   المحتوى
+========================= */
+
+main{
+    padding:25px 5%;
+}
+
+.hero{
+    min-height:260px;
+    border-radius:24px;
+    padding:40px;
+    display:flex;
+    align-items:center;
+    margin-bottom:30px;
+    background:
+        linear-gradient(90deg,#08111dcc,#08111d44),
+        linear-gradient(135deg,#173b54,#101629);
+    border:1px solid #263653;
+    overflow:hidden;
+}
+
+.hero h1{
+    font-size:42px;
+    margin-bottom:12px;
+}
+
+.hero p{
+    color:#aebbd0;
+    max-width:650px;
+    line-height:1.7;
+}
+
+.hero .badge{
+    display:inline-block;
+    margin-bottom:15px;
+    padding:7px 13px;
+    border-radius:20px;
+    background:#00c9f2;
+    color:#001018;
+    font-weight:bold;
+}
+
+/* =========================
+   شبكة الألعاب
+========================= */
+
+.games{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+    gap:18px;
+}
+
+.game{
+    background:#10182b;
+    border:1px solid #202d49;
+    border-radius:16px;
+    overflow:hidden;
+    transition:.2s;
+}
+
+.game:hover{
+    transform:translateY(-6px);
+    border-color:#00d9ff;
+    box-shadow:0 10px 30px rgba(0,217,255,.12);
+}
+
+.cover{
+    width:100%;
+    aspect-ratio:16/10;
+    object-fit:cover;
+    display:block;
+}
+
+.game-info{
+    padding:13px;
+}
+
+.game-info h3{
+    font-size:17px;
+    margin-bottom:7px;
+}
+
+.game-info small{
+    color:#8e9bb5;
+}
+
+.game-info button{
+    width:100%;
+    margin-top:12px;
+    padding:11px;
+    border:0;
+    border-radius:10px;
+    background:#00c9f2;
+    color:#001018;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.game-info button:hover{
+    background:#54e4ff;
+}
+
+/* =========================
+   لا توجد نتائج
+========================= */
+
+.empty{
+    text-align:center;
+    padding:70px;
+    color:#8d9bb4;
+}
+
+/* =========================
+   موبايل
+========================= */
+
+@media(max-width:650px){
+
+    header{
+        flex-wrap:wrap;
+    }
+
+    .logo{
+        width:100%;
+        text-align:center;
+    }
+
+    .search{
+        max-width:none;
+        width:100%;
+    }
+
+    .count{
+        display:none;
+    }
+
+    .hero{
+        padding:25px;
+    }
+
+    .hero h1{
+        font-size:30px;
+    }
+
+    .games{
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
+    }
+
+    .game-info{
+        padding:9px;
+    }
+
+    .game-info h3{
+        font-size:14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- شاشة التحميل -->
+<div id="loadingScreen">
+
+    <div class="loading-title">
+        Wifi5<span>Games</span>
+    </div>
+
+    <div class="loading-sub">
+        جاري تجهيز عالم الألعاب...
+    </div>
+
+    <div class="loader">
+        <div class="loader-bar"></div>
+    </div>
+
+</div>
+
+<!-- الهيدر -->
+<header>
+
+    <div class="logo">
+        Wifi5<span>Games</span>
+    </div>
+
+    <div class="search">
+        <input
+            id="search"
+            type="text"
+            placeholder="🔎 ابحث عن لعبة..."
+        >
+    </div>
+
+    <div class="count">
+        <span id="gameCount">1000+</span> لعبة
+    </div>
+
+</header>
+
+<!-- التصنيفات -->
+<nav class="categories" id="categories">
+
+    <button class="active" data-category="الكل">
+        الكل
+    </button>
+
+    <button data-category="أكشن">
+        🔥 أكشن
+    </button>
+
+    <button data-category="سباق">
+        🏎️ سباق
+    </button>
+
+    <button data-category="رياضة">
+        ⚽ رياضة
+    </button>
+
+    <button data-category="مغامرات">
+        🗺️ مغامرات
+    </button>
+
+    <button data-category="قتال">
+        🥊 قتال
+    </button>
+
+    <button data-category="ألغاز">
+        🧩 ألغاز
+    </button>
+
+    <button data-category="زومبي">
+        🧟 زومبي
+    </button>
+
+</nav>
+
+<main>
+
+    <section class="hero">
+
+        <div>
+
+            <div class="badge">
+                🎮 مكتبة ألعاب ضخمة
+            </div>
+
+            <h1>
+                عالم الألعاب بين يديك
+            </h1>
+
+            <p>
+                اكتشف أكثر من 1000 لعبة، ابحث عن لعبتك المفضلة،
+                اختر التصنيف، ثم اضغط على زر التحميل للانتقال
+                إلى الصفحة الرسمية للعبة.
+            </p>
+
+        </div>
+
+    </section>
+
+    <div id="games" class="games"></div>
+
+    <div id="empty" class="empty" style="display:none">
+        لم نجد لعبة بهذا الاسم 🔎
+    </div>
+
+</main>
+
+<script>
+
+/* ==========================================
+   بيانات الألعاب
+========================================== */
+
+const baseGames = [
+
+    ["Grand Open World","أكشن"],
+    ["Ultimate Racer","سباق"],
+    ["Football Stars","رياضة"],
+    ["Zombie City","زومبي"],
+    ["Ninja Warrior","قتال"],
+    ["Space Adventure","مغامرات"],
+    ["Mega Puzzle","ألغاز"],
+    ["Street Fighter","قتال"],
+    ["Super Drift","سباق"],
+    ["Galaxy Battle","أكشن"],
+    ["Monster Attack","زومبي"],
+    ["Extreme Soccer","رياضة"],
+    ["Desert Rally","سباق"],
+    ["Dragon Quest","مغامرات"],
+    ["Cyber Warrior","أكشن"],
+    ["Ocean Adventure","مغامرات"],
+    ["Tower Defense","ألغاز"],
+    ["City Driver","سباق"],
+    ["Basketball Pro","رياضة"],
+    ["Zombie Hunter","زومبي"]
+];
+
+
+/* ==========================================
+   إنشاء أكثر من 1000 لعبة
+========================================== */
+
+const games = [];
+
+for(let i=0;i<1050;i++){
+
+    const original =
+        baseGames[i % baseGames.length];
+
+    games.push({
+
+        id:i+1,
+
+        name:
+            original[0] +
+            " " +
+            (Math.floor(i / baseGames.length)+1),
+
+        category:
+            original[1],
+
+        image:
+            "https://placehold.co/640x400/111d35/ffffff?text=" +
+            encodeURIComponent(
+                original[0]
+            ),
+
+        official:
+            "https://www.google.com/search?q=" +
+            encodeURIComponent(
+                original[0] + " official"
+            )
+
+    });
+
+}
+
+
+/* ==========================================
+   عرض الألعاب
+========================================== */
+
+const container =
+    document.getElementById("games");
+
+const empty =
+    document.getElementById("empty");
+
+const search =
+    document.getElementById("search");
+
+let selectedCategory = "الكل";
+
+
+function renderGames(){
+
+    const query =
+        search.value.trim().toLowerCase();
+
+    container.innerHTML = "";
+
+    const filtered =
+        games.filter(game => {
+
+            const matchesSearch =
+                game.name
+                .toLowerCase()
+                .includes(query);
+
+            const matchesCategory =
+                selectedCategory === "الكل" ||
+                game.category === selectedCategory;
+
+            return (
+                matchesSearch &&
+                matchesCategory
+            );
+
+        });
+
+    document.getElementById("gameCount")
+        .textContent =
+        filtered.length;
+
+    empty.style.display =
+        filtered.length ? "none" : "block";
+
+
+    filtered.forEach(game => {
+
+        const card =
+            document.createElement("article");
+
+        card.className = "game";
+
+        card.innerHTML = `
+
+            <img
+                class="cover"
+                src="${game.image}"
+                alt="${game.name}"
+                loading="lazy"
+            >
+
+            <div class="game-info">
+
+                <h3>
+                    ${game.name}
+                </h3>
+
+                <small>
+                    ${game.category}
+                </small>
+
+                <button
+                    onclick="openOfficial('${game.official}')"
+                >
+                    ⬇️ تحميل مباشر
+                </button>
+
+            </div>
+
+        `;
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* ==========================================
+   زر التحميل
+========================================== */
+
+function openOfficial(url){
+
+    window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+    );
+
+}
+
+
+/* ==========================================
+   البحث
+========================================== */
+
+search.addEventListener(
+    "input",
+    renderGames
+);
+
+
+/* ==========================================
+   التصنيفات
+========================================== */
+
+document
+    .querySelectorAll(".categories button")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                document
+                    .querySelectorAll(
+                        ".categories button"
+                    )
+                    .forEach(btn =>
+                        btn.classList
+                        .remove("active")
+                    );
+
+                button.classList.add("active");
+
+                selectedCategory =
+                    button.dataset.category;
+
+                renderGames();
+
+            }
+        );
+
+    });
+
+
+/* ==========================================
+   شاشة التحميل: ثانيتان
+========================================== */
+
+setTimeout(() => {
+
+    const loading =
+        document.getElementById(
+            "loadingScreen"
+        );
+
+    loading.style.opacity = "0";
+
+    loading.style.transition =
+        "opacity .4s";
+
+    setTimeout(() => {
+
+        loading.remove();
+
+    },400);
+
+},2000);
+
+
+/* تشغيل */
+renderGames();
+
+</script>
+
+</body>
+</html>
