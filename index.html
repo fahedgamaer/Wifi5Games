@@ -1,72 +1,266 @@
-import express from "express";
-import OpenAI from "openai";
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
-
-dotenv.config();
-
-const app = express();
-const port = 3000;
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const client = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-});
-
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
-
-app.post("/api/chat", async (req, res) => {
-
-    try {
-
-        const { message, previousResponseId } = req.body;
-
-        if (!message || !message.trim()) {
-            return res.status(400).json({
-                error: "اكتب رسالة أولاً"
-            });
-        }
-
-        const response = await client.responses.create({
-
-            model: "gpt-5-mini",
-
-            instructions:
-                "أنت مساعد ذكاء اصطناعي مفيد. " +
-                "أجب باللغة التي يستخدمها المستخدم. " +
-                "إذا طلب المستخدم كودًا، أعطه كودًا واضحًا ومنظمًا.",
-
-            input: [
-                {
-                    role: "user",
-                    content: message
-                }
-            ],
-
-            ...(previousResponseId
-                ? { previous_response_id: previousResponseId }
-                : {})
-        });
-
-        res.json({
-            text: response.output_text,
-            responseId: response.id
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            error: "حدث خطأ أثناء الاتصال بالذكاء الاصطناعي."
-        });
-    }
-});
-
-app.listen(port, () => {
-    console.log(`AI Chat يعمل على http://localhost:${port}`);
-}); 
+‏<!DOCTYPE html>
+‏<html lang="ar" dir="rtl">
+‏<head>
+‏<meta charset="UTF-8">
+‏<meta name="viewport" content="width=device-width, initial-scale=1.0">
+‏
+‏<title>WIFI5GAMES — عالم الألعاب</title>
+‏
+‏<meta name="description"
+‏content="WIFI5GAMES — عالم الألعاب. اكتشف أكثر من 100 لعبة شهيرة في مكان واحد.">
+‏
+‏<style>
+‏
+‏@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+‏
+‏*{
+‏    margin:0;
+‏    padding:0;
+‏    box-sizing:border-box;
+‏}
+‏
+‏html{
+‏    scroll-behavior:smooth;
+‏}
+‏
+‏body{
+‏    font-family:'Cairo',sans-serif;
+‏    background:#05070c;
+‏    color:#fff;
+‏    overflow-x:hidden;
+‏}
+‏
+‏/* =========================
+‏   LOADER
+‏========================= */
+‏
+‏#loader{
+‏    position:fixed;
+‏    inset:0;
+‏    z-index:99999;
+‏    background:
+‏        radial-gradient(circle at center,#101b30 0%,#05070c 48%,#000 100%);
+‏    display:flex;
+‏    justify-content:center;
+‏    align-items:center;
+‏    flex-direction:column;
+‏    overflow:hidden;
+‏}
+‏
+‏#loader::before{
+‏    content:"";
+‏    position:absolute;
+‏    width:600px;
+‏    height:600px;
+‏    border-radius:50%;
+‏    border:1px solid rgba(0,229,255,.15);
+‏    box-shadow:
+‏        0 0 80px rgba(0,229,255,.08),
+‏        inset 0 0 80px rgba(0,229,255,.04);
+‏    animation:loaderPulse 2s infinite;
+‏}
+‏
+‏#loader::after{
+‏    content:"";
+‏    position:absolute;
+‏    width:100%;
+‏    height:100%;
+‏    background:
+‏        linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),
+‏        linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);
+‏    background-size:50px 50px;
+‏    transform:perspective(500px) rotateX(60deg) scale(2);
+‏    transform-origin:center bottom;
+‏    opacity:.4;
+‏}
+‏
+‏.loader-content{
+‏    position:relative;
+‏    z-index:3;
+‏    text-align:center;
+‏}
+‏
+‏.loader-logo{
+‏    font-size:clamp(40px,8vw,100px);
+‏    font-weight:900;
+‏    letter-spacing:5px;
+‏    text-shadow:
+‏        0 0 10px #00e5ff,
+‏        0 0 30px rgba(0,229,255,.8),
+‏        0 0 80px rgba(0,229,255,.3);
+‏}
+‏
+‏.loader-logo span{
+‏    color:#00e5ff;
+‏}
+‏
+‏.loader-sub{
+‏    margin-top:5px;
+‏    color:#aaa;
+‏    letter-spacing:8px;
+‏    font-size:14px;
+‏}
+‏
+‏.loader-line{
+‏    width:min(500px,80vw);
+‏    height:5px;
+‏    background:#18202d;
+‏    margin:40px auto 15px;
+‏    border-radius:50px;
+‏    overflow:hidden;
+‏    box-shadow:0 0 20px rgba(0,229,255,.1);
+‏}
+‏
+‏.loader-progress{
+‏    height:100%;
+‏    width:0%;
+‏    background:linear-gradient(90deg,#006eff,#00e5ff,#fff);
+‏    box-shadow:0 0 20px #00e5ff;
+‏    transition:.1s linear;
+‏}
+‏
+‏.loader-percent{
+‏    color:#00e5ff;
+‏    font-weight:800;
+‏    font-size:15px;
+‏}
+‏
+‏.loader-status{
+‏    color:#777;
+‏    margin-top:12px;
+‏    font-size:13px;
+‏}
+‏
+‏@keyframes loaderPulse{
+‏    0%,100%{
+‏        transform:scale(.8);
+‏        opacity:.3;
+‏    }
+‏    50%{
+‏        transform:scale(1.1);
+‏        opacity:.8;
+‏    }
+‏}
+‏
+‏/* =========================
+‏   BACKGROUND
+‏========================= */
+‏
+‏.bg-grid{
+‏    position:fixed;
+‏    inset:0;
+‏    z-index:-3;
+‏    background:
+‏        linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),
+‏        linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);
+‏    background-size:55px 55px;
+‏}
+‏
+‏.bg-glow{
+‏    position:fixed;
+‏    width:500px;
+‏    height:500px;
+‏    border-radius:50%;
+‏    background:#006eff;
+‏    filter:blur(180px);
+‏    opacity:.08;
+‏    z-index:-2;
+‏    top:-200px;
+‏    right:-150px;
+‏}
+‏
+‏/* =========================
+‏   NAV
+‏========================= */
+‏
+‏nav{
+‏    position:sticky;
+‏    top:0;
+‏    z-index:5000;
+‏    height:78px;
+‏    display:flex;
+‏    align-items:center;
+‏    justify-content:space-between;
+‏    padding:0 5%;
+‏    background:rgba(4,7,13,.82);
+‏    backdrop-filter:blur(18px);
+‏    border-bottom:1px solid rgba(0,229,255,.12);
+‏}
+‏
+‏.logo{
+‏    font-size:25px;
+‏    font-weight:900;
+‏    letter-spacing:2px;
+‏}
+‏
+‏.logo span{
+‏    color:#00e5ff;
+‏}
+‏
+‏.logo small{
+‏    display:block;
+‏    color:#667080;
+‏    font-size:9px;
+‏    letter-spacing:4px;
+‏    text-align:center;
+‏}
+‏
+‏.nav-links{
+‏    display:flex;
+‏    gap:28px;
+‏}
+‏
+‏.nav-links a{
+‏    color:#aaa;
+‏    text-decoration:none;
+‏    font-size:14px;
+‏    transition:.3s;
+‏}
+‏
+‏.nav-links a:hover{
+‏    color:#00e5ff;
+‏}
+‏
+‏.nav-online{
+‏    border:1px solid rgba(0,229,255,.3);
+‏    padding:8px 14px;
+‏    border-radius:30px;
+‏    font-size:11px;
+‏    color:#00e5ff;
+‏}
+‏
+‏/* =========================
+‏   HERO
+‏========================= */
+‏
+‏.hero{
+‏    min-height:650px;
+‏    display:grid;
+‏    grid-template-columns:1fr 1fr;
+‏    gap:40px;
+‏    align-items:center;
+‏    padding:70px 7%;
+‏    position:relative;
+‏    overflow:hidden;
+‏}
+‏
+‏.hero::before{
+‏    content:"";
+‏    position:absolute;
+‏    width:600px;
+‏    height:600px;
+‏    background:#006eff;
+‏    filter:blur(220px);
+‏    opacity:.1;
+‏    left:-200px;
+‏    top:0;
+‏}
+‏
+‏.hero-text{
+‏    position:relative;
+‏    z-index:2;
+‏}
+‏
+‏.hero-badge{
+‏    display:inline-flex;
+‏    ga
