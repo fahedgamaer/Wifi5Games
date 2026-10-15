@@ -1,21 +1,398 @@
-RegisterCommand("car", function(source, args, raw)
-  local model = args[1] or "banshee"
-  local playerPed = PlayerPedId()
-  local pos = GetEntityCoords(playerPed)
-  RequestModel(GetHashKey(model))
-  while not HasModelLoaded(GetHashKey(model)) do Wait(10) end
-  local veh = CreateVehicle(GetHashKey(model), pos.x+5, pos.y, pos.z+1, GetEntityHeading(playerPed), true, false)
-  SetPedIntoVehicle(playerPed, veh, -1)
-  SetEntityAsNoLongerNeeded(veh)
-end, false)
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-select=no">
+  <title>كار باركنج برو 3D - Car Parking Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@600;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <!-- مكتبة Three.js ثلاثية الأبعاد -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+    body, html { width: 100%; height: 100%; overflow: hidden; background: #0a0b10; font-family: 'Cairo', sans-serif; color: #fff; touch-action: none; }
+    #canvas-container { position: absolute; inset: 0; z-index: 1; }
+    .hud { position: absolute; z-index: 10; pointer-events: none; }
+    .glass { background: rgba(15, 23, 42, 0.82); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px; pointer-events: auto; }
+    .font-hud { font-family: 'Orbitron', monospace; }
+    .font-gauge { font-family: 'Rajdhani', sans-serif; }
+    
+    /* الشريط العلوي */
+    #top-bar { top: 12px; left: 12px; right: 12px; display: flex; justify-content: space-between; align-items: flex-start; }
+    .badge { padding: 6px 12px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    
+    /* رادار حساسات الركن PDC */
+    #radar-box { position: absolute; top: 75px; left: 50%; transform: translateX(-50%); z-index: 10; padding: 6px 14px; display: none; align-items: center; gap: 10px; border: 1px solid #06b6d4; }
+    #radar-bar-bg { width: 90px; height: 8px; background: #1e293b; border-radius: 4px; overflow: hidden; }
+    #radar-bar-fill { height: 100%; width: 100%; background: #10b981; transition: width 0.1s; }
 
-RegisterCommand("tpto", function(source, args, raw)
-  local x,y,z = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
-  if x and y and z then
-    local playerPed = PlayerPedId()
-    SetEntityCoords(playerPed, x, y, z, false, false, false, true)
-    TriggerEvent('chat:addMessage',{ args = {"^2Teleport","تم النقل"}})
-  else
-    TriggerEvent('chat:addMessage',{ args = {"^1Usage","/tpto x y z"}})
-  end
-end, false)
+    /* مؤشر دقة ومحاذاة الموقف */
+    #guide-box { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); z-index: 10; padding: 6px 16px; display: flex; align-items: center; gap: 12px; font-size: 12px; font-weight: 700; }
+
+    /* لوحة العدادات (السرعة وRPM) */
+    #cluster { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); z-index: 10; padding: 8px 18px; display: flex; align-items: center; gap: 18px; }
+    .speed-big { font-size: 38px; font-weight: 900; line-height: 1; color: #fff; }
+
+    /* طبقة أدوات التحكم السفلية */
+    #controls { position: absolute; bottom: 16px; left: 16px; right: 16px; z-index: 15; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none; }
+    .ctrl-group { display: flex; align-items: flex-end; gap: 12px; pointer-events: auto; }
+
+    /* عجلة القيادة الدوارة */
+    #wheel-wrap { position: relative; width: 140px; height: 140px; }
+    #steer-wheel { width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(circle, #222 40%, #111 90%); border: 8px solid #1a1a1a; box-shadow: 0 8px 25px rgba(0,0,0,0.8), inset 0 0 10px #000; cursor: grab; position: relative; display: flex; align-items: center; justify-content: center; }
+    #wheel-marker { position: absolute; top: -3px; width: 12px; height: 8px; background: #eab308; border-radius: 2px; }
+    #wheel-center { width: 50px; height: 50px; border-radius: 50%; background: #262626; border: 2px solid #525252; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; color: #eab308; }
+
+    /* ناقل الحركة PRND */
+    #shifter { display: flex; flex-direction: column; gap: 6px; padding: 6px; width: 44px; }
+    .gear-btn { width: 100%; padding: 7px 0; border: none; border-radius: 8px; background: #1e293b; color: #94a3b8; font-family: 'Orbitron', monospace; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.15s; }
+    .gear-btn.active { color: #fff; transform: scale(1.05); }
+    .gear-btn[data-gear="P"].active { background: #d97706; box-shadow: 0 0 12px #d97706; }
+    .gear-btn[data-gear="R"].active { background: #ea580c; box-shadow: 0 0 12px #ea580c; }
+    .gear-btn[data-gear="N"].active { background: #0284c7; box-shadow: 0 0 12px #0284c7; }
+    .gear-btn[data-gear="D"].active { background: #059669; box-shadow: 0 0 12px #059669; }
+
+    /* الدواسات الرياضية */
+    .pedal { border-radius: 10px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 800; font-family: 'Orbitron', monospace; transition: transform 0.08s; border: 2px solid #475569; background: linear-gradient(180deg, #334155, #0f172a); }
+    .pedal:active, .pedal.pressed { transform: translateY(6px) scale(0.97); }
+    #pedal-brake { width: 66px; height: 95px; font-size: 11px; }
+    #pedal-brake:active, #pedal-brake.pressed { border-color: #ef4444; background: linear-gradient(180deg, #991b1b, #450a0a); }
+    #pedal-gas { width: 54px; height: 125px; font-size: 12px; }
+    #pedal-gas:active, #pedal-gas.pressed { border-color: #10b981; background: linear-gradient(180deg, #065f46, #022c22); }
+    #btn-handbrake { width: 44px; height: 50px; font-size: 10px; border: 1px solid #475569; border-radius: 8px; background: #1e293b; color: #cbd5e1; cursor: pointer; }
+    #btn-handbrake.active { background: #dc2626; color: #fff; border-color: #f87171; box-shadow: 0 0 10px #dc2626; }
+
+    /* أزرار الإجراءات */
+    .btn-circle { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; border: 1px solid #475569; background: #1e293b; color: #cbd5e1; }
+    .btn-circle:hover { background: #334155; color: #fff; }
+    
+    /* نافذة النجاح والركن المثالي */
+    #victory-modal { position: absolute; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .modal-box { width: 100%; max-width: 400px; padding: 24px; text-align: center; border: 1px solid #06b6d4; }
+  </style>
+</head>
+<body>
+  <div id="canvas-container"></div>
+
+  <!-- الشريط العلوي -->
+  <div id="top-bar" class="hud">
+    <div class="glass badge">
+      <span style="color: #06b6d4;">المستوى 1: ركن أمامي</span>
+      <span style="color: #64748b;">|</span>
+      <span id="time-txt" class="font-hud" style="color: #fbbf24;">01:00</span>
+    </div>
+
+    <div style="display: flex; gap: 8px;">
+      <button id="btn-cam" class="glass btn-circle" title="تبديل الكاميرا (C)">📷</button>
+      <button id="btn-lights" class="glass btn-circle" title="الكشافات (L)">💡</button>
+      <button id="btn-horn" class="glass btn-circle" title="الكلاكس (H)">📢</button>
+      <button id="btn-reset" class="glass btn-circle" title="إعادة المحاولة">🔄</button>
+    </div>
+  </div>
+
+  <!-- توجيه الموقف والمحاذاة -->
+  <div id="guide-box" class="glass">
+    <span id="guide-txt">توجه نحو الموقف الأخضر</span>
+    <span style="color: #64748b;">·</span>
+    <span class="font-hud">المحاذاة: <b id="align-txt" style="color: #06b6d4;">0%</b></span>
+  </div>
+
+  <!-- رادار الحساسات PDC -->
+  <div id="radar-box" class="glass font-hud">
+    <span id="radar-label" style="font-size: 11px;">REAR PDC</span>
+    <div id="radar-bar-bg">
+      <div id="radar-bar-fill"></div>
+    </div>
+    <span id="radar-dist" style="font-size: 12px; font-weight: 800;">1.20m</span>
+  </div>
+
+  <!-- لوحة العدادات -->
+  <div id="cluster" class="glass">
+    <div style="text-align: center;">
+      <div style="font-size: 10px; color: #94a3b8;" class="font-hud">RPM</div>
+      <div id="rpm-txt" class="font-hud" style="font-size: 16px; font-weight: 800; color: #38bdf8;">0.8</div>
+    </div>
+    <div style="text-align: center;">
+      <div class="speed-big font-hud" id="speed-txt">0</div>
+      <div style="font-size: 11px; color: #94a3b8;" class="font-gauge">KM/H</div>
+    </div>
+    <div style="text-align: center;">
+      <div style="font-size: 10px; color: #94a3b8;" class="font-hud">GEAR</div>
+      <div id="gear-indicator" class="font-hud" style="font-size: 18px; font-weight: 900; color: #fbbf24;">P</div>
+    </div>
+  </div>
+
+  <!-- أدوات التحكم -->
+  <div id="controls">
+    <div class="ctrl-group">
+      <div id="wheel-wrap">
+        <div id="steer-wheel">
+          <div id="wheel-marker"></div>
+          <div id="wheel-center">CP</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ctrl-group">
+      <div id="shifter" class="glass">
+        <button class="gear-btn active" data-gear="P">P</button>
+        <button class="gear-btn" data-gear="R">R</button>
+        <button class="gear-btn" data-gear="N">N</button>
+        <button class="gear-btn" data-gear="D">D</button>
+      </div>
+
+      <button id="btn-handbrake" class="glass active">P<br>BRAKE</button>
+
+      <div id="pedal-brake" class="pedal">
+        <span>BRAKE</span>
+        <span style="font-size: 9px; color: #94a3b8;">فرامل</span>
+      </div>
+
+      <div id="pedal-gas" class="pedal">
+        <span>GAS</span>
+        <span style="font-size: 9px; color: #94a3b8;">بنزين</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة التهنئة -->
+  <div id="victory-modal">
+    <div class="glass modal-box">
+      <div style="font-size: 48px; margin-bottom: 8px;">🏆</div>
+      <h2 style="font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 6px;">ركن مثالي بنجاح!</h2>
+      <p style="font-size: 13px; color: #94a3b8; margin-bottom: 16px;">تم إيقاف السيارة في الموقف المحدد بدقة متناهية</p>
+      <div style="font-size: 28px; margin-bottom: 20px;">⭐⭐⭐</div>
+      <button id="btn-replay" style="width: 100%; padding: 12px; background: #06b6d4; border: none; border-radius: 12px; color: #000; font-weight: 800; font-family: 'Cairo'; cursor: pointer; font-size: 15px;">إعادة المحاولة</button>
+    </div>
+  </div>
+
+  <script>
+    /* محرك الصوتيات الإجرائي (Web Audio API) */
+    class AudioEngine {
+      constructor() { this.ctx = null; this.engineOsc = null; this.engineGain = null; this.beepTimer = null; }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+          this.startEngineSound();
+        }
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+      }
+      startEngineSound() {
+        if (!this.ctx) return;
+        this.engineOsc = this.ctx.createOscillator();
+        this.engineGain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+        this.engineOsc.type = 'sawtooth';
+        this.engineOsc.frequency.setValueAtTime(40, this.ctx.currentTime);
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(350, this.ctx.currentTime);
+        this.engineGain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+        this.engineOsc.connect(filter);
+        filter.connect(this.engineGain);
+        this.engineGain.connect(this.ctx.destination);
+        this.engineOsc.start();
+      }
+      updateRpm(rpm) {
+        if (!this.engineOsc || !this.ctx) return;
+        const freq = 35 + (rpm / 7000) * 110;
+        this.engineOsc.frequency.setTargetAtTime(freq, this.ctx.currentTime, 0.05);
+      }
+      playGearShift() {
+        this.init();
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.frequency.setValueAtTime(140, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(45, this.ctx.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.09);
+        osc.connect(gain); gain.connect(this.ctx.destination);
+        osc.start(); osc.stop(this.ctx.currentTime + 0.1);
+      }
+      playHorn() {
+        this.init();
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(420, this.ctx.currentTime);
+        gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.25);
+        osc.connect(gain); gain.connect(this.ctx.destination);
+        osc.start(); osc.stop(this.ctx.currentTime + 0.26);
+      }
+      updateRadarBeep(dist) {
+        this.init();
+        if (dist > 2.0) {
+          if (this.beepTimer) { clearInterval(this.beepTimer); this.beepTimer = null; }
+          return;
+        }
+        const interval = Math.max(80, (dist / 2.0) * 450);
+        if (!this.beepTimer) {
+          this.beepTimer = setInterval(() => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.frequency.setValueAtTime(1350, this.ctx.currentTime);
+            gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.05);
+            osc.connect(gain); gain.connect(this.ctx.destination);
+            osc.start(); osc.stop(this.ctx.currentTime + 0.055);
+          }, interval);
+        }
+      }
+    }
+    const audio = new AudioEngine();
+
+    /* بناء المشهد ثلاثي الأبعاد Three.js */
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x1e293b);
+    scene.fog = new THREE.FogExp2(0x1e293b, 0.015);
+
+    const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+
+    // الإضاءة والشمس
+    const hemi = new THREE.HemisphereLight(0x38bdf8, 0x0f172a, 0.8);
+    scene.add(hemi);
+    const sun = new THREE.DirectionalLight(0xffffff, 2.0);
+    sun.position.set(25, 40, 20);
+    sun.castShadow = true;
+    sun.shadow.mapSize.width = 1024;
+    sun.shadow.mapSize.height = 1024;
+    scene.add(sun);
+
+    // الأسفلت والأرضية
+    const ground = new THREE.Mesh(
+      new THREE.PlaneGeometry(120, 120),
+      new THREE.MeshStandardMaterial({ color: 0x181a20, roughness: 0.85 })
+    );
+    ground.rotation.x = -Math.PI / 2;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // خطوط المواقف الصفراء
+    const yellowMat = new THREE.MeshBasicMaterial({ color: 0xfacc15 });
+    for (let i = -3; i <= 3; i++) {
+      const stripe = new THREE.Mesh(new THREE.PlaneGeometry(0.12, 5.2), yellowMat);
+      stripe.rotation.x = -Math.PI / 2;
+      stripe.position.set(i * 2.8, 0.015, 10);
+      scene.add(stripe);
+    }
+
+    // موقف الهدف المضيء بالنيون
+    const target = { x: 0, z: 10, width: 2.8, length: 5.4, rotation: 0 };
+    const targetMesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(target.width, target.length),
+      new THREE.MeshBasicMaterial({ color: 0x06b6d4, transparent: true, opacity: 0.35, side: THREE.DoubleSide })
+    );
+    targetMesh.rotation.x = -Math.PI / 2;
+    targetMesh.position.set(target.x, 0.03, target.z);
+    scene.add(targetMesh);
+
+    const targetEdges = new THREE.LineSegments(
+      new THREE.EdgesGeometry(new THREE.BoxGeometry(target.width, 0.05, target.length)),
+      new THREE.LineBasicMaterial({ color: 0x22d3ee, linewidth: 3 })
+    );
+    targetEdges.position.set(target.x, 0.04, target.z);
+    scene.add(targetEdges);
+
+    // سيارات مركونة على الجانبين
+    function createParkedCar(x, z, color) {
+      const g = new THREE.Group();
+      g.position.set(x, 0, z);
+      const bMat = new THREE.MeshStandardMaterial({ color, roughness: 0.25, metalness: 0.8 });
+      const b = new THREE.Mesh(new THREE.BoxGeometry(1.9, 1.2, 4.5), bMat);
+      b.position.y = 0.7; b.castShadow = true; g.add(b);
+      const cab = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.7, 2.4), bMat);
+      cab.position.set(0, 1.45, -0.2); cab.castShadow = true; g.add(cab);
+      scene.add(g);
+    }
+    createParkedCar(-3.4, 10, 0x475569);
+    createParkedCar(3.4, 10, 0xdc2626);
+
+    // مجسم سيارة اللاعب
+    const carGroup = new THREE.Group();
+    const carPaintMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.2, metalness: 0.85 });
+    const carLower = new THREE.Mesh(new THREE.BoxGeometry(1.85, 0.6, 4.4), carPaintMat);
+    carLower.position.y = 0.55; carLower.castShadow = true; carGroup.add(carLower);
+    const carCabin = new THREE.Mesh(new THREE.BoxGeometry(1.55, 0.65, 2.3), carPaintMat);
+    carCabin.position.set(0, 1.15, -0.2); carCabin.castShadow = true; carGroup.add(carCabin);
+
+    // الكشافات
+    const spotL = new THREE.SpotLight(0xfffae0, 2.5, 30, 0.5, 0.4);
+    spotL.position.set(-0.6, 0.6, 2.2);
+    const spotR = new THREE.SpotLight(0xfffae0, 2.5, 30, 0.5, 0.4);
+    spotR.position.set(0.6, 0.6, 2.2);
+    const targetObj = new THREE.Object3D(); targetObj.position.set(0, 0, 15);
+    carGroup.add(targetObj); spotL.target = targetObj; spotR.target = targetObj;
+    carGroup.add(spotL); carGroup.add(spotR);
+
+    // العجلات الأمامية القابلة للتوجيه
+    const steerFL = new THREE.Group(); steerFL.position.set(-0.95, 0.36, 1.3);
+    const steerFR = new THREE.Group(); steerFR.position.set(0.95, 0.36, 1.3);
+    const wheelMat = new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.8 });
+    const wheelGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.22, 16);
+    
+    const wFL = new THREE.Mesh(wheelGeo, wheelMat); wFL.rotation.z = Math.PI / 2; steerFL.add(wFL);
+    const wFR = new THREE.Mesh(wheelGeo, wheelMat); wFR.rotation.z = Math.PI / 2; steerFR.add(wFR);
+    carGroup.add(steerFL); carGroup.add(steerFR);
+
+    // العجلات الخلفية
+    const wRL = new THREE.Mesh(wheelGeo, wheelMat); wRL.rotation.z = Math.PI / 2; wRL.position.set(-0.95, 0.36, -1.3); carGroup.add(wRL);
+    const wRR = new THREE.Mesh(wheelGeo, wheelMat); wRR.rotation.z = Math.PI / 2; wRR.position.set(0.95, 0.36, -1.3); carGroup.add(wRR);
+
+    scene.add(carGroup);
+
+    /* حالة وفيزياء السيارة */
+    const car = {
+      x: 0, z: -15, rotation: 0,
+      speed: 0, steerAngle: 0,
+      gear: 'P', handbrake: true,
+      throttle: 0, brake: 0,
+      rpm: 850, lightsOn: true
+    };
+
+    /* ربط أزرار التحكم */
+    document.querySelectorAll('.gear-btn').forEach(b => {
+      b.addEventListener('click', () => {
+        audio.init();
+        audio.playGearShift();
+        document.querySelectorAll('.gear-btn').forEach(btn => btn.classList.remove('active'));
+        b.classList.add('active');
+        car.gear = b.dataset.gear;
+        document.getElementById('gear-indicator').textContent = car.gear;
+      });
+    });
+
+    const hbBtn = document.getElementById('btn-handbrake');
+    hbBtn.addEventListener('click', () => {
+      audio.init();
+      car.handbrake = !car.handbrake;
+      hbBtn.classList.toggle('active', car.handbrake);
+    });
+
+    const gasBtn = document.getElementById('pedal-gas');
+    const brakeBtn = document.getElementById('pedal-brake');
+    const setGas = (val) => { audio.init(); car.throttle = val; gasBtn.classList.toggle('pressed', val > 0); };
+    const setBrake = (val) => { audio.init(); car.brake = val; brakeBtn.classList.toggle('pressed', val > 0); };
+
+    gasBtn.addEventListener('pointerdown', () => setGas(1));
+    gasBtn.addEventListener('pointerup', () => setGas(0));
+    gasBtn.addEventListener('pointerleave', () => setGas(0));
+    brakeBtn.addEventListener('pointerdown', () => setBrake(1));
+    brakeBtn.addEventListener('pointerup', () => setBrake(0));
+    brakeBtn.addEventListener('pointerleave', () => setBrake(0));
+
+    // دوران عجلة القيادة باللمس والماوس
+    const wheelElem = document.getElementById('steer-wheel');
+    let isDraggingWheel = false;
+    let wheelDeg = 0;
+    let lastAngle = 0;
+
+    wheelElem.addEve
