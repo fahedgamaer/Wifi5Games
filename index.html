@@ -1,32 +1,21 @@
-using System;
-using GTA;
-using GTA.Native;
+RegisterCommand("car", function(source, args, raw)
+  local model = args[1] or "banshee"
+  local playerPed = PlayerPedId()
+  local pos = GetEntityCoords(playerPed)
+  RequestModel(GetHashKey(model))
+  while not HasModelLoaded(GetHashKey(model)) do Wait(10) end
+  local veh = CreateVehicle(GetHashKey(model), pos.x+5, pos.y, pos.z+1, GetEntityHeading(playerPed), true, false)
+  SetPedIntoVehicle(playerPed, veh, -1)
+  SetEntityAsNoLongerNeeded(veh)
+end, false)
 
-public class Main : Script
-{
-    public Main()
-    {
-        Tick += OnTick;
-        UI.Notify("~g~GTA V Script Loaded");
-    }
-
-    private void OnTick(object sender, EventArgs e)
-    {
-        if (Game.IsKeyPressed(System.Windows.Forms.Keys.F1))
-        {
-            var player = Game.Player.Character;
-            player.Position = new Vector3(0f, 0f, 30f);
-            UI.Notify("~y~Teleported to spawn");
-        }
-
-        if (Game.IsKeyPressed(System.Windows.Forms.Keys.F2))
-        {
-            var vehicle = World.CreateVehicle(VehicleHash.Banshee, Game.Player.Character.Position + new Vector3(5f, 0f, 1f), 0f);
-            if (vehicle != null)
-            {
-                vehicle.PlaceOnGround();
-                UI.Notify("~b~Spawned Banshee");
-            }
-        }
-    }
-}
+RegisterCommand("tpto", function(source, args, raw)
+  local x,y,z = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
+  if x and y and z then
+    local playerPed = PlayerPedId()
+    SetEntityCoords(playerPed, x, y, z, false, false, false, true)
+    TriggerEvent('chat:addMessage',{ args = {"^2Teleport","تم النقل"}})
+  else
+    TriggerEvent('chat:addMessage',{ args = {"^1Usage","/tpto x y z"}})
+  end
+end, false)
