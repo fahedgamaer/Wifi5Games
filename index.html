@@ -1,99 +1,389 @@
-using UnityEngine;
-
-public class CarController : MonoBehaviour
-{
-    [Header("Movement")]
-    public float motorForce = 1800f;
-    public float brakeForce = 2200f;
-    public float maxSpeed = 18f;
-    public float steeringRange = 35f;
-    public float steeringSpeed = 8f;
-    public float grip = 4f;
-    public float downforce = 60f;
-
-    [Header("Setup")]
-    public Transform centerOfMass;
-    public bool useKeyboard = true;
-
-    private Rigidbody rb;
-    private float steerInput;
-    private float throttleInput;
-    private float brakeInput;
-    private float currentSteer;
-
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-
-        if (centerOfMass != null)
-            rb.centerOfMass = centerOfMass.localPosition;
-    }
-
-    void Update()
-    {
-        if (useKeyboard)
-        {
-            float horizontal = Input.GetAxisRaw("Horizontal");
-            float vertical = Input.GetAxisRaw("Vertical");
-            float brake = Input.GetKey(KeyCode.Space) ? 1f : 0f;
-
-            SetInput(horizontal, vertical, brake);
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wifi5Games - بوابة الألعاب الشاملة</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #0d0f17;
+            color: #ffffff;
         }
-    }
+        .neon-border {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+        .neon-text {
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+        }
+        /* Hide Scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-[#0d0f17] text-white min-h-screen flex flex-col justify-between">
 
-    public void SetInput(float steer, float throttle, float brake)
-    {
-        steerInput = Mathf.Clamp(steer, -1f, 1f);
-        throttleInput = Mathf.Clamp(throttle, -1f, 1f);
-        brakeInput = Mathf.Clamp(brake, 0f, 1f);
-    }
+    <!-- 1. شاشة التحميل (Loader Screen) -->
+    <div id="loader" class="fixed inset-0 z-50 bg-[#07090e] flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="relative flex flex-col items-center">
+            <div class="w-24 h-24 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mb-6"></div>
+            <h1 class="text-3xl font-black tracking-widest text-blue-500 neon-text mb-2">Wifi5Games</h1>
+            <p class="text-gray-400 text-sm mb-4">جاري تحميل أكثر من 1000 لعبة...</p>
+            <div class="w-64 bg-gray-800 rounded-full h-2 overflow-hidden">
+                <div id="progress-bar" class="bg-blue-500 h-full w-0 transition-all duration-300"></div>
+            </div>
+            <span id="progress-text" class="text-xs text-blue-400 mt-2">0%</span>
+        </div>
+    </div>
 
-    void FixedUpdate()
-    {
-        // ثبات السيارة على الأرض
-        rb.AddForce(-transform.up * downforce * rb.velocity.magnitude * 0.05f, ForceMode.Acceleration);
+    <!-- Header / Navbar -->
+    <header class="bg-[#131722] border-b border-gray-800 sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="https://fahedgamaer.github.io/Wifi5Games/?utm_source=chatgpt.com" target="_blank" class="flex items-center gap-3">
+                <i class="fa-solid font-black text-2xl text-blue-500 fa-gamepad"></i>
+                <span class="text-2xl font-black text-blue-500 neon-text">Wifi5Games</span>
+            </a>
 
-        // دوران السيارة
-        float targetSteer = steerInput * steeringRange;
-        currentSteer = Mathf.Lerp(currentSteer, targetSteer, Time.fixedDeltaTime * steeringSpeed);
+            <!-- Search Bar -->
+            <div class="hidden md:flex items-center bg-[#1a1f2c] px-3 py-1.5 rounded-lg border border-gray-700 w-1/3">
+                <i class="fa-solid fa-magnifying-glass text-gray-400 ml-2"></i>
+                <input type="text" id="search-input" oninput="handleSearch()" placeholder="ابحث عن لعبتك المفضلة..." class="bg-transparent text-sm w-full focus:outline-none text-white">
+            </div>
 
-        Quaternion turn = Quaternion.Euler(0f, currentSteer * Time.fixedDeltaTime * 60f, 0f);
-        rb.MoveRotation(rb.rotation * turn);
+            <!-- User Status / Dev Controls -->
+            <div id="user-section" class="flex items-center gap-3">
+                <button onclick="openAuthModal()" class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg font-bold transition flex items-center gap-2">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>تسجيل الدخول</span>
+                </button>
+            </div>
+        </div>
+    </header>
 
-        // السرعة الحالية على الاتجاه
-        float speedForward = Vector3.Dot(rb.velocity, transform.forward);
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6 flex-grow">
+        
+        <!-- Announcement / Notice Banner -->
+        <div id="announcement-banner" class="bg-gradient-to-r from-blue-900/40 to-indigo-900/40 border border-blue-500/30 rounded-xl p-4 mb-6 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-bullhorn text-blue-400 text-xl"></i>
+                <span id="announcement-text" class="text-sm font-semibold">مرحباً بكم في Wifi5Games! أكثر من 1000 لعبة مجانية متاحة للعب الفوري.</span>
+            </div>
+            <a href="https://fahedgamaer.github.io/Wifi5Games/?utm_source=chatgpt.com" target="_blank" class="text-xs bg-blue-500 hover:bg-blue-600 px-3 py-1.5 rounded-md font-bold whitespace-nowrap">الموقع الرسمي</a>
+        </div>
 
-        // الشحن / التباطؤ
-        if (throttleInput > 0f && speedForward < maxSpeed)
-        {
-            rb.AddForce(transform.forward * throttleInput * motorForce, ForceMode.Acceleration);
+        <!-- Controls & Filters -->
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+            <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 no-scrollbar">
+                <button onclick="filterCategory('all')" class="cat-btn bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap">الكل (+1000)</button>
+                <button onclick="filterCategory('action')" class="cat-btn bg-[#1a1f2c] text-gray-300 hover:bg-gray-800 px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap">أكشن</button>
+                <button onclick="filterCategory('racing')" class="cat-btn bg-[#1a1f2c] text-gray-300 hover:bg-gray-800 px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap">سباقات</button>
+                <button onclick="filterCategory('sports')" class="cat-btn bg-[#1a1f2c] text-gray-300 hover:bg-gray-800 px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap">رياضة</button>
+                <button onclick="filterCategory('strategy')" class="cat-btn bg-[#1a1f2c] text-gray-300 hover:bg-gray-800 px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap">استراتيجية</button>
+            </div>
+            
+            <div class="text-xs text-gray-400">
+                عرض <span id="current-count" class="text-blue-400 font-bold">0</span> من إجمالي <span id="total-count" class="text-blue-400 font-bold">1000</span> لعبة
+            </div>
+        </div>
+
+        <!-- Games Grid -->
+        <div id="games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <!-- Game Cards Dynamic Injection -->
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="flex justify-center items-center gap-3 mt-8">
+            <button onclick="changePage(-1)" id="prev-btn" class="bg-[#1a1f2c] hover:bg-gray-800 border border-gray-700 px-4 py-2 rounded-lg text-sm font-bold disabled:opacity-50">السابق</button>
+            <span id="page-info" class="text-sm text-gray-400 font-bold">الصفحة 1 من 50</span>
+            <button onclick="changePage(1)" id="next-btn" class="bg-[#1a1f2c] hover:bg-gray-800 border border-gray-700 px-4 py-2 rounded-lg text-sm font-bold">التالي</button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#131722] border-t border-gray-800 py-6 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-400 text-sm mb-2">جميع الحقوق محفوظة © 2026 Wifi5Games</p>
+            <a href="https://fahedgamaer.github.io/Wifi5Games/?utm_source=chatgpt.com" target="_blank" class="text-blue-400 hover:underline text-xs">
+                زيارة رابط Wifi5Games الأصلي
+            </a>
+        </div>
+    </footer>
+
+    <!-- Auth Modal (تسجيل الدخول) -->
+    <div id="auth-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-[#131722] border border-gray-800 rounded-2xl w-full max-w-md p-6 relative">
+            <button onclick="closeAuthModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <h2 class="text-xl font-bold text-blue-500 mb-1">تسجيل الدخول السريع</h2>
+            <p class="text-xs text-gray-400 mb-6">ادخل اسمك وإيميلك بدون الحاجة لكود تفعيل</p>
+
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">اسم المستخدم</label>
+                    <input type="text" id="login-username" required placeholder="أدخل اسمك" class="w-full bg-[#1a1f2c] border border-gray-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">البريد الإلكتروني</label>
+                    <input type="email" id="login-email" required placeholder="example@domain.com" class="w-full bg-[#1a1f2c] border border-gray-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-blue-500">
+                    <p class="text-[10px] text-gray-500 mt-1">اكتب بريد المبرمج لتفعيل صلاحيات التحكم بالكامل</p>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg text-sm transition">
+                    دخول
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel Modal (لوحة تحكم المبرمج) -->
+    <div id="admin-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-[#131722] border border-blue-500/40 rounded-2xl w-full max-w-lg p-6 relative">
+            <button onclick="closeAdminModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="flex items-center gap-2 mb-4">
+                <i class="fa-solid fa-user-gear text-blue-500 text-xl"></i>
+                <h2 class="text-xl font-bold text-white">لوحة تحكم المبرمج</h2>
+            </div>
+            
+            <!-- Add Game Form -->
+            <form onsubmit="handleAddGame(event)" class="space-y-3">
+                <h3 class="text-sm font-bold text-blue-400 border-b border-gray-800 pb-1">إضافة لعبة جديدة للموقع</h3>
+                <div>
+                    <input type="text" id="new-game-title" required placeholder="اسم اللعبة" class="w-full bg-[#1a1f2c] border border-gray-700 rounded-lg p-2 text-sm">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="new-game-cat" class="bg-[#1a1f2c] border border-gray-700 rounded-lg p-2 text-sm">
+                        <option value="action">أكشن</option>
+                        <option value="racing">سباقات</option>
+                        <option value="sports">رياضة</option>
+                        <option value="strategy">استراتيجية</option>
+                    </select>
+                    <input type="url" id="new-game-img" required placeholder="رابط صورة الغلاف" class="bg-[#1a1f2c] border border-gray-700 rounded-lg p-2 text-sm">
+                </div>
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-lg text-sm">
+                    إضافة اللعبة فوراً
+                </button>
+            </form>
+
+            <hr class="border-gray-800 my-4">
+
+            <!-- Edit Announcement Form -->
+            <form onsubmit="handleUpdateNotice(event)" class="space-y-3">
+                <h3 class="text-sm font-bold text-blue-400 border-b border-gray-800 pb-1">تعديل الإعلان العام</h3>
+                <input type="text" id="new-notice-text" placeholder="نص الإعلان الجديد..." class="w-full bg-[#1a1f2c] border border-gray-700 rounded-lg p-2 text-sm">
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg text-sm">
+                    تحديث الإعلان
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Application JavaScript Logic -->
+    <script>
+        // Real Base Games with High-Quality Covers
+        const realCovers = [
+            { title: "GTA San Andreas", category: "action", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&q=80" },
+            { title: "PUBG Mobile", category: "action", img: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400&q=80" },
+            { title: "Need For Speed", category: "racing", img: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=400&q=80" },
+            { title: "FIFA 2026", category: "sports", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400&q=80" },
+            { title: "Call of Duty", category: "action", img: "https://images.unsplash.com/photo-1552824724-367097746401?w=400&q=80" },
+            { title: "Age of Empires", category: "strategy", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&q=80" }
+        ];
+
+        // State Management
+        let gamesList = [];
+        let filteredGames = [];
+        let currentPage = 1;
+        const itemsPerPage = 24;
+        let currentUser = null;
+        let activeCategory = 'all';
+
+        // Developer Standard Email
+        const DEV_EMAIL = "fahedyousef66@gmail.com";
+
+        // Initialization
+        window.onload = () => {
+            runLoader();
+            initGamesData();
+            checkSavedUser();
+        };
+
+        // Loader Simulation
+        function runLoader() {
+            let progress = 0;
+            const bar = document.getElementById('progress-bar');
+            const text = document.getElementById('progress-text');
+            const loader = document.getElementById('loader');
+
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 15) + 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loader.classList.add('opacity-0');
+                        setTimeout(() => loader.style.display = 'none', 500);
+                    }, 300);
+                }
+                bar.style.width = progress + '%';
+                text.innerText = progress + '%';
+            }, 100);
         }
 
-        if (throttleInput < 0f && speedForward > -maxSpeed * 0.7f)
-        {
-            rb.AddForce(transform.forward * throttleInput * motorForce * 0.7f, ForceMode.Acceleration);
+        // Initialize 1000+ Games Data
+        function initGamesData() {
+            const savedGames = localStorage.getItem('wifi5_custom_games');
+            let customGames = savedGames ? JSON.parse(savedGames) : [];
+
+            gamesList = [...customGames];
+            
+            const categories = ['action', 'racing', 'sports', 'strategy'];
+            for (let i = 1; i <= 1000; i++) {
+                const sample = realCovers[i % realCovers.length];
+                gamesList.push({
+                    id: i,
+                    title: `${sample.title} #${i}`,
+                    category: categories[i % categories.length],
+                    img: sample.img
+                });
+            }
+
+            filteredGames = [...gamesList];
+            document.getElementById('total-count').innerText = gamesList.length;
+            renderGrid();
         }
 
-        // فرامل
-        if (brakeInput > 0f)
-        {
-            Vector3 brakeVelocity = rb.velocity;
-            brakeVelocity *= 0.92f;
-            rb.velocity = Vector3.Lerp(rb.velocity, brakeVelocity, brakeInput * Time.fixedDeltaTime * 12f);
+        // Render Cards Grid
+        function renderGrid() {
+            const grid = document.getElementById('games-grid');
+            grid.innerHTML = '';
+
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageItems = filteredGames.slice(start, end);
+
+            document.getElementById('current-count').innerText = pageItems.length;
+
+            pageItems.forEach(game => {
+                const card = document.createElement('div');
+                card.className = "bg-[#131722] border border-gray-800 rounded-xl overflow-hidden hover:border-blue-500/50 hover:scale-105 transition duration-300 group cursor-pointer";
+                card.onclick = () => window.open('https://fahedgamaer.github.io/Wifi5Games/?utm_source=chatgpt.com', '_blank');
+                card.innerHTML = `
+                    <div class="relative h-40 overflow-hidden">
+                        <img src="${game.img}" alt="${game.title}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <span class="absolute top-2 right-2 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase">${game.category}</span>
+                    </div>
+                    <div class="p-3">
+                        <h4 class="font-bold text-sm text-white truncate">${game.title}</h4>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-[10px] text-gray-400"><i class="fa-solid fa-circle-play text-blue-400"></i> تشغيل مجاني</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-blue-500"></i>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Update Pagination Controls
+            const maxPages = Math.ceil(filteredGames.length / itemsPerPage) || 1;
+            document.getElementById('page-info').innerText = `الصفحة ${currentPage} من ${maxPages}`;
+            document.getElementById('prev-btn').disabled = currentPage === 1;
+            document.getElementById('next-btn').disabled = currentPage === maxPages;
         }
 
-        // تقليل الانزلاق
-        float steerFactor = Mathf.Abs(steerInput);
-        Vector3 forwardVelocity = Vector3.Project(rb.velocity, transform.forward);
-        Vector3 sideVelocity = Vector3.Project(rb.velocity, transform.right);
+        // Category Filter
+        function filterCategory(cat) {
+            activeCategory = cat;
+            currentPage = 1;
+            
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = "cat-btn bg-[#1a1f2c] text-gray-300 hover:bg-gray-800 px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap";
+            });
+            event.target.className = "cat-btn bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap";
 
-        sideVelocity *= (1f - Mathf.Clamp01(steerFactor * 0.5f));
-        rb.velocity = forwardVelocity + sideVelocity;
-
-        // تعطيل السرعة الزائدة
-        if (rb.velocity.magnitude > maxSpeed * 1.5f)
-        {
-            rb.velocity = rb.velocity.normalized * maxSpeed * 1.5f;
+            if (cat === 'all') {
+                filteredGames = [...gamesList];
+            } else {
+                filteredGames = gamesList.filter(g => g.category === cat);
+            }
+            renderGrid();
         }
-    }
-}
+
+        // Search Logic
+        function handleSearch() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            currentPage = 1;
+            filteredGames = gamesList.filter(g => g.title.toLowerCase().includes(query));
+            renderGrid();
+        }
+
+        // Pagination Action
+        function changePage(direction) {
+            currentPage += direction;
+            renderGrid();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Auth Modals Handling
+        function openAuthModal() {
+            document.getElementById('auth-modal').classList.remove('hidden');
+        }
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+        function openAdminModal() {
+            document.getElementById('admin-modal').classList.remove('hidden');
+        }
+        function closeAdminModal() {
+            document.getElementById('admin-modal').classList.add('hidden');
+        }
+
+        // Handle Login Submission
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const email = document.getElementById('login-email').value;
+
+            currentUser = {
+                username: username,
+                email: email,
+                isDev: email.trim().toLowerCase() === DEV_EMAIL.toLowerCase()
+            };
+
+            localStorage.setItem('wifi5_user', JSON.stringify(currentUser));
+            updateUserUI();
+            closeAuthModal();
+        }
+
+        // Local Storage Sync
+        function checkSavedUser() {
+            const saved = localStorage.getItem('wifi5_user');
+            if (saved) {
+                currentUser = JSON.parse(saved);
+                updateUserUI();
+            }
+            
+            const notice = localStorage.getItem('wifi5_notice');
+            if (notice) {
+                document.getElementById('announcement-text').innerText = notice;
+            }
+        }
+
+        // Render User UI depending on status
+        function updateUserUI() {
+            const section = document.getElementById('user-section');
+            if (!currentUser) return;
+
+         
