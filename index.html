@@ -1,254 +1,417 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الوثبة | صيانة وتركيب الونشات العلوية</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الوثبة | عالم الونشات العلوية</title>
+<meta name="description" content="الوثبة للصيانة والونشات العلوية وتركيبها. القوة والدقة والأمان الصناعي.">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-:root {
-  --gold: #e5a52c;
-  --dark: #101820;
-  --panel: #192630;
-  --light: #f5f5f5;
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0b1015;color:#fff;font-family:Cairo,sans-serif}
+:root{--gold:#ffbd18;--panel:#171f27}
+header{
+height:70px;background:#111920;border-bottom:1px solid #303a43;
+display:flex;align-items:center;justify-content:space-between;
+padding:0 6%;position:sticky;top:0;z-index:10
 }
-* {box-sizing:border-box;margin:0;padding:0}
-body {
-  font-family:'Cairo',sans-serif;
-  background:var(--dark);
-  color:white;
+.logo{font-size:25px;font-weight:900;color:var(--gold)}
+.user{font-size:13px;color:#ddd}
+.container{max-width:760px;margin:25px auto;padding:0 14px}
+.hero{
+min-height:300px;border-radius:17px;overflow:hidden;padding:30px 25px;
+display:flex;flex-direction:column;justify-content:center;
+background:linear-gradient(90deg,#080d12ed,#101a22b5),
+linear-gradient(135deg,#36434a,#111820 55%,#795a16);
+border:1px solid #57451c;position:relative
 }
-header {
-  position:sticky;top:0;z-index:10;
-  background:#101820ee;
-  border-bottom:1px solid #ffffff20;
-  padding:15px 7%;
-  display:flex;justify-content:space-between;
-  align-items:center;gap:15px;flex-wrap:wrap;
+.hero:after{content:"⚙";position:absolute;left:25px;bottom:-45px;font-size:190px;color:#ffffff0b}
+.hero small{color:var(--gold);font-weight:800;letter-spacing:2px}
+.hero h1{font-size:clamp(26px,6vw,42px);line-height:1.5;margin:10px 0}
+.hero p{color:#d0d4d7;font-size:14px}
+.hero b{color:var(--gold)}
+.section-title{margin:25px 0 14px;color:var(--gold);font-size:19px}
+.post{background:var(--panel);border:1px solid #ffffff12;border-radius:14px;margin-bottom:20px;overflow:hidden}
+.post-head{display:flex;align-items:center;gap:12px;padding:15px}
+.avatar{
+width:43px;height:43px;border-radius:50%;background:var(--gold);
+color:#111;display:grid;place-items:center;font-weight:900;font-size:19px
 }
-.logo {font-size:27px;font-weight:900;color:var(--gold)}
-nav {display:flex;gap:20px;flex-wrap:wrap}
-nav a {color:white;text-decoration:none;font-size:14px}
-nav a:hover {color:var(--gold)}
-.hero {
-  min-height:540px;
-  display:flex;align-items:center;
-  padding:70px 8%;
-  background:
-  linear-gradient(90deg,#101820ee,#10182099),
-  url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1800&q=85') center/cover;
+.post-name{font-weight:800}
+.post-date{font-size:11px;color:#929ba4}
+.post-text{padding:0 16px 15px;line-height:1.9;white-space:pre-wrap}
+.post-media{width:100%;max-height:550px;object-fit:contain;background:#080c10;display:block}
+.post-actions{padding:12px 16px;border-top:1px solid #ffffff15;color:#aaa;font-size:12px}
+.empty{text-align:center;padding:45px 15px;background:var(--panel);border-radius:13px;color:#aeb5bc}
+.empty strong{display:block;font-size:42px;color:var(--gold)}
+.plus{
+position:fixed;right:24px;bottom:24px;width:63px;height:63px;
+border:0;border-radius:50%;background:var(--gold);color:#111;
+font-size:39px;font-weight:700;cursor:pointer;
+box-shadow:0 5px 25px #ffbd1866;z-index:20
 }
-.hero-content {max-width:650px}
-.tag {color:var(--gold);font-weight:800}
-h1 {font-size:clamp(35px,6vw,65px);line-height:1.4;margin:15px 0}
-.hero p {color:#ddd;font-size:17px;line-height:2}
-.btn {
-  display:inline-block;background:var(--gold);
-  color:#101820;padding:12px 25px;
-  border:0;border-radius:7px;
-  font-family:inherit;font-weight:900;
-  cursor:pointer;text-decoration:none;margin-top:22px;
+.overlay{
+position:fixed;inset:0;background:#000d;z-index:100;
+display:flex;align-items:center;justify-content:center;padding:15px
 }
-section {padding:65px 7%}
-.section-title {text-align:center;margin-bottom:35px}
-.section-title h2 {font-size:30px;color:var(--gold)}
-.section-title p {color:#bbb;margin-top:8px}
-.services {
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
+.modal{
+width:100%;max-width:470px;background:#19222a;
+border:1px solid #66501b;border-radius:16px;padding:23px
 }
-.service {
-  background:var(--panel);padding:25px;
-  border-radius:12px;border:1px solid #ffffff12;
+.modal h2{color:var(--gold);margin-bottom:15px}
+.modal input[type=text],.modal textarea{
+width:100%;padding:13px;border-radius:9px;
+border:1px solid #46515a;background:#0c1217;color:white;
+font-family:inherit;margin-bottom:14px;outline:none
 }
-.service .symbol {font-size:35px}
-.service h3 {color:var(--gold);margin:12px 0}
-.service p {color:#bbb;line-height:1.9;font-size:14px}
-.gallery {background:#141f28}
-.upload-area {
-  background:var(--panel);padding:25px;
-  border:1px dashed var(--gold);border-radius:12px;
-  text-align:center;margin-bottom:30px;
+.modal textarea{height:105px;resize:vertical}
+.upload{
+display:block;padding:15px;background:#29343d;
+border-radius:9px;text-align:center;color:var(--gold);
+cursor:pointer;margin-bottom:13px
 }
-.upload-area p {color:#bbb}
-#mediaInput {display:none}
-.media-grid {
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
-  gap:18px;
+.preview{display:block;max-width:100%;max-height:180px;margin:0 auto 14px}
+.btn{border:0;border-radius:8px;padding:12px 20px;font-family:inherit;font-weight:800;cursor:pointer}
+.primary{background:var(--gold);color:#111}
+.secondary{background:#39444d;color:white}
+.buttons{display:flex;gap:9px}
+.hidden{display:none!important}
+.login{text-align:center}
+.login h1{font-size:34px;color:var(--gold)}
+.login p{color:#aaa;margin:8px 0 20px}
+.login input{
+width:100%;padding:14px;background:#0c1217;color:white;
+border:1px solid #555;border-radius:8px;margin-bottom:13px;
+font-family:inherit
 }
-.media-card {
-  background:var(--panel);border-radius:12px;overflow:hidden;
-}
-.media-card img,.media-card video {
-  width:100%;height:220px;object-fit:cover;
-  display:block;background:#000;
-}
-.media-card p {padding:12px;color:#ddd}
-.empty {text-align:center;color:#aaa;padding:30px}
-.about {
-  text-align:center;line-height:2.2;
-  max-width:800px;margin:auto;color:#ddd;
-}
-.contact {text-align:center;background:#192630}
-.contact p {color:#ddd;line-height:2}
-footer {
-  padding:25px;text-align:center;
-  background:#0b1218;color:#999;font-size:13px;
-}
-@media(max-width:600px){
- header {justify-content:center}
- nav {justify-content:center;gap:13px}
- .hero {min-height:470px}
- section {padding:45px 5%}
+footer{text-align:center;padding:28px;color:#7e8992;font-size:12px}
+#loginError,#status{font-size:12px;color:#ffcf59;margin-top:10px}
+@media(max-width:500px){
+.logo{font-size:20px}.hero{min-height:230px}
+.plus{width:58px;height:58px}
 }
 </style>
 </head>
+
 <body>
 
 <header>
-  <div class="logo">الوثبة</div>
-  <nav>
-    <a href="#home">الرئيسية</a>
-    <a href="#services">خدماتنا</a>
-    <a href="#gallery">معرض الأعمال</a>
-    <a href="#about">من نحن</a>
-    <a href="#contact">اتصل بنا</a>
-  </nav>
+<div class="logo">الوثبة ⚙</div>
+<div class="user" id="userLabel">مجتمع الوثبة</div>
 </header>
 
-<main>
-<section class="hero" id="home">
-  <div class="hero-content">
-    <div class="tag">القوة • الدقة • الأمان الصناعي</div>
-    <h1>الوثبة<br>للصيانة وتركيب الونشات العلوية</h1>
-    <p>
-      حلول صناعية احترافية في صيانة وتركيب الونشات العلوية،
-      ونهتم بالجودة والدقة والسلامة في كل مشروع.
-    </p>
-    <a href="#gallery" class="btn">شاهد أعمالنا</a>
-  </div>
+<!-- شاشة الدخول -->
+<div class="overlay" id="loginScreen">
+<div class="modal login">
+<h1>الوثبة</h1>
+<p>القوة • الدقة • الأمان الصناعي</p>
+<input id="username" type="text" maxlength="30" placeholder="اكتب اسم المستخدم">
+<button class="btn primary" onclick="login()">دخول الموقع</button>
+<div id="loginError"></div>
+</div>
+</div>
+
+<main class="container">
+
+<section class="hero">
+<small>مرحباً بكم في عالم الوثبة</small>
+<h1>الوثبة للصيانة<br>والونشات العلوية وتركيبها</h1>
+<p>القوة • الدقة • الأمان الصناعي</p>
 </section>
 
-<section id="services">
-  <div class="section-title">
-    <h2>خدماتنا</h2>
-    <p>خبرة واهتمام بأدق التفاصيل</p>
-  </div>
-  <div class="services">
-    <div class="service">
-      <div class="symbol">🏗️</div>
-      <h3>تركيب الونشات</h3>
-      <p>تركيب وتجهيز الونشات العلوية وفق متطلبات المشروع.</p>
-    </div>
-    <div class="service">
-      <div class="symbol">🔧</div>
-      <h3>الصيانة والإصلاح</h3>
-      <p>صيانة وإصلاح الأعطال ومتابعة حالة المعدات.</p>
-    </div>
-    <div class="service">
-      <div class="symbol">⚙️</div>
-      <h3>الفحص الفني</h3>
-      <p>فحص المكونات والأنظمة ومتابعة متطلبات السلامة.</p>
-    </div>
-    <div class="service">
-      <div class="symbol">🛡️</div>
-      <h3>السلامة الصناعية</h3>
-      <p>الاهتمام بمعايير الأمان والجودة في تنفيذ الأعمال.</p>
-    </div>
-  </div>
-</section>
+<h2 class="section-title">المنشورات والصور والفيديوهات</h2>
 
-<section class="gallery" id="gallery">
-  <div class="section-title">
-    <h2>معرض أعمال الوثبة</h2>
-    <p>صور وفيديوهات المشاريع والأعمال الصناعية</p>
-  </div>
+<div id="feed">
+<div class="empty">جارٍ تحميل المنشورات...</div>
+</div>
 
-  <div class="upload-area">
-    <h3>شارك صور أو فيديوهات أعمالك</h3>
-    <p>اختر صورة أو فيديو من جهازك لإضافته إلى المعرض.</p>
-    <label for="mediaInput" class="btn">＋ إضافة صورة أو فيديو</label>
-    <input type="file" id="mediaInput" accept="image/*,video/*" multiple>
-    <p style="font-size:12px;margin-top:15px">
-      النسخة التجريبية تعرض الملفات على جهازك فقط.
-    </p>
-  </div>
-
-  <div class="media-grid" id="mediaGrid">
-    <div class="empty">معرض الأعمال جاهز لاستقبال الصور والفيديوهات.</div>
-  </div>
-</section>
-
-<section id="about">
-  <div class="section-title">
-    <h2>من نحن</h2>
-  </div>
-  <div class="about">
-    <h3 style="color:#e5a52c">الوثبة للصيانة وتركيب الونشات العلوية</h3>
-    نعمل على تقديم خدمات الصيانة والتركيب والحلول الصناعية،
-    مع التركيز على الجودة والدقة والالتزام بمعايير السلامة.
-    <br>
-    <strong style="color:#e5a52c">
-      القوة • الدقة • الأمان الصناعي
-    </strong>
-  </div>
-</section>
-
-<section class="contact" id="contact">
-  <div class="section-title">
-    <h2>تواصل معنا</h2>
-    <p>يسعدنا استقبال استفساراتكم وطلباتكم</p>
-  </div>
-  <p>لإضافة رقم الهاتف والبريد الإلكتروني والعنوان، نحتاج بيانات التواصل الرسمية.</p>
-</section>
 </main>
 
+<button class="plus hidden" id="plusButton" onclick="openComposer()">+</button>
+
+<!-- نافذة إضافة منشور -->
+<div class="overlay hidden" id="composer">
+<div class="modal">
+<h2>إضافة منشور جديد</h2>
+
+<textarea id="caption" maxlength="2000"
+placeholder="اكتب تفاصيل المشروع أو أعمال الصيانة..."></textarea>
+
+<label class="upload" for="mediaInput">
+📷 اختر صورة أو فيديو من جهازك
+</label>
+
+<input id="mediaInput" type="file" accept="image/*,video/*" hidden>
+
+<div id="previewArea"></div>
+<div id="status"></div>
+
+<div class="buttons">
+<button class="btn primary" id="publishBtn" onclick="publish()">نشر المنشور</button>
+<button class="btn secondary" onclick="closeComposer()">إلغاء</button>
+</div>
+</div>
+</div>
+
 <footer>
-  © 2026 الوثبة - جميع الحقوق محفوظة
-  <br>القوة • الدقة • الأمان الصناعي
+الوثبة للصيانة والونشات العلوية وتركيبها
+<br>
+القوة • الدقة • الأمان الصناعي
 </footer>
 
 <script>
-const input = document.getElementById('mediaInput');
-const grid = document.getElementById('mediaGrid');
+/* بيانات الربط السحابي */
+const SUPABASE_URL = "ضع_رابط_مشروعك_هنا";
+const SUPABASE_KEY = "ضع_مفتاح_anon_public_هنا";
 
-input.addEventListener('change', function() {
-  const files = Array.from(this.files);
-  if (!files.length) return;
+let client = null;
+let currentUser = localStorage.getItem("wathba_username") || "";
+let selectedFile = null;
 
-  const empty = grid.querySelector('.empty');
-  if (empty) empty.remove();
+/* تشغيل الموقع */
+function setup(){
+  if(!SUPABASE_URL.startsWith("https://") ||
+     SUPABASE_KEY.startsWith("ضع_")){
+    document.getElementById("feed").innerHTML =
+      '<div class="empty">الموقع جاهز، يرجى إكمال ربط قاعدة البيانات لعرض المنشورات للجميع.</div>';
+  }else{
+    client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  }
 
-  files.forEach(file => {
-    if (!file.type.startsWith('image/') &&
-        !file.type.startsWith('video/')) return;
+  if(currentUser) showSite();
+}
 
-    const url = URL.createObjectURL(file);
-    const card = document.createElement('div');
-    card.className = 'media-card';
+/* تسجيل الدخول */
+function login(){
+  const name=document.getElementById("username").value.trim();
 
-    const media = document.createElement(
-      file.type.startsWith('video/') ? 'video' : 'img'
-    );
+  if(name.length<2){
+    document.getElementById("loginError").textContent=
+      "يرجى كتابة اسم مستخدم صحيح";
+    return;
+  }
 
-    media.src = url;
+  currentUser=name;
+  localStorage.setItem("wathba_username",name);
+  showSite();
+}
 
-    if (media.tagName === 'VIDEO') {
-      media.controls = true;
-      media.playsInline = true;
+function showSite(){
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("plusButton").classList.remove("hidden");
+  document.getElementById("userLabel").textContent="👤 "+currentUser;
+
+  if(client){
+    loadPosts();
+    listenForPosts();
+  }else{
+    document.getElementById("feed").innerHTML=
+      '<div class="empty">أكمل إعداد التخزين السحابي حتى تظهر المنشورات.</div>';
+  }
+}
+
+/* فتح نافذة المنشورات */
+function openComposer(){
+  selectedFile=null;
+  document.getElementById("caption").value="";
+  document.getElementById("mediaInput").value="";
+  document.getElementById("previewArea").innerHTML="";
+  document.getElementById("status").textContent="";
+  document.getElementById("composer").classList.remove("hidden");
+}
+
+function closeComposer(){
+  document.getElementById("composer").classList.add("hidden");
+}
+
+/* اختيار الصور والفيديوهات */
+document.getElementById("mediaInput").addEventListener("change",function(){
+  selectedFile=this.files[0] || null;
+  const area=document.getElementById("previewArea");
+  area.innerHTML="";
+
+  if(!selectedFile)return;
+
+  if(!selectedFile.type.startsWith("image/") &&
+     !selectedFile.type.startsWith("video/")){
+    alert("اختر صورة أو فيديو");
+    selectedFile=null;
+    return;
+  }
+
+  if(selectedFile.size>50*1024*1024){
+    alert("حجم الملف أكبر من 50 ميغابايت");
+    selectedFile=null;
+    this.value="";
+    return;
+  }
+
+  const url=URL.createObjectURL(selectedFile);
+  const media=document.createElement(
+    selectedFile.type.startsWith("video/")?"video":"img"
+  );
+
+  media.src=url;
+  media.className="preview";
+
+  if(media.tagName==="VIDEO")media.controls=true;
+
+  area.appendChild(media);
+});
+
+/* نشر المنشور */
+async function publish(){
+  if(!client){
+    alert("يجب ربط قاعدة البيانات أولاً");
+    return;
+  }
+
+  const caption=document.getElementById("caption").value.trim();
+
+  if(!caption && !selectedFile){
+    alert("اكتب وصفاً أو اختر صورة أو فيديو");
+    return;
+  }
+
+  const button=document.getElementById("publishBtn");
+  button.disabled=true;
+  button.textContent="جارٍ النشر...";
+
+  try{
+    let mediaUrl=null;
+    let mediaType=null;
+
+    if(selectedFile){
+      const safeName=selectedFile.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+      const path=Date.now()+"-"+safeName;
+
+      const {error:uploadError}=await client.storage
+        .from("wathba-media")
+        .upload(path,selectedFile);
+
+      if(uploadError)throw uploadError;
+
+      mediaUrl=client.storage
+        .from("wathba-media")
+        .getPublicUrl(path).data.publicUrl;
+
+      mediaType=selectedFile.type.startsWith("video/")?"video":"image";
     }
 
-    const caption = document.createElement('p');
-    caption.textContent = file.name;
+    const {error}=await client.from("posts").insert({
+      username:currentUser,
+      caption:caption,
+      media_url:mediaUrl,
+      media_type:mediaType
+    });
 
-    card.append(media, caption);
-    grid.prepend(card);
+    if(error)throw error;
+
+    closeComposer();
+    await loadPosts();
+
+  }catch(error){
+    alert("تعذر نشر المنشور: "+error.message);
+  }finally{
+    button.disabled=false;
+    button.textContent="نشر المنشور";
+  }
+}
+
+/* عرض المنشورات */
+async function loadPosts(){
+  if(!client)return;
+
+  const {data,error}=await client.from("posts")
+    .select("*").order("created_at",{ascending:false});
+
+  const feed=document.getElementById("feed");
+  feed.innerHTML="";
+
+  if(error){
+    feed.textContent="تعذر تحميل المنشورات: "+error.message;
+    return;
+  }
+
+  if(!data.length){
+    feed.innerHTML=
+      '<div class="empty"><strong>＋</strong>لا توجد منشورات حتى الآن. شارك أول صورة أو فيديو!</div>';
+    return;
+  }
+
+  data.forEach(post=>{
+    const card=document.createElement("article");
+    card.className="post";
+
+    const head=document.createElement("div");
+    head.className="post-head";
+
+    const avatar=document.createElement("div");
+    avatar.className="avatar";
+    avatar.textContent=(post.username||"؟").charAt(0);
+
+    const info=document.createElement("div");
+
+    const name=document.createElement("div");
+    name.className="post-name";
+    name.textContent=post.username;
+
+    const date=document.createElement("div");
+    date.className="post-date";
+    date.textContent=new Date(post.created_at).toLocaleString("ar");
+
+    info.append(name,date);
+    head.append(avatar,info);
+    card.append(head);
+
+    if(post.caption){
+      const paragraph=document.createElement("p");
+      paragraph.className="post-text";
+      paragraph.textContent=post.caption;
+      card.append(paragraph);
+    }
+
+    if(post.media_url){
+      let media;
+
+      if(post.media_type==="video"){
+        media=document.createElement("video");
+        media.controls=true;
+        media.preload="metadata";
+      }else{
+        media=document.createElement("img");
+        media.alt="صورة من أعمال الوثبة";
+      }
+
+      media.src=post.media_url;
+      media.className="post-media";
+      card.append(media);
+    }
+
+    const actions=document.createElement("div");
+    actions.className="post-actions";
+    actions.textContent="منشور من مجتمع الوثبة";
+    card.append(actions);
+
+    feed.append(card);
   });
+}
 
-  this.value = '';
-});
+/* تحديث المنشورات عند إضافة منشور جديد */
+function listenForPosts(){
+  if(!client)return;
+
+  client.channel("wathba-post-updates")
+    .on("postgres_changes",
+      {event:"INSERT",schema:"public",table:"posts"},
+      ()=>loadPosts())
+    .subscribe();
+}
+
+setup();
 </script>
-
 </body>
 </html>
