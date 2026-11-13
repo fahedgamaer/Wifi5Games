@@ -12,8 +12,8 @@
       --gold: #f59e0b;
       --gold-light: #fbbf24;
       --gold-glow: rgba(245, 158, 11, 0.45);
-      --glass-bg: rgba(13, 17, 26, 0.84);
-      --glass-card: rgba(20, 26, 38, 0.9);
+      --glass-bg: rgba(15, 20, 30, 0.85);
+      --glass-card: rgba(22, 28, 42, 0.9);
       --text-main: #ffffff;
       --text-muted: #cbd5e1;
       --border: rgba(245, 158, 11, 0.3);
@@ -34,7 +34,7 @@
       position: relative;
     }
 
-    /* خلفية صور الونشات المتحركة */
+    /* خلفية صور الونشات العلوية المتحركة */
     .crane-bg-slider {
       position: fixed;
       inset: 0;
@@ -53,7 +53,7 @@
     }
 
     .crane-bg-slide.active {
-      opacity: 0.45;
+      opacity: 0.42;
       transform: scale(1);
     }
 
@@ -65,12 +65,12 @@
       pointer-events: none;
     }
 
-    /* شاشة التحميل السينمائية */
+    /* ================= شاشة التحميل السينمائية (3 ثوانٍ) ================= */
     #cinematic-loader {
       position: fixed;
       inset: 0;
       z-index: 99999;
-      background: linear-gradient(rgba(5, 7, 12, 0.88), rgba(5, 7, 12, 0.97)),
+      background: linear-gradient(rgba(5, 7, 12, 0.9), rgba(5, 7, 12, 0.98)),
                   url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
       display: flex;
       flex-direction: column;
@@ -78,7 +78,7 @@
       justify-content: center;
       text-align: center;
       padding: 20px;
-      transition: opacity 0.9s ease, visibility 0.9s ease;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
     #cinematic-loader.hidden {
@@ -87,27 +87,15 @@
       pointer-events: none;
     }
 
-    .crane-animation-box {
-      margin-bottom: 24px;
-      animation: dropIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
-    .crane-wire {
-      width: 4px;
-      height: 80px;
-      background: linear-gradient(to bottom, transparent, var(--gold));
-      margin: 0 auto;
-    }
-
-    .crane-hook {
-      width: 74px;
-      height: 74px;
-      filter: drop-shadow(0 0 22px var(--gold-glow));
-      animation: swingHook 2.6s ease-in-out infinite alternate;
+    .loader-crane-icon {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      animation: swingHook 2.5s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 20px var(--gold));
     }
 
     .cinema-title {
-      font-size: clamp(1.8rem, 4.8vw, 3.5rem);
+      font-size: clamp(1.8rem, 4.5vw, 3.4rem);
       font-weight: 900;
       background: linear-gradient(90deg, #ffffff 0%, #fbbf24 35%, #f59e0b 65%, #ffffff 100%);
       background-size: 200% auto;
@@ -115,8 +103,8 @@
       -webkit-text-fill-color: transparent;
       opacity: 0;
       transform: scale(0.9) translateY(20px);
-      filter: blur(10px);
-      animation: titleCinema 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards,
+      filter: blur(8px);
+      animation: titleCinema 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards,
                  shineText 3.5s linear infinite;
       line-height: 1.4;
       padding: 0 10px;
@@ -126,61 +114,39 @@
       width: 0;
       height: 3px;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      margin: 18px auto;
-      animation: lineGrow 1.4s ease 0.8s forwards;
+      margin: 16px auto;
+      animation: lineGrow 1.3s ease 0.7s forwards;
     }
 
     .cinema-tagline {
       color: var(--gold-light);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 600;
       letter-spacing: 2px;
       opacity: 0;
-      animation: fadeIn 1s ease 1.2s forwards;
+      animation: fadeIn 1s ease 1s forwards;
     }
 
-    .progress-track {
-      width: min(300px, 80vw);
-      height: 5px;
-      background: rgba(255, 255, 255, 0.12);
+    .loader-bar-wrap {
+      width: 260px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 10px;
-      margin-top: 30px;
+      margin-top: 28px;
       overflow: hidden;
     }
 
-    .progress-fill {
+    .loader-bar-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--gold), #fde047);
-      box-shadow: 0 0 15px var(--gold);
-      animation: loadBar 3.2s ease forwards;
-    }
-
-    .enter-now-btn {
-      margin-top: 24px;
-      background: rgba(245, 158, 11, 0.18);
-      border: 1px solid var(--gold);
-      color: #fff;
-      padding: 9px 26px;
-      border-radius: 30px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .enter-now-btn:hover {
       background: var(--gold);
-      color: #000;
+      box-shadow: 0 0 12px var(--gold);
+      animation: load3Sec 3s linear forwards;
     }
 
-    @keyframes dropIn {
-      from { transform: translateY(-80px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
     @keyframes swingHook {
-      from { transform: rotate(-5deg); }
-      to { transform: rotate(5deg); }
+      from { transform: rotate(-6deg); }
+      to { transform: rotate(6deg); }
     }
     @keyframes titleCinema {
       to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
@@ -189,16 +155,16 @@
       to { background-position: 200% center; }
     }
     @keyframes lineGrow {
-      to { width: min(460px, 85vw); }
+      to { width: min(420px, 80vw); }
     }
     @keyframes fadeIn {
       to { opacity: 1; }
     }
-    @keyframes loadBar {
+    @keyframes load3Sec {
       to { width: 100%; }
     }
 
-    /* الشريط العلوي */
+    /* ================= الهيدر ================= */
     header {
       background: rgba(9, 12, 20, 0.9);
       backdrop-filter: blur(14px);
@@ -240,33 +206,53 @@
     }
 
     .logo-title h1 {
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       font-weight: 900;
       color: #fff;
     }
 
     .logo-title p {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--gold-light);
     }
 
-    .status-pill {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      padding: 8px 16px;
-      border-radius: 30px;
-      font-size: 0.85rem;
-      color: #34d399;
+    .auth-nav-area {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-weight: 700;
+      gap: 12px;
     }
 
-    /* قسم المقدمة */
+    .user-welcome {
+      font-size: 0.9rem;
+      color: var(--gold-light);
+      font-weight: 700;
+      background: rgba(245, 158, 11, 0.1);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .btn-auth {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      padding: 7px 18px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-auth:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    /* ================= واجهة الموقع الرئيسية ================= */
     .hero-banner {
       max-width: 1240px;
-      margin: 36px auto 24px;
+      margin: 36px auto 20px;
       padding: 0 24px;
       text-align: center;
     }
@@ -286,131 +272,14 @@
       color: var(--text-muted);
       max-width: 720px;
       margin: 0 auto;
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       line-height: 1.7;
     }
 
-    /* صندوق نشر الصور والتعليقات */
-    .publisher-wrap {
-      max-width: 840px;
-      margin: 30px auto 50px;
-      padding: 0 20px;
-    }
-
-    .publisher-box {
-      background: var(--glass-bg);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 28px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
-    }
-
-    .publisher-box h3 {
-      font-size: 1.25rem;
-      color: var(--gold-light);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .inputs-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    @media (max-width: 650px) {
-      .inputs-row { grid-template-columns: 1fr; }
-    }
-
-    .field label {
-      display: block;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .field input {
-      width: 100%;
-      background: rgba(7, 10, 17, 0.88);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #fff;
-      padding: 13px 15px;
-      border-radius: 12px;
-      font-size: 0.95rem;
-      transition: 0.3s;
-    }
-
-    .field input:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
-    }
-
-    .upload-dropzone {
-      display: block;
-      border: 2px dashed rgba(245, 158, 11, 0.45);
-      border-radius: 14px;
-      padding: 24px;
-      text-align: center;
-      cursor: pointer;
-      background: rgba(245, 158, 11, 0.04);
-      transition: 0.3s;
-      margin-bottom: 18px;
-    }
-
-    .upload-dropzone:hover {
-      background: rgba(245, 158, 11, 0.1);
-      border-color: var(--gold);
-    }
-
-    .upload-dropzone input[type="file"] {
-      display: none;
-    }
-
-    #preview-box {
-      display: none;
-      margin-top: 14px;
-    }
-
-    #preview-box img {
-      max-height: 230px;
-      max-width: 100%;
-      border-radius: 12px;
-      border: 2px solid var(--gold);
-    }
-
-    .submit-post-btn {
-      width: 100%;
-      background: linear-gradient(135deg, var(--gold), #d97706);
-      color: #000;
-      font-weight: 900;
-      font-size: 1.1rem;
-      border: none;
-      padding: 15px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: 0.25s;
-      box-shadow: 0 6px 20px var(--gold-glow);
-    }
-
-    .submit-post-btn:hover:not(:disabled) {
-      transform: translateY(-2px);
-      filter: brightness(1.08);
-    }
-
-    .submit-post-btn:disabled {
-      opacity: 0.6;
-      cursor: wait;
-    }
-
-    /* معرض الصور والتعليقات */
+    /* معرض الصور */
     .gallery-container {
       max-width: 1240px;
-      margin: 0 auto 80px;
+      margin: 30px auto 90px;
       padding: 0 24px;
     }
 
@@ -500,7 +369,7 @@
     }
 
     .comments-feed {
-      max-height: 145px;
+      max-height: 130px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
@@ -512,7 +381,7 @@
       background: rgba(255, 255, 255, 0.06);
       padding: 8px 12px;
       border-radius: 10px;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       line-height: 1.5;
     }
 
@@ -546,22 +415,45 @@
       background: var(--gold);
       color: #000;
       border: none;
-      padding: 0 16px;
+      padding: 0 14px;
       border-radius: 10px;
       font-weight: 800;
       cursor: pointer;
-      transition: 0.2s;
     }
 
-    .comment-input-row button:hover {
-      background: var(--gold-light);
+    /* ================= زر الإضافة (+) العائم في أسفل اليمين ================= */
+    .fab-add-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 65px;
+      height: 65px;
+      background: linear-gradient(135deg, var(--gold), #d97706);
+      color: #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      font-weight: 900;
+      box-shadow: 0 10px 30px var(--gold-glow);
+      cursor: pointer;
+      z-index: 900;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 2px solid #fff;
     }
 
-    /* نافذة تكبير الصورة */
-    .modal-zoom {
+    .fab-add-btn:hover {
+      transform: scale(1.1) rotate(90deg);
+      box-shadow: 0 15px 40px var(--gold);
+    }
+
+    /* ================= نافذة تسجيل الدخول (Modal) ================= */
+    .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.92);
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(8px);
       z-index: 10000;
       display: none;
       align-items: center;
@@ -569,47 +461,131 @@
       padding: 20px;
     }
 
-    .modal-zoom.open {
+    .modal-overlay.open {
       display: flex;
     }
 
-    .modal-zoom img {
-      max-width: 94vw;
-      max-height: 90vh;
-      border-radius: 14px;
-      border: 2px solid var(--gold);
+    .modal-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--border);
+      width: 100%;
+      max-width: 420px;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+      position: relative;
     }
 
-    .modal-close {
-      position: absolute;
-      top: 20px;
-      left: 30px;
-      font-size: 2.5rem;
+    .modal-card h3 {
+      font-size: 1.3rem;
+      color: var(--gold-light);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .modal-field {
+      margin-bottom: 16px;
+    }
+
+    .modal-field label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .modal-field input, .modal-field textarea {
+      width: 100%;
+      background: rgba(7, 10, 17, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       color: #fff;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+    }
+
+    .modal-field input:focus, .modal-field textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .modal-submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold), #d97706);
+      color: #000;
+      font-weight: 900;
+      font-size: 1.05rem;
+      border: none;
+      padding: 13px;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .modal-close-x {
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      font-size: 1.8rem;
+      color: var(--text-muted);
       cursor: pointer;
     }
+
+    .modal-close-x:hover { color: #fff; }
+
+    /* معاينة الصورة داخل نافذة النشر */
+    .upload-preview-box {
+      border: 2px dashed rgba(245, 158, 11, 0.4);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(245, 158, 11, 0.03);
+      margin-bottom: 14px;
+    }
+
+    .upload-preview-box input { display: none; }
+
+    #preview-img-tag {
+      max-height: 180px;
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* تكبير الصورة الكبيرة */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 15000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 94vw; max-height: 90vh; border-radius: 12px; border: 2px solid var(--gold); }
+    .lightbox-close { position: absolute; top: 20px; left: 30px; font-size: 2.5rem; color: #fff; cursor: pointer; }
 
     /* إشعار منبثق */
     #toast-msg {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
+      bottom: 30px;
+      left: 30px;
       background: var(--gold);
       color: #000;
       font-weight: 800;
       padding: 12px 22px;
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-      z-index: 20000;
+      z-index: 30000;
       transform: translateY(100px);
       opacity: 0;
       transition: 0.35s ease;
     }
-
-    #toast-msg.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
+    #toast-msg.show { transform: translateY(0); opacity: 1; }
 
     footer {
       text-align: center;
@@ -617,159 +593,149 @@
       background: rgba(5, 7, 12, 0.9);
       border-top: 1px solid var(--border);
       color: var(--text-muted);
-      font-size: 0.92rem;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
 
   <!-- خلفية صور الونشات المتحركة -->
-  <div class="crane-bg-slider">
+  <div class="crane-bg-slider" id="bg-slider">
     <div class="crane-bg-slide active" style="background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=80');"></div>
     <div class="crane-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1600&q=80');"></div>
     <div class="crane-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=1600&q=80');"></div>
   </div>
   <div class="crane-bg-overlay"></div>
 
-  <!-- شاشة التحميل السينمائية -->
+  <!-- ================= شاشة التحميل السينمائية (تختفي بعد 3 ثوانٍ تماماً) ================= -->
   <div id="cinematic-loader">
-    <div class="crane-animation-box">
-      <div class="crane-wire"></div>
-      <svg class="crane-hook" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="20" y="4" width="24" height="15" rx="3" fill="#f59e0b"/>
-        <circle cx="32" cy="11.5" r="3.5" fill="#07090e"/>
-        <path d="M32 19V27C32 29.5 40 31 40 39C40 46.5 33.5 52 26 52C19.5 52 15 47.5 15 41.5C15 38 17.5 35.5 20.5 35.5" 
-              stroke="#fbbf24" stroke-width="5.5" stroke-linecap="round"/>
-      </svg>
-    </div>
-
+    <div class="loader-crane-icon">🏗️</div>
     <h1 class="cinema-title">الوثبه للصيانة الونشات العلويه وتركيبها</h1>
     <div class="cinema-divider"></div>
-    <p class="cinema-tagline">الريادة في تركيب وصيانة الونشات الجسرية والعلوية</p>
-
-    <div class="progress-track">
-      <div class="progress-fill"></div>
+    <p class="cinema-tagline">القوة • الدقة • الأمان الصناعي</p>
+    <div class="loader-bar-wrap">
+      <div class="loader-bar-fill"></div>
     </div>
-
-    <button type="button" class="enter-now-btn" id="skip-loader-btn">تخطي والدخول للموقع</button>
   </div>
 
-  <!-- الشريط العلوي -->
+  <!-- ================= الهيدر ================= -->
   <header>
     <div class="header-inner">
       <div class="logo-area">
-        <div class="logo-badge">🏗️</div>
+        <div class="logo-badge">W</div>
         <div class="logo-title">
           <h1>الوثبه للصيانة الونشات العلويه وتركيبها</h1>
-          <p>معرض المشاريع والمزامنة الحية بين الزوار</p>
+          <p>معرض المشاريع والزوار التفاعلي</p>
         </div>
       </div>
-      <div class="status-pill">
-        <span>🟢</span>
-        <span>البث المباشر مفعل للجميع</span>
+      <div class="auth-nav-area" id="auth-nav-area">
+        <!-- سيتم تحديثه تلقائياً حسب حالة تسجيل الدخول -->
       </div>
     </div>
   </header>
 
   <!-- العنوان الترحيبي -->
   <section class="hero-banner">
-    <h2>خبرة هندسية متكاملة في <span>الونشات العلوية</span></h2>
+    <h2>أعمالنا الهندسية ومشاريع <span>الونشات العلوية</span></h2>
     <p>
-      استعرض أعمالنا الميدانية، أو شاركنا صوراً من مشاريعك واكتب تعليقك ليظهر فورا أمام جميع زوار الموقع حول العالم.
+      استعرض أحدث تركيبات وصيانة الونشات الجسرية. اضغط على زر الزائد (+) أدناه لمشاركة صورك وتعليقاتك (يطلب تسجيل الدخول أولاً).
     </p>
   </section>
 
-  <!-- صندوق نشر صورة وتعليق -->
-  <section class="publisher-wrap">
-    <div class="publisher-box">
-      <h3>📸 شارك صورة وتعليقاً مع كل زوار الموقع</h3>
-
-      <div class="inputs-row">
-        <div class="field">
-          <label>اسمك أو اسم شركتك</label>
-          <input type="text" id="user-name-input" placeholder="مثال: م. سامر / زائر">
-        </div>
-        <div class="field">
-          <label>التعليق أو الوصف المرفق بالصورة</label>
-          <input type="text" id="post-text-input" placeholder="اكتب وصفاً أو تعليقاً حول الصورة...">
-        </div>
-      </div>
-
-      <label class="upload-dropzone" for="photo-file-input">
-        <div style="font-size: 2.2rem; margin-bottom: 6px;">📷</div>
-        <div style="font-weight: 800; color: var(--gold-light); font-size: 1.05rem;">اضغط هنا لاختيار صورة من جهازك أو هاتفك</div>
-        <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">تظهر لجميع الزوار في نفس اللحظة</div>
-        <input type="file" id="photo-file-input" accept="image/*">
-        <div id="preview-box">
-          <img id="preview-img" src="" alt="معاينة الصورة">
-        </div>
-      </label>
-
-      <button type="button" class="submit-post-btn" id="publish-btn">نشر الصورة والتعليق للجميع</button>
-    </div>
-  </section>
-
-  <!-- معرض الصور والتعليقات -->
+  <!-- معرض الصور -->
   <section class="gallery-container">
     <div class="section-bar">
-      <h3>🏗️ معرض الصور والمشاريع الجماعية (<span id="total-count">0</span>)</h3>
+      <h3>🏗️ المعرض العام للصور والتعليقات (<span id="total-count">0</span>)</h3>
     </div>
     <div class="cards-grid" id="cards-grid"></div>
   </section>
 
-  <!-- نافذة تكبير الصور -->
-  <div class="modal-zoom" id="modal-zoom">
-    <span class="modal-close" id="modal-close-btn">&times;</span>
-    <img id="modal-zoom-img" src="" alt="تكبير">
+  <!-- ================= زر الإضافة (+) العائم في أسفل اليمين ================= -->
+  <div class="fab-add-btn" id="fab-btn" title="إضافة صورة وتعليق">+</div>
+
+  <!-- ================= نافذة تسجيل الدخول (Modal) ================= -->
+  <div class="modal-overlay" id="login-modal">
+    <div class="modal-card">
+      <span class="modal-close-x" id="close-login-modal">&times;</span>
+      <h3>🔐 تسجيل الدخول للمتابعة</h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px; text-align: center;">
+        يجب تسجيل الدخول لكي تتمكن من التقاط أو اختيار صور ونشرها مع تعليقك.
+      </p>
+      <div class="modal-field">
+        <label>اسم المستخدم أو اسمك الكامل</label>
+        <input type="text" id="login-name-input" placeholder="مثال: م. أحمد الوثبة">
+      </div>
+      <button type="button" class="modal-submit-btn" id="submit-login-btn">دخول ونشر الصور</button>
+    </div>
   </div>
 
-  <div id="toast-msg">تم النشر بنجاح!</div>
+  <!-- ================= نافذة رفع ونشر الصورة والتعليق ================= -->
+  <div class="modal-overlay" id="post-modal">
+    <div class="modal-card">
+      <span class="modal-close-x" id="close-post-modal">&times;</span>
+      <h3>📸 نشر صورة وتعليق جديد</h3>
+
+      <label class="upload-preview-box" for="camera-file-input">
+        <div style="font-size: 2rem; margin-bottom: 4px;">📷</div>
+        <div style="font-weight: 800; color: var(--gold-light);">اضغط هنا لالتقاط صورة بالكاميرا أو اختيارها</div>
+        <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">يدعم كاميرا الهاتف المباشرة أو الاستوديو</div>
+        <input type="file" id="camera-file-input" accept="image/*" capture="environment">
+        <img id="preview-img-tag" src="" alt="معاينة">
+      </label>
+
+      <div class="modal-field">
+        <label>كتابة تعليق أو وصف العمل</label>
+        <textarea id="post-caption-input" rows="3" placeholder="اكتب تعليقك هنا ليراه كل زوار الموقع..."></textarea>
+      </div>
+
+      <button type="button" class="modal-submit-btn" id="publish-post-btn">نشر للجميع الآن</button>
+    </div>
+  </div>
+
+  <!-- نافذة تكبير الصورة -->
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightbox-close-btn">&times;</span>
+    <img id="lightbox-img" src="" alt="تكبير">
+  </div>
+
+  <div id="toast-msg">تم بنجاح!</div>
 
   <footer>
     © 2026 الوثبه للصيانة الونشات العلويه وتركيبها — جميع الحقوق محفوظة
   </footer>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. شاشة التحميل السينمائية تختفي تماماً بعد 3 ثوانٍ
+      const loader = document.getElementById('cinematic-loader');
+      setTimeout(() => {
+        loader.classList.add('hidden');
+      }, 3000);
 
-    // ⚠️ استبدل هذه الإعدادات بإعدادات مشروعك الحقيقي من موقع Firebase Console
-    const firebaseConfig = {
-      apiKey: "ضع_مفتاحك_هنا",
-      authDomain: "project-id.firebaseapp.com",
-      projectId: "project-id",
-      storageBucket: "project-id.appspot.com",
-      messagingSenderId: "123456789",
-      appId: "1:123456:web:abcdef"
-    };
+      // خلفية صور الونشات المتحركة
+      const slides = document.querySelectorAll('.crane-bg-slide');
+      let currentSlide = 0;
+      setInterval(() => {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+      }, 6000);
 
-    let db = null;
-    let useCloud = false;
+      function showToast(msg) {
+        const toast = document.getElementById('toast-msg');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+      }
 
-    try {
-      const app = initializeApp(firebaseConfig);
-      db = getFirestore(app);
-      useCloud = true;
-    } catch (e) {
-      useCloud = false;
-    }
+      // 2. إدارة حالة تسجيل الدخول باستخدام localStorage
+      let currentUser = localStorage.getItem('wathba_logged_user') || null;
 
-    // شاشة التحميل السينمائية
-    const loader = document.getElementById('cinematic-loader');
-    document.getElementById('skip-loader-btn').addEventListener('click', () => loader.classList.add('hidden'));
-    setTimeout(() => loader.classList.add('hidden'), 3500);
-
-    // تحريك صور الخلفية تلقائياً
-    const slides = document.querySelectorAll('.crane-bg-slide');
-    let currentSlide = 0;
-    setInterval(() => {
-      slides[currentSlide].classList.remove('active');
-      currentSlide = (currentSlide + 1) % slides.length;
-      slides[currentSlide].classList.add('active');
-    }, 6000);
-
-    function showToast(msg) {
-      const toast = document.getElementById('toast-msg');
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classLis
+      function updateAuthUI() {
+        const authNavArea = document.getElementById('auth-nav-area');
+        if (currentUser) {
+          authNavArea.innerHTML = `
+            <div class="user-welcome">👤 ${currentUser}</div>
+            <button class="btn-auth" id="logout-btn">خروج</button>
+          `;
+          document.getElementById('log
