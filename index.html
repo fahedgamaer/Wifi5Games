@@ -1,389 +1,766 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wifi5Games - بوابة الألعاب الشاملة</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: #0d0f17;
-            color: #ffffff;
-        }
-        .neon-border {
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
-        }
-        .neon-text {
-            text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
-        }
-        /* Hide Scrollbar */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الوثبه للصيانة الونشات العلويه وتركيبها</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090b0f;
+      --bg-panel: #12161f;
+      --bg-card: #171c26;
+      --gold: #f59e0b;
+      --gold-light: #fbbf24;
+      --gold-glow: rgba(245, 158, 11, 0.35);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ================= شاشة التحميل السينمائية ================= */
+    #cinematic-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: radial-gradient(circle at center, #181d29 0%, #05070a 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      transition: opacity 1s cubic-bezier(0.77, 0, 0.175, 1), visibility 1s ease;
+    }
+
+    #cinematic-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* أشعة إضاءة سينمائية في الخلفية */
+    .cinema-spotlight {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.16) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulseGlow 3.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    /* أيقونة خطاف الونش المتحرك */
+    .crane-rig {
+      position: relative;
+      margin-bottom: 28px;
+      animation: craneDrop 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .crane-cable {
+      width: 3px;
+      height: 75px;
+      background: linear-gradient(to bottom, transparent, var(--gold));
+      margin: 0 auto;
+    }
+
+    .crane-hook-svg {
+      width: 68px;
+      height: 68px;
+      filter: drop-shadow(0 0 18px var(--gold-glow));
+      animation: hookSwing 3s ease-in-out infinite alternate;
+    }
+
+    /* النص السينمائي */
+    .cinema-title {
+      font-size: clamp(1.8rem, 4.5vw, 3.4rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #ffffff 0%, #fbbf24 45%, #f59e0b 55%, #ffffff 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0;
+      transform: translateY(25px) scale(0.95);
+      filter: blur(8px);
+      animation: cinematicReveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards,
+                 goldShimmer 4s linear infinite;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      line-height: 1.4;
+    }
+
+    .cinema-line {
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 18px auto;
+      animation: expandLine 1.5s ease 0.9s forwards;
+    }
+
+    .cinema-sub {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      letter-spacing: 3px;
+      opacity: 0;
+      animation: fadeInSimple 1.2s ease 1.3s forwards;
+    }
+
+    .loader-progress-wrap {
+      width: 260px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      margin-top: 32px;
+      overflow: hidden;
+    }
+
+    .loader-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      box-shadow: 0 0 12px var(--gold);
+      animation: fillProgress 3.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .skip-btn {
+      margin-top: 26px;
+      background: transparent;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: var(--gold-light);
+      padding: 6px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: 0.3s;
+    }
+
+    .skip-btn:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    @keyframes craneDrop {
+      0% { transform: translateY(-90px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes hookSwing {
+      0% { transform: rotate(-4deg); }
+      100% { transform: rotate(4deg); }
+    }
+
+    @keyframes cinematicReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes goldShimmer {
+      to { background-position: 200% center; }
+    }
+
+    @keyframes expandLine {
+      to { width: min(420px, 80vw); }
+    }
+
+    @keyframes fadeInSimple {
+      to { opacity: 1; }
+    }
+
+    @keyframes fillProgress {
+      0% { width: 0%; }
+      60% { width: 78%; }
+      100% { width: 100%; }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+      50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+    }
+
+    /* ================= الهيدر الرئيسي ================= */
+    header {
+      background: linear-gradient(180deg, rgba(18, 22, 31, 0.96) 0%, rgba(9, 11, 15, 0.92) 100%);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-container {
+      max-width: 1250px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--gold), #b45309);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      color: #000;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 15px var(--gold-glow);
+    }
+
+    .brand-text h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .brand-text span {
+      font-size: 0.8rem;
+      color: var(--gold-light);
+    }
+
+    .badge-live {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #34d399;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0.3; }
+    }
+
+    /* ================= القسم الترحيبي ================= */
+    .hero {
+      max-width: 1250px;
+      margin: 30px auto 10px;
+      padding: 0 24px;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-size: clamp(1.6rem, 3vw, 2.3rem);
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .hero h2 span {
+      color: var(--gold);
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 24px;
+      line-height: 1.7;
+    }
+
+    /* ================= صندوق رفع الصور والتعليقات ================= */
+    .upload-section {
+      max-width: 820px;
+      margin: 0 auto 45px;
+      padding: 0 24px;
+    }
+
+    .upload-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 26px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+
+    .upload-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 18px;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .input-control {
+      width: 100%;
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      transition: border-color 0.3s;
+    }
+
+    .input-control:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .file-drop-area {
+      border: 2px dashed rgba(245, 158, 11, 0.4);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(245, 158, 11, 0.03);
+      transition: 0.3s;
+      margin-bottom: 16px;
+    }
+
+    .file-drop-area:hover {
+      background: rgba(245, 158, 11, 0.08);
+      border-color: var(--gold);
+    }
+
+    .file-drop-area input {
+      display: none;
+    }
+
+    #preview-container {
+      display: none;
+      margin-top: 14px;
+    }
+
+    #preview-container img {
+      max-height: 220px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .btn-publish {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold), #d97706);
+      color: #000;
+      font-weight: 800;
+      font-size: 1.05rem;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-publish:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px var(--gold-glow);
+    }
+
+    /* ================= معرض الصور العام ================= */
+    .gallery-section {
+      max-width: 1250px;
+      margin: 0 auto 70px;
+      padding: 0 24px;
+    }
+
+    .gallery-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 24px;
+    }
+
+    .post-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .post-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(245, 158, 11, 0.45);
+    }
+
+    .post-img-wrap {
+      position: relative;
+      height: 240px;
+      background: #05070a;
+      overflow: hidden;
+      cursor: zoom-in;
+    }
+
+    .post-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .post-card:hover .post-img-wrap img {
+      transform: scale(1.04);
+    }
+
+    .post-body {
+      padding: 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .post-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+    }
+
+    .post-caption {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text-main);
+      margin-bottom: 16px;
+    }
+
+    /* قسم التعليقات تحت كل صورة */
+    .comments-box {
+      margin-top: auto;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+
+    .comments-list {
+      max-height: 130px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .comment-item {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.86rem;
+    }
+
+    .comment-item strong {
+      color: var(--gold-light);
+      margin-left: 6px;
+    }
+
+    .comment-form {
+      display: flex;
+      gap: 8px;
+    }
+
+    .comment-form input {
+      flex: 1;
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+
+    .comment-form button {
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 0 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* نافذة تكبير الصورة */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 5000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 92vw;
+      max-height: 88vh;
+      border-radius: 12px;
+      border: 2px solid var(--gold);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      left: 30px;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 28px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
-<body class="bg-[#0d0f17] text-white min-h-screen flex flex-col justify-between">
+<body>
 
-    <!-- 1. شاشة التحميل (Loader Screen) -->
-    <div id="loader" class="fixed inset-0 z-50 bg-[#07090e] flex flex-col items-center justify-center transition-opacity duration-500">
-        <div class="relative flex flex-col items-center">
-            <div class="w-24 h-24 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mb-6"></div>
-            <h1 class="text-3xl font-black tracking-widest text-blue-500 neon-text mb-2">Wifi5Games</h1>
-            <p class="text-gray-400 text-sm mb-4">جاري تحميل أكثر من 1000 لعبة...</p>
-            <div class="w-64 bg-gray-800 rounded-full h-2 overflow-hidden">
-                <div id="progress-bar" class="bg-blue-500 h-full w-0 transition-all duration-300"></div>
-            </div>
-            <span id="progress-text" class="text-xs text-blue-400 mt-2">0%</span>
-        </div>
+  <!-- ================= شاشة التحميل السينمائية ================= -->
+  <div id="cinematic-loader">
+    <div class="cinema-spotlight"></div>
+
+    <div class="crane-rig">
+      <div class="crane-cable"></div>
+      <!-- رسم SVG احترافي لخطاف الونش العلوي -->
+      <svg class="crane-hook-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="22" y="4" width="20" height="14" rx="3" fill="#f59e0b"/>
+        <circle cx="32" cy="11" r="3" fill="#090b0f"/>
+        <path d="M32 18V26C32 28.5 39 30 39 38C39 45.5 33 51 25.5 51C19.5 51 15 46.5 15 41C15 37.5 17.5 35 20.5 35" 
+              stroke="#fbbf24" stroke-width="5" stroke-linecap="round"/>
+      </svg>
     </div>
 
-    <!-- Header / Navbar -->
-    <header class="bg-[#131722] border-b border-gray-800 sticky top-0 z-40">
-        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-            <a href="https://fahedgamaer.github.io/Wifi5Games/?utm_source=chatgpt.com" target="_blank" class="flex items-center gap-3">
-                <i class="fa-solid font-black text-2xl text-blue-500 fa-gamepad"></i>
-                <span class="text-2xl font-black text-blue-500 neon-text">Wifi5Games</span>
-            </a>
+    <h1 class="cinema-title">الوثبه للصيانة الونشات العلويه وتركيبها</h1>
+    <div class="cinema-line"></div>
+    <p class="cinema-sub">القوة • الدقة • الأمان الصناعي</p>
 
-            <!-- Search Bar -->
-            <div class="hidden md:flex items-center bg-[#1a1f2c] px-3 py-1.5 rounded-lg border border-gray-700 w-1/3">
-                <i class="fa-solid fa-magnifying-glass text-gray-400 ml-2"></i>
-                <input type="text" id="search-input" oninput="handleSearch()" placeholder="ابحث عن لعبتك المفضلة..." class="bg-transparent text-sm w-full focus:outline-none text-white">
-            </div>
-
-            <!-- User Status / Dev Controls -->
-            <div id="user-section" class="flex items-center gap-3">
-                <button onclick="openAuthModal()" class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg font-bold transition flex items-center gap-2">
-                    <i class="fa-solid fa-right-to-bracket"></i>
-                    <span>تسجيل الدخول</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-6 flex-grow">
-        
-        <!-- Announcement / Notice Banner -->
-        <div id="announcement-banner" class="bg-gradient-to-r from-blue-900/40 to-indigo-900/40 border border-blue-500/30 rounded-xl p-4 mb-6 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <i class="fa-solid fa-bullhorn text-blue-400 text-xl"></i>
-                <span id="announcement-text" class="text-sm font-semibold">مرحباً بكم في Wifi5Games! أكثر من 1000 لعبة مجانية متاحة للعب الفوري.</span>
-            </div>
-            <a href="https://fahedgamaer.github.io/Wifi5Games/?utm_source=chatgpt.com" target="_blank" class="text-xs bg-blue-500 hover:bg-blue-600 px-3 py-1.5 rounded-md font-bold whitespace-nowrap">الموقع الرسمي</a>
-        </div>
-
-        <!-- Controls & Filters -->
-        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-            <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 no-scrollbar">
-                <button onclick="filterCategory('all')" class="cat-btn bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap">الكل (+1000)</button>
-                <button onclick="filterCategory('action')" class="cat-btn bg-[#1a1f2c] text-gray-300 hover:bg-gray-800 px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap">أكشن</button>
-                <button onclick="filterCategory('racing')" class="cat-btn bg-[#1a1f2c] text-gray-300 hover:bg-gray-800 px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap">سباقات</button>
-                <button onclick="filterCategory('sports')" class="cat-btn bg-[#1a1f2c] text-gray-300 hover:bg-gray-800 px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap">رياضة</button>
-                <button onclick="filterCategory('strategy')" class="cat-btn bg-[#1a1f2c] text-gray-300 hover:bg-gray-800 px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap">استراتيجية</button>
-            </div>
-            
-            <div class="text-xs text-gray-400">
-                عرض <span id="current-count" class="text-blue-400 font-bold">0</span> من إجمالي <span id="total-count" class="text-blue-400 font-bold">1000</span> لعبة
-            </div>
-        </div>
-
-        <!-- Games Grid -->
-        <div id="games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            <!-- Game Cards Dynamic Injection -->
-        </div>
-
-        <!-- Pagination Controls -->
-        <div class="flex justify-center items-center gap-3 mt-8">
-            <button onclick="changePage(-1)" id="prev-btn" class="bg-[#1a1f2c] hover:bg-gray-800 border border-gray-700 px-4 py-2 rounded-lg text-sm font-bold disabled:opacity-50">السابق</button>
-            <span id="page-info" class="text-sm text-gray-400 font-bold">الصفحة 1 من 50</span>
-            <button onclick="changePage(1)" id="next-btn" class="bg-[#1a1f2c] hover:bg-gray-800 border border-gray-700 px-4 py-2 rounded-lg text-sm font-bold">التالي</button>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-[#131722] border-t border-gray-800 py-6 mt-12">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-gray-400 text-sm mb-2">جميع الحقوق محفوظة © 2026 Wifi5Games</p>
-            <a href="https://fahedgamaer.github.io/Wifi5Games/?utm_source=chatgpt.com" target="_blank" class="text-blue-400 hover:underline text-xs">
-                زيارة رابط Wifi5Games الأصلي
-            </a>
-        </div>
-    </footer>
-
-    <!-- Auth Modal (تسجيل الدخول) -->
-    <div id="auth-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-[#131722] border border-gray-800 rounded-2xl w-full max-w-md p-6 relative">
-            <button onclick="closeAuthModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-            <h2 class="text-xl font-bold text-blue-500 mb-1">تسجيل الدخول السريع</h2>
-            <p class="text-xs text-gray-400 mb-6">ادخل اسمك وإيميلك بدون الحاجة لكود تفعيل</p>
-
-            <form onsubmit="handleLogin(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-gray-300 mb-1">اسم المستخدم</label>
-                    <input type="text" id="login-username" required placeholder="أدخل اسمك" class="w-full bg-[#1a1f2c] border border-gray-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-blue-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-300 mb-1">البريد الإلكتروني</label>
-                    <input type="email" id="login-email" required placeholder="example@domain.com" class="w-full bg-[#1a1f2c] border border-gray-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-blue-500">
-                    <p class="text-[10px] text-gray-500 mt-1">اكتب بريد المبرمج لتفعيل صلاحيات التحكم بالكامل</p>
-                </div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg text-sm transition">
-                    دخول
-                </button>
-            </form>
-        </div>
+    <div class="loader-progress-wrap">
+      <div class="loader-progress-bar"></div>
     </div>
 
-    <!-- Admin Panel Modal (لوحة تحكم المبرمج) -->
-    <div id="admin-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-[#131722] border border-blue-500/40 rounded-2xl w-full max-w-lg p-6 relative">
-            <button onclick="closeAdminModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-            <div class="flex items-center gap-2 mb-4">
-                <i class="fa-solid fa-user-gear text-blue-500 text-xl"></i>
-                <h2 class="text-xl font-bold text-white">لوحة تحكم المبرمج</h2>
-            </div>
-            
-            <!-- Add Game Form -->
-            <form onsubmit="handleAddGame(event)" class="space-y-3">
-                <h3 class="text-sm font-bold text-blue-400 border-b border-gray-800 pb-1">إضافة لعبة جديدة للموقع</h3>
-                <div>
-                    <input type="text" id="new-game-title" required placeholder="اسم اللعبة" class="w-full bg-[#1a1f2c] border border-gray-700 rounded-lg p-2 text-sm">
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <select id="new-game-cat" class="bg-[#1a1f2c] border border-gray-700 rounded-lg p-2 text-sm">
-                        <option value="action">أكشن</option>
-                        <option value="racing">سباقات</option>
-                        <option value="sports">رياضة</option>
-                        <option value="strategy">استراتيجية</option>
-                    </select>
-                    <input type="url" id="new-game-img" required placeholder="رابط صورة الغلاف" class="bg-[#1a1f2c] border border-gray-700 rounded-lg p-2 text-sm">
-                </div>
-                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-lg text-sm">
-                    إضافة اللعبة فوراً
-                </button>
-            </form>
+    <button class="skip-btn" onclick="closeLoader()">دخول مباشر للموقع</button>
+  </div>
 
-            <hr class="border-gray-800 my-4">
-
-            <!-- Edit Announcement Form -->
-            <form onsubmit="handleUpdateNotice(event)" class="space-y-3">
-                <h3 class="text-sm font-bold text-blue-400 border-b border-gray-800 pb-1">تعديل الإعلان العام</h3>
-                <input type="text" id="new-notice-text" placeholder="نص الإعلان الجديد..." class="w-full bg-[#1a1f2c] border border-gray-700 rounded-lg p-2 text-sm">
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg text-sm">
-                    تحديث الإعلان
-                </button>
-            </form>
+  <!-- ================= الهيدر ================= -->
+  <header>
+    <div class="nav-container">
+      <div class="brand">
+        <div class="brand-icon">W</div>
+        <div class="brand-text">
+          <h1>الوثبه للصيانة الونشات العلويه وتركيبها</h1>
+          <span>معرض الأعمال والمشاريع والتواصل المباشر مع العملاء</span>
         </div>
+      </div>
+      <div class="badge-live">
+        <span class="dot"></span>
+        <span>المعرض العام مفتوح للجميع</span>
+      </div>
     </div>
+  </header>
 
-    <!-- Application JavaScript Logic -->
-    <script>
-        // Real Base Games with High-Quality Covers
-        const realCovers = [
-            { title: "GTA San Andreas", category: "action", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&q=80" },
-            { title: "PUBG Mobile", category: "action", img: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400&q=80" },
-            { title: "Need For Speed", category: "racing", img: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=400&q=80" },
-            { title: "FIFA 2026", category: "sports", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400&q=80" },
-            { title: "Call of Duty", category: "action", img: "https://images.unsplash.com/photo-1552824724-367097746401?w=400&q=80" },
-            { title: "Age of Empires", category: "strategy", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&q=80" }
-        ];
+  <!-- ================= المقدمة ================= -->
+  <section class="hero">
+    <h2>أعمالنا ومشاريعنا <span>أمام أعين الجميع</span></h2>
+    <p>
+      مرحباً بكم في المنصة الرسمية لشركة الوثبه. يمكنك هنا مشاهدة صور تركيب وصيانة الونشات العلوية، أو مشاركة صور أعمالك واستفساراتك وكتابة تعليقك ليراه جميع زوار الموقع.
+    </p>
+  </section>
 
-        // State Management
-        let gamesList = [];
-        let filteredGames = [];
-        let currentPage = 1;
-        const itemsPerPage = 24;
-        let currentUser = null;
-        let activeCategory = 'all';
+  <!-- ================= نموذج إضافة صورة وتعليق ================= -->
+  <section class="upload-section">
+    <div class="upload-card">
+      <h3>📸 أضف صورة وتعليقاً ليراه كل زوار الموقع</h3>
 
-        // Developer Standard Email
-        const DEV_EMAIL = "fahedyousef66@gmail.com";
+      <div class="form-grid">
+        <div class="input-group">
+          <label>الاسم (اختياري)</label>
+          <input type="text" id="author-name" class="input-control" placeholder="مثال: م. أحمد / زائر">
+        </div>
+        <div class="input-group">
+          <label>عنوان أو وصف الصورة</label>
+          <input type="text" id="post-caption" class="input-control" placeholder="اكتب تعليقك أو تفاصيل العمل هنا...">
+        </div>
+      </div>
 
-        // Initialization
-        window.onload = () => {
-            runLoader();
-            initGamesData();
-            checkSavedUser();
-        };
+      <label class="file-drop-area" for="image-input">
+        <div style="font-size: 2rem; margin-bottom: 6px;">🏗️</div>
+        <div style="font-weight: 700; color: var(--gold-light);">اضغط هنا لاختيار صورة من جهازك أو هاتفك</div>
+        <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 4px;">يدعم صور JPG, PNG, WEBP</div>
+        <input type="file" id="image-input" accept="image/*">
+        <div id="preview-container">
+          <img id="image-preview" src="" alt="معاينة الصورة">
+        </div>
+      </label>
 
-        // Loader Simulation
-        function runLoader() {
-            let progress = 0;
-            const bar = document.getElementById('progress-bar');
-            const text = document.getElementById('progress-text');
-            const loader = document.getElementById('loader');
+      <button class="btn-publish" onclick="publishPost()">نشر الصورة والتعليق للجميع</button>
+    </div>
+  </section>
 
-            const interval = setInterval(() => {
-                progress += Math.floor(Math.random() * 15) + 5;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        loader.classList.add('opacity-0');
-                        setTimeout(() => loader.style.display = 'none', 500);
-                    }, 300);
-                }
-                bar.style.width = progress + '%';
-                text.innerText = progress + '%';
-            }, 100);
-        }
+  <!-- ================= معرض الصور والتعليقات ================= -->
+  <section class="gallery-section">
+    <div class="gallery-header">
+      <h3>🖼️ أحدث الصور والتعليقات المنشورة (<span id="posts-count">0</span>)</h3>
+    </div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </section>
 
-        // Initialize 1000+ Games Data
-        function initGamesData() {
-            const savedGames = localStorage.getItem('wifi5_custom_games');
-            let customGames = savedGames ? JSON.parse(savedGames) : [];
+  <!-- نافذة تكبير الصورة -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="عرض مكبر">
+  </div>
 
-            gamesList = [...customGames];
-            
-            const categories = ['action', 'racing', 'sports', 'strategy'];
-            for (let i = 1; i <= 1000; i++) {
-                const sample = realCovers[i % realCovers.length];
-                gamesList.push({
-                    id: i,
-                    title: `${sample.title} #${i}`,
-                    category: categories[i % categories.length],
-                    img: sample.img
-                });
-            }
+  <footer>
+    © 2026 الوثبه للصيانة الونشات العلويه وتركيبها - جميع الحقوق محفوظة
+  </footer>
 
-            filteredGames = [...gamesList];
-            document.getElementById('total-count').innerText = gamesList.length;
-            renderGrid();
-        }
+  <script>
+    // إغلاق شاشة التحميل السينمائية تلقائياً بعد انتهاء العرض
+    const loader = document.getElementById('cinematic-loader');
+    function closeLoader() {
+      loader.classList.add('hidden');
+    }
+    setTimeout(closeLoader, 4000);
 
-        // Render Cards Grid
-        function renderGrid() {
-            const grid = document.getElementById('games-grid');
-            grid.innerHTML = '';
+    // بيانات افتراضية توضيحية عند فتح الموقع لأول مرة
+    const defaultPosts = [
+      {
+        id: 1,
+        author: 'إدارة الوثبه للونشات',
+        date: 'منشور مثبت',
+        caption: 'تركيب وفحص ونش علوي مزدوج الجسر بحمولة 20 طن مع اختبار الأحمال الكامل.',
+        image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&q=80',
+        comments: [
+          { user: 'مهندس خالد', text: 'شغل احترافي ودقة عالية في التركيب.' }
+        ]
+      },
+      {
+        id: 2,
+        author: 'قسم الصيانة الدورية',
+        date: 'أحدث الأعمال',
+        caption: 'صيانة لوحات التحكم الكهربائية واستبدال الحبال الفولاذية للونشات الصناعية.',
+        image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=900&q=80',
+        comments: []
+      }
+    ];
 
-            const start = (currentPage - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            const pageItems = filteredGames.slice(start, end);
+    // تحميل المنشورات من التخزين المحلي
+    let posts = JSON.parse(localStorage.getItem('alwathba_posts')) || defaultPosts;
+    let selectedImageBase64 = '';
 
-            document.getElementById('current-count').innerText = pageItems.length;
+    // معاينة الصورة عند اختيارها
+    document.getElementById('image-input').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
 
-            pageItems.forEach(game => {
-                const card = document.createElement('div');
-                card.className = "bg-[#131722] border border-gray-800 rounded-xl overflow-hidden hover:border-blue-500/50 hover:scale-105 transition duration-300 group cursor-pointer";
-                card.onclick = () => window.open('https://fahedgamaer.github.io/Wifi5Games/?utm_source=chatgpt.com', '_blank');
-                card.innerHTML = `
-                    <div class="relative h-40 overflow-hidden">
-                        <img src="${game.img}" alt="${game.title}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                        <span class="absolute top-2 right-2 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase">${game.category}</span>
-                    </div>
-                    <div class="p-3">
-                        <h4 class="font-bold text-sm text-white truncate">${game.title}</h4>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-[10px] text-gray-400"><i class="fa-solid fa-circle-play text-blue-400"></i> تشغيل مجاني</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-blue-500"></i>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        selectedImageBase64 = event.target.result;
+        document.getElementById('image-preview').src = selectedImageBase64;
+        document.getElementById('preview-container').style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    });
 
-            // Update Pagination Controls
-            const maxPages = Math.ceil(filteredGames.length / itemsPerPage) || 1;
-            document.getElementById('page-info').innerText = `الصفحة ${currentPage} من ${maxPages}`;
-            document.getElementById('prev-btn').disabled = currentPage === 1;
-            document.getElementById('next-btn').disabled = currentPage === maxPages;
-        }
+    // نشر صورة جديدة مع تعليق
+    function publishPost() {
+      const author = document.getElementById('author-name').value.trim() || 'زائر للموقع';
+      const caption = document.getElementById('post-caption').value.trim();
 
-        // Category Filter
-        function filterCategory(cat) {
-            activeCategory = cat;
-            currentPage = 1;
-            
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.className = "cat-btn bg-[#1a1f2c] text-gray-300 hover:bg-gray-800 px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap";
-            });
-            event.target.className = "cat-btn bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap";
+      if (!selectedImageBase64) {
+        alert('يرجى اختيار صورة أولاً قبل النشر.');
+        return;
+      }
 
-            if (cat === 'all') {
-                filteredGames = [...gamesList];
-            } else {
-                filteredGames = gamesList.filter(g => g.category === cat);
-            }
-            renderGrid();
-        }
+      const newPost = {
+        id: Date.now(),
+        author: author,
+        date: new Date().toLocaleDateString('ar-EG'),
+        caption: caption || 'صورة مشاركة من الزوار',
+        image: selectedImageBase64,
+        comments: []
+      };
 
-        // Search Logic
-        function handleSearch() {
-            const query = document.getElementById('search-input').value.toLowerCase();
-            currentPage = 1;
-            filteredGames = gamesList.filter(g => g.title.toLowerCase().includes(query));
-            renderGrid();
-        }
+      posts.unshift(newPost);
+      saveAndRender();
 
-        // Pagination Action
-        function changePage(direction) {
-            currentPage += direction;
-            renderGrid();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+      // تفريغ الحقول
+      document.getElementById('author-name').value = '';
+      document.getElementById('post-caption').value = '';
+      document.getElementById('image-input').value = '';
+      document.getElementById('preview-container').style.display = 'none';
+      selectedImageBase64 = '';
+    }
 
-        // Auth Modals Handling
-        function openAuthModal() {
-            document.getElementById('auth-modal').classList.remove('hidden');
-        }
-        function closeAuthModal() {
-            document.getElementById('auth-modal').classList.add('hidden');
-        }
-        function openAdminModal() {
-            document.getElementById('admin-modal').classList.remove('hidden');
-        }
-        function closeAdminModal() {
-            document.getElementById('admin-modal').classList.add('hidden');
-        }
+    // إضافة تعليق على صورة موجودة
+    function addComment(postId, inputId) {
+      const input = document.getElementById(inputId);
+      const text = input.value.trim();
+      if (!text) return;
 
-        // Handle Login Submission
-        function handleLogin(e) {
-            e.preventDefault();
-            const username = document.getElementById('login-username').value;
-            const email = document.getElementById('login-email').value;
-
-            currentUser = {
-                username: username,
-                email: email,
-                isDev: email.trim().toLowerCase() === DEV_EMAIL.toLowerCase()
-            };
-
-            localStorage.setItem('wifi5_user', JSON.stringify(currentUser));
-            updateUserUI();
-            closeAuthModal();
-        }
-
-        // Local Storage Sync
-        function checkSavedUser() {
-            const saved = localStorage.getItem('wifi5_user');
-            if (saved) {
-                currentUser = JSON.parse(saved);
-                updateUserUI();
-            }
-            
-            const notice = localStorage.getItem('wifi5_notice');
-            if (notice) {
-                document.getElementById('announcement-text').innerText = notice;
-            }
-        }
-
-        // Render User UI depending on status
-        function updateUserUI() {
-            const section = document.getElementById('user-section');
-            if (!currentUser) return;
-
-         
+      const post = posts.fin
