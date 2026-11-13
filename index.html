@@ -1,754 +1,254 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>الوثبه للصيانة الونشات العلويه وتركيبها</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --gold: #f59e0b;
-      --gold-light: #fbbf24;
-      --gold-glow: rgba(245, 158, 11, 0.45);
-      --glass-bg: rgba(15, 20, 30, 0.88);
-      --glass-card: rgba(22, 28, 42, 0.92);
-      --text-main: #ffffff;
-      --text-muted: #cbd5e1;
-      --border: rgba(245, 158, 11, 0.3);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الوثبة | صيانة وتركيب الونشات العلوية</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Cairo', sans-serif;
-    }
-
-    body {
-      background-color: #07090e;
-      color: var(--text-main);
-      overflow-x: hidden;
-      min-height: 100vh;
-      position: relative;
-    }
-
-    /* خلفية صور الونشات العلوية */
-    .crane-bg-slider {
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      overflow: hidden;
-    }
-
-    .crane-bg-slide {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transform: scale(1.05);
-      transition: opacity 2s ease-in-out;
-    }
-
-    .crane-bg-slide.active {
-      opacity: 0.4;
-    }
-
-    .crane-bg-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      background: rgba(5, 7, 12, 0.88);
-      pointer-events: none;
-    }
-
-    /* ================= شاشة التحميل السينمائية ================= */
-    #cinematic-loader {
-      position: fixed;
-      inset: 0;
-      z-index: 999999;
-      background: #07090e;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-      transition: opacity 0.6s ease, visibility 0.6s ease;
-    }
-
-    #cinematic-loader.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .loader-crane-icon {
-      font-size: 3.5rem;
-      margin-bottom: 20px;
-      animation: swingHook 2s ease-in-out infinite alternate;
-      filter: drop-shadow(0 0 15px var(--gold));
-    }
-
-    .cinema-title {
-      font-size: clamp(1.7rem, 4.5vw, 3.2rem);
-      font-weight: 900;
-      background: linear-gradient(90deg, #ffffff 0%, #fbbf24 40%, #f59e0b 60%, #ffffff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      line-height: 1.4;
-      margin-bottom: 15px;
-    }
-
-    .cinema-tagline {
-      color: var(--gold-light);
-      font-size: 1.05rem;
-      font-weight: 600;
-      letter-spacing: 2px;
-      margin-bottom: 25px;
-    }
-
-    .skip-loader-main-btn {
-      background: var(--gold);
-      color: #000;
-      border: none;
-      padding: 10px 28px;
-      border-radius: 30px;
-      font-weight: 800;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 5px 20px var(--gold-glow);
-      transition: 0.2s;
-    }
-
-    .skip-loader-main-btn:hover {
-      transform: scale(1.05);
-    }
-
-    @keyframes swingHook {
-      from { transform: rotate(-5deg); }
-      to { transform: rotate(5deg); }
-    }
-
-    /* ================= الهيدر ================= */
-    header {
-      background: rgba(9, 12, 20, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-inner {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 16px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .logo-badge {
-      width: 46px;
-      height: 46px;
-      background: linear-gradient(135deg, var(--gold), #b45309);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      color: #000;
-      font-weight: 900;
-    }
-
-    .logo-title h1 {
-      font-size: 1.2rem;
-      font-weight: 900;
-      color: #fff;
-    }
-
-    .logo-title p {
-      font-size: 0.78rem;
-      color: var(--gold-light);
-    }
-
-    .auth-nav-area {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .user-welcome {
-      font-size: 0.88rem;
-      color: var(--gold-light);
-      font-weight: 700;
-      background: rgba(245, 158, 11, 0.12);
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-    }
-
-    .btn-auth {
-      background: transparent;
-      border: 1px solid var(--gold);
-      color: var(--gold-light);
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .btn-auth:hover {
-      background: var(--gold);
-      color: #000;
-    }
-
-    /* محتوى الموقع */
-    .hero-banner {
-      max-width: 1240px;
-      margin: 36px auto 20px;
-      padding: 0 24px;
-      text-align: center;
-    }
-
-    .hero-banner h2 {
-      font-size: clamp(1.6rem, 3.5vw, 2.5rem);
-      font-weight: 900;
-      margin-bottom: 12px;
-    }
-
-    .hero-banner h2 span {
-      color: var(--gold);
-    }
-
-    .hero-banner p {
-      color: var(--text-muted);
-      max-width: 700px;
-      margin: 0 auto;
-      font-size: 1rem;
-      line-height: 1.7;
-    }
-
-    .gallery-container {
-      max-width: 1240px;
-      margin: 30px auto 90px;
-      padding: 0 24px;
-    }
-
-    .section-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-      gap: 24px;
-    }
-
-    .card {
-      background: var(--glass-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    }
-
-    .card-image {
-      height: 240px;
-      width: 100%;
-      background: #000;
-      cursor: zoom-in;
-      overflow: hidden;
-    }
-
-    .card-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .card-content {
-      padding: 18px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-info {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.82rem;
-      color: var(--gold-light);
-      margin-bottom: 8px;
-    }
-
-    .card-text {
-      font-size: 1rem;
-      line-height: 1.6;
-      color: #f1f5f9;
-      margin-bottom: 16px;
-    }
-
-    .comments-section {
-      margin-top: auto;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      padding-top: 12px;
-    }
-
-    .comments-feed {
-      max-height: 120px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-
-    .comment-bubble {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-    }
-
-    .comment-bubble span {
-      color: var(--gold-light);
-      font-weight: 700;
-      margin-left: 6px;
-    }
-
-    .comment-input-row {
-      display: flex;
-      gap: 6px;
-    }
-
-    .comment-input-row input {
-      flex: 1;
-      background: rgba(7, 10, 17, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #fff;
-      padding: 8px 10px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-    }
-
-    .comment-input-row button {
-      background: var(--gold);
-      color: #000;
-      border: none;
-      padding: 0 12px;
-      border-radius: 8px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    /* ================= زر (+) العائم في أسفل اليمين ================= */
-    .fab-add-btn {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      width: 62px;
-      height: 62px;
-      background: linear-gradient(135deg, var(--gold), #d97706);
-      color: #000;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.2rem;
-      font-weight: 900;
-      box-shadow: 0 8px 25px var(--gold-glow);
-      cursor: pointer;
-      z-index: 900;
-      border: 2px solid #fff;
-      transition: transform 0.2s;
-    }
-
-    .fab-add-btn:hover {
-      transform: scale(1.08);
-    }
-
-    /* النوافذ المنبثقة (Modals) */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 100000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-overlay.open {
-      display: flex;
-    }
-
-    .modal-card {
-      background: var(--glass-bg);
-      border: 1px solid var(--border);
-      width: 100%;
-      max-width: 400px;
-      border-radius: 18px;
-      padding: 26px;
-      position: relative;
-    }
-
-    .modal-card h3 {
-      font-size: 1.25rem;
-      color: var(--gold-light);
-      margin-bottom: 14px;
-      text-align: center;
-    }
-
-    .modal-field {
-      margin-bottom: 14px;
-    }
-
-    .modal-field label {
-      display: block;
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .modal-field input, .modal-field textarea {
-      width: 100%;
-      background: rgba(7, 10, 17, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #fff;
-      padding: 10px 12px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-    }
-
-    .modal-submit-btn {
-      width: 100%;
-      background: var(--gold);
-      color: #000;
-      font-weight: 900;
-      font-size: 1rem;
-      border: none;
-      padding: 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-
-    .modal-close-x {
-      position: absolute;
-      top: 14px;
-      left: 18px;
-      font-size: 1.6rem;
-      color: var(--text-muted);
-      cursor: pointer;
-    }
-
-    .upload-box {
-      border: 2px dashed rgba(245, 158, 11, 0.4);
-      border-radius: 10px;
-      padding: 14px;
-      text-align: center;
-      cursor: pointer;
-      background: rgba(245, 158, 11, 0.03);
-      margin-bottom: 12px;
-    }
-
-    .upload-box input { display: none; }
-
-    #preview-img-tag {
-      max-height: 160px;
-      max-width: 100%;
-      border-radius: 8px;
-      margin-top: 8px;
-      display: none;
-    }
-
-    /* تكبير الصورة */
-    .lightbox {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.92);
-      z-index: 200000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .lightbox.open { display: flex; }
-    .lightbox img { max-width: 92vw; max-height: 88vh; border-radius: 10px; border: 2px solid var(--gold); }
-    .lightbox-close { position: absolute; top: 20px; left: 30px; font-size: 2.5rem; color: #fff; cursor: pointer; }
-
-    /* إشعار */
-    #toast-msg {
-      position: fixed;
-      bottom: 24px;
-      left: 24px;
-      background: var(--gold);
-      color: #000;
-      font-weight: 800;
-      padding: 10px 20px;
-      border-radius: 10px;
-      z-index: 400000;
-      transform: translateY(80px);
-      opacity: 0;
-      transition: 0.3s;
-    }
-    #toast-msg.show { transform: translateY(0); opacity: 1; }
-
-    footer {
-      text-align: center;
-      padding: 24px;
-      background: rgba(5, 7, 12, 0.9);
-      border-top: 1px solid var(--border);
-      color: var(--text-muted);
-      font-size: 0.88rem;
-    }
-  </style>
+:root {
+  --gold: #e5a52c;
+  --dark: #101820;
+  --panel: #192630;
+  --light: #f5f5f5;
+}
+* {box-sizing:border-box;margin:0;padding:0}
+body {
+  font-family:'Cairo',sans-serif;
+  background:var(--dark);
+  color:white;
+}
+header {
+  position:sticky;top:0;z-index:10;
+  background:#101820ee;
+  border-bottom:1px solid #ffffff20;
+  padding:15px 7%;
+  display:flex;justify-content:space-between;
+  align-items:center;gap:15px;flex-wrap:wrap;
+}
+.logo {font-size:27px;font-weight:900;color:var(--gold)}
+nav {display:flex;gap:20px;flex-wrap:wrap}
+nav a {color:white;text-decoration:none;font-size:14px}
+nav a:hover {color:var(--gold)}
+.hero {
+  min-height:540px;
+  display:flex;align-items:center;
+  padding:70px 8%;
+  background:
+  linear-gradient(90deg,#101820ee,#10182099),
+  url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1800&q=85') center/cover;
+}
+.hero-content {max-width:650px}
+.tag {color:var(--gold);font-weight:800}
+h1 {font-size:clamp(35px,6vw,65px);line-height:1.4;margin:15px 0}
+.hero p {color:#ddd;font-size:17px;line-height:2}
+.btn {
+  display:inline-block;background:var(--gold);
+  color:#101820;padding:12px 25px;
+  border:0;border-radius:7px;
+  font-family:inherit;font-weight:900;
+  cursor:pointer;text-decoration:none;margin-top:22px;
+}
+section {padding:65px 7%}
+.section-title {text-align:center;margin-bottom:35px}
+.section-title h2 {font-size:30px;color:var(--gold)}
+.section-title p {color:#bbb;margin-top:8px}
+.services {
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+.service {
+  background:var(--panel);padding:25px;
+  border-radius:12px;border:1px solid #ffffff12;
+}
+.service .symbol {font-size:35px}
+.service h3 {color:var(--gold);margin:12px 0}
+.service p {color:#bbb;line-height:1.9;font-size:14px}
+.gallery {background:#141f28}
+.upload-area {
+  background:var(--panel);padding:25px;
+  border:1px dashed var(--gold);border-radius:12px;
+  text-align:center;margin-bottom:30px;
+}
+.upload-area p {color:#bbb}
+#mediaInput {display:none}
+.media-grid {
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  gap:18px;
+}
+.media-card {
+  background:var(--panel);border-radius:12px;overflow:hidden;
+}
+.media-card img,.media-card video {
+  width:100%;height:220px;object-fit:cover;
+  display:block;background:#000;
+}
+.media-card p {padding:12px;color:#ddd}
+.empty {text-align:center;color:#aaa;padding:30px}
+.about {
+  text-align:center;line-height:2.2;
+  max-width:800px;margin:auto;color:#ddd;
+}
+.contact {text-align:center;background:#192630}
+.contact p {color:#ddd;line-height:2}
+footer {
+  padding:25px;text-align:center;
+  background:#0b1218;color:#999;font-size:13px;
+}
+@media(max-width:600px){
+ header {justify-content:center}
+ nav {justify-content:center;gap:13px}
+ .hero {min-height:470px}
+ section {padding:45px 5%}
+}
+</style>
 </head>
 <body>
 
-  <!-- خلفية الونشات -->
-  <div class="crane-bg-slider">
-    <div class="crane-bg-slide active" style="background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80');"></div>
-    <div class="crane-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1200&q=80');"></div>
+<header>
+  <div class="logo">الوثبة</div>
+  <nav>
+    <a href="#home">الرئيسية</a>
+    <a href="#services">خدماتنا</a>
+    <a href="#gallery">معرض الأعمال</a>
+    <a href="#about">من نحن</a>
+    <a href="#contact">اتصل بنا</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="tag">القوة • الدقة • الأمان الصناعي</div>
+    <h1>الوثبة<br>للصيانة وتركيب الونشات العلوية</h1>
+    <p>
+      حلول صناعية احترافية في صيانة وتركيب الونشات العلوية،
+      ونهتم بالجودة والدقة والسلامة في كل مشروع.
+    </p>
+    <a href="#gallery" class="btn">شاهد أعمالنا</a>
   </div>
-  <div class="crane-bg-overlay"></div>
+</section>
 
-  <!-- ================= شاشة التحميل السينمائية (تختفي تلقائياً أو عند الضغط) ================= -->
-  <div id="cinematic-loader">
-    <div class="loader-crane-icon">🏗️</div>
-    <h1 class="cinema-title">الوثبه للصيانة الونشات العلويه وتركيبها</h1>
-    <p class="cinema-tagline">القوة • الدقة • الأمان الصناعي</p>
-    <button type="button" class="skip-loader-main-btn" id="skip-loader-btn">الدخول للموقع الآن</button>
+<section id="services">
+  <div class="section-title">
+    <h2>خدماتنا</h2>
+    <p>خبرة واهتمام بأدق التفاصيل</p>
   </div>
-
-  <!-- الهيدر -->
-  <header>
-    <div class="header-inner">
-      <div class="logo-area">
-        <div class="logo-badge">W</div>
-        <div class="logo-title">
-          <h1>الوثبه للصيانة الونشات العلويه وتركيبها</h1>
-          <p>معرض المشاريع والزوار التفاعلي</p>
-        </div>
-      </div>
-      <div class="auth-nav-area" id="auth-nav-area"></div>
+  <div class="services">
+    <div class="service">
+      <div class="symbol">🏗️</div>
+      <h3>تركيب الونشات</h3>
+      <p>تركيب وتجهيز الونشات العلوية وفق متطلبات المشروع.</p>
     </div>
-  </header>
-
-  <section class="hero-banner">
-    <h2>أعمالنا الهندسية ومشاريع <span>الونشات العلوية</span></h2>
-    <p>استعرض أحدث تركيبات وصيانة الونشات. اضغط على زر (+) أسفل الشاشة لإضافة صورك وتعليقاتك (يلزم تسجيل الدخول).</p>
-  </section>
-
-  <section class="gallery-container">
-    <div class="section-bar">
-      <h3>🏗️ المعرض العام للصور والتعليقات (<span id="total-count">0</span>)</h3>
+    <div class="service">
+      <div class="symbol">🔧</div>
+      <h3>الصيانة والإصلاح</h3>
+      <p>صيانة وإصلاح الأعطال ومتابعة حالة المعدات.</p>
     </div>
-    <div class="cards-grid" id="cards-grid"></div>
-  </section>
-
-  <!-- زر (+) العائم -->
-  <div class="fab-add-btn" id="fab-btn" title="إضافة صورة">+</div>
-
-  <!-- نافذة تسجيل الدخول -->
-  <div class="modal-overlay" id="login-modal">
-    <div class="modal-card">
-      <span class="modal-close-x" id="close-login-modal">&times;</span>
-      <h3>🔐 تسجيل الدخول للمتابعة</h3>
-      <div class="modal-field" style="margin-top: 15px;">
-        <label>اسم المستخدم أو اسمك الكامل</label>
-        <input type="text" id="login-name-input" placeholder="مثال: م. أحمد">
-      </div>
-      <button type="button" class="modal-submit-btn" id="submit-login-btn">دخول</button>
+    <div class="service">
+      <div class="symbol">⚙️</div>
+      <h3>الفحص الفني</h3>
+      <p>فحص المكونات والأنظمة ومتابعة متطلبات السلامة.</p>
+    </div>
+    <div class="service">
+      <div class="symbol">🛡️</div>
+      <h3>السلامة الصناعية</h3>
+      <p>الاهتمام بمعايير الأمان والجودة في تنفيذ الأعمال.</p>
     </div>
   </div>
+</section>
 
-  <!-- نافذة نشر الصورة والتعليق -->
-  <div class="modal-overlay" id="post-modal">
-    <div class="modal-card">
-      <span class="modal-close-x" id="close-post-modal">&times;</span>
-      <h3>📸 نشر صورة وتعليق جديد</h3>
-      
-      <label class="upload-box" for="camera-file-input">
-        <div style="font-size: 1.8rem;">📷</div>
-        <div style="font-weight: 700; color: var(--gold-light); font-size: 0.9rem;">التقاط صورة بالكاميرا أو اختيارها من الجهاز</div>
-        <input type="file" id="camera-file-input" accept="image/*" capture="environment">
-        <img id="preview-img-tag" src="" alt="معاينة">
-      </label>
-
-      <div class="modal-field">
-        <label>اكتب تعليقاً أو وصفاً للعمل</label>
-        <textarea id="post-caption-input" rows="2" placeholder="اكتب تعليقك هنا..."></textarea>
-      </div>
-
-      <button type="button" class="modal-submit-btn" id="publish-post-btn">نشر الآن</button>
-    </div>
+<section class="gallery" id="gallery">
+  <div class="section-title">
+    <h2>معرض أعمال الوثبة</h2>
+    <p>صور وفيديوهات المشاريع والأعمال الصناعية</p>
   </div>
 
-  <!-- نافذة تكبير الصورة -->
-  <div class="lightbox" id="lightbox">
-    <span class="lightbox-close" id="lightbox-close-btn">&times;</span>
-    <img id="lightbox-img" src="" alt="تكبير">
+  <div class="upload-area">
+    <h3>شارك صور أو فيديوهات أعمالك</h3>
+    <p>اختر صورة أو فيديو من جهازك لإضافته إلى المعرض.</p>
+    <label for="mediaInput" class="btn">＋ إضافة صورة أو فيديو</label>
+    <input type="file" id="mediaInput" accept="image/*,video/*" multiple>
+    <p style="font-size:12px;margin-top:15px">
+      النسخة التجريبية تعرض الملفات على جهازك فقط.
+    </p>
   </div>
 
-  <div id="toast-msg">تم بنجاح!</div>
+  <div class="media-grid" id="mediaGrid">
+    <div class="empty">معرض الأعمال جاهز لاستقبال الصور والفيديوهات.</div>
+  </div>
+</section>
 
-  <footer>
-    © 2026 الوثبه للصيانة الونشات العلويه وتركيبها — جميع الحقوق محفوظة
-  </footer>
+<section id="about">
+  <div class="section-title">
+    <h2>من نحن</h2>
+  </div>
+  <div class="about">
+    <h3 style="color:#e5a52c">الوثبة للصيانة وتركيب الونشات العلوية</h3>
+    نعمل على تقديم خدمات الصيانة والتركيب والحلول الصناعية،
+    مع التركيز على الجودة والدقة والالتزام بمعايير السلامة.
+    <br>
+    <strong style="color:#e5a52c">
+      القوة • الدقة • الأمان الصناعي
+    </strong>
+  </div>
+</section>
 
-  <script>
-    // تشغيل فوري وآمن يمنع أي تعليق
-    (function() {
-      // 1. شاشة التحميل (تختفي فوراً بعد 3 ثوانٍ أو عند الضغط)
-      const loader = document.getElementById('cinematic-loader');
-      const skipBtn = document.getElementById('skip-loader-btn');
+<section class="contact" id="contact">
+  <div class="section-title">
+    <h2>تواصل معنا</h2>
+    <p>يسعدنا استقبال استفساراتكم وطلباتكم</p>
+  </div>
+  <p>لإضافة رقم الهاتف والبريد الإلكتروني والعنوان، نحتاج بيانات التواصل الرسمية.</p>
+</section>
+</main>
 
-      function removeLoader() {
-        if (loader) loader.classList.add('hidden');
-      }
+<footer>
+  © 2026 الوثبة - جميع الحقوق محفوظة
+  <br>القوة • الدقة • الأمان الصناعي
+</footer>
 
-      skipBtn.addEventListener('click', removeLoader);
-      setTimeout(removeLoader, 3000);
+<script>
+const input = document.getElementById('mediaInput');
+const grid = document.getElementById('mediaGrid');
 
-      // إشعار سريع
-      function showToast(msg) {
-        const toast = document.getElementById('toast-msg');
-        toast.textContent = msg;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2500);
-      }
+input.addEventListener('change', function() {
+  const files = Array.from(this.files);
+  if (!files.length) return;
 
-      // 2. إدارة تسجيل الدخول
-      let currentUser = localStorage.getItem('wathba_user') || null;
-      const authNav = document.getElementById('auth-nav-area');
+  const empty = grid.querySelector('.empty');
+  if (empty) empty.remove();
 
-      function renderAuth() {
-        if (currentUser) {
-          authNav.innerHTML = `
-            <div class="user-welcome">👤 ${currentUser}</div>
-            <button class="btn-auth" id="logout-btn">خروج</button>
-          `;
-          document.getElementById('logout-btn').onclick = () => {
-            localStorage.removeItem('wathba_user');
-            currentUser = null;
-            renderAuth();
-            showToast('تم تسجيل الخروج');
-          };
-        } else {
-          authNav.innerHTML = `
-            <button class="btn-auth" id="login-open-btn">تسجيل الدخول</button>
-          `;
-          document.getElementById('login-open-btn').onclick = () => {
-            document.getElementById('login-modal').classList.add('open');
-          };
-        }
-      }
-      renderAuth();
+  files.forEach(file => {
+    if (!file.type.startsWith('image/') &&
+        !file.type.startsWith('video/')) return;
 
-      // نافذة تسجيل الدخول
-      const loginModal = document.getElementById('login-modal');
-      document.getElementById('close-login-modal').onclick = () => loginModal.classList.remove('open');
-      document.getElementById('submit-login-btn').onclick = () => {
-        const name = document.getElementById('login-name-input').value.trim();
-        if (!name) {
-          showToast('⚠️ يرجى إدخال الاسم');
-          return;
-        }
-        currentUser = name;
-        localStorage.setItem('wathba_user', currentUser);
-        renderAuth();
-        loginModal.classList.remove('open');
-        showToast(`أهلاً بك يا ${currentUser}!`);
-      };
+    const url = URL.createObjectURL(file);
+    const card = document.createElement('div');
+    card.className = 'media-card';
 
-      // 3. زر (+) العائم
-      const fabBtn = document.getElementById('fab-btn');
-      const postModal = document.getElementById('post-modal');
-      document.getElementById('close-post-modal').onclick = () => postModal.classList.remove('open');
+    const media = document.createElement(
+      file.type.startsWith('video/') ? 'video' : 'img'
+    );
 
-      fabBtn.onclick = () => {
-        if (!currentUser) {
-          loginModal.classList.add('open');
-          showToast('⚠️ يرجى تسجيل الدخول أولاً');
-        } else {
-          postModal.classList.add('open');
-        }
-      };
+    media.src = url;
 
-      // 4. التقاط وضغط الصورة
-      let base64Img = '';
-      const fileInput = document.getElementById('camera-file-input');
-      const previewTag = document.getElementById('preview-img-tag');
+    if (media.tagName === 'VIDEO') {
+      media.controls = true;
+      media.playsInline = true;
+    }
 
-      fileInput.onchange = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const img = new Image();
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const scale = Math.min(1, 700 / img.width);
-            canvas.width = img.width * scale;
-            canvas.height = img.height * scale;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            base64Img = canvas.toDataURL('image/jpeg', 0.7);
-            previewTag.src = base64Img;
-            previewTag.style.display = 'block';
-          };
-          img.src = event.target.result;
-        };
-        reader.readAsDataURL(file);
-      };
+    const caption = document.createElement('p');
+    caption.textContent = file.name;
 
-      // 5. المنشورات
-      const defaultPosts = [
-        {
-          id: 1,
-          author: 'إدارة الوثبة',
-          date: 'اليوم',
-          caption: 'تركيب ونش علوي مزدوج الجسر حمولة 20 طن مع اختبار الأحمال.',
-          image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80',
-          comments: [{ user: 'م. خالد', text: 'شغل ممتاز جداً.' }]
-        }
-      ];
+    card.append(media, caption);
+    grid.prepend(card);
+  });
 
-      let posts = [];
-      try {
-        posts = JSON.parse(localStorage.getItem('wathba_posts_v3')) || defaultPosts;
-      } catch {
-        posts = defaultPosts;
-      }
+  this.value = '';
+});
+</script>
 
-      function saveAndRender() {
-        try {
-          localStorage.setItem('wathba_posts_v3', JSON.stringify(posts));
-        } catch {}
-        renderGallery();
-      }
-
-      document.getElementById('publish-post-btn').onclick = () => {
-        const 
+</body>
+</html>
