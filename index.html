@@ -12,8 +12,8 @@
       --gold: #f59e0b;
       --gold-light: #fbbf24;
       --gold-glow: rgba(245, 158, 11, 0.45);
-      --glass-bg: rgba(15, 20, 30, 0.9);
-      --glass-card: rgba(22, 28, 42, 0.94);
+      --glass-bg: rgba(15, 20, 30, 0.92);
+      --glass-card: rgba(22, 28, 42, 0.96);
       --text-main: #ffffff;
       --text-muted: #cbd5e1;
       --border: rgba(245, 158, 11, 0.3);
@@ -34,7 +34,7 @@
       position: relative;
     }
 
-    /* خلفية صور الونشات المتحركة */
+    /* خلفية الونشات المتحركة */
     .crane-bg-slider {
       position: fixed;
       inset: 0;
@@ -63,7 +63,7 @@
       pointer-events: none;
     }
 
-    /* الهيدر الأسطوري */
+    /* الهيدر */
     header {
       background: rgba(9, 12, 20, 0.95);
       backdrop-filter: blur(10px);
@@ -148,7 +148,7 @@
       color: #000;
     }
 
-    /* قسم المقدمة السينمائي */
+    /* الواجهة الترحيبية */
     .hero-banner {
       max-width: 1240px;
       margin: 40px auto 20px;
@@ -316,7 +316,7 @@
       cursor: pointer;
     }
 
-    /* زر (+) العائم الأسطوري في أسفل اليمين */
+    /* زر (+) العائم في أسفل اليمين */
     .fab-add-btn {
       position: fixed;
       bottom: 30px;
@@ -484,7 +484,7 @@
 </head>
 <body>
 
-  <!-- خلفية صور الونشات -->
+  <!-- خلفية الونشات -->
   <div class="crane-bg-slider">
     <div class="crane-bg-slide active" style="background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1400&q=80');"></div>
     <div class="crane-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1400&q=80');"></div>
@@ -572,7 +572,6 @@
 
   <script>
     (function() {
-      // إشعار سريع
       function showToast(msg) {
         const toast = document.getElementById('toast-msg');
         toast.textContent = msg;
@@ -694,14 +693,14 @@
 
       let posts = [];
       try {
-        posts = JSON.parse(localStorage.getItem('wathba_posts_v5')) || defaultPosts;
+        posts = JSON.parse(localStorage.getItem('wathba_posts_v6')) || defaultPosts;
       } catch {
         posts = defaultPosts;
       }
 
       function saveAndRender() {
         try {
-          localStorage.setItem('wathba_posts_v5', JSON.stringify(posts));
+          localStorage.setItem('wathba_posts_v6', JSON.stringify(posts));
         } catch {}
         renderGallery();
       }
@@ -728,7 +727,7 @@
         fileInput.value = '';
         previewTag.style.display = 'none';
         base64Img = '';
-        showToast('✅ تم نشر المنشور بنجاح للجميع!');
+        showToast('✅ تم نشر المنشور بنجاح!');
       };
 
       function renderGallery() {
@@ -736,4 +735,5 @@
         document.getElementById('total-count').textContent = posts.length;
         grid.innerHTML = '';
 
-        p
+        posts.forEach(post => {
+          const card = document.c
